@@ -1,0 +1,52 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="bg-navy-700 text-white">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid md:grid-cols-3 gap-8">
+      <!-- Brand -->
+      <div>
+        <span class="text-xl font-extrabold">Teach<span class="text-burnt-400">4</span>Texas</span>
+        <p class="mt-3 text-gray-300 text-sm leading-relaxed">
+          Texas teacher resources for TIA designation, STAAR prep, and classroom tools. Built by Texas educators, for Texas educators.
+        </p>
+      </div>
+
+      <!-- Links -->
+      <div>
+        <h3 class="font-semibold text-sm uppercase tracking-wider text-gray-400 mb-3">Resources</h3>
+        <ul class="space-y-2">
+          <li><a href="/blog" class="text-sm text-gray-300 hover:text-white transition-colors">Blog</a></li>
+          <li><a href="/resources" class="text-sm text-gray-300 hover:text-white transition-colors">Teacher Resources</a></li>
+          <li><a href="/blog/tia-complete-guide" class="text-sm text-gray-300 hover:text-white transition-colors">TIA Guide</a></li>
+          <li><a href="/blog/staar-scores-tia-designation" class="text-sm text-gray-300 hover:text-white transition-colors">STAAR & TIA</a></li>
+        </ul>
+      </div>
+
+      <!-- Newsletter -->
+      <div id="subscribe">
+        <h3 class="font-semibold text-sm uppercase tracking-wider text-gray-400 mb-3">Stay Updated</h3>
+        <p class="text-sm text-gray-300 mb-3">Get TIA tips and STAAR strategies in your inbox.</p>
+        <form class="flex gap-2" action="#" method="POST">
+          <input
+            type="email"
+            placeholder="your@email.com"
+            required
+            class="flex-1 px-3 py-2 bg-navy-800 border border-navy-600 rounded-lg text-sm text-white placeholder-gray-400 focus:outline-none focus:border-burnt-400"
+          />
+          <button
+            type="submit"
+            class="px-4 py-2 bg-burnt-500 text-white text-sm font-semibold rounded-lg hover:bg-burnt-600 transition-colors"
+          >
+            Join
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="mt-10 pt-6 border-t border-navy-600 text-center text-sm text-gray-400">
+      &copy; {currentYear} Teach4Texas. All rights reserved.
+    </div>
+  </div>
+</footer>

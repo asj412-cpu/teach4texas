@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Resources — Teach4Texas">
+  <div class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="text-4xl font-bold text-[#1B365D] mb-4">Resources</h1>
+    <p class="text-xl text-gray-600 mb-12">Templates, trackers, and tools for Texas teachers.</p>
+
+    <div class="grid md:grid-cols-2 gap-8">
+      <div class="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+        <div class="text-3xl mb-3">📈</div>
+        <h3 class="text-xl font-bold text-[#1B365D] mb-2">Student Growth Tracker</h3>
+        <p class="text-gray-600 mb-4">Google Sheets template to track individual student growth across assessments. Auto-calculates growth and generates charts for TIA documentation.</p>
+        <span class="inline-block bg-yellow-100 text-yellow-800 text-sm px-3 py-1 rounded-full">Coming Soon</span>
+      </div>
+
+      <div class="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+        <div class="text-3xl mb-3">📋</div>
+        <h3 class="text-xl font-bold text-[#1B365D] mb-2">TIA Portfolio Guide</h3>
+        <p class="text-gray-600 mb-4">Step-by-step guide to building your TIA portfolio with evidence collection checklists and month-by-month calendar.</p>
+        <span class="inline-block bg-yellow-100 text-yellow-800 text-sm px-3 py-1 rounded-full">Coming Soon</span>
+      </div>
+
+      <div class="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+        <div class="text-3xl mb-3">✅</div>
+        <h3 class="text-xl font-bold text-[#1B365D] mb-2">T-TESS Observation Prep Checklist</h3>
+        <p class="text-gray-600 mb-4">Domain-by-domain checklist with Distinguished-level indicators and self-assessment for observation readiness.</p>
+        <span class="inline-block bg-yellow-100 text-yellow-800 text-sm px-3 py-1 rounded-full">Coming Soon</span>
+      </div>
+
+      <div class="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+        <div class="text-3xl mb-3">📝</div>
+        <h3 class="text-xl font-bold text-[#1B365D] mb-2">STAAR Prep Bundles</h3>
+        <p class="text-gray-600 mb-4">Redesigned-format practice resources with constructed response, multi-select, and drag-and-drop question types.</p>
+        <span class="inline-block bg-yellow-100 text-yellow-800 text-sm px-3 py-1 rounded-full">Coming Soon</span>
+      </div>
+    </div>
+
+    <div class="mt-16 bg-gray-50 rounded-lg p-8 text-center">
+      <h2 class="text-2xl font-bold text-[#1B365D] mb-4">Want early access?</h2>
+      <p class="text-gray-600 mb-6">Join our email list to get notified when new resources drop — plus free STAAR prep materials.</p>
+      <form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+        <input type="email" placeholder="Enter your email" class="flex-1 px-4 py-3 rounded-lg border border-gray-300" />
+        <button type="submit" class="bg-[#BF5700] hover:bg-[#a34900] text-white font-bold py-3 px-6 rounded-lg transition-colors">Notify Me</button>
+      </form>
+    </div>
+  </div>
+</BaseLayout>

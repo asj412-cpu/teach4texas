@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body { margin: 0; display: flex; flex-wrap: wrap; gap: 40px; padding: 40px; background: #f0f0f0; justify-content: center; }
+.variant { text-align: center; }
+.variant p { font-family: Inter, sans-serif; font-size: 14px; color: #666; margin-top: 10px; }
+
+/* Logo on dark background - for profile pics */
+.logo-dark {
+  width: 400px; height: 400px;
+  background: #1B365D;
+  border-radius: 50px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  position: relative;
+}
+
+/* Logo on white background */
+.logo-light {
+  width: 400px; height: 400px;
+  background: white;
+  border-radius: 50px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  border: 2px solid #e0e0e0;
+}
+
+/* Circular profile pic version */
+.logo-circle {
+  width: 400px; height: 400px;
+  background: #1B365D;
+  border-radius: 50%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+
+.star-container {
+  position: relative;
+  width: 180px; height: 180px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.brand-name {
+  font-family: 'Inter', 'Helvetica Neue', sans-serif;
+  font-size: 48px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-top: 15px;
+}
+.brand-name-dark { color: white; }
+.brand-name-light { color: #1B365D; }
+.brand-name .four { color: #BF5700; }
+
+.tagline {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 5px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.tagline-dark { color: rgba(255,255,255,0.7); }
+.tagline-light { color: #666; }
+
+svg { filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
+</style>
+</head>
+<body>
+
+<!-- Dark background - Square (TPT, Social) -->
+<div class="variant">
+<div class="logo-dark">
+  <div class="star-container">
+    <svg width="180" height="180" viewBox="0 0 100 100">
+      <!-- Five-pointed Texas star -->
+      <polygon points="50,5 61,35 95,35 67,55 78,90 50,70 22,90 33,55 5,35 39,35" 
+               fill="none" stroke="white" stroke-width="3" stroke-linejoin="round"/>
+      <!-- Apple inside the star -->
+      <path d="M50,30 C42,30 36,36 36,44 C36,56 50,68 50,68 C50,68 64,56 64,44 C64,36 58,30 50,30 Z" 
+            fill="#BF5700"/>
+      <!-- Apple leaf -->
+      <path d="M50,30 C50,30 54,24 58,22" stroke="#548235" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <!-- Apple stem -->
+      <line x1="50" y1="30" x2="50" y2="26" stroke="#548235" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <div class="brand-name brand-name-dark">Teach<span class="four">4</span>Texas</div>
+  <div class="tagline tagline-dark">Texas Teacher Tools</div>
+</div>
+<p>Square - Dark (TPT Store, Social)</p>
+</div>
+
+<!-- Circle profile pic -->
+<div class="variant">
+<div class="logo-circle">
+  <div class="star-container">
+    <svg width="180" height="180" viewBox="0 0 100 100">
+      <polygon points="50,5 61,35 95,35 67,55 78,90 50,70 22,90 33,55 5,35 39,35" 
+               fill="none" stroke="white" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M50,30 C42,30 36,36 36,44 C36,56 50,68 50,68 C50,68 64,56 64,44 C64,36 58,30 50,30 Z" 
+            fill="#BF5700"/>
+      <path d="M50,30 C50,30 54,24 58,22" stroke="#548235" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <line x1="50" y1="30" x2="50" y2="26" stroke="#548235" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <div class="brand-name brand-name-dark" style="font-size:40px;">Teach<span class="four">4</span>Texas</div>
+</div>
+<p>Circle Profile Pic (Pinterest, Facebook, IG)</p>
+</div>
+
+<!-- Light background -->
+<div class="variant">
+<div class="logo-light">
+  <div class="star-container">
+    <svg width="180" height="180" viewBox="0 0 100 100">
+      <polygon points="50,5 61,35 95,35 67,55 78,90 50,70 22,90 33,55 5,35 39,35" 
+               fill="none" stroke="#1B365D" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M50,30 C42,30 36,36 36,44 C36,56 50,68 50,68 C50,68 64,56 64,44 C64,36 58,30 50,30 Z" 
+            fill="#BF5700"/>
+      <path d="M50,30 C50,30 54,24 58,22" stroke="#548235" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <line x1="50" y1="30" x2="50" y2="26" stroke="#548235" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <div class="brand-name brand-name-light">Teach<span class="four">4</span>Texas</div>
+  <div class="tagline tagline-light">Texas Teacher Tools</div>
+</div>
+<p>Square - Light (Website, Email)</p>
+</div>
+
+<!-- Icon only - small profile pic -->
+<div class="variant">
+<div style="width:200px; height:200px; background:#1B365D; border-radius:50%; display:flex; align-items:center; justify-content:center;">
+  <svg width="130" height="130" viewBox="0 0 100 100">
+    <polygon points="50,5 61,35 95,35 67,55 78,90 50,70 22,90 33,55 5,35 39,35" 
+             fill="none" stroke="white" stroke-width="3.5" stroke-linejoin="round"/>
+    <path d="M50,30 C42,30 36,36 36,44 C36,56 50,68 50,68 C50,68 64,56 64,44 C64,36 58,30 50,30 Z" 
+          fill="#BF5700"/>
+    <path d="M50,30 C50,30 54,24 58,22" stroke="#548235" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <line x1="50" y1="30" x2="50" y2="26" stroke="#548235" stroke-width="2.5" stroke-linecap="round"/>
+  </svg>
+</div>
+<p>Icon Only (Favicon, Small Avatar)</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,377 @@
+{
+  "title": "STAAR Math Task Cards",
+  "subject": "math",
+  "grade": 4,
+  "description": "32 TEKS-Aligned STAAR Math Task Cards for 4th Grade",
+  "questions": [
+    {
+      "id": 1,
+      "teks": "4.2B",
+      "question": "Which symbol makes this statement true?\n4,567 ___ 4,576",
+      "choices": ["A) >", "B) <", "C) =", "D) +"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 2,
+      "teks": "4.2B",
+      "question": "A school collected 23,451 cans for a food drive. Another school collected 23,514 cans. Which number line shows the correct position of these two numbers?",
+      "choices": ["A) 23,451 is to the right of 23,514", "B) 23,514 is to the right of 23,451", "C) Both numbers are at the same point", "D) Neither number is on the number line"],
+      "answer": "B",
+      "visual": {
+        "type": "number_line",
+        "params": {
+          "start": 23400,
+          "end": 23600,
+          "marks": [23400, 23451, 23500, 23514, 23600],
+          "highlight": [23451, "23,451"]
+        }
+      }
+    },
+    {
+      "id": 3,
+      "teks": "4.2A",
+      "question": "What is the value of the digit 7 in the number 378,215?",
+      "choices": ["A) 7,000", "B) 70,000", "C) 700", "D) 700,000"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 4,
+      "teks": "4.2D",
+      "question": "Which number rounds to 50,000 when rounded to the nearest ten thousand?",
+      "choices": ["A) 43,218", "B) 44,999", "C) 45,321", "D) 55,100"],
+      "answer": "C",
+      "visual": {
+        "type": "number_line",
+        "params": {
+          "start": 40000,
+          "end": 60000,
+          "marks": [40000, 45000, 50000, 55000, 60000],
+          "highlight": [45321, "45,321"]
+        }
+      }
+    },
+    {
+      "id": 5,
+      "teks": "4.3A",
+      "question": "Which fraction is equivalent to 3/6?",
+      "choices": ["A) 1/2", "B) 1/3", "C) 2/3", "D) 3/4"],
+      "answer": "A",
+      "visual": {
+        "type": "fraction_bar",
+        "params": {"numerator": 3, "denominator": 6}
+      }
+    },
+    {
+      "id": 6,
+      "teks": "4.3A",
+      "question": "Maria ate 2/8 of a pizza. Which fraction is equivalent to the amount she ate?",
+      "choices": ["A) 1/2", "B) 1/3", "C) 1/4", "D) 2/4"],
+      "answer": "C",
+      "visual": {
+        "type": "fraction_bar",
+        "params": {"numerator": 2, "denominator": 8}
+      }
+    },
+    {
+      "id": 7,
+      "teks": "4.3D",
+      "question": "Which fraction is greater than 1/2?",
+      "choices": ["A) 2/6", "B) 3/8", "C) 5/8", "D) 1/4"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 8,
+      "teks": "4.3E",
+      "question": "Carlos ran 3/10 of a mile in the morning and 4/10 of a mile in the afternoon. How far did Carlos run in all?",
+      "choices": ["A) 1/10 mile", "B) 7/10 mile", "C) 7/20 mile", "D) 12/10 mile"],
+      "answer": "B",
+      "visual": {
+        "type": "number_line",
+        "params": {
+          "start": 0,
+          "end": 1,
+          "marks": [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+          "highlight": [0.7, "7/10"]
+        }
+      }
+    },
+    {
+      "id": 9,
+      "teks": "4.3E",
+      "question": "A recipe calls for 5/8 cup of sugar. Jenna has already added 2/8 cup. How much more sugar does she need to add?",
+      "choices": ["A) 3/8 cup", "B) 3/16 cup", "C) 7/8 cup", "D) 7/16 cup"],
+      "answer": "A",
+      "visual": {
+        "type": "fraction_bar",
+        "params": {"numerator": 5, "denominator": 8}
+      }
+    },
+    {
+      "id": 10,
+      "teks": "4.4B",
+      "question": "A bookstore ordered 24 boxes of books. Each box contains 36 books. How many books did the bookstore order in all?",
+      "choices": ["A) 720", "B) 744", "C) 864", "D) 960"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 11,
+      "teks": "4.4B",
+      "question": "There are 47 rows of seats in an auditorium. Each row has 52 seats. Which is the best estimate of the total number of seats?",
+      "choices": ["A) 2,000", "B) 2,500", "C) 3,000", "D) 4,000"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 12,
+      "teks": "4.4C",
+      "question": "The area model shows a multiplication problem broken into partial products. What is the total product?",
+      "choices": ["A) 368", "B) 378", "C) 414", "D) 432"],
+      "answer": "C",
+      "visual": {
+        "type": "area_model",
+        "params": {
+          "rows": 2,
+          "cols": 2,
+          "shaded": [1, 2, 3, 4],
+          "labels": {"top": "23", "left": "18"}
+        }
+      }
+    },
+    {
+      "id": 13,
+      "teks": "4.4F",
+      "question": "A farmer has 156 apples to pack equally into 12 crates. How many apples will be in each crate?",
+      "choices": ["A) 11", "B) 12", "C) 13", "D) 14"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 14,
+      "teks": "4.4H",
+      "question": "A school has 432 students going on a field trip. Each bus holds 48 students. How many buses are needed?",
+      "choices": ["A) 8", "B) 9", "C) 10", "D) 11"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 15,
+      "teks": "4.4H",
+      "question": "Tara earns $8 per hour babysitting. She babysat for 5 hours on Saturday and 3 hours on Sunday. She spent $15 on a book. How much money does Tara have left?",
+      "choices": ["A) $34", "B) $49", "C) $55", "D) $64"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 16,
+      "teks": "4.5A",
+      "question": "Look at the input-output table. What is the rule?",
+      "choices": ["A) Add 5", "B) Multiply by 3", "C) Multiply by 4", "D) Add 12"],
+      "answer": "B",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": ["Input", "Output"],
+          "rows": [["2", "6"], ["5", "15"], ["8", "24"], ["10", "?"]]
+        }
+      }
+    },
+    {
+      "id": 17,
+      "teks": "4.5A",
+      "question": "Using the rule from the table, what is the missing output value when the input is 9?",
+      "choices": ["A) 27", "B) 36", "C) 45", "D) 54"],
+      "answer": "B",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": ["Input", "Output"],
+          "rows": [["3", "12"], ["5", "20"], ["7", "28"], ["9", "?"]]
+        }
+      }
+    },
+    {
+      "id": 18,
+      "teks": "4.5B",
+      "question": "Which expression represents the phrase \"12 less than a number n\"?",
+      "choices": ["A) 12 - n", "B) n - 12", "C) 12 + n", "D) n + 12"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 19,
+      "teks": "4.6A",
+      "question": "Which of the following best describes an acute angle?",
+      "choices": ["A) An angle that measures exactly 90 degrees", "B) An angle that measures greater than 90 degrees", "C) An angle that measures less than 90 degrees", "D) An angle that measures exactly 180 degrees"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 20,
+      "teks": "4.6B",
+      "question": "Which pair of lines appears to be parallel?",
+      "choices": ["A) Lines that cross at one point", "B) Lines that are always the same distance apart", "C) Lines that form a right angle", "D) Lines that share an endpoint"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 21,
+      "teks": "4.6C",
+      "question": "A triangle has sides measuring 5 cm, 5 cm, and 8 cm. How would you classify this triangle by its sides?",
+      "choices": ["A) Equilateral", "B) Isosceles", "C) Scalene", "D) Right"],
+      "answer": "B",
+      "visual": {
+        "type": "geometric_shape",
+        "params": {
+          "shape_type": "triangle",
+          "measurements": {"side_a": "5 cm", "side_b": "5 cm", "side_c": "8 cm"}
+        }
+      }
+    },
+    {
+      "id": 22,
+      "teks": "4.6D",
+      "question": "How many lines of symmetry does a square have?",
+      "choices": ["A) 1", "B) 2", "C) 4", "D) 8"],
+      "answer": "C",
+      "visual": {
+        "type": "geometric_shape",
+        "params": {
+          "shape_type": "square",
+          "measurements": {"width": "4 cm", "height": "4 cm"}
+        }
+      }
+    },
+    {
+      "id": 23,
+      "teks": "4.7A",
+      "question": "A garden has a length of 12 feet and a width of 9 feet. What is the perimeter of the garden?",
+      "choices": ["A) 21 feet", "B) 42 feet", "C) 108 feet", "D) 30 feet"],
+      "answer": "B",
+      "visual": {
+        "type": "geometric_shape",
+        "params": {
+          "shape_type": "rectangle",
+          "measurements": {"width": "12 ft", "height": "9 ft"}
+        }
+      }
+    },
+    {
+      "id": 24,
+      "teks": "4.7A",
+      "question": "Mr. Torres is tiling a bathroom floor that is 7 feet long and 6 feet wide. How many square feet of tile does he need?",
+      "choices": ["A) 13 sq ft", "B) 26 sq ft", "C) 36 sq ft", "D) 42 sq ft"],
+      "answer": "D",
+      "visual": {
+        "type": "area_model",
+        "params": {
+          "rows": 6,
+          "cols": 7,
+          "shaded": 42,
+          "labels": {"top": "7 ft", "left": "6 ft"}
+        }
+      }
+    },
+    {
+      "id": 25,
+      "teks": "4.7E",
+      "question": "A movie starts at 2:45 PM and ends at 5:15 PM. How long is the movie?",
+      "choices": ["A) 2 hours 15 minutes", "B) 2 hours 30 minutes", "C) 2 hours 45 minutes", "D) 3 hours 15 minutes"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 26,
+      "teks": "4.7C",
+      "question": "How many ounces are in 3 pounds?",
+      "choices": ["A) 30 ounces", "B) 36 ounces", "C) 48 ounces", "D) 60 ounces"],
+      "answer": "C",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": ["Pounds", "Ounces"],
+          "rows": [["1", "16"], ["2", "32"], ["3", "?"]]
+        }
+      }
+    },
+    {
+      "id": 27,
+      "teks": "4.8A",
+      "question": "The dot plot shows the number of pets students in Mrs. Lee's class own. How many students own exactly 2 pets?",
+      "choices": ["A) 3", "B) 5", "C) 6", "D) 8"],
+      "answer": "C",
+      "visual": {
+        "type": "bar_graph",
+        "params": {
+          "data": [3, 5, 6, 4, 2],
+          "labels": ["0", "1", "2", "3", "4"],
+          "title": "Number of Pets Owned"
+        }
+      }
+    },
+    {
+      "id": 28,
+      "teks": "4.8B",
+      "question": "Use the stem-and-leaf plot. The stems represent tens and the leaves represent ones.\n\nStem | Leaf\n  4  | 2, 5, 7\n  5  | 0, 3, 3, 8\n  6  | 1, 4\n\nWhat is the median of this data set?",
+      "choices": ["A) 50", "B) 53", "C) 51.5", "D) 52"],
+      "answer": "B",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": ["Stem", "Leaf"],
+          "rows": [["4", "2, 5, 7"], ["5", "0, 3, 3, 8"], ["6", "1, 4"]]
+        }
+      }
+    },
+    {
+      "id": 29,
+      "teks": "4.8C",
+      "question": "The bar graph shows the number of rainy days each month. Which month had the fewest rainy days?",
+      "choices": ["A) March", "B) April", "C) May", "D) June"],
+      "answer": "C",
+      "visual": {
+        "type": "bar_graph",
+        "params": {
+          "data": [8, 12, 4, 10],
+          "labels": ["March", "April", "May", "June"],
+          "title": "Rainy Days per Month"
+        }
+      }
+    },
+    {
+      "id": 30,
+      "teks": "4.9A",
+      "question": "Miguel earns $12.00 for mowing a lawn. He mows 4 lawns in one week and saves half of his earnings. How much does Miguel save?",
+      "choices": ["A) $6.00", "B) $12.00", "C) $24.00", "D) $48.00"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 31,
+      "teks": "4.9B",
+      "question": "Lisa wants to buy a bicycle that costs $120. She has already saved $75. She earns $9 each week doing chores. How many more weeks does she need to save to buy the bicycle?",
+      "choices": ["A) 4 weeks", "B) 5 weeks", "C) 6 weeks", "D) 8 weeks"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 32,
+      "teks": "4.3C",
+      "question": "Which number line shows 5/4 correctly placed?",
+      "choices": ["A) Between 0 and 1", "B) At exactly 1", "C) Between 1 and 2", "D) At exactly 2"],
+      "answer": "C",
+      "visual": {
+        "type": "number_line",
+        "params": {
+          "start": 0,
+          "end": 2,
+          "marks": [0, 0.5, 1.0, 1.25, 1.5, 2.0],
+          "highlight": [1.25, "5/4"]
+        }
+      }
+    }
+  ]
+}

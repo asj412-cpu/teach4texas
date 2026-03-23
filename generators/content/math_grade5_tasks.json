@@ -1,0 +1,365 @@
+{
+  "title": "STAAR Math Task Cards",
+  "subject": "math",
+  "grade": 5,
+  "description": "32 TEKS-Aligned STAAR Math Task Cards for 5th Grade",
+  "questions": [
+    {
+      "id": 1,
+      "teks": "5.2A",
+      "question": "The distance from San Antonio to Houston is 197.26 miles. What is the value of the digit 2 in 197.26?",
+      "choices": ["A) 2 ones", "B) 2 tens", "C) 2 tenths", "D) 2 hundredths"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 2,
+      "teks": "5.2B",
+      "question": "Which number line shows the location of 3.75?",
+      "choices": ["A) Between 3.6 and 3.7", "B) Between 3.7 and 3.8", "C) Between 3.8 and 3.9", "D) Between 3.4 and 3.5"],
+      "answer": "B",
+      "visual": {
+        "type": "number_line",
+        "params": {
+          "start": 3.0,
+          "end": 4.0,
+          "marks": [3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 4.0],
+          "highlight": [3.75, "3.75"]
+        }
+      }
+    },
+    {
+      "id": 3,
+      "teks": "5.2C",
+      "question": "A baker uses 2.408 pounds of flour for bread and 2.48 pounds for cookies. Which statement correctly compares these amounts?",
+      "choices": ["A) 2.408 > 2.48", "B) 2.408 < 2.48", "C) 2.408 = 2.48", "D) Not enough information"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 4,
+      "teks": "5.2C",
+      "question": "Look at the number line. Which list shows the decimals in order from least to greatest?",
+      "choices": ["A) 1.3, 1.08, 1.5, 1.72", "B) 1.08, 1.3, 1.72, 1.5", "C) 1.08, 1.3, 1.5, 1.72", "D) 1.72, 1.5, 1.3, 1.08"],
+      "answer": "C",
+      "visual": {
+        "type": "number_line",
+        "params": {
+          "start": 1.0,
+          "end": 2.0,
+          "marks": [1.0, 1.08, 1.3, 1.5, 1.72, 2.0],
+          "highlight": [1.08, "1.08"]
+        }
+      }
+    },
+    {
+      "id": 5,
+      "teks": "5.3A",
+      "question": "Maria ran 3/4 of a mile on Monday and 2/3 of a mile on Tuesday. What is the total distance Maria ran on both days?",
+      "choices": ["A) 5/7 mile", "B) 5/12 mile", "C) 1 5/12 miles", "D) 1 1/2 miles"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 6,
+      "teks": "5.3A",
+      "question": "The fraction bar shows 5/8 of a pizza that was eaten. If 1/4 of the whole pizza was eaten by Carlos, what fraction was eaten by others?",
+      "choices": ["A) 1/8", "B) 4/8", "C) 3/8", "D) 1/4"],
+      "answer": "C",
+      "visual": {
+        "type": "fraction_bar",
+        "params": {"numerator": 5, "denominator": 8}
+      }
+    },
+    {
+      "id": 7,
+      "teks": "5.3B",
+      "question": "A recipe calls for 2/3 cup of sugar. If Damon wants to make 3/4 of the recipe, how much sugar does he need?",
+      "choices": ["A) 5/7 cup", "B) 6/12 cup", "C) 1/2 cup", "D) 2/4 cup"],
+      "answer": "C",
+      "visual": {
+        "type": "area_model",
+        "params": {"rows": 3, "cols": 4, "shaded": 6, "labels": {"top": "3/4", "left": "2/3"}}
+      }
+    },
+    {
+      "id": 8,
+      "teks": "5.3B",
+      "question": "A garden plot is 3/5 of a yard long and 1/2 of a yard wide. What is the area of the garden plot in square yards?",
+      "choices": ["A) 4/7 sq yd", "B) 3/10 sq yd", "C) 1 1/10 sq yd", "D) 3/7 sq yd"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 9,
+      "teks": "5.3D",
+      "question": "A water jug holds 3/4 of a gallon. Each cup holds 1/8 of a gallon. How many cups can be filled from one full jug?",
+      "choices": ["A) 3 cups", "B) 4 cups", "C) 6 cups", "D) 8 cups"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 10,
+      "teks": "5.3E",
+      "question": "A store sells rope for $4.85 per yard. Mrs. Garza buys 3.5 yards of rope. How much does she pay before tax?",
+      "choices": ["A) $16.98", "B) $14.55", "C) $16.28", "D) $16.975"],
+      "answer": "D",
+      "visual": null
+    },
+    {
+      "id": 11,
+      "teks": "5.3G",
+      "question": "Which fraction and decimal pair are equivalent?",
+      "choices": ["A) 3/5 = 0.35", "B) 7/8 = 0.875", "C) 1/3 = 0.30", "D) 2/6 = 0.26"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 12,
+      "teks": "5.3G",
+      "question": "The fraction bar shows 3/4. Which decimal is equivalent to this fraction?",
+      "choices": ["A) 0.34", "B) 0.43", "C) 0.75", "D) 0.80"],
+      "answer": "C",
+      "visual": {
+        "type": "fraction_bar",
+        "params": {"numerator": 3, "denominator": 4}
+      }
+    },
+    {
+      "id": 13,
+      "teks": "5.4A",
+      "question": "A school buys boxes of markers. Each box has 12 markers. Which expression represents the total number of markers in b boxes?",
+      "choices": ["A) 12 + b", "B) 12 − b", "C) 12 × b", "D) 12 ÷ b"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 14,
+      "teks": "5.4B",
+      "question": "The table shows the number of pages Lena reads each day. If the pattern continues, how many pages will she read on Day 6?",
+      "choices": ["A) 192", "B) 160", "C) 128", "D) 96"],
+      "answer": "A",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": ["Day", "Pages Read"],
+          "rows": [["1", "6"], ["2", "12"], ["3", "24"], ["4", "48"], ["5", "96"]]
+        }
+      }
+    },
+    {
+      "id": 15,
+      "teks": "5.4E",
+      "question": "What is the value of 3 + 5 × (8 − 2)?",
+      "choices": ["A) 48", "B) 33", "C) 46", "D) 18"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 16,
+      "teks": "5.4F",
+      "question": "Which value of n makes this equation true?\n6 × n = 54",
+      "choices": ["A) 7", "B) 8", "C) 9", "D) 48"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 17,
+      "teks": "5.4C",
+      "question": "Look at the input-output table. Which expression describes the rule?",
+      "choices": ["A) Multiply by 3, then add 1", "B) Multiply by 4", "C) Add 8", "D) Multiply by 3, then subtract 1"],
+      "answer": "A",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": ["Input (x)", "Output (y)"],
+          "rows": [["2", "7"], ["4", "13"], ["5", "16"], ["7", "22"], ["10", "31"]]
+        }
+      }
+    },
+    {
+      "id": 18,
+      "teks": "5.5A",
+      "question": "Which of the following statements is true about all parallelograms?",
+      "choices": ["A) They have exactly one pair of parallel sides", "B) They have four right angles", "C) They have two pairs of parallel sides", "D) All four sides are equal in length"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 19,
+      "teks": "5.5A",
+      "question": "A triangle has angles measuring 60°, 60°, and 60°. Which classification best describes this triangle?",
+      "choices": ["A) Right scalene", "B) Obtuse isosceles", "C) Equilateral acute", "D) Right isosceles"],
+      "answer": "C",
+      "visual": {
+        "type": "geometric_shape",
+        "params": {
+          "shape_type": "triangle",
+          "measurements": {"side_a": "5 cm", "side_b": "5 cm", "side_c": "5 cm", "angle_A": "60°", "angle_B": "60°", "angle_C": "60°"}
+        }
+      }
+    },
+    {
+      "id": 20,
+      "teks": "5.6A",
+      "question": "A rectangular garden is 12.5 feet long and 8.4 feet wide. What is the perimeter of the garden?",
+      "choices": ["A) 20.9 feet", "B) 41.8 feet", "C) 105 feet", "D) 33.4 feet"],
+      "answer": "B",
+      "visual": {
+        "type": "geometric_shape",
+        "params": {
+          "shape_type": "rectangle",
+          "measurements": {"length": "12.5 ft", "width": "8.4 ft"}
+        }
+      }
+    },
+    {
+      "id": 21,
+      "teks": "5.6B",
+      "question": "The diagram shows an L-shaped room. What is the total area of the room?",
+      "choices": ["A) 56 sq ft", "B) 64 sq ft", "C) 72 sq ft", "D) 80 sq ft"],
+      "answer": "C",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": ["Section", "Length", "Width"],
+          "rows": [["Top rectangle", "10 ft", "4 ft"], ["Bottom rectangle", "8 ft", "4 ft"]]
+        }
+      }
+    },
+    {
+      "id": 22,
+      "teks": "5.6A",
+      "question": "A picture frame has a perimeter of 56 inches. The length of the frame is 16 inches. What is the width?",
+      "choices": ["A) 40 inches", "B) 24 inches", "C) 12 inches", "D) 20 inches"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 23,
+      "teks": "5.4H",
+      "question": "Jasmine has $20. She buys a notebook for $3.75 and 2 pens that cost $1.50 each. Which expression shows how much money Jasmine has left?",
+      "choices": ["A) 20 − 3.75 + 2 × 1.50", "B) 20 − (3.75 + 2 × 1.50)", "C) (20 − 3.75) × 2 × 1.50", "D) 20 − 3.75 − 1.50"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 24,
+      "teks": "5.5B",
+      "question": "A rectangular prism has a length of 6 units, a width of 4 units, and a height of 3 units. What is the volume?",
+      "choices": ["A) 13 cubic units", "B) 24 cubic units", "C) 48 cubic units", "D) 72 cubic units"],
+      "answer": "D",
+      "visual": {
+        "type": "geometric_shape",
+        "params": {
+          "shape_type": "rectangle",
+          "measurements": {"length": "6 units", "width": "4 units", "height": "3 units"}
+        }
+      }
+    },
+    {
+      "id": 25,
+      "teks": "5.5B",
+      "question": "Marcus is packing a box with small cubes. Each small cube has a side length of 1 inch. The box is 5 inches long, 3 inches wide, and 4 inches tall. How many small cubes will fit in the box?",
+      "choices": ["A) 12 cubes", "B) 15 cubes", "C) 45 cubes", "D) 60 cubes"],
+      "answer": "D",
+      "visual": null
+    },
+    {
+      "id": 26,
+      "teks": "5.7A",
+      "question": "The bar graph shows the number of books students read during a reading challenge. How many more books did the 5th graders read than the 3rd graders?",
+      "choices": ["A) 5 books", "B) 10 books", "C) 15 books", "D) 20 books"],
+      "answer": "C",
+      "visual": {
+        "type": "bar_graph",
+        "params": {
+          "data": [20, 25, 30, 35],
+          "labels": ["3rd Grade", "4th Grade", "5th Grade", "6th Grade"],
+          "title": "Books Read During Reading Challenge"
+        }
+      }
+    },
+    {
+      "id": 27,
+      "teks": "5.7A",
+      "question": "The data table shows test scores for 7 students. What is the median test score?",
+      "choices": ["A) 78", "B) 82", "C) 85", "D) 88"],
+      "answer": "C",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": ["Student", "Test Score"],
+          "rows": [["Ana", "92"], ["Ben", "78"], ["Carla", "85"], ["David", "88"], ["Elena", "75"], ["Felix", "90"], ["Grace", "82"]]
+        }
+      }
+    },
+    {
+      "id": 28,
+      "teks": "5.8A",
+      "question": "What ordered pair represents the location of the library on the coordinate grid?",
+      "choices": ["A) (2, 5)", "B) (5, 2)", "C) (3, 7)", "D) (7, 3)"],
+      "answer": "C",
+      "visual": {
+        "type": "coordinate_grid",
+        "params": {
+          "points": [[3, 7], [5, 2], [8, 6]],
+          "x_range": [0, 10],
+          "y_range": [0, 10]
+        }
+      }
+    },
+    {
+      "id": 29,
+      "teks": "5.8B",
+      "question": "Starting at the origin (0, 0), Maya walks 4 units to the right and 6 units up. Then she walks 3 more units to the right and 2 units down. What ordered pair describes Maya's final location?",
+      "choices": ["A) (7, 4)", "B) (4, 7)", "C) (7, 8)", "D) (3, 6)"],
+      "answer": "A",
+      "visual": {
+        "type": "coordinate_grid",
+        "params": {
+          "points": [[0, 0], [4, 6], [7, 4]],
+          "x_range": [0, 10],
+          "y_range": [0, 10]
+        }
+      }
+    },
+    {
+      "id": 30,
+      "teks": "5.8C",
+      "question": "The coordinate grid shows the locations of buildings in a town. Which building is located at (6, 8)?",
+      "choices": ["A) School", "B) Hospital", "C) Fire Station", "D) Park"],
+      "answer": "B",
+      "visual": {
+        "type": "coordinate_grid",
+        "params": {
+          "points": [[2, 3], [6, 8], [9, 1], [4, 5]],
+          "x_range": [0, 10],
+          "y_range": [0, 10]
+        }
+      }
+    },
+    {
+      "id": 31,
+      "teks": "5.9A",
+      "question": "Mateo earns $8.50 per hour mowing lawns. He works 6 hours on Saturday. He wants to save 40% of his earnings. How much money will Mateo save?",
+      "choices": ["A) $17.00", "B) $20.40", "C) $30.60", "D) $34.00"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 32,
+      "teks": "5.9B",
+      "question": "The table shows Sofia's monthly budget. If she earns $50 per month from chores, how much does she have left after all expenses?",
+      "choices": ["A) $5.00", "B) $7.50", "C) $10.00", "D) $12.50"],
+      "answer": "C",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": ["Expense", "Amount"],
+          "rows": [["Savings", "$20.00"], ["Snacks", "$8.50"], ["School Supplies", "$6.50"], ["Donation", "$5.00"]]
+        }
+      }
+    }
+  ]
+}

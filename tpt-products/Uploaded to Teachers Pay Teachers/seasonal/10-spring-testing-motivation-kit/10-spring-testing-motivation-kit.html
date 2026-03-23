@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>10-spring-testing-motivation-kit</title>
+  <style>
+
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+  <style type="text/css">@page {
+size: letter;
+margin: 0.75in 0.85in;
+}
+body {
+font-family: 'Georgia', 'Times New Roman', serif;
+font-size: 12pt;
+line-height: 1.6;
+color: #2d2d2d;
+max-width: 100%;
+}
+h1 {
+font-family: 'Helvetica Neue', 'Arial', sans-serif;
+font-size: 22pt;
+color: #1a5276;
+border-bottom: 3px solid #2ecc71;
+padding-bottom: 8px;
+margin-top: 0;
+}
+h2 {
+font-family: 'Helvetica Neue', 'Arial', sans-serif;
+font-size: 16pt;
+color: #1a5276;
+margin-top: 24px;
+border-bottom: 1px solid #bdc3c7;
+padding-bottom: 4px;
+}
+h3 {
+font-family: 'Helvetica Neue', 'Arial', sans-serif;
+font-size: 13pt;
+color: #2c3e50;
+margin-top: 18px;
+}
+h4 {
+font-size: 12pt;
+color: #34495e;
+font-weight: bold;
+}
+ul, ol {
+margin-left: 0;
+padding-left: 1.5em;
+}
+li {
+margin-bottom: 4px;
+}
+table {
+border-collapse: collapse;
+width: 100%;
+margin: 12px 0;
+}
+th, td {
+border: 1px solid #bdc3c7;
+padding: 8px 10px;
+text-align: left;
+font-size: 11pt;
+}
+th {
+background-color: #1a5276;
+color: white;
+font-family: 'Helvetica Neue', 'Arial', sans-serif;
+}
+tr:nth-child(even) {
+background-color: #f2f9ff;
+}
+blockquote {
+border-left: 4px solid #2ecc71;
+margin: 12px 0;
+padding: 8px 16px;
+background-color: #f0faf4;
+font-style: italic;
+}
+code {
+background-color: #f4f4f4;
+padding: 2px 6px;
+border-radius: 3px;
+font-size: 10pt;
+}
+hr {
+border: none;
+border-top: 2px solid #2ecc71;
+margin: 20px 0;
+}
+.footer {
+text-align: center;
+font-size: 9pt;
+color: #7f8c8d;
+margin-top: 40px;
+border-top: 1px solid #bdc3c7;
+padding-top: 8px;
+}
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">10-spring-testing-motivation-kit</h1>
+</header>
+<h1 id="spring-testing-motivation-kit-staar-pep-rally-pack-full-content">Spring
+Testing Motivation Kit: STAAR Pep Rally Pack — Full Content</h1>
+<h2 id="visual-design-notes">Visual Design Notes</h2>
+<ul>
+<li><strong>Color Palette:</strong> Bold neon — electric blue, hot pink,
+lime green, orange, purple, yellow</li>
+<li><strong>Style:</strong> Energetic, sporty, “pep rally” vibe — stars,
+lightning bolts, megaphones, trophies</li>
+<li><strong>Layout:</strong> Posters are bold with large text and
+minimal imagery for impact</li>
+<li><strong>Fonts:</strong> Extra bold sans-serif, some varsity/athletic
+style for headers</li>
+<li><strong>Feel:</strong> Encouraging, empowering, FUN — not stressful
+or anxiety-inducing</li>
+</ul>
+<hr />
+<h2 id="door-decoration-sets">Door Decoration Sets</h2>
+<h3 id="door-set-1-staar-studded-class">Door Set 1: “STAAR-Studded
+Class”</h3>
+<ul>
+<li>Large star burst at top: “STAAR-Studded Class!”</li>
+<li>Individual star cutouts with each student’s name</li>
+<li>Banner across door: “Watch Us Shine! ⭐”</li>
+<li>Color: Gold stars on deep blue background</li>
+</ul>
+<h3 id="door-set-2-were-going-to-crush-the-staar-test">Door Set 2:
+“We’re Going to CRUSH the STAAR Test!”</h3>
+<ul>
+<li>Large fist/hand illustration (crushing motion)</li>
+<li>Speech bubbles with motivational phrases</li>
+<li>Student name tags as “power-ups”</li>
+<li>Color: Red, orange, yellow gradient (power/energy)</li>
+</ul>
+<h3 id="door-set-3-blasting-off-to-staar-success">Door Set 3: “Blasting
+Off to STAAR Success! 🚀”</h3>
+<ul>
+<li>Rocket ship at the top</li>
+<li>Each student name on a star trailing behind the rocket</li>
+<li>Planet and moon decorations</li>
+<li>Color: Navy, silver, neon accents</li>
+</ul>
+<h3 id="door-set-4-our-class-is-staar-ready">Door Set 4: “Our Class is
+STAAR-Ready!”</h3>
+<ul>
+<li>Checklist theme: ✅ Studied ✅ Practiced ✅ Rested ✅ Ready!</li>
+<li>Student names on clipboard cutouts</li>
+<li>Color: Green, white, black (checklist aesthetic)</li>
+</ul>
+<h3 id="door-set-5-taco-bout-ready-for-staar">Door Set 5: “Taco ’Bout
+Ready for STAAR! 🌮”</h3>
+<ul>
+<li>Large taco illustration</li>
+<li>“Lettuce do our best!”</li>
+<li>Student names on taco ingredients</li>
+<li>Color: Yellow, green, red, brown (taco colors!)</li>
+</ul>
+<hr />
+<h2 id="motivational-classroom-posters-15-designs">Motivational
+Classroom Posters (15 designs)</h2>
+<h3 id="poster-1">Poster 1</h3>
+<p><strong>“You didn’t come this far to ONLY come this far.”</strong>
+[Lightning bolt background, neon blue]</p>
+<h3 id="poster-2">Poster 2</h3>
+<p><strong>“Mistakes are proof that you are TRYING.”</strong> [Eraser
+illustration, pink/coral]</p>
+<h3 id="poster-3">Poster 3</h3>
+<p><strong>“You are BRAVER than you believe, STRONGER than you seem, and
+SMARTER than you think.”</strong> [Stars background, gold/purple]</p>
+<h3 id="poster-4">Poster 4</h3>
+<p><strong>“Don’t stress. Do your BEST. Forget the REST.”</strong>
+[Chill face emoji style, lime green]</p>
+<h3 id="poster-5">Poster 5</h3>
+<p><strong>“Your brain is a MUSCLE. The more you use it, the STRONGER it
+gets. 🧠💪”</strong> [Brain with flexing arm, orange]</p>
+<h3 id="poster-6">Poster 6</h3>
+<p><strong>“READ the question. THINK about it. PROVE your answer. You
+GOT this!”</strong> [Step-by-step arrows, blue gradient]</p>
+<h3 id="poster-7">Poster 7</h3>
+<p><strong>“Be the REASON someone smiles today — starting with
+YOURSELF.”</strong> [Smiley face, yellow sunshine]</p>
+<h3 id="poster-8">Poster 8</h3>
+<p><strong>“Hard work beats talent when talent doesn’t work
+hard.”</strong> [Trophy illustration, gold/black]</p>
+<h3 id="poster-9">Poster 9</h3>
+<p><strong>“Today is a great day to learn something NEW.”</strong>
+[Sunrise over books, warm colors]</p>
+<h3 id="poster-10">Poster 10</h3>
+<p><strong>“You are MORE than a test score. But you’re also going to
+ROCK this test.”</strong> [Rock guitar illustration, electric
+purple]</p>
+<h3 id="poster-11">Poster 11</h3>
+<p><strong>“STAAR Testing Tips: 1) Breathe 2) Read carefully 3) Show
+your work 4) Check your answers 5) Believe in yourself”</strong>
+[Numbered list with icons, multi-color]</p>
+<h3 id="poster-12">Poster 12</h3>
+<p><strong>“This class has been preparing ALL YEAR. You are
+READY.”</strong> [Calendar with X marks leading to star, blue/green]</p>
+<h3 id="poster-13">Poster 13</h3>
+<p><strong>“Skip it. Come back. You don’t have to do them in
+order!”</strong> [Hopscotch illustration, playful colors]</p>
+<h3 id="poster-14">Poster 14</h3>
+<p><strong>“Stuck? Try this: ⬜ Re-read ⬜ Eliminate wrong answers ⬜
+Use what you know ⬜ Make your best guess”</strong> [Checklist style,
+teal]</p>
+<h3 id="poster-15">Poster 15</h3>
+<p><strong>“When you feel like quitting, remember WHY you
+started.”</strong> [Finish line illustration, red/gold]</p>
+<hr />
+<h2 id="bookmark-designs-8-designs-4-per-printed-page">Bookmark Designs
+(8 designs, 4 per printed page)</h2>
+<h3 id="bookmark-1-im-a-staar-star-shape-border-gold">Bookmark 1: “I’m a
+STAAR!” — Star shape border, gold</h3>
+<h3 id="bookmark-2-read.-think.-prove.-steps-graphic-blue">Bookmark 2:
+“Read. Think. Prove. 📖🧠✅” — Steps graphic, blue</h3>
+<h3 id="bookmark-3-testing-tip-breathe-believe-cloudbreath-illustration-soft-blue">Bookmark
+3: “Testing Tip: Breathe &amp; Believe” — Cloud/breath illustration,
+soft blue</h3>
+<h3 id="bookmark-4-ive-got-the-write-stuff-pencil-border-yellow">Bookmark 4:
+“I’ve got the WRITE stuff! ✍️” — Pencil border, yellow</h3>
+<h3 id="bookmark-5-math-rocks-guitarnumbers-design-purple">Bookmark 5:
+“Math ROCKS! 🎸” — Guitar/numbers design, purple</h3>
+<h3 id="bookmark-6-stay-calm-and-test-on-sunglasses-illustration-teal">Bookmark
+6: “Stay calm and TEST on 😎” — Sunglasses illustration, teal</h3>
+<h3 id="bookmark-7-my-brain-is-powerful-brain-with-lightning-orange">Bookmark
+7: “My brain is POWERFUL 🧠⚡” — Brain with lightning, orange</h3>
+<h3 id="bookmark-8-i-can-do-hard-things-flexing-arm-hot-pink">Bookmark
+8: “I can do HARD things! 💪” — Flexing arm, hot pink</h3>
+<p>Each bookmark: 2” × 6”, full color, with testing tip on back</p>
+<hr />
+<h2 id="testing-tips-cards-10-strategies">Testing Tips Cards (10
+strategies)</h2>
+<h3 id="card-1-read-the-whole-question">Card 1: 📖 READ THE WHOLE
+QUESTION</h3>
+<p>Read every word in the question — including ALL answer choices —
+before you pick one.</p>
+<h3 id="card-2-cover-and-think">Card 2: ✋ COVER AND THINK</h3>
+<p>Cover the answer choices. Think about what YOU think the answer is
+first. Then look at the choices.</p>
+<h3 id="card-3-eliminate-wrong-answers">Card 3: ❌ ELIMINATE WRONG
+ANSWERS</h3>
+<p>Cross out answers you KNOW are wrong. Now you have fewer to choose
+from!</p>
+<h3 id="card-4-show-your-work">Card 4: 📝 SHOW YOUR WORK</h3>
+<p>Write in the margins, underline key words, draw pictures. Your work
+helps you think!</p>
+<h3 id="card-5-skip-and-come-back">Card 5: ⏭️ SKIP AND COME BACK</h3>
+<p>Stuck? Skip it and come back later. Your brain keeps working on it in
+the background!</p>
+<h3 id="card-6-go-back-to-the-text">Card 6: 🔍 GO BACK TO THE TEXT</h3>
+<p>The answer is IN the passage. Go back and find the evidence!</p>
+<h3 id="card-7-pace-yourself">Card 7: ⏰ PACE YOURSELF</h3>
+<p>Don’t rush, but don’t spend too long on one question. Keep
+moving!</p>
+<h3 id="card-8-use-what-you-know">Card 8: 🧠 USE WHAT YOU KNOW</h3>
+<p>Connect the question to things you’ve learned in class. Your teacher
+prepared you!</p>
+<h3 id="card-9-check-your-work">Card 9: ✅ CHECK YOUR WORK</h3>
+<p>If you finish early, go back and check. Did you answer every
+question? Did you bubble correctly?</p>
+<h3 id="card-10-believe-in-yourself">Card 10: 💪 BELIEVE IN
+YOURSELF</h3>
+<p>You’ve worked hard all year. You are smart. You are ready. You can DO
+this!</p>
+<hr />
+<h2 id="motivational-desk-notes-30-designs">Motivational Desk Notes (30
+designs)</h2>
+<p>Small notes (business card sized) teachers slip into desks or hand
+out before testing:</p>
+<ol type="1">
+<li>“You are AMAZING. Go show that test! 🌟”</li>
+<li>“I believe in you more than you know. 💛”</li>
+<li>“Today you will do GREAT things. 🚀”</li>
+<li>“Your hard work is about to pay off! 💎”</li>
+<li>“Remember: breathe, read, think, answer. You got this! 🧠”</li>
+<li>“You make me proud EVERY single day. 🌈”</li>
+<li>“This test doesn’t define you, but you’re going to crush it anyway!
+💪”</li>
+<li>“I’m cheering for you! Go, go, go! 📣”</li>
+<li>“Be brave. Be bold. Be brilliant. ✨”</li>
+<li>“You are READY for this! 🎯”</li>
+<li>“Mistakes are okay. Just do YOUR best! 🌸”</li>
+<li>“Your teacher thinks you’re a SUPERSTAR! ⭐”</li>
+<li>“Take a deep breath. You’ve prepared for this moment. 🌊”</li>
+<li>“I’m so proud of how hard you’ve worked this year. 🏆”</li>
+<li>“You are stronger than any test! 🦸”</li>
+<li>“Keep going — you’re doing GREAT! 🔥”</li>
+<li>“This is YOUR time to shine! ☀️”</li>
+<li>“Trust your brain. It knows more than you think! 🧠”</li>
+<li>“You worked hard. Now show what you know! 📚”</li>
+<li>“After this, summer is SO close! ☀️🏖️”</li>
+<li>“I can’t wait to see you succeed today! 🎉”</li>
+<li>“Take it one question at a time. You can do this! 🐢”</li>
+<li>“Your best is GOOD ENOUGH. Always. 💝”</li>
+<li>“Today is just another day to be awesome — and you ARE! 🌟”</li>
+<li>“Think positive. Test positive. 😊”</li>
+<li>“You’ve got a whole school cheering for you! 🏫”</li>
+<li>“Smart, prepared, and ready to GO! 🏁”</li>
+<li>“You are braver than you believe! 🦁”</li>
+<li>“Nothing can stop you today! 🚂”</li>
+<li>“I love being YOUR teacher. Now go be amazing! ❤️”</li>
+</ol>
+<hr />
+<h2 id="candy-gram-encouragement-tags">Candy-Gram Encouragement
+Tags</h2>
+<p>Print, cut, and attach to treats:</p>
+<ul>
+<li>🍬 <strong>Smarties:</strong> “You’re a SMARTIE! Good luck on
+STAAR!”</li>
+<li>🍫 <strong>100 Grand bar:</strong> “You’re worth 100 GRAND to this
+class!”</li>
+<li>🍬 <strong>Starburst:</strong> “You’re a STAAR-burst of
+brilliance!”</li>
+<li>🧁 <strong>Muffin:</strong> “MUFFIN can stop you from doing
+great!”</li>
+<li>🥜 <strong>Trail Mix:</strong> “You’re on the right TRAIL to
+success!”</li>
+<li>🍭 <strong>Ring Pop:</strong> “You RING in success everywhere you
+go!”</li>
+<li>🧃 <strong>Juice Box:</strong> “You’ve got all the RIGHT JUICE for
+STAAR!”</li>
+<li>🍪 <strong>Cookies:</strong> “That’s the way the cookie ACES —
+you’ll ace this test!”</li>
+<li>🫧 <strong>Bubbles:</strong> “BUBBLE in those answers with
+confidence!”</li>
+<li>✏️ <strong>Pencil:</strong> “You have the WRITE stuff for
+STAAR!”</li>
+</ul>
+<hr />
+<h2 id="growth-mindset-affirmation-cards">Growth Mindset Affirmation
+Cards</h2>
+<p>8 cards students can keep at their desk:</p>
+<ol type="1">
+<li>“I can do hard things.”</li>
+<li>“Mistakes help me learn.”</li>
+<li>“I haven’t figured it out YET.”</li>
+<li>“I am getting better every day.”</li>
+<li>“I choose to keep trying.”</li>
+<li>“My brain grows when I’m challenged.”</li>
+<li>“I am proud of my effort.”</li>
+<li>“I believe in myself.”</li>
+</ol>
+<hr />
+<h2 id="staar-playlist-suggestions">STAAR Playlist Suggestions</h2>
+<p><strong>Songs to play before testing (clean versions!) to pump up the
+class:</strong></p>
+<p><em>(Note: These are suggestions — teachers choose what’s
+appropriate)</em> - “Don’t Stop Believin’” — Journey - “Happy” —
+Pharrell Williams - “Fight Song” — Rachel Platten - “Roar” — Katy Perry
+- “Can’t Stop the Feeling” — Justin Timberlake - “Eye of the Tiger” —
+Survivor - “Brave” — Sara Bareilles - “Best Day of My Life” — American
+Authors - “Stronger” — Kelly Clarkson - “We Will Rock You” — Queen</p>
+<p><em>Printable playlist card included for teacher reference</em></p>
+</body>
+</html>

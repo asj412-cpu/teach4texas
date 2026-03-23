@@ -1,0 +1,157 @@
+@page {
+  size: letter;
+  margin: 0;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  width: 816px;
+  height: 1056px;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  overflow: hidden;
+  background: #F8F9FA;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.cover {
+  width: 816px;
+  height: 1056px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Star decorations */
+.star-bg {
+  position: absolute;
+  top: 60px;
+  right: 40px;
+  font-size: 200px;
+  color: rgba(255,255,255,0.06);
+  line-height: 1;
+}
+.star-bg2 {
+  position: absolute;
+  bottom: 180px;
+  left: -20px;
+  font-size: 120px;
+  color: rgba(255,255,255,0.05);
+  line-height: 1;
+}
+
+.top-bar {
+  height: 8px;
+  width: 100%;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 60px 50px 30px;
+  position: relative;
+  z-index: 1;
+}
+
+.badge {
+  display: inline-block;
+  color: #fff;
+  padding: 8px 24px;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+  align-self: flex-start;
+}
+
+.decorative-line {
+  width: 60px;
+  height: 4px;
+  margin-bottom: 20px;
+}
+
+.title {
+  color: #fff;
+  font-size: 50px;
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+
+.subtitle {
+  color: rgba(255,255,255,0.9);
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.4;
+  margin-bottom: 50px;
+}
+
+.features {
+  list-style: none;
+  margin-bottom: auto;
+}
+.features li {
+  color: #fff;
+  font-size: 19px;
+  padding: 12px 0;
+  padding-left: 36px;
+  position: relative;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.features li:last-child { border-bottom: none; }
+.features li::before {
+  content: "\2605";
+  position: absolute;
+  left: 0;
+  font-size: 18px;
+}
+
+.grade-ribbon {
+  position: absolute;
+  top: 200px;
+  right: 0;
+  color: #fff;
+  padding: 14px 30px 14px 40px;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  border-left: 4px solid rgba(255,255,255,0.3);
+}
+
+.bottom {
+  background: rgba(0,0,0,0.2);
+  padding: 28px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  color: #fff;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.tagline {
+  color: rgba(255,255,255,0.7);
+  font-size: 14px;
+}
+
+.texas-star {
+  font-size: 36px;
+}
+
+/* Product type label */
+.product-type {
+  position: absolute;
+  bottom: 100px;
+  right: 50px;
+  color: rgba(255,255,255,0.5);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}

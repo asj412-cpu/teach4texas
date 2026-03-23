@@ -1,0 +1,313 @@
+{
+  "title": "STAAR RLA Task Cards",
+  "subject": "rla",
+  "grade": 4,
+  "description": "32 TEKS-Aligned STAAR RLA Task Cards for 4th Grade",
+  "questions": [
+    {
+      "id": 1,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nThe old lighthouse had stood on the cliff for over a hundred years. Its paint was peeling, and the light no longer worked. Still, every evening, Mr. Hendricks climbed the stairs to the top and looked out at the sea.\n\nWhat can the reader infer about Mr. Hendricks?",
+      "choices": ["A) He is afraid of the dark.", "B) He has a deep connection to the lighthouse.", "C) He is trying to fix the light.", "D) He does not like living near the ocean."],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 2,
+      "teks": "4.10D",
+      "question": "Read the sentence.\n\nThe dancer floated across the stage like a feather in the breeze.\n\nWhat type of figurative language is used in this sentence?",
+      "choices": ["A) Metaphor", "B) Personification", "C) Simile", "D) Alliteration"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 3,
+      "teks": "4.9D",
+      "question": "Read the passage.\n\nSea turtles face many dangers. Pollution in the ocean can harm them. Bright lights on beaches confuse baby turtles trying to find the sea. Fishing nets sometimes trap them underwater.\n\nWhat is the main idea of this passage?",
+      "choices": ["A) Sea turtles live in the ocean.", "B) Baby turtles are born on beaches.", "C) Sea turtles face many threats to their survival.", "D) Fishing is dangerous for all animals."],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 4,
+      "teks": "4.7C",
+      "question": "Read the passage.\n\nEvery student should have at least thirty minutes of recess each day. Studies show that physical activity helps students focus better in class. Without enough time to play, students become restless and have trouble learning.\n\nWhat is the author's purpose for writing this passage?",
+      "choices": ["A) To describe what happens at recess", "B) To entertain readers with a story about recess", "C) To persuade readers that students need more recess", "D) To inform readers about school schedules"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 5,
+      "teks": "4.9E",
+      "question": "A student is comparing the climates of two Texas regions. Look at the graphic organizer below.\n\nWhich detail belongs in the center section?",
+      "choices": ["A) Gets over 50 inches of rain per year", "B) Located in Texas", "C) Has very little rainfall", "D) Covered in pine forests"],
+      "answer": "B",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "venn",
+          "content": {
+            "left": "East Texas",
+            "right": "West Texas",
+            "center": "?"
+          }
+        }
+      }
+    },
+    {
+      "id": 6,
+      "teks": "4.11D",
+      "question": "Read the sentence.\n\nThe team celebrated their victory and the fans cheered loudly.\n\nWhich revision correctly adds a comma to this compound sentence?",
+      "choices": ["A) The team celebrated their victory, and the fans cheered loudly.", "B) The team celebrated, their victory and the fans cheered loudly.", "C) The team celebrated their victory and, the fans cheered loudly.", "D) The team, celebrated their victory and the fans cheered loudly."],
+      "answer": "A",
+      "visual": null
+    },
+    {
+      "id": 7,
+      "teks": "4.6E",
+      "question": "Read the passage.\n\nAnna stared at the math test on her desk. She had studied all week, but the numbers swam before her eyes. She took three deep breaths, picked up her pencil, and started with the first problem.\n\nWhich sentence best describes how Anna feels at the beginning of the passage?",
+      "choices": ["A) She feels confident and prepared.", "B) She feels anxious but determined.", "C) She feels bored and uninterested.", "D) She feels angry at her teacher."],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 8,
+      "teks": "4.10A",
+      "question": "Read the sentence.\n\nThe ambassador tried to foster goodwill between the two countries by organizing cultural exchanges.\n\nWhat does the word \"foster\" mean in this sentence?",
+      "choices": ["A) To prevent", "B) To encourage and develop", "C) To hide", "D) To destroy"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 9,
+      "teks": "4.7D",
+      "question": "Read the passage.\n\nHurricanes form over warm ocean water. As the warm, moist air rises, it creates an area of low pressure. More air rushes in to fill the space. This cycle continues, and the storm grows stronger. Eventually, the spinning winds can reach speeds over 74 miles per hour.\n\nWhat text structure does this passage use?",
+      "choices": ["A) Problem and solution", "B) Compare and contrast", "C) Cause and effect", "D) Description"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 10,
+      "teks": "4.6G",
+      "question": "Read the passage.\n\nMrs. Ramirez stayed at the school until 6:00 every evening, tutoring students who needed extra help. She bought supplies with her own money and often called parents to share good news about their children.\n\nWhich word best describes Mrs. Ramirez?",
+      "choices": ["A) Strict", "B) Dedicated", "C) Impatient", "D) Cautious"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 11,
+      "teks": "4.10D",
+      "question": "Read the sentence.\n\nThe thunder grumbled angrily as the storm rolled into town.\n\nWhat type of figurative language is used in this sentence?",
+      "choices": ["A) Simile", "B) Metaphor", "C) Personification", "D) Hyperbole"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 12,
+      "teks": "4.9D",
+      "question": "Look at the web diagram below.\n\nWhich detail could be added as another branch?",
+      "choices": ["A) Bats use echolocation to find food.", "B) The Sahara Desert gets very little rain.", "C) Oceans are home to many types of fish.", "D) Texas became a state in 1845."],
+      "answer": "C",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "web",
+          "content": {
+            "center": "Ocean Ecosystems",
+            "branches": ["Coral reefs provide shelter", "Kelp forests produce oxygen", "Deep sea vents support life"]
+          }
+        }
+      }
+    },
+    {
+      "id": 13,
+      "teks": "4.8C",
+      "question": "Read the passage.\n\nSam Houston was born in Virginia in 1793. He later moved to Tennessee, where he became governor. After moving to Texas, Houston led the Texan army to victory at the Battle of San Jacinto in 1836. He went on to serve as the president of the Republic of Texas.\n\nWhat type of text is this passage?",
+      "choices": ["A) A myth", "B) A biography", "C) A fable", "D) Science fiction"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 14,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nThe stray cat had been coming to Grandma's porch for weeks. Each day, Grandma set out a small dish of food. One morning, the cat rubbed against her leg and purred.\n\nWhat can the reader conclude about the cat?",
+      "choices": ["A) The cat is afraid of Grandma.", "B) The cat is beginning to trust Grandma.", "C) The cat wants to live inside.", "D) The cat does not like the food."],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 15,
+      "teks": "4.11D",
+      "question": "Which sentence correctly uses quotation marks?",
+      "choices": ["A) Mom said, it's time for dinner.", "B) Mom said \"it's time for dinner.\"", "C) \"Mom said it's time for dinner.\"", "D) Mom said, \"It's time for dinner.\""],
+      "answer": "D",
+      "visual": null
+    },
+    {
+      "id": 16,
+      "teks": "4.7D",
+      "question": "Read the passage.\n\nAlligators and crocodiles may look similar, but they have important differences. Alligators have wide, U-shaped snouts, while crocodiles have narrow, V-shaped snouts. Alligators prefer freshwater habitats, but crocodiles can live in both fresh and saltwater.\n\nWhat text structure does this passage use?",
+      "choices": ["A) Sequence", "B) Problem and solution", "C) Compare and contrast", "D) Cause and effect"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 17,
+      "teks": "4.9E",
+      "question": "Look at the T-chart below.\n\nBased on the chart, which statement is true?",
+      "choices": ["A) Renewable and nonrenewable resources are the same.", "B) Nonrenewable resources can be replaced quickly.", "C) Renewable resources will never run out.", "D) Renewable resources can be replaced, but nonrenewable resources cannot."],
+      "answer": "D",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "t_chart",
+          "content": {
+            "left_title": "Renewable Resources",
+            "right_title": "Nonrenewable Resources",
+            "left_items": ["Solar energy", "Wind power", "Water"],
+            "right_items": ["Coal", "Oil", "Natural gas"]
+          }
+        }
+      }
+    },
+    {
+      "id": 18,
+      "teks": "4.10A",
+      "question": "Read the sentence.\n\nThe new evidence helped to clarify the mystery that had puzzled detectives for months.\n\nWhat does the word \"clarify\" mean in this sentence?",
+      "choices": ["A) To make more confusing", "B) To hide the truth", "C) To make clear or easier to understand", "D) To start over"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 19,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nLucy packed her telescope, star chart, and a warm blanket into her backpack. She checked the weather forecast one more time -- clear skies all night. She smiled and headed out the door as the sun began to set.\n\nWhat is Lucy planning to do?",
+      "choices": ["A) Go camping with friends", "B) Watch the stars", "C) Have a picnic", "D) Go on a hike"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 20,
+      "teks": "4.10D",
+      "question": "Read the sentence.\n\nHer smile was a ray of sunshine on a cloudy day.\n\nWhat type of figurative language is used in this sentence?",
+      "choices": ["A) Simile", "B) Personification", "C) Alliteration", "D) Metaphor"],
+      "answer": "D",
+      "visual": null
+    },
+    {
+      "id": 21,
+      "teks": "4.7C",
+      "question": "Read the passage.\n\nThe bald eagle was once in danger of disappearing from the United States. In 1972, a harmful pesticide called DDT was banned. Wildlife officials also created protected nesting areas. By 2007, the bald eagle had recovered enough to be removed from the endangered species list.\n\nWhat is the author's purpose for writing this passage?",
+      "choices": ["A) To persuade readers to protect eagles", "B) To entertain readers with a story about birds", "C) To inform readers about how the bald eagle was saved", "D) To explain how pesticides work"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 22,
+      "teks": "4.11D",
+      "question": "Read the sentence.\n\nThe students who finished early could read a book or draw quietly.\n\nWhat is the complete subject of this sentence?",
+      "choices": ["A) The students", "B) The students who finished early", "C) students", "D) who finished early"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 23,
+      "teks": "4.9D",
+      "question": "Read the passage.\n\nTexas is home to many different ecosystems. The Piney Woods in East Texas have tall pine trees and lots of rainfall. The deserts in West Texas are hot and dry with very little rain. The Gulf Coast has sandy beaches and marshes where many birds live.\n\nWhich sentence best states the main idea?",
+      "choices": ["A) The Gulf Coast has sandy beaches.", "B) Texas has many different ecosystems.", "C) Pine trees grow in East Texas.", "D) West Texas is hot and dry."],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 24,
+      "teks": "4.9E",
+      "question": "A student is organizing information about the steps for writing a research report. Look at the flow chart below.\n\nWhat step is missing?",
+      "choices": ["A) Choose a topic", "B) Take a nap", "C) Play a game", "D) Eat a snack"],
+      "answer": "A",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "flow",
+          "content": {
+            "steps": ["?", "Research your topic", "Take notes", "Write your report"]
+          }
+        }
+      }
+    },
+    {
+      "id": 25,
+      "teks": "4.6E",
+      "question": "Read the passage.\n\nDavid had been waiting all year for the science fair. He spent three weeks building his volcano model. When the judges walked by his table, he stood tall and explained every detail with a wide grin.\n\nHow does David feel about his project?",
+      "choices": ["A) Embarrassed", "B) Nervous", "C) Proud", "D) Disappointed"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 26,
+      "teks": "4.8A",
+      "question": "Read the passage.\n\nLong ago, people believed that a giant named Paul Bunyan created the Great Lakes by dragging his enormous axe across the land. His blue ox, Babe, was said to be so large that its footprints formed lakes in Minnesota.\n\nWhat type of story is this passage from?",
+      "choices": ["A) A historical fiction novel", "B) A tall tale", "C) A science article", "D) An autobiography"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 27,
+      "teks": "4.10D",
+      "question": "Read the sentence.\n\nI've told you a million times to clean your room!\n\nWhat type of figurative language is used in this sentence?",
+      "choices": ["A) Simile", "B) Personification", "C) Metaphor", "D) Hyperbole"],
+      "answer": "D",
+      "visual": null
+    },
+    {
+      "id": 28,
+      "teks": "4.7D",
+      "question": "Read the passage.\n\nMany schools have replaced sugary drinks in vending machines with water and juice. This change happened because students were consuming too much sugar during the school day. As a result, students are now making healthier choices at lunch.\n\nWhat text structure does this passage use?",
+      "choices": ["A) Description", "B) Compare and contrast", "C) Cause and effect", "D) Sequence"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 29,
+      "teks": "4.9D",
+      "question": "Use the table below to answer the question.\n\nBased on the table, which state has the largest area?",
+      "choices": ["A) Texas", "B) California", "C) Alaska", "D) Montana"],
+      "answer": "C",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": ["State", "Area (sq miles)", "Capital"],
+          "rows": [
+            ["Texas", "268,596", "Austin"],
+            ["California", "163,696", "Sacramento"],
+            ["Alaska", "665,384", "Juneau"],
+            ["Montana", "147,040", "Helena"]
+          ]
+        }
+      }
+    },
+    {
+      "id": 30,
+      "teks": "4.11D",
+      "question": "Which sentence correctly uses a possessive noun?",
+      "choices": ["A) The childrens' books were on the shelf.", "B) The children's books were on the shelf.", "C) The childrens books were on the shelf.", "D) The children books' were on the shelf."],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 31,
+      "teks": "4.6G",
+      "question": "Read the passage.\n\nAt first, Marcus refused to try the new food at dinner. His mom encouraged him to take just one bite. After tasting it, Marcus asked for a second helping. \"This is amazing!\" he said.\n\nHow do Marcus's feelings change in this passage?",
+      "choices": ["A) From happy to sad", "B) From excited to bored", "C) From reluctant to enthusiastic", "D) From angry to frightened"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 32,
+      "teks": "4.10F",
+      "question": "Read the passage.\n\nThe author writes: \"The city was a beehive of activity. Cars buzzed along the streets while people hurried from place to place.\"\n\nWhy does the author compare the city to a beehive?",
+      "choices": ["A) To show that the city has many bees", "B) To help the reader picture how busy the city is", "C) To explain how beehives are built", "D) To describe the shape of the buildings"],
+      "answer": "B",
+      "visual": null
+    }
+  ]
+}

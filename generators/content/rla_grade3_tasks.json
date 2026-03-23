@@ -1,0 +1,330 @@
+{
+  "title": "STAAR RLA Task Cards",
+  "subject": "rla",
+  "grade": 3,
+  "description": "32 TEKS-Aligned STAAR RLA Task Cards for 3rd Grade",
+  "questions": [
+    {
+      "id": 1,
+      "teks": "3.6F",
+      "question": "Read the passage.\n\nMaria looked out the window and saw dark clouds filling the sky. She grabbed her umbrella and rain boots before heading out the door.\n\nWhat can the reader conclude from this passage?",
+      "choices": ["A) Maria is afraid of storms.", "B) Maria thinks it will rain soon.", "C) Maria does not like going outside.", "D) Maria is going to school."],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 2,
+      "teks": "3.7C",
+      "question": "Read the passage.\n\nDogs make wonderful pets for families. They are loyal, playful, and can even help protect your home. Every family should think about getting a dog.\n\nWhat is the author's purpose for writing this passage?",
+      "choices": ["A) To inform readers about different dog breeds", "B) To entertain readers with a funny dog story", "C) To persuade readers that dogs are great pets", "D) To explain how to train a dog"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 3,
+      "teks": "3.9D",
+      "question": "Read the passage.\n\nBees are important because they pollinate flowers. When a bee lands on a flower, pollen sticks to its body. The bee carries the pollen to the next flower, which helps new plants grow.\n\nWhat is the main idea of this passage?",
+      "choices": ["A) Bees like to land on flowers.", "B) Pollen is sticky.", "C) Bees help plants grow by spreading pollen.", "D) Flowers need water to grow."],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 4,
+      "teks": "3.6F",
+      "question": "Read the passage.\n\nThe fox crept slowly through the tall grass. Its eyes were fixed on the rabbit near the bush. The fox lowered its body and waited for the right moment.\n\nWhat will the fox most likely do next?",
+      "choices": ["A) Fall asleep in the grass", "B) Run away from the rabbit", "C) Try to catch the rabbit", "D) Start digging a hole"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 5,
+      "teks": "3.9D",
+      "question": "Which graphic organizer best shows the main idea and supporting details of a passage about types of weather?",
+      "choices": ["A) A Venn diagram", "B) A web with the main idea in the center", "C) A T-chart", "D) A timeline"],
+      "answer": "B",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "web",
+          "content": {
+            "center": "Types of Weather",
+            "branches": ["Sunny", "Rainy", "Snowy", "Windy"]
+          }
+        }
+      }
+    },
+    {
+      "id": 6,
+      "teks": "3.11D",
+      "question": "Which sentence is written correctly?",
+      "choices": ["A) The children was playing in the park.", "B) The children were playing in the park.", "C) The children is playing in the park.", "D) The children am playing in the park."],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 7,
+      "teks": "3.6E",
+      "question": "Read the passage.\n\nSam's hands were shaking as he walked to the front of the class. He took a deep breath, looked at his note cards, and began his presentation.\n\nHow does Sam most likely feel?",
+      "choices": ["A) Angry", "B) Nervous", "C) Excited", "D) Bored"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 8,
+      "teks": "3.10D",
+      "question": "Read the sentence.\n\nThe wind whispered through the trees.\n\nWhat does the author mean by the word \"whispered\"?",
+      "choices": ["A) The wind was talking to the trees.", "B) The wind was blowing very hard.", "C) The wind was making a soft, quiet sound.", "D) The wind had stopped blowing."],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 9,
+      "teks": "3.9E",
+      "question": "A student is reading an article about how caterpillars become butterflies. Which graphic organizer would best show this information?",
+      "choices": ["A) A Venn diagram", "B) A flow chart showing the steps in order", "C) A T-chart", "D) A web diagram"],
+      "answer": "B",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "flow",
+          "content": {
+            "steps": ["Egg", "Caterpillar", "Chrysalis", "Butterfly"]
+          }
+        }
+      }
+    },
+    {
+      "id": 10,
+      "teks": "3.6G",
+      "question": "Read the passage.\n\nLily had never been to the ocean before. When she saw the waves crashing on the shore, her eyes grew wide and she ran toward the water, laughing.\n\nWhich word best describes Lily?",
+      "choices": ["A) Frightened", "B) Amazed", "C) Confused", "D) Angry"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 11,
+      "teks": "3.11D",
+      "question": "Which sentence uses a comma correctly?",
+      "choices": ["A) I like apples, bananas and grapes.", "B) I like apples bananas, and grapes.", "C) I like apples, bananas, and grapes.", "D) I like, apples bananas and grapes."],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 12,
+      "teks": "3.8A",
+      "question": "Read the passage.\n\nOnce upon a time, a clever fox tricked a crow into dropping its cheese. The fox said, \"What a beautiful voice you have! Won't you sing for me?\" The crow opened its beak to sing, and the cheese fell to the ground.\n\nWhat type of story is this passage?",
+      "choices": ["A) A biography", "B) A fable", "C) An informational article", "D) A poem"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 13,
+      "teks": "3.6F",
+      "question": "Read the passage.\n\nJake studied his spelling words every night for a week. He practiced writing each word three times. On Friday, he felt ready for the test.\n\nBased on the passage, what will most likely happen on the spelling test?",
+      "choices": ["A) Jake will forget all the words.", "B) Jake will do well on the test.", "C) Jake will be absent from school.", "D) Jake will not finish the test."],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 14,
+      "teks": "3.9D",
+      "question": "Use the T-chart below to answer the question.\n\nWhich sentence best describes the information in the chart?",
+      "choices": ["A) Frogs and toads are exactly the same.", "B) Frogs live in water, but toads do not.", "C) Frogs and toads have similarities and differences.", "D) Toads are better than frogs."],
+      "answer": "C",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "t_chart",
+          "content": {
+            "left_title": "Frogs",
+            "right_title": "Toads",
+            "left_items": ["Smooth, wet skin", "Live near water", "Long back legs"],
+            "right_items": ["Bumpy, dry skin", "Live on land", "Short back legs"]
+          }
+        }
+      }
+    },
+    {
+      "id": 15,
+      "teks": "3.7D",
+      "question": "Read the passage.\n\nFirst, gather your supplies: bread, peanut butter, and jelly. Next, spread peanut butter on one slice of bread. Then, spread jelly on the other slice. Finally, put the two slices together.\n\nWhat text structure does this passage use?",
+      "choices": ["A) Cause and effect", "B) Compare and contrast", "C) Problem and solution", "D) Sequence"],
+      "answer": "D",
+      "visual": null
+    },
+    {
+      "id": 16,
+      "teks": "3.6E",
+      "question": "Read the passage.\n\n\"I can't believe you ate the last cookie!\" Mia shouted at her brother. She crossed her arms and stomped out of the kitchen.\n\nHow does Mia feel?",
+      "choices": ["A) Happy", "B) Upset", "C) Confused", "D) Tired"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 17,
+      "teks": "3.10F",
+      "question": "Read the sentence.\n\nThe new student at school was as quiet as a mouse.\n\nWhat does \"as quiet as a mouse\" mean?",
+      "choices": ["A) The student looked like a mouse.", "B) The student was very shy and silent.", "C) The student liked mice.", "D) The student squeaked when talking."],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 18,
+      "teks": "3.11D",
+      "question": "Which sentence uses an apostrophe correctly?",
+      "choices": ["A) The dog wagged it's tail.", "B) The dogs tail wagged.", "C) The dog's tail wagged.", "D) The dogs' tail wagged."],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 19,
+      "teks": "3.7C",
+      "question": "Read the passage.\n\nThe Alamo is one of the most famous landmarks in Texas. It was built in the 1700s and played an important role in the Texas Revolution. Today, thousands of visitors come to San Antonio each year to see it.\n\nWhat is the author's purpose for writing this passage?",
+      "choices": ["A) To persuade readers to visit the Alamo", "B) To inform readers about the Alamo", "C) To entertain readers with a funny story", "D) To explain how to build a building"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 20,
+      "teks": "3.6F",
+      "question": "Read the passage.\n\nEmma noticed that her plant was drooping. The soil in the pot felt dry and crumbly. She went to get the watering can.\n\nWhy did Emma get the watering can?",
+      "choices": ["A) She wanted to water the flowers outside.", "B) She needed to clean the pot.", "C) She realized her plant needed water.", "D) She wanted to fill the can with soil."],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 21,
+      "teks": "3.9D",
+      "question": "Look at the web diagram below.\n\nWhich detail could be added to a branch of this web?",
+      "choices": ["A) The Pacific Ocean is very deep.", "B) Dogs can be trained to do tricks.", "C) It is important to eat breakfast.", "D) Texas has many rivers and lakes."],
+      "answer": "D",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "web",
+          "content": {
+            "center": "Texas Geography",
+            "branches": ["Mountains in West Texas", "Coastal Plains", "Piney Woods"]
+          }
+        }
+      }
+    },
+    {
+      "id": 22,
+      "teks": "3.11D",
+      "question": "Read the sentence.\n\nThe girl _____ her homework before dinner every night.\n\nWhich word correctly completes the sentence?",
+      "choices": ["A) finish", "B) finishes", "C) finishing", "D) finished"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 23,
+      "teks": "3.6G",
+      "question": "Read the passage.\n\nCarlos always shared his lunch with anyone who forgot theirs. He helped younger students carry their books. He even stayed after school to help the teacher clean up.\n\nBased on the passage, which word best describes Carlos?",
+      "choices": ["A) Lazy", "B) Selfish", "C) Kind", "D) Shy"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 24,
+      "teks": "3.9E",
+      "question": "Look at the flow chart below.\n\nWhat step is missing from the flow chart?",
+      "choices": ["A) Buy new shoes", "B) Go to the library", "C) Draft your writing", "D) Play outside"],
+      "answer": "C",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "flow",
+          "content": {
+            "steps": ["Brainstorm ideas", "?", "Revise and edit", "Publish"]
+          }
+        }
+      }
+    },
+    {
+      "id": 25,
+      "teks": "3.7D",
+      "question": "Read the passage.\n\nThe town had a problem with too much litter in the park. The mayor decided to add more trash cans and organize a cleanup day. After the cleanup, the park looked beautiful again.\n\nWhat text structure does this passage use?",
+      "choices": ["A) Compare and contrast", "B) Cause and effect", "C) Problem and solution", "D) Description"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 26,
+      "teks": "3.10A",
+      "question": "Read the sentence.\n\nAfter walking for hours, the hikers were famished and needed to stop for lunch.\n\nWhat does the word \"famished\" most likely mean?",
+      "choices": ["A) Very tired", "B) Very hungry", "C) Very happy", "D) Very lost"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 27,
+      "teks": "3.8B",
+      "question": "Read the passage.\n\nRoses are red,\nViolets are blue,\nSpring is here,\nAnd flowers bloom new.\n\nWhat type of writing is this?",
+      "choices": ["A) A newspaper article", "B) A poem", "C) A fairy tale", "D) A biography"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 28,
+      "teks": "3.9D",
+      "question": "A student wants to compare and contrast cats and dogs as pets. Which graphic organizer should the student use?",
+      "choices": ["A) A flow chart", "B) A timeline", "C) A Venn diagram", "D) A web diagram"],
+      "answer": "C",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "venn",
+          "content": {
+            "left": "Cats Only",
+            "right": "Dogs Only",
+            "center": "Both"
+          }
+        }
+      }
+    },
+    {
+      "id": 29,
+      "teks": "3.11D",
+      "question": "Which sentence is a complete sentence?",
+      "choices": ["A) Running through the park on Saturday.", "B) The tall oak tree in our backyard.", "C) Because she wanted to read a book.", "D) My sister rides her bike to school."],
+      "answer": "D",
+      "visual": null
+    },
+    {
+      "id": 30,
+      "teks": "3.6F",
+      "question": "Read the passage.\n\nThe squirrel buried acorns all around the yard during the fall. It hid them under leaves, near tree roots, and beside the fence.\n\nWhy did the squirrel bury acorns?",
+      "choices": ["A) It was playing a game.", "B) It was saving food for winter.", "C) It did not like acorns.", "D) It wanted to grow oak trees."],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 31,
+      "teks": "3.9D",
+      "question": "Use the table below to answer the question.\n\nBased on the table, which animal lives the longest?",
+      "choices": ["A) Hamster", "B) Cat", "C) Dog", "D) Tortoise"],
+      "answer": "D",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": ["Animal", "Average Lifespan"],
+          "rows": [
+            ["Hamster", "2-3 years"],
+            ["Cat", "12-18 years"],
+            ["Dog", "10-13 years"],
+            ["Tortoise", "80-150 years"]
+          ]
+        }
+      }
+    },
+    {
+      "id": 32,
+      "teks": "3.10D",
+      "question": "Read the passage.\n\nThe author writes, \"The old house groaned and sighed in the wind.\"\n\nWhy does the author describe the house this way?",
+      "choices": ["A) To show the house is alive", "B) To help the reader imagine the sounds the house makes", "C) To explain how houses are built", "D) To prove the house is haunted"],
+      "answer": "B",
+      "visual": null
+    }
+  ]
+}

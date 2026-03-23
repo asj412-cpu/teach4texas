@@ -1,0 +1,1288 @@
+{
+  "title": "4-A-Day Math Daily Review",
+  "subject": "math",
+  "grade": 4,
+  "description": "8 Weeks of Spiraling STAAR Math Practice for Grade 4",
+  "questions": [
+    {
+      "id": 1,
+      "teks": "4.2A",
+      "question": "What is the value of the digit 6 in the number 364,829?",
+      "choices": ["A) 600", "B) 6,000", "C) 60,000", "D) 600,000"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 2,
+      "teks": "4.4A",
+      "question": "What is 4,235 + 3,687?",
+      "choices": ["A) 7,812", "B) 7,912", "C) 7,922", "D) 8,922"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 3,
+      "teks": "4.3A",
+      "question": "What fraction of the bar is shaded?",
+      "choices": ["A) 3/10", "B) 4/10", "C) 5/10", "D) 7/10"],
+      "answer": "D",
+      "visual": {"type": "fraction_bar", "params": {"numerator": 7, "denominator": 10}}
+    },
+    {
+      "id": 4,
+      "teks": "4.7A",
+      "question": "An angle that measures exactly 90 degrees is called a —",
+      "choices": ["A) acute angle", "B) right angle", "C) obtuse angle", "D) straight angle"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 5,
+      "teks": "4.2B",
+      "question": "Which number is greater than 45,672?",
+      "choices": ["A) 45,627", "B) 45,267", "C) 45,762", "D) 45,276"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 6,
+      "teks": "4.4A",
+      "question": "What is 8,003 - 2,457?",
+      "choices": ["A) 5,446", "B) 5,456", "C) 5,546", "D) 5,556"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 7,
+      "teks": "4.8C",
+      "question": "The bar graph shows books read by each class. Which class read the fewest books?",
+      "choices": ["A) Mr. Adams", "B) Ms. Brown", "C) Mr. Chen", "D) Ms. Davis"],
+      "answer": "D",
+      "visual": {"type": "bar_graph", "params": {"data": [45, 38, 50, 32], "labels": ["Mr. Adams", "Ms. Brown", "Mr. Chen", "Ms. Davis"], "title": "Books Read by Class"}}
+    },
+    {
+      "id": 8,
+      "teks": "4.6A",
+      "question": "Which shape has exactly 2 pairs of parallel sides?",
+      "choices": ["A) Triangle", "B) Trapezoid", "C) Rectangle", "D) Pentagon"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 9,
+      "teks": "4.2C",
+      "question": "What is 56,834 rounded to the nearest thousand?",
+      "choices": ["A) 56,000", "B) 56,800", "C) 57,000", "D) 60,000"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 10,
+      "teks": "4.4B",
+      "question": "What is 34 x 6?",
+      "choices": ["A) 184", "B) 194", "C) 204", "D) 214"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 11,
+      "teks": "4.3C",
+      "question": "Which fraction is equivalent to 3/4?",
+      "choices": ["A) 6/8", "B) 4/6", "C) 3/8", "D) 9/16"],
+      "answer": "A",
+      "visual": null
+    },
+    {
+      "id": 12,
+      "teks": "4.5A",
+      "question": "Which equation represents this situation: Ana has 24 stickers. She puts an equal number in 4 bags. How many stickers are in each bag?",
+      "choices": ["A) 24 + 4 = s", "B) 24 - 4 = s", "C) 24 x 4 = s", "D) 24 / 4 = s"],
+      "answer": "D",
+      "visual": null
+    },
+    {
+      "id": 13,
+      "teks": "4.2A",
+      "question": "In the number 728,451, which digit is in the ten-thousands place?",
+      "choices": ["A) 7", "B) 2", "C) 8", "D) 4"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 14,
+      "teks": "4.4B",
+      "question": "A school ordered 48 boxes of crayons. Each box has 12 crayons. How many crayons did the school order?",
+      "choices": ["A) 476", "B) 516", "C) 556", "D) 576"],
+      "answer": "D",
+      "visual": null
+    },
+    {
+      "id": 15,
+      "teks": "4.3D",
+      "question": "Which symbol makes this statement true? 3/8 ___ 5/8",
+      "choices": ["A) >", "B) <", "C) =", "D) none"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 16,
+      "teks": "4.8A",
+      "question": "Use the table to answer the question. What is the total number of points scored by all players?",
+      "choices": ["A) 48", "B) 52", "C) 56", "D) 60"],
+      "answer": "C",
+      "visual": {"type": "data_table", "params": {"headers": ["Player", "Points Scored"], "rows": [["Jordan", "18"], ["Kai", "14"], ["Maya", "12"], ["Ravi", "12"]]}}
+    },
+    {
+      "id": 17,
+      "teks": "4.6C",
+      "question": "How many lines of symmetry does a square have?",
+      "choices": ["A) 1", "B) 2", "C) 4", "D) 8"],
+      "answer": "C",
+      "visual": {"type": "geometric_shape", "params": {"shape_type": "square", "measurements": {"side": "4 cm"}}}
+    },
+    {
+      "id": 18,
+      "teks": "4.7D",
+      "question": "A tabletop is 5 feet long and 3 feet wide. What is the perimeter?",
+      "choices": ["A) 8 feet", "B) 15 feet", "C) 16 feet", "D) 30 feet"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 19,
+      "teks": "4.4H",
+      "question": "What is 84 / 7?",
+      "choices": ["A) 11", "B) 12", "C) 13", "D) 14"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 20,
+      "teks": "4.3A",
+      "question": "What fraction of the bar is shaded?",
+      "choices": ["A) 1/5", "B) 2/5", "C) 3/5", "D) 4/5"],
+      "answer": "C",
+      "visual": {"type": "fraction_bar", "params": {"numerator": 3, "denominator": 5}}
+    },
+    {
+      "id": 21,
+      "teks": "4.2B",
+      "question": "Which list shows the numbers in order from greatest to least?",
+      "choices": ["A) 34,521 ; 35,412 ; 34,125", "B) 35,412 ; 34,521 ; 34,125", "C) 34,125 ; 34,521 ; 35,412", "D) 35,412 ; 34,125 ; 34,521"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 22,
+      "teks": "4.4A",
+      "question": "A charity collected 12,456 cans in March and 9,784 cans in April. How many cans were collected in all?",
+      "choices": ["A) 21,240", "B) 22,140", "C) 22,240", "D) 22,340"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 23,
+      "teks": "4.5B",
+      "question": "If n + 15 = 42, what is the value of n?",
+      "choices": ["A) 17", "B) 27", "C) 37", "D) 57"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 24,
+      "teks": "4.7A",
+      "question": "Which of the following is an obtuse angle?",
+      "choices": ["A) 45 degrees", "B) 90 degrees", "C) 120 degrees", "D) 180 degrees"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 25,
+      "teks": "4.2C",
+      "question": "What is 234,567 rounded to the nearest ten thousand?",
+      "choices": ["A) 200,000", "B) 230,000", "C) 235,000", "D) 240,000"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 26,
+      "teks": "4.4B",
+      "question": "What is 73 x 28?",
+      "choices": ["A) 1,944", "B) 2,004", "C) 2,044", "D) 2,144"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 27,
+      "teks": "4.3C",
+      "question": "Which fraction is NOT equivalent to 1/2?",
+      "choices": ["A) 2/4", "B) 3/6", "C) 4/8", "D) 3/8"],
+      "answer": "D",
+      "visual": null
+    },
+    {
+      "id": 28,
+      "teks": "4.8C",
+      "question": "The bar graph shows the number of goals scored in each game. In which game were the most goals scored?",
+      "choices": ["A) Game 1", "B) Game 2", "C) Game 3", "D) Game 4"],
+      "answer": "C",
+      "visual": {"type": "bar_graph", "params": {"data": [4, 6, 8, 5], "labels": ["Game 1", "Game 2", "Game 3", "Game 4"], "title": "Goals Scored Per Game"}}
+    },
+    {
+      "id": 29,
+      "teks": "4.6A",
+      "question": "A trapezoid has how many pairs of parallel sides?",
+      "choices": ["A) 0", "B) 1", "C) 2", "D) 4"],
+      "answer": "B",
+      "visual": {"type": "geometric_shape", "params": {"shape_type": "trapezoid", "measurements": {}}}
+    },
+    {
+      "id": 30,
+      "teks": "4.3G",
+      "question": "What is 3/8 + 2/8?",
+      "choices": ["A) 1/8", "B) 5/16", "C) 5/8", "D) 6/8"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 31,
+      "teks": "4.4H",
+      "question": "A farmer has 156 apples. He puts 12 apples in each bag. How many bags does he fill?",
+      "choices": ["A) 12", "B) 13", "C) 14", "D) 15"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 32,
+      "teks": "4.7D",
+      "question": "What is the area of a rectangle with a length of 14 cm and a width of 9 cm?",
+      "choices": ["A) 23 sq cm", "B) 46 sq cm", "C) 116 sq cm", "D) 126 sq cm"],
+      "answer": "D",
+      "visual": {"type": "geometric_shape", "params": {"shape_type": "rectangle", "measurements": {"length": "14 cm", "width": "9 cm"}}}
+    },
+    {
+      "id": 33,
+      "teks": "4.2A",
+      "question": "What is another way to write 300,000 + 50,000 + 4,000 + 200 + 60 + 1?",
+      "choices": ["A) 345,261", "B) 354,261", "C) 354,216", "D) 354,621"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 34,
+      "teks": "4.4B",
+      "question": "A theater has 26 rows with 38 seats in each row. How many seats are in the theater?",
+      "choices": ["A) 888", "B) 908", "C) 968", "D) 988"],
+      "answer": "D",
+      "visual": null
+    },
+    {
+      "id": 35,
+      "teks": "4.3D",
+      "question": "Which shows the fractions in order from least to greatest?",
+      "choices": ["A) 5/6, 1/6, 3/6", "B) 1/6, 3/6, 5/6", "C) 3/6, 1/6, 5/6", "D) 5/6, 3/6, 1/6"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 36,
+      "teks": "4.5A",
+      "question": "Which expression shows 5 times as many as 8?",
+      "choices": ["A) 5 + 8", "B) 5 - 8", "C) 5 x 8", "D) 5 / 8"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 37,
+      "teks": "4.2C",
+      "question": "A city has a population of 127,845. What is this rounded to the nearest hundred?",
+      "choices": ["A) 127,000", "B) 127,800", "C) 127,900", "D) 128,000"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 38,
+      "teks": "4.4A",
+      "question": "A school collected 23,456 pennies in Week 1 and 18,765 pennies in Week 2. How many more pennies were collected in Week 1?",
+      "choices": ["A) 4,691", "B) 4,791", "C) 5,691", "D) 5,791"],
+      "answer": "A",
+      "visual": null
+    },
+    {
+      "id": 39,
+      "teks": "4.7A",
+      "question": "An angle that measures less than 90 degrees is called —",
+      "choices": ["A) an obtuse angle", "B) a right angle", "C) an acute angle", "D) a straight angle"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 40,
+      "teks": "4.8A",
+      "question": "Use the table. Which item costs the most?",
+      "choices": ["A) Pencil", "B) Eraser", "C) Notebook", "D) Folder"],
+      "answer": "C",
+      "visual": {"type": "data_table", "params": {"headers": ["Item", "Cost"], "rows": [["Pencil", "$0.75"], ["Eraser", "$0.50"], ["Notebook", "$2.25"], ["Folder", "$1.50"]]}}
+    },
+    {
+      "id": 41,
+      "teks": "4.3G",
+      "question": "What is 7/12 - 4/12?",
+      "choices": ["A) 3/12", "B) 3/24", "C) 11/12", "D) 11/24"],
+      "answer": "A",
+      "visual": null
+    },
+    {
+      "id": 42,
+      "teks": "4.6C",
+      "question": "Which letter has exactly one line of symmetry?",
+      "choices": ["A) S", "B) N", "C) A", "D) Z"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 43,
+      "teks": "4.4H",
+      "question": "There are 252 students going on a field trip. Each bus holds 36 students. How many buses are needed?",
+      "choices": ["A) 5", "B) 6", "C) 7", "D) 8"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 44,
+      "teks": "4.5B",
+      "question": "What value of y makes this equation true? y x 6 = 54",
+      "choices": ["A) 7", "B) 8", "C) 9", "D) 10"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 45,
+      "teks": "4.2A",
+      "question": "The number 482,039 has a 2 in which place?",
+      "choices": ["A) Hundreds", "B) Thousands", "C) Ten thousands", "D) Hundred thousands"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 46,
+      "teks": "4.4B",
+      "question": "What is the area model showing?",
+      "choices": ["A) 23 x 14 = 322", "B) 23 x 15 = 345", "C) 24 x 15 = 360", "D) 23 x 16 = 368"],
+      "answer": "A",
+      "visual": {"type": "area_model", "params": {"rows": 23, "cols": 14, "shaded": 322, "labels": {"top": "14", "left": "23"}}}
+    },
+    {
+      "id": 47,
+      "teks": "4.3C",
+      "question": "Which fraction is equivalent to 2/3?",
+      "choices": ["A) 4/9", "B) 6/9", "C) 4/6", "D) Both B and C"],
+      "answer": "D",
+      "visual": null
+    },
+    {
+      "id": 48,
+      "teks": "4.7D",
+      "question": "A square playground has sides of 45 meters. What is the perimeter?",
+      "choices": ["A) 90 meters", "B) 135 meters", "C) 180 meters", "D) 2,025 meters"],
+      "answer": "C",
+      "visual": {"type": "geometric_shape", "params": {"shape_type": "square", "measurements": {"side": "45 m"}}}
+    },
+    {
+      "id": 49,
+      "teks": "4.2B",
+      "question": "Which symbol makes this true? 345,891 ___ 345,981",
+      "choices": ["A) >", "B) <", "C) =", "D) +"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 50,
+      "teks": "4.4A",
+      "question": "A warehouse shipped 15,340 boxes in June and 12,875 boxes in July. How many fewer boxes were shipped in July?",
+      "choices": ["A) 2,365", "B) 2,465", "C) 2,535", "D) 3,465"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 51,
+      "teks": "4.3G",
+      "question": "Maya ate 2/6 of a pizza. Her brother ate 3/6. How much pizza did they eat altogether?",
+      "choices": ["A) 5/12", "B) 5/6", "C) 1/6", "D) 6/12"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 52,
+      "teks": "4.8C",
+      "question": "The bar graph shows rainfall in inches for 4 months. How much more rain fell in April than in June?",
+      "choices": ["A) 1 inch", "B) 2 inches", "C) 3 inches", "D) 4 inches"],
+      "answer": "C",
+      "visual": {"type": "bar_graph", "params": {"data": [3, 7, 5, 4], "labels": ["March", "April", "May", "June"], "title": "Monthly Rainfall (inches)"}}
+    },
+    {
+      "id": 53,
+      "teks": "4.5A",
+      "question": "Tomas earns $8 per hour. He wants to buy a game that costs $56. Which equation can help find how many hours he needs to work?",
+      "choices": ["A) 8 + h = 56", "B) 56 - h = 8", "C) 8 x h = 56", "D) 56 x h = 8"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 54,
+      "teks": "4.6A",
+      "question": "Which of these shapes has no parallel sides?",
+      "choices": ["A) Square", "B) Rectangle", "C) Trapezoid", "D) Triangle"],
+      "answer": "D",
+      "visual": null
+    },
+    {
+      "id": 55,
+      "teks": "4.3D",
+      "question": "Which fraction is the greatest?",
+      "choices": ["A) 2/5", "B) 4/10", "C) 3/5", "D) 1/5"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 56,
+      "teks": "4.4B",
+      "question": "A movie theater sells 345 tickets per show. There are 4 shows each day. How many tickets are sold in one day?",
+      "choices": ["A) 1,280", "B) 1,380", "C) 1,480", "D) 1,380"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 57,
+      "teks": "4.2C",
+      "question": "Mrs. Garcia drove 4,782 miles last month. What is this rounded to the nearest ten?",
+      "choices": ["A) 4,700", "B) 4,780", "C) 4,790", "D) 4,800"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 58,
+      "teks": "4.7D",
+      "question": "A rectangular garden is 12 feet long and 8 feet wide. What is the area?",
+      "choices": ["A) 20 square feet", "B) 40 square feet", "C) 80 square feet", "D) 96 square feet"],
+      "answer": "D",
+      "visual": {"type": "area_model", "params": {"rows": 8, "cols": 12, "shaded": 96, "labels": {"top": "12 ft", "left": "8 ft"}}}
+    },
+    {
+      "id": 59,
+      "teks": "4.3A",
+      "question": "What fraction of the shape is shaded?",
+      "choices": ["A) 3/8", "B) 4/8", "C) 5/8", "D) 6/8"],
+      "answer": "C",
+      "visual": {"type": "fraction_bar", "params": {"numerator": 5, "denominator": 8}}
+    },
+    {
+      "id": 60,
+      "teks": "4.4H",
+      "question": "What is 468 / 6?",
+      "choices": ["A) 68", "B) 72", "C) 78", "D) 82"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 61,
+      "teks": "4.5B",
+      "question": "What value makes this equation true? 144 / m = 12",
+      "choices": ["A) 10", "B) 11", "C) 12", "D) 14"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 62,
+      "teks": "4.2A",
+      "question": "Which shows 604,215 in expanded form?",
+      "choices": ["A) 600,000 + 4,000 + 200 + 15", "B) 600,000 + 40,000 + 2,000 + 15", "C) 600,000 + 4,000 + 200 + 10 + 5", "D) 60,000 + 4,000 + 200 + 10 + 5"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 63,
+      "teks": "4.6C",
+      "question": "How many lines of symmetry does a regular hexagon have?",
+      "choices": ["A) 2", "B) 4", "C) 6", "D) 8"],
+      "answer": "C",
+      "visual": {"type": "geometric_shape", "params": {"shape_type": "hexagon", "measurements": {}}}
+    },
+    {
+      "id": 64,
+      "teks": "4.8A",
+      "question": "Use the table to find the range of the data.",
+      "choices": ["A) 12", "B) 15", "C) 18", "D) 20"],
+      "answer": "C",
+      "visual": {"type": "data_table", "params": {"headers": ["Day", "Temperature (°F)"], "rows": [["Monday", "72"], ["Tuesday", "68"], ["Wednesday", "75"], ["Thursday", "86"], ["Friday", "80"]]}}
+    },
+    {
+      "id": 65,
+      "teks": "4.4B",
+      "question": "A store sells 52 cases of water each week. Each case has 24 bottles. How many bottles are sold in one week?",
+      "choices": ["A) 1,148", "B) 1,228", "C) 1,248", "D) 1,348"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 66,
+      "teks": "4.3G",
+      "question": "What is 5/10 + 3/10?",
+      "choices": ["A) 8/20", "B) 2/10", "C) 8/10", "D) 15/10"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 67,
+      "teks": "4.7A",
+      "question": "Which angle measurement describes an angle that is greater than 90 degrees but less than 180 degrees?",
+      "choices": ["A) 85 degrees", "B) 90 degrees", "C) 135 degrees", "D) 180 degrees"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 68,
+      "teks": "4.3D",
+      "question": "Where does 3/4 belong on this number line?",
+      "choices": ["A) Point A", "B) Point B", "C) Point C", "D) Point D"],
+      "answer": "C",
+      "visual": {"type": "number_line", "params": {"start": 0, "end": 1, "marks": [0, 0.25, 0.5, 0.75, 1], "highlight": [0.75, "3/4"]}}
+    },
+    {
+      "id": 69,
+      "teks": "4.2B",
+      "question": "Which number sentence is true?",
+      "choices": ["A) 89,234 > 89,432", "B) 89,234 < 89,432", "C) 89,234 = 89,432", "D) 89,432 < 89,234"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 70,
+      "teks": "4.4A",
+      "question": "A factory made 34,502 widgets in January and 28,879 in February. How many widgets were made in both months?",
+      "choices": ["A) 62,381", "B) 63,281", "C) 63,381", "D) 63,481"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 71,
+      "teks": "4.5A",
+      "question": "Rosa is 3 times as old as her brother. Her brother is 4 years old. Which equation shows Rosa's age (r)?",
+      "choices": ["A) r = 3 + 4", "B) r = 3 x 4", "C) r = 4 / 3", "D) r = 4 - 3"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 72,
+      "teks": "4.7D",
+      "question": "A rectangular poster is 24 inches wide and 36 inches long. What is the perimeter?",
+      "choices": ["A) 60 inches", "B) 96 inches", "C) 120 inches", "D) 864 inches"],
+      "answer": "C",
+      "visual": {"type": "geometric_shape", "params": {"shape_type": "rectangle", "measurements": {"length": "36 in.", "width": "24 in."}}}
+    },
+    {
+      "id": 73,
+      "teks": "4.3C",
+      "question": "Which pair of fractions are equivalent?",
+      "choices": ["A) 2/5 and 4/10", "B) 1/3 and 3/6", "C) 2/4 and 3/8", "D) 1/2 and 2/6"],
+      "answer": "A",
+      "visual": null
+    },
+    {
+      "id": 74,
+      "teks": "4.4H",
+      "question": "A baker has 392 cookies. She puts 8 cookies in each box. How many boxes can she fill?",
+      "choices": ["A) 46", "B) 48", "C) 49", "D) 52"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 75,
+      "teks": "4.8C",
+      "question": "The bar graph shows test scores. What is the difference between the highest and lowest scores?",
+      "choices": ["A) 15", "B) 20", "C) 25", "D) 30"],
+      "answer": "C",
+      "visual": {"type": "bar_graph", "params": {"data": [85, 90, 75, 100], "labels": ["Test 1", "Test 2", "Test 3", "Test 4"], "title": "Test Scores"}}
+    },
+    {
+      "id": 76,
+      "teks": "4.6A",
+      "question": "Which statement about parallelograms is always true?",
+      "choices": ["A) All sides are equal", "B) All angles are right angles", "C) Opposite sides are parallel", "D) It has exactly one line of symmetry"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 77,
+      "teks": "4.2C",
+      "question": "A school collected 84,672 bottles for recycling. Rounded to the nearest thousand, how many bottles is that?",
+      "choices": ["A) 84,000", "B) 84,700", "C) 85,000", "D) 90,000"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 78,
+      "teks": "4.4B",
+      "question": "A farmer plants 45 rows of corn with 36 plants in each row. How many corn plants does the farmer have?",
+      "choices": ["A) 1,520", "B) 1,580", "C) 1,620", "D) 1,680"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 79,
+      "teks": "4.3G",
+      "question": "Emma has 7/8 of a yard of ribbon. She uses 3/8 of a yard. How much ribbon does she have left?",
+      "choices": ["A) 3/8 yard", "B) 4/8 yard", "C) 4/16 yard", "D) 10/8 yard"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 80,
+      "teks": "4.5B",
+      "question": "The rule for a pattern is 'add 7.' The first number is 3. What is the fourth number in the pattern?",
+      "choices": ["A) 17", "B) 21", "C) 24", "D) 28"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 81,
+      "teks": "4.4A",
+      "question": "An airplane flew 14,836 miles in the first week and 12,948 miles in the second week. How many total miles did it fly?",
+      "choices": ["A) 26,784", "B) 27,684", "C) 27,784", "D) 27,884"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 82,
+      "teks": "4.3D",
+      "question": "Which fraction is between 1/4 and 3/4 on a number line?",
+      "choices": ["A) 1/8", "B) 2/4", "C) 7/8", "D) 4/4"],
+      "answer": "B",
+      "visual": {"type": "number_line", "params": {"start": 0, "end": 1, "marks": [0, 0.25, 0.5, 0.75, 1], "highlight": [0.5, "?"]}}
+    },
+    {
+      "id": 83,
+      "teks": "4.7D",
+      "question": "A swimming pool is 25 meters long and 10 meters wide. What is the area of the pool?",
+      "choices": ["A) 35 sq m", "B) 70 sq m", "C) 200 sq m", "D) 250 sq m"],
+      "answer": "D",
+      "visual": null
+    },
+    {
+      "id": 84,
+      "teks": "4.6C",
+      "question": "Which shape has exactly 2 lines of symmetry?",
+      "choices": ["A) Equilateral triangle", "B) Rectangle (not a square)", "C) Regular pentagon", "D) Circle"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 85,
+      "teks": "4.2A",
+      "question": "What number is 10,000 more than 456,789?",
+      "choices": ["A) 457,789", "B) 466,789", "C) 556,789", "D) 467,789"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 86,
+      "teks": "4.4H",
+      "question": "A ribbon is 96 inches long. It is cut into pieces that are each 8 inches long. How many pieces are there?",
+      "choices": ["A) 10", "B) 11", "C) 12", "D) 14"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 87,
+      "teks": "4.3C",
+      "question": "Which shows a fraction equivalent to 4/6?",
+      "choices": ["A) 2/3", "B) 2/6", "C) 8/18", "D) Both A and C"],
+      "answer": "D",
+      "visual": null
+    },
+    {
+      "id": 88,
+      "teks": "4.8A",
+      "question": "The table shows miles run by students this week. What is the median number of miles?",
+      "choices": ["A) 3", "B) 4", "C) 5", "D) 6"],
+      "answer": "C",
+      "visual": {"type": "data_table", "params": {"headers": ["Student", "Miles Run"], "rows": [["Alex", "3"], ["Briana", "7"], ["Carlos", "5"], ["Diana", "4"], ["Ethan", "6"]]}}
+    },
+    {
+      "id": 89,
+      "teks": "4.5A",
+      "question": "A rectangle has an area of 72 square inches. The length is 9 inches. Which equation can be used to find the width (w)?",
+      "choices": ["A) 72 + 9 = w", "B) 72 - 9 = w", "C) 72 x 9 = w", "D) 72 / 9 = w"],
+      "answer": "D",
+      "visual": null
+    },
+    {
+      "id": 90,
+      "teks": "4.4B",
+      "question": "What is 207 x 15?",
+      "choices": ["A) 2,905", "B) 3,005", "C) 3,105", "D) 3,205"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 91,
+      "teks": "4.7A",
+      "question": "Two angles together form a straight line. One angle is 65 degrees. What is the other angle?",
+      "choices": ["A) 25 degrees", "B) 105 degrees", "C) 115 degrees", "D) 125 degrees"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 92,
+      "teks": "4.3A",
+      "question": "What fraction of the model is shaded?",
+      "choices": ["A) 1/4", "B) 2/4", "C) 3/4", "D) 4/4"],
+      "answer": "B",
+      "visual": {"type": "fraction_bar", "params": {"numerator": 2, "denominator": 4}}
+    },
+    {
+      "id": 93,
+      "teks": "4.2B",
+      "question": "Which list shows the numbers in order from least to greatest?",
+      "choices": ["A) 567,890 ; 567,098 ; 567,809", "B) 567,098 ; 567,809 ; 567,890", "C) 567,809 ; 567,098 ; 567,890", "D) 567,890 ; 567,809 ; 567,098"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 94,
+      "teks": "4.4A",
+      "question": "A school library has 45,328 books. They received 3,675 new books and removed 2,150 old books. How many books does the library have now?",
+      "choices": ["A) 46,753", "B) 46,853", "C) 47,003", "D) 51,153"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 95,
+      "teks": "4.6A",
+      "question": "Which shape is always a rectangle AND always a rhombus?",
+      "choices": ["A) Parallelogram", "B) Trapezoid", "C) Square", "D) Triangle"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 96,
+      "teks": "4.3G",
+      "question": "Sara needs 3/4 cup of flour for cookies and 2/4 cup for muffins. How much flour does she need in all?",
+      "choices": ["A) 1/4 cup", "B) 5/8 cup", "C) 5/4 cups", "D) 1 cup"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 97,
+      "teks": "4.8C",
+      "question": "The bar graph shows hours of practice per week. Which instrument had 8 hours of practice?",
+      "choices": ["A) Piano", "B) Guitar", "C) Violin", "D) Drums"],
+      "answer": "B",
+      "visual": {"type": "bar_graph", "params": {"data": [10, 8, 6, 5], "labels": ["Piano", "Guitar", "Violin", "Drums"], "title": "Weekly Practice Hours"}}
+    },
+    {
+      "id": 98,
+      "teks": "4.4H",
+      "question": "What is 945 / 9?",
+      "choices": ["A) 95", "B) 100", "C) 105", "D) 115"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 99,
+      "teks": "4.7D",
+      "question": "A rectangular flag is 5 feet wide and has a perimeter of 22 feet. What is the length of the flag?",
+      "choices": ["A) 4 feet", "B) 6 feet", "C) 7 feet", "D) 12 feet"],
+      "answer": "B",
+      "visual": {"type": "geometric_shape", "params": {"shape_type": "rectangle", "measurements": {"width": "5 ft", "length": "? ft", "perimeter": "22 ft"}}}
+    },
+    {
+      "id": 100,
+      "teks": "4.5B",
+      "question": "What is the next number in this pattern? 4, 12, 36, 108, ___",
+      "choices": ["A) 144", "B) 216", "C) 324", "D) 432"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 101,
+      "teks": "4.4B",
+      "question": "A company ships 126 packages each day. How many packages does it ship in 30 days?",
+      "choices": ["A) 3,680", "B) 3,780", "C) 3,880", "D) 4,080"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 102,
+      "teks": "4.3C",
+      "question": "Marcus says 3/5 and 9/15 are equivalent. Is he correct, and why?",
+      "choices": ["A) Yes, because 3 x 3 = 9 and 5 x 3 = 15", "B) No, because 3 + 6 = 9 and 5 + 10 = 15", "C) No, because 9/15 is greater", "D) Yes, because they both equal 1"],
+      "answer": "A",
+      "visual": null
+    },
+    {
+      "id": 103,
+      "teks": "4.2C",
+      "question": "The distance between two cities is 278,456 miles. What is this rounded to the nearest ten thousand?",
+      "choices": ["A) 270,000", "B) 278,000", "C) 280,000", "D) 300,000"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 104,
+      "teks": "4.7A",
+      "question": "A clock shows 3:00. What type of angle do the hands of the clock form?",
+      "choices": ["A) Acute", "B) Right", "C) Obtuse", "D) Straight"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 105,
+      "teks": "4.3D",
+      "question": "Which fraction is closest to 0 on a number line?",
+      "choices": ["A) 1/2", "B) 1/4", "C) 1/8", "D) 3/8"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 106,
+      "teks": "4.5A",
+      "question": "Mr. Kim buys 4 boxes of pencils with 12 pencils in each box. He gives away 15 pencils. Which expression shows how many pencils he has left?",
+      "choices": ["A) (4 x 12) - 15", "B) (4 + 12) - 15", "C) 4 x (12 - 15)", "D) (4 - 15) x 12"],
+      "answer": "A",
+      "visual": null
+    },
+    {
+      "id": 107,
+      "teks": "4.4A",
+      "question": "Two trains are carrying cargo. Train A has 28,465 pounds and Train B has 34,578 pounds. How much more cargo does Train B carry?",
+      "choices": ["A) 6,013", "B) 6,113", "C) 6,213", "D) 7,113"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 108,
+      "teks": "4.8A",
+      "question": "Use the table. The soccer team scored an average of how many goals per game over the 4 games?",
+      "choices": ["A) 2", "B) 3", "C) 4", "D) 5"],
+      "answer": "B",
+      "visual": {"type": "data_table", "params": {"headers": ["Game", "Goals"], "rows": [["Game 1", "2"], ["Game 2", "4"], ["Game 3", "1"], ["Game 4", "5"]]}}
+    },
+    {
+      "id": 109,
+      "teks": "4.6C",
+      "question": "Which of these shapes has NO lines of symmetry?",
+      "choices": ["A) Circle", "B) Equilateral triangle", "C) Scalene triangle", "D) Square"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 110,
+      "teks": "4.3G",
+      "question": "Jake ran 5/6 of a mile. Then he walked 2/6 of a mile. How much farther did he run than walk?",
+      "choices": ["A) 3/12 mile", "B) 3/6 mile", "C) 7/6 mile", "D) 7/12 mile"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 111,
+      "teks": "4.2A",
+      "question": "In 905,430, what is the value of the 0 in the ten-thousands place?",
+      "choices": ["A) 0", "B) 10", "C) 100", "D) It has no value because it is a placeholder"],
+      "answer": "A",
+      "visual": null
+    },
+    {
+      "id": 112,
+      "teks": "4.4B",
+      "question": "An auditorium has 64 rows. Each row has 48 seats. The fire code allows only 3,000 people. How many seats are actually in the auditorium?",
+      "choices": ["A) 2,872", "B) 3,072", "C) 3,172", "D) 3,272"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 113,
+      "teks": "4.7D",
+      "question": "A rectangular room has an area of 180 square feet. The length is 15 feet. What is the width?",
+      "choices": ["A) 10 feet", "B) 12 feet", "C) 15 feet", "D) 20 feet"],
+      "answer": "B",
+      "visual": {"type": "area_model", "params": {"rows": 12, "cols": 15, "shaded": 180, "labels": {"top": "15 ft", "left": "? ft"}}}
+    },
+    {
+      "id": 114,
+      "teks": "4.5B",
+      "question": "Look at the input-output table. What is the rule?",
+      "choices": ["A) Add 5", "B) Multiply by 3", "C) Multiply by 4", "D) Add 12"],
+      "answer": "B",
+      "visual": {"type": "data_table", "params": {"headers": ["Input", "Output"], "rows": [["2", "6"], ["5", "15"], ["8", "24"], ["10", "30"]]}}
+    },
+    {
+      "id": 115,
+      "teks": "4.3D",
+      "question": "Which shows the fractions from greatest to least?",
+      "choices": ["A) 1/3, 2/3, 3/3", "B) 3/3, 2/3, 1/3", "C) 2/3, 3/3, 1/3", "D) 1/3, 3/3, 2/3"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 116,
+      "teks": "4.4H",
+      "question": "A school is distributing 1,260 books equally to 7 classrooms. How many books does each classroom get?",
+      "choices": ["A) 160", "B) 170", "C) 180", "D) 190"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 117,
+      "teks": "4.8C",
+      "question": "The bar graph shows snack sales. Which snack sold twice as many as pretzels?",
+      "choices": ["A) Chips", "B) Cookies", "C) Fruit", "D) Crackers"],
+      "answer": "A",
+      "visual": {"type": "bar_graph", "params": {"data": [24, 18, 15, 12], "labels": ["Chips", "Cookies", "Fruit", "Pretzels"], "title": "Snack Bar Sales"}}
+    },
+    {
+      "id": 118,
+      "teks": "4.6A",
+      "question": "All squares are rectangles. Which is the best explanation?",
+      "choices": ["A) Both have 4 sides", "B) Squares have 4 right angles and 2 pairs of parallel sides, just like rectangles", "C) They are the same shape", "D) Both have only 2 sides that are equal"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 119,
+      "teks": "4.2B",
+      "question": "Which is the best way to compare 452,109 and 451,902?",
+      "choices": ["A) Compare the hundred-thousands place first", "B) Compare the thousands place since the ten-thousands are equal", "C) Compare the ones place first", "D) Add them together and divide by 2"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 120,
+      "teks": "4.3G",
+      "question": "A recipe calls for 2/4 cup of sugar and 1/4 cup of brown sugar. How much total sugar is needed?",
+      "choices": ["A) 1/4 cup", "B) 3/8 cup", "C) 3/4 cup", "D) 1 cup"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 121,
+      "teks": "4.4B",
+      "question": "A parking garage has 8 floors. Each floor can hold 175 cars. The garage currently has 1,200 cars parked. How many more cars can fit?",
+      "choices": ["A) 100", "B) 200", "C) 300", "D) 400"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 122,
+      "teks": "4.7D",
+      "question": "Two rectangular rooms are connected. Room A is 10 ft x 12 ft. Room B is 10 ft x 8 ft. What is the total area?",
+      "choices": ["A) 120 sq ft", "B) 160 sq ft", "C) 180 sq ft", "D) 200 sq ft"],
+      "answer": "D",
+      "visual": null
+    },
+    {
+      "id": 123,
+      "teks": "4.5A",
+      "question": "James has some marbles. He gives 12 away and has 35 left. Which equation can find how many marbles James started with?",
+      "choices": ["A) m + 12 = 35", "B) m - 12 = 35", "C) m x 12 = 35", "D) m / 12 = 35"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 124,
+      "teks": "4.3C",
+      "question": "Which fraction is NOT equivalent to 1/3?",
+      "choices": ["A) 2/6", "B) 3/9", "C) 4/12", "D) 3/12"],
+      "answer": "D",
+      "visual": null
+    },
+    {
+      "id": 125,
+      "teks": "4.4A",
+      "question": "A stadium holds 65,000 people. There are 47,832 people at the game. How many empty seats are there?",
+      "choices": ["A) 17,068", "B) 17,168", "C) 17,268", "D) 18,168"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 126,
+      "teks": "4.8A",
+      "question": "The table shows plant growth. Which plant grew the most in 4 weeks?",
+      "choices": ["A) Plant A", "B) Plant B", "C) Plant C", "D) Plant D"],
+      "answer": "C",
+      "visual": {"type": "data_table", "params": {"headers": ["Plant", "Week 1", "Week 2", "Week 3", "Week 4"], "rows": [["Plant A", "2 in.", "4 in.", "5 in.", "7 in."], ["Plant B", "1 in.", "3 in.", "6 in.", "8 in."], ["Plant C", "3 in.", "5 in.", "8 in.", "12 in."], ["Plant D", "2 in.", "3 in.", "4 in.", "6 in."]]}}
+    },
+    {
+      "id": 127,
+      "teks": "4.2C",
+      "question": "A bridge is 1,456,789 centimeters long. Rounded to the nearest hundred thousand, the bridge is about —",
+      "choices": ["A) 1,400,000 cm", "B) 1,450,000 cm", "C) 1,500,000 cm", "D) 2,000,000 cm"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 128,
+      "teks": "4.7A",
+      "question": "Two angles of a triangle measure 55 degrees and 35 degrees. What is the measure of the third angle?",
+      "choices": ["A) 80 degrees", "B) 90 degrees", "C) 100 degrees", "D) 110 degrees"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 129,
+      "teks": "4.3D",
+      "question": "Where does 5/8 belong on the number line?",
+      "choices": ["A) Between 0 and 1/4", "B) Between 1/4 and 1/2", "C) Between 1/2 and 3/4", "D) Between 3/4 and 1"],
+      "answer": "C",
+      "visual": {"type": "number_line", "params": {"start": 0, "end": 1, "marks": [0, 0.25, 0.5, 0.625, 0.75, 1], "highlight": [0.625, "5/8"]}}
+    },
+    {
+      "id": 130,
+      "teks": "4.4H",
+      "question": "A farmer harvested 2,856 ears of corn. He packs them in crates of 24. How many full crates can he fill?",
+      "choices": ["A) 117", "B) 118", "C) 119", "D) 120"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 131,
+      "teks": "4.5B",
+      "question": "What value of n makes this equation true? (n x 5) + 3 = 28",
+      "choices": ["A) 4", "B) 5", "C) 6", "D) 7"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 132,
+      "teks": "4.6C",
+      "question": "A regular triangle (equilateral) has how many lines of symmetry?",
+      "choices": ["A) 0", "B) 1", "C) 2", "D) 3"],
+      "answer": "D",
+      "visual": {"type": "geometric_shape", "params": {"shape_type": "triangle", "measurements": {"side_a": "6 cm", "side_b": "6 cm", "side_c": "6 cm"}}}
+    },
+    {
+      "id": 133,
+      "teks": "4.4B",
+      "question": "There are 365 days in a year. How many days are in 12 years? (Ignore leap years.)",
+      "choices": ["A) 4,280", "B) 4,380", "C) 4,480", "D) 4,580"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 134,
+      "teks": "4.3G",
+      "question": "A tank is 9/10 full. After using some water, it is 4/10 full. What fraction of the tank was used?",
+      "choices": ["A) 4/10", "B) 5/10", "C) 5/20", "D) 13/10"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 135,
+      "teks": "4.2A",
+      "question": "Which shows nine hundred two thousand, forty-five in standard form?",
+      "choices": ["A) 92,045", "B) 902,045", "C) 902,450", "D) 920,045"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 136,
+      "teks": "4.8C",
+      "question": "The bar graph shows how students travel to school. If 10 more students start riding the bus next month, how many bus riders will there be?",
+      "choices": ["A) 35", "B) 40", "C) 45", "D) 50"],
+      "answer": "C",
+      "visual": {"type": "bar_graph", "params": {"data": [35, 22, 15, 8], "labels": ["Bus", "Car", "Walk", "Bike"], "title": "How Students Get to School"}}
+    },
+    {
+      "id": 137,
+      "teks": "4.7D",
+      "question": "A rectangular courtyard has an area of 432 square meters. If the length is 24 meters, what is the width?",
+      "choices": ["A) 16 meters", "B) 18 meters", "C) 20 meters", "D) 22 meters"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 138,
+      "teks": "4.5A",
+      "question": "A worker packs 8 items per box. She has 200 items to pack. Which equation shows how many boxes (b) she needs?",
+      "choices": ["A) 200 + 8 = b", "B) 200 - 8 = b", "C) 200 x 8 = b", "D) 200 / 8 = b"],
+      "answer": "D",
+      "visual": null
+    },
+    {
+      "id": 139,
+      "teks": "4.3C",
+      "question": "Generate a fraction equivalent to 5/6.",
+      "choices": ["A) 10/12", "B) 10/18", "C) 6/12", "D) 15/24"],
+      "answer": "A",
+      "visual": null
+    },
+    {
+      "id": 140,
+      "teks": "4.4A",
+      "question": "The school raised $24,500 for a new playground. They need $38,750 total. How much more money do they need?",
+      "choices": ["A) $13,250", "B) $14,150", "C) $14,250", "D) $15,250"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 141,
+      "teks": "4.4B",
+      "question": "A printer prints 84 pages per minute. How many pages can it print in 25 minutes?",
+      "choices": ["A) 2,000", "B) 2,050", "C) 2,100", "D) 2,200"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 142,
+      "teks": "4.3D",
+      "question": "Which fraction makes this comparison true? 2/5 < ___ < 4/5",
+      "choices": ["A) 1/5", "B) 3/5", "C) 5/5", "D) 6/5"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 143,
+      "teks": "4.6A",
+      "question": "A quadrilateral has exactly one pair of parallel sides and no right angles. What shape is it?",
+      "choices": ["A) Rectangle", "B) Square", "C) Rhombus", "D) Trapezoid"],
+      "answer": "D",
+      "visual": null
+    },
+    {
+      "id": 144,
+      "teks": "4.8A",
+      "question": "The table shows test scores. What is the mode of the data?",
+      "choices": ["A) 85", "B) 90", "C) 92", "D) 95"],
+      "answer": "B",
+      "visual": {"type": "data_table", "params": {"headers": ["Student", "Score"], "rows": [["Amy", "85"], ["Ben", "90"], ["Carla", "92"], ["Dan", "90"], ["Eve", "95"]]}}
+    },
+    {
+      "id": 145,
+      "teks": "4.2B",
+      "question": "Compare: 750,000 + 8,000 + 200 ___ 758,200",
+      "choices": ["A) >", "B) <", "C) =", "D) Cannot be determined"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 146,
+      "teks": "4.4H",
+      "question": "A theater collected $4,536 from ticket sales. Each ticket costs $9. How many tickets were sold?",
+      "choices": ["A) 404", "B) 494", "C) 504", "D) 514"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 147,
+      "teks": "4.7D",
+      "question": "A square tile has a side length of 6 inches. What is the area of the tile?",
+      "choices": ["A) 12 sq in.", "B) 24 sq in.", "C) 30 sq in.", "D) 36 sq in."],
+      "answer": "D",
+      "visual": {"type": "geometric_shape", "params": {"shape_type": "square", "measurements": {"side": "6 in."}}}
+    },
+    {
+      "id": 148,
+      "teks": "4.5B",
+      "question": "The input-output table follows a rule. What is the missing output when the input is 7?",
+      "choices": ["A) 29", "B) 31", "C) 33", "D) 35"],
+      "answer": "B",
+      "visual": {"type": "data_table", "params": {"headers": ["Input", "Output"], "rows": [["3", "13"], ["5", "23"], ["7", "?"], ["9", "41"]]}}
+    },
+    {
+      "id": 149,
+      "teks": "4.3G",
+      "question": "A pie was cut into 12 slices. Mom ate 3/12 and Dad ate 5/12. What fraction of the pie is left?",
+      "choices": ["A) 2/12", "B) 4/12", "C) 8/12", "D) 10/12"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 150,
+      "teks": "4.4B",
+      "question": "A factory produces 456 items per hour. The factory operates for 18 hours. How many items are produced?",
+      "choices": ["A) 7,208", "B) 7,808", "C) 8,108", "D) 8,208"],
+      "answer": "D",
+      "visual": null
+    },
+    {
+      "id": 151,
+      "teks": "4.2C",
+      "question": "A store sold 645,892 items last year. The manager says they sold about 650,000 items. To which place did she round?",
+      "choices": ["A) Hundreds", "B) Thousands", "C) Ten thousands", "D) Hundred thousands"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 152,
+      "teks": "4.7A",
+      "question": "A right angle minus a 30-degree angle equals what?",
+      "choices": ["A) 30 degrees", "B) 45 degrees", "C) 60 degrees", "D) 120 degrees"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 153,
+      "teks": "4.3C",
+      "question": "Which is the simplest form of 8/12?",
+      "choices": ["A) 4/6", "B) 2/3", "C) 3/4", "D) 6/9"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 154,
+      "teks": "4.8C",
+      "question": "Use the bar graph. If each class has 25 students, which class had every student turn in homework?",
+      "choices": ["A) Room A", "B) Room B", "C) Room C", "D) Room D"],
+      "answer": "C",
+      "visual": {"type": "bar_graph", "params": {"data": [22, 20, 25, 23], "labels": ["Room A", "Room B", "Room C", "Room D"], "title": "Homework Turned In"}}
+    },
+    {
+      "id": 155,
+      "teks": "4.5A",
+      "question": "A rectangle has a perimeter of 48 cm. The width is 8 cm. Which equation can find the length (l)?",
+      "choices": ["A) 48 = 2 x (l + 8)", "B) 48 = l x 8", "C) 48 = l + 8", "D) 48 = 4 x l"],
+      "answer": "A",
+      "visual": null
+    },
+    {
+      "id": 156,
+      "teks": "4.4A",
+      "question": "A school district has 3 elementary schools with 456, 523, and 489 students. How many elementary students are in the district?",
+      "choices": ["A) 1,368", "B) 1,458", "C) 1,468", "D) 1,568"],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 157,
+      "teks": "4.6A",
+      "question": "Which describes a rhombus?",
+      "choices": ["A) 4 sides, all different lengths", "B) 4 equal sides, angles may or may not be 90 degrees", "C) 3 equal sides", "D) 4 sides, exactly one pair of parallel sides"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 158,
+      "teks": "4.3G",
+      "question": "Lin has 3/5 yard of blue fabric and 4/5 yard of red fabric. How much more red fabric does she have?",
+      "choices": ["A) 1/10 yard", "B) 1/5 yard", "C) 7/5 yards", "D) 7/10 yard"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 159,
+      "teks": "4.4H",
+      "question": "A truck carries 2,240 pounds of supplies. Each delivery takes 160 pounds. How many deliveries can the truck make?",
+      "choices": ["A) 12", "B) 14", "C) 16", "D) 18"],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 160,
+      "teks": "4.7D",
+      "question": "A rectangular park is 120 meters long and 85 meters wide. Jaylen runs around the park twice. How many meters does he run?",
+      "choices": ["A) 410 meters", "B) 610 meters", "C) 820 meters", "D) 10,200 meters"],
+      "answer": "C",
+      "visual": null
+    }
+  ]
+}

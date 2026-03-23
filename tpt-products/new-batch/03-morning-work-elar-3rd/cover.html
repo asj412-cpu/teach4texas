@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { width: 816px; height: 1056px; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; overflow: hidden; }
+.cover { width: 816px; height: 1056px; position: relative; background: #FFF8E7; display: flex; flex-direction: column; }
+.sun { position: absolute; top: -60px; right: -60px; width: 280px; height: 280px; background: radial-gradient(circle, #FFD93D 30%, #FF8E53 70%, transparent 71%); border-radius: 50%; opacity: 0.3; z-index: 0; }
+.cloud1 { position: absolute; top: 80px; left: 40px; font-size: 80px; opacity: 0.1; }
+.cloud2 { position: absolute; top: 180px; right: 60px; font-size: 60px; opacity: 0.08; }
+.header { background: linear-gradient(135deg, #FF8E53, #FFD93D); padding: 30px 40px; position: relative; z-index: 1; }
+.header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.pill { background: rgba(255,255,255,0.9); color: #FF6B35; padding: 8px 22px; border-radius: 20px; font-size: 14px; font-weight: 700; letter-spacing: 1px; }
+.grade-tag { background: #fff; color: #FF6B35; padding: 10px 26px; border-radius: 20px; font-size: 18px; font-weight: 800; }
+.header-title { color: #fff; font-size: 48px; font-weight: 900; line-height: 1.1; text-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.header-sub { color: rgba(255,255,255,0.95); font-size: 20px; font-weight: 500; margin-top: 8px; }
+.body { flex: 1; padding: 30px 40px; position: relative; z-index: 1; display: flex; flex-direction: column; }
+.week-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+.day-card { background: #fff; border-radius: 16px; padding: 20px; box-shadow: 0 3px 12px rgba(0,0,0,0.06); border-left: 5px solid; }
+.day-card:nth-child(1) { border-color: #FF6B6B; }
+.day-card:nth-child(2) { border-color: #4361EE; }
+.day-card:nth-child(3) { border-color: #6BCB77; }
+.day-card:nth-child(4) { border-color: #9B59B6; }
+.day-card .day-name { font-size: 15px; font-weight: 800; color: #333; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.day-card .day-skill { font-size: 14px; color: #666; line-height: 1.4; }
+.friday-card { background: linear-gradient(135deg, #FFD93D, #FF8E53); border-radius: 16px; padding: 20px; text-align: center; margin-bottom: 24px; }
+.friday-card .day-name { font-size: 16px; font-weight: 800; color: #fff; text-transform: uppercase; letter-spacing: 2px; }
+.friday-card .day-skill { font-size: 15px; color: rgba(255,255,255,0.95); margin-top: 4px; }
+.includes { background: #fff; border-radius: 16px; padding: 20px 24px; flex: 1; box-shadow: 0 3px 12px rgba(0,0,0,0.06); }
+.includes h3 { font-size: 16px; color: #FF6B35; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+.includes ul { list-style: none; columns: 2; }
+.includes li { font-size: 14px; color: #555; padding: 5px 0 5px 20px; position: relative; }
+.includes li::before { content: "☀️"; position: absolute; left: 0; font-size: 12px; }
+.bottom { background: linear-gradient(135deg, #FF8E53, #FFD93D); padding: 22px 40px; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1; }
+.brand { color: #fff; font-size: 26px; font-weight: 800; letter-spacing: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.brand span { color: #fff; opacity: 0.8; }
+.weeks { color: #fff; font-size: 18px; font-weight: 700; background: rgba(255,255,255,0.25); padding: 10px 24px; border-radius: 14px; }
+</style>
+</head>
+<body>
+<div class="cover">
+  <div class="sun"></div>
+  <div class="cloud1">☁️</div>
+  <div class="cloud2">☁️</div>
+  <div class="header">
+    <div class="header-top">
+      <div class="pill">ELAR • TEKS-Aligned</div>
+      <div class="grade-tag">3rd Grade</div>
+    </div>
+    <div class="header-title">Morning Work<br>ELAR Bell Ringers</div>
+    <div class="header-sub">Daily Grammar, Vocabulary, Reading & Writing Warm-Ups</div>
+  </div>
+  <div class="body">
+    <div class="week-grid">
+      <div class="day-card"><div class="day-name">Monday</div><div class="day-skill">Grammar & Mechanics — Fix the sentence, parts of speech</div></div>
+      <div class="day-card"><div class="day-name">Tuesday</div><div class="day-skill">Vocabulary Builder — Context clues, prefixes/suffixes</div></div>
+      <div class="day-card"><div class="day-name">Wednesday</div><div class="day-skill">Reading Mini-Passage — Comprehension & text evidence</div></div>
+      <div class="day-card"><div class="day-name">Thursday</div><div class="day-skill">Writing Prompt — Narrative, opinion, or informational</div></div>
+    </div>
+    <div class="friday-card">
+      <div class="day-name">Fun Friday</div>
+      <div class="day-skill">Word Puzzles, Riddles & Creative Challenges!</div>
+    </div>
+    <div class="includes">
+      <h3>What's Included</h3>
+      <ul>
+        <li>4 full weeks (20 days)</li>
+        <li>Answer keys for every day</li>
+        <li>Student recording sheets</li>
+        <li>STAAR 2.0 format practice</li>
+        <li>ELL & SpEd modifications</li>
+        <li>Digital Google Slides version</li>
+        <li>Self-grading option</li>
+        <li>Progress tracking sheet</li>
+      </ul>
+    </div>
+  </div>
+  <div class="bottom">
+    <div class="brand">Teach4<span>Texas</span></div>
+    <div class="weeks">4 Weeks / 20 Days</div>
+  </div>
+</div>
+</body>
+</html>

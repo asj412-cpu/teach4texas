@@ -1,0 +1,2561 @@
+{
+  "title": "4-A-Day RLA Daily Review",
+  "subject": "rla",
+  "grade": 4,
+  "description": "8 Weeks of Spiraling STAAR RLA Practice for Grade 4",
+  "questions": [
+    {
+      "id": 1,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nThe old man sat on the park bench feeding pigeons every morning. Rain or shine, he was always there, scattering breadcrumbs and talking softly to the birds.\n\nWhat can the reader infer about the old man?",
+      "choices": [
+        "A) He dislikes being outdoors.",
+        "B) He is dedicated to his routine with the pigeons.",
+        "C) He wants the pigeons to leave.",
+        "D) He only feeds the pigeons when it's sunny."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 2,
+      "teks": "4.11D",
+      "question": "Which sentence uses subject-verb agreement correctly?",
+      "choices": [
+        "A) The group of students are going on a field trip.",
+        "B) The group of students is going on a field trip.",
+        "C) The group of students were going on a field trip.",
+        "D) The group of students have went on a field trip."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 3,
+      "teks": "4.7F",
+      "question": "Read the sentence.\n\nThe politician's remarks ignited a fierce debate among the townspeople.\n\nWhat does the word ignited mean in this sentence?",
+      "choices": [
+        "A) Put out",
+        "B) Started or sparked",
+        "C) Calmed down",
+        "D) Recorded"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 4,
+      "teks": "4.9D",
+      "question": "Read the passage.\n\nCoral reefs are sometimes called the rainforests of the sea. They are home to thousands of species of fish, plants, and other sea creatures. Though coral reefs cover less than one percent of the ocean floor, they support about 25% of all marine life.\n\nWhat is the main idea of this passage?",
+      "choices": [
+        "A) The ocean floor is very large.",
+        "B) Coral reefs are important ecosystems that support a huge amount of marine life.",
+        "C) Fish live in the ocean.",
+        "D) Coral reefs are colorful."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 5,
+      "teks": "4.7C",
+      "question": "Read the passage.\n\nPacking lunches at home instead of buying school lunch can save your family hundreds of dollars each year. Homemade lunches are often healthier too. Start packing today!\n\nWhat is the author's purpose?",
+      "choices": [
+        "A) To entertain readers with lunch stories",
+        "B) To inform readers about nutrition",
+        "C) To persuade readers to pack lunches from home",
+        "D) To describe how school cafeterias work"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 6,
+      "teks": "4.11D",
+      "question": "Read the sentence.\n\nThe excited children they ran to the playground after lunch.\n\nWhat is the correct way to revise this sentence?",
+      "choices": [
+        "A) The excited children ran they to the playground after lunch.",
+        "B) The excited children ran to the playground after lunch.",
+        "C) They the excited children ran to the playground after lunch.",
+        "D) The excited children, they ran to the playground after lunch."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 7,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nCarter stared at the trophy case in the school hallway. His name wasn't on any of the plaques yet, but he tightened his grip on his tennis racket and headed to practice with a look of determination.\n\nWhat can the reader infer about Carter?",
+      "choices": [
+        "A) He is quitting tennis.",
+        "B) He wants to earn a trophy someday.",
+        "C) He does not care about sports.",
+        "D) He thinks the trophies are ugly."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 8,
+      "teks": "4.10A",
+      "question": "Read the passage.\n\nSome students walk to school, while others ride the bus. Walking students get exercise but may arrive wet on rainy days. Bus riders stay dry but sit for longer.\n\nWhat text structure does the author use?",
+      "choices": [
+        "A) Sequence",
+        "B) Problem and solution",
+        "C) Compare and contrast",
+        "D) Cause and effect"
+      ],
+      "answer": "C",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "venn",
+          "content": {
+            "left": "Walking: Exercise, May get wet",
+            "right": "Bus: Stay dry, Sit longer",
+            "center": "Both: Get to school"
+          }
+        }
+      }
+    },
+    {
+      "id": 9,
+      "teks": "4.7F",
+      "question": "Read the sentence.\n\nThe barren landscape stretched for miles without a single tree or building in sight.\n\nWhat does the word barren mean?",
+      "choices": [
+        "A) Colorful and lively",
+        "B) Empty and bare",
+        "C) Covered in water",
+        "D) Full of people"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 10,
+      "teks": "4.11D",
+      "question": "Which sentence uses commas correctly in a compound sentence?",
+      "choices": [
+        "A) I wanted to go swimming but, the pool was closed.",
+        "B) I wanted to go swimming, but the pool was closed.",
+        "C) I wanted to go swimming but the pool, was closed.",
+        "D) I, wanted to go swimming but the pool was closed."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 11,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nGrandpa's hands were rough and calloused from years of working in the garden. Every spring, he would kneel in the dirt, planting seeds row by row, humming the same old song.\n\nWhat can the reader infer about Grandpa?",
+      "choices": [
+        "A) He recently started gardening.",
+        "B) He does not enjoy gardening.",
+        "C) He has been gardening for many years.",
+        "D) He only gardens in the summer."
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 12,
+      "teks": "4.10C",
+      "question": "Read the sentence.\n\nHer smile was as bright as the morning sun.\n\nThis sentence is an example of \u2014",
+      "choices": [
+        "A) A metaphor",
+        "B) A simile",
+        "C) Personification",
+        "D) An idiom"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 13,
+      "teks": "4.9D",
+      "question": "Read the passage.\n\nThe Alamo is a historic site in San Antonio, Texas. In 1836, a small group of Texan soldiers fought against a much larger Mexican army there. Although the Texans lost the battle, the event became a symbol of bravery and the fight for Texas independence.\n\nWhich detail supports the idea that the Alamo became a symbol of bravery?",
+      "choices": [
+        "A) The Alamo is in San Antonio.",
+        "B) A small group fought against a much larger army.",
+        "C) Texas is a state in the United States.",
+        "D) The battle happened in 1836."
+      ],
+      "answer": "B",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": [
+            "Event",
+            "Year"
+          ],
+          "rows": [
+            [
+              "Battle of the Alamo",
+              "1836"
+            ],
+            [
+              "Texas Independence",
+              "1836"
+            ],
+            [
+              "Texas joins the U.S.",
+              "1845"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": 14,
+      "teks": "4.11D",
+      "question": "Which sentence correctly uses quotation marks?",
+      "choices": [
+        "A) Mom said, \"Don't forget your jacket.\"",
+        "B) Mom said, Don't forget your jacket.",
+        "C) \"Mom said, Don't forget your jacket.\"",
+        "D) Mom \"said, Don't forget your jacket.\""
+      ],
+      "answer": "A",
+      "visual": null
+    },
+    {
+      "id": 15,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nThe librarian noticed that the same boy came in every day after school. He always sat in the corner with a stack of adventure books, reading until the library closed.\n\nWhat can the reader conclude about the boy?",
+      "choices": [
+        "A) He does not have friends.",
+        "B) He loves reading adventure books.",
+        "C) He is doing homework.",
+        "D) He dislikes the library."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 16,
+      "teks": "4.7F",
+      "question": "Read the sentence.\n\nThe elusive fox darted into the woods before the photographer could take a picture.\n\nWhat does the word elusive mean?",
+      "choices": [
+        "A) Slow and sleepy",
+        "B) Large and heavy",
+        "C) Hard to find or catch",
+        "D) Friendly and tame"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 17,
+      "teks": "4.10A",
+      "question": "Read the passage.\n\nFirst, the colonists grew frustrated with British taxes. Next, they organized protests like the Boston Tea Party. Then, colonial leaders met to discuss independence. Finally, they signed the Declaration of Independence in 1776.\n\nWhat text structure does the author use?",
+      "choices": [
+        "A) Compare and contrast",
+        "B) Sequence",
+        "C) Problem and solution",
+        "D) Description"
+      ],
+      "answer": "B",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "flow",
+          "content": {
+            "steps": [
+              "Frustration with taxes",
+              "Protests",
+              "Leaders met",
+              "Declaration signed 1776"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 18,
+      "teks": "4.11D",
+      "question": "A student wrote the following sentence.\n\nThe team practiced every day and they winned the championship.\n\nWhat is the correct revision?",
+      "choices": [
+        "A) The team practiced every day and they winning the championship.",
+        "B) The team practiced every day and they won the championship.",
+        "C) The team practiced every day and they wined the championship.",
+        "D) The team practiced every day and they wins the championship."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 19,
+      "teks": "4.7C",
+      "question": "Read the passage.\n\nThe chocolate factory has been making candy since 1920. Workers pour melted chocolate into molds and let it cool. Then the candies are wrapped and shipped to stores around the country.\n\nWhat is the author's purpose?",
+      "choices": [
+        "A) To persuade readers to eat more chocolate",
+        "B) To entertain readers with a funny story",
+        "C) To inform readers about how chocolate candy is made",
+        "D) To compare chocolate to other candies"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 20,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nWhen the new student walked into the classroom, everyone turned to look. She clutched her backpack straps tightly and looked at the floor. The teacher smiled and said, \"Welcome! We're glad you're here.\"\n\nHow does the new student most likely feel?",
+      "choices": [
+        "A) Excited and happy",
+        "B) Bored and uninterested",
+        "C) Nervous and uncomfortable",
+        "D) Angry and frustrated"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 21,
+      "teks": "4.10C",
+      "question": "Read the sentence.\n\nTime is money.\n\nThis sentence is an example of \u2014",
+      "choices": [
+        "A) A simile",
+        "B) A metaphor",
+        "C) Hyperbole",
+        "D) Personification"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 22,
+      "teks": "4.11D",
+      "question": "Which sentence uses an apostrophe correctly to show possession?",
+      "choices": [
+        "A) The two girl's bicycles were in the garage.",
+        "B) The two girls bicycles' were in the garage.",
+        "C) The two girls' bicycles were in the garage.",
+        "D) The two girls bicycles were in the garage."
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 23,
+      "teks": "4.7F",
+      "question": "Read the sentence.\n\nThe dwindling supply of clean water worried the villagers.\n\nWhat does the word dwindling mean?",
+      "choices": [
+        "A) Growing larger",
+        "B) Getting smaller or decreasing",
+        "C) Staying the same",
+        "D) Overflowing"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 24,
+      "teks": "4.9D",
+      "question": "Read the passage.\n\nElectricity powers our homes, schools, and businesses. It is generated in power plants and travels through wires to reach buildings. Without electricity, we would not have lights, computers, or refrigerators.\n\nWhat is the main idea?",
+      "choices": [
+        "A) Power plants are very big.",
+        "B) Electricity is essential and powers many things in our daily lives.",
+        "C) Wires carry electricity.",
+        "D) Refrigerators keep food cold."
+      ],
+      "answer": "B",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "web",
+          "content": {
+            "center": "Electricity powers daily life",
+            "branches": [
+              "Lights",
+              "Computers",
+              "Refrigerators",
+              "Generated in power plants"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 25,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nMrs. Reeves kept the blinds closed and the lights dim in her classroom. On every wall hung posters of planets, stars, and galaxies. A model of the solar system dangled from the ceiling.\n\nWhat subject does Mrs. Reeves most likely teach?",
+      "choices": [
+        "A) English",
+        "B) Art",
+        "C) Science or astronomy",
+        "D) Physical education"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 26,
+      "teks": "4.11D",
+      "question": "Read the sentence.\n\nThe students was excited about the upcoming field trip to the museum.\n\nWhat is the correct way to write this sentence?",
+      "choices": [
+        "A) The students is excited about the upcoming field trip to the museum.",
+        "B) The students were excited about the upcoming field trip to the museum.",
+        "C) The students am excited about the upcoming field trip to the museum.",
+        "D) The students be excited about the upcoming field trip to the museum."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 27,
+      "teks": "4.10C",
+      "question": "Read the sentence.\n\nI've told you a million times to clean your room!\n\nThis sentence is an example of \u2014",
+      "choices": [
+        "A) A simile",
+        "B) A metaphor",
+        "C) Hyperbole",
+        "D) An idiom"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 28,
+      "teks": "4.7C",
+      "question": "Read the passage.\n\nThe wizard raised his staff and a bolt of lightning struck the mountain. Rocks tumbled down the cliffside as the earth shook beneath their feet. \"Run!\" shouted the elf.\n\nFrom whose point of view is this passage told?",
+      "choices": [
+        "A) First person",
+        "B) Second person",
+        "C) Third person",
+        "D) The wizard's point of view only"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 29,
+      "teks": "4.7F",
+      "question": "Read the sentence.\n\nThe philanthropist donated millions of dollars to build schools in poor communities.\n\nWhat does the word philanthropist mean?",
+      "choices": [
+        "A) A person who studies plants",
+        "B) A person who gives generously to help others",
+        "C) A person who builds houses",
+        "D) A person who teaches children"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 30,
+      "teks": "4.10A",
+      "question": "Read the passage.\n\nBecause deforestation destroys animal habitats, many species are becoming endangered. Cutting down forests also leads to soil erosion, which makes it harder for new plants to grow.\n\nWhat text structure does the author use?",
+      "choices": [
+        "A) Sequence",
+        "B) Compare and contrast",
+        "C) Cause and effect",
+        "D) Problem and solution"
+      ],
+      "answer": "C",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "flow",
+          "content": {
+            "steps": [
+              "Deforestation destroys habitats",
+              "Species become endangered",
+              "Soil erosion occurs",
+              "New plants can't grow"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 31,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nThe coach blew his whistle three times \u2014 the signal to stop everything. Every player froze. He pointed at the scoreboard and then at the team huddle. His face was serious.\n\nWhat is the coach most likely about to do?",
+      "choices": [
+        "A) End practice early",
+        "B) Give the team an important talk",
+        "C) Start a celebration",
+        "D) Introduce a new player"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 32,
+      "teks": "4.11D",
+      "question": "Which revision best combines these two sentences?\n\nThe storm knocked down several trees. The storm also caused flooding in the streets.",
+      "choices": [
+        "A) The storm knocked down several trees, and also it caused flooding in the streets too.",
+        "B) The storm knocked down several trees and caused flooding in the streets.",
+        "C) The storm knocked down trees. Streets flooded.",
+        "D) Several trees were knocked down and flooding happened from a storm."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 33,
+      "teks": "4.9D",
+      "question": "Look at the data table below about Texas rivers.\n\nBased on the table, which river is the longest?",
+      "choices": [
+        "A) Colorado River",
+        "B) Brazos River",
+        "C) Rio Grande",
+        "D) Trinity River"
+      ],
+      "answer": "C",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": [
+            "River",
+            "Length (miles)"
+          ],
+          "rows": [
+            [
+              "Colorado River",
+              "862"
+            ],
+            [
+              "Brazos River",
+              "1,280"
+            ],
+            [
+              "Rio Grande",
+              "1,896"
+            ],
+            [
+              "Trinity River",
+              "710"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": 34,
+      "teks": "4.10C",
+      "question": "Read the sentence.\n\nThe wind whispered secrets through the trees.\n\nThis sentence is an example of \u2014",
+      "choices": [
+        "A) A simile",
+        "B) Hyperbole",
+        "C) Personification",
+        "D) An idiom"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 35,
+      "teks": "4.7F",
+      "question": "Read the sentence.\n\nThe dilapidated barn leaned to one side, its roof full of holes and its paint long gone.\n\nWhat does the word dilapidated mean?",
+      "choices": [
+        "A) Newly built",
+        "B) In a state of disrepair and ruin",
+        "C) Brightly painted",
+        "D) Very tall"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 36,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nEvery afternoon, Maya walked past the bakery on her way home from school. She would slow down, breathe in the warm smell of fresh bread, and press her face against the window to look at the cakes.\n\nWhat can the reader conclude about Maya?",
+      "choices": [
+        "A) She does not like sweets.",
+        "B) She is in a hurry to get home.",
+        "C) She loves the bakery and its treats.",
+        "D) She works at the bakery."
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 37,
+      "teks": "4.11D",
+      "question": "Read the sentence.\n\nEach of the players have their own locker.\n\nWhat is the correct way to write this sentence?",
+      "choices": [
+        "A) Each of the players has their own locker.",
+        "B) Each of the players have his own locker.",
+        "C) Each of the players has his or her own locker.",
+        "D) Each of the player have their own locker."
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 38,
+      "teks": "4.7C",
+      "question": "Read the passage.\n\nI never thought moving to a new city would change my life, but it did. On my first day at my new school, I met my best friend Amara. She showed me around and made me feel welcome.\n\nFrom whose point of view is this passage told?",
+      "choices": [
+        "A) Third-person limited",
+        "B) Third-person omniscient",
+        "C) First person",
+        "D) Second person"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 39,
+      "teks": "4.10A",
+      "question": "Read the passage.\n\nMany students were struggling with math homework. The school hired tutors to help after school. Within a few months, test scores improved significantly.\n\nWhat text structure does the author use?",
+      "choices": [
+        "A) Compare and contrast",
+        "B) Problem and solution",
+        "C) Sequence",
+        "D) Description"
+      ],
+      "answer": "B",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "flow",
+          "content": {
+            "steps": [
+              "Problem: Students struggled with math",
+              "Solution: Hired tutors",
+              "Result: Test scores improved"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 40,
+      "teks": "4.9D",
+      "question": "Read the passage.\n\nThe Sahara Desert is the largest hot desert in the world. It covers most of North Africa and is about the same size as the United States. Despite extreme heat during the day, temperatures can drop below freezing at night.\n\nWhich sentence is a supporting detail?",
+      "choices": [
+        "A) Deserts are dry places.",
+        "B) It covers most of North Africa and is about the same size as the United States.",
+        "C) Some people live in deserts.",
+        "D) Africa is a continent."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 41,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nDr. Patel checked the X-ray carefully, then looked at Marcus's arm. She shook her head slightly and said, \"I'm afraid you'll need to wear a cast for six weeks.\"\n\nWhat happened to Marcus?",
+      "choices": [
+        "A) He has a cold.",
+        "B) He broke his arm.",
+        "C) He needs new glasses.",
+        "D) He has a stomachache."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 42,
+      "teks": "4.11D",
+      "question": "Which sentence correctly uses a semicolon?",
+      "choices": [
+        "A) I love soccer; it is my favorite sport.",
+        "B) I love; soccer it is my favorite sport.",
+        "C) I love soccer it; is my favorite sport.",
+        "D) I; love soccer it is my favorite sport."
+      ],
+      "answer": "A",
+      "visual": null
+    },
+    {
+      "id": 43,
+      "teks": "4.7F",
+      "question": "Read the sentence.\n\nThe resilient community rebuilt their homes within a year after the hurricane.\n\nWhat does the word resilient mean?",
+      "choices": [
+        "A) Weak and fragile",
+        "B) Able to recover quickly from difficulty",
+        "C) Angry and frustrated",
+        "D) Wealthy and powerful"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 44,
+      "teks": "4.10C",
+      "question": "Read the sentence.\n\nDon't let the cat out of the bag about the surprise party!\n\nThe phrase \"let the cat out of the bag\" is an example of \u2014",
+      "choices": [
+        "A) A simile",
+        "B) A metaphor",
+        "C) Personification",
+        "D) An idiom"
+      ],
+      "answer": "D",
+      "visual": null
+    },
+    {
+      "id": 45,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nThe trail was steep and rocky. Hana's legs ached and her water bottle was nearly empty. But when she reached the top and saw the valley spread out below, she knew every step had been worth it.\n\nWhat is the theme of this passage?",
+      "choices": [
+        "A) Nature is dangerous.",
+        "B) Hard work and perseverance lead to reward.",
+        "C) Hiking is not fun.",
+        "D) You should always bring extra water."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 46,
+      "teks": "4.11D",
+      "question": "A student is editing a report and finds this sentence.\n\nThere going to they're house over their.\n\nWhich is the correct revision?",
+      "choices": [
+        "A) Their going to there house over they're.",
+        "B) They're going to their house over there.",
+        "C) There going to their house over they're.",
+        "D) They're going to they're house over their."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 47,
+      "teks": "4.9D",
+      "question": "What is the purpose of a heading in an informational text?",
+      "choices": [
+        "A) To make the page look colorful",
+        "B) To tell the reader what a section is about",
+        "C) To show the author's opinion",
+        "D) To list vocabulary words"
+      ],
+      "answer": "B",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": [
+            "Text Feature",
+            "Purpose"
+          ],
+          "rows": [
+            [
+              "Heading",
+              "Tells what a section is about"
+            ],
+            [
+              "Bold Words",
+              "Highlights important vocabulary"
+            ],
+            [
+              "Caption",
+              "Explains a picture or diagram"
+            ],
+            [
+              "Glossary",
+              "Defines key terms"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": 48,
+      "teks": "4.7C",
+      "question": "Read the passage.\n\nDogs are better pets than cats in every way. Dogs are loyal, trainable, and always happy to see you. Cats, on the other hand, often ignore their owners.\n\nWhat is the author's point of view about dogs and cats?",
+      "choices": [
+        "A) The author prefers cats over dogs.",
+        "B) The author thinks both pets are equal.",
+        "C) The author believes dogs are better pets than cats.",
+        "D) The author does not like any pets."
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 49,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nSamuel sat in the waiting room, bouncing his knee up and down. He kept looking at the door that led to the interview room. He straightened his tie for the fifth time.\n\nHow does Samuel feel?",
+      "choices": [
+        "A) Relaxed and calm",
+        "B) Bored and sleepy",
+        "C) Anxious and nervous",
+        "D) Happy and carefree"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 50,
+      "teks": "4.10C",
+      "question": "Read the sentence.\n\nThe classroom was a zoo today.\n\nThis sentence is an example of \u2014",
+      "choices": [
+        "A) A simile",
+        "B) A metaphor",
+        "C) Hyperbole",
+        "D) An idiom"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 51,
+      "teks": "4.7F",
+      "question": "Read the sentence.\n\nThe meticulous scientist recorded every detail of the experiment in her notebook.\n\nWhat does the word meticulous mean?",
+      "choices": [
+        "A) Careless and sloppy",
+        "B) Very careful and precise",
+        "C) Confused and unsure",
+        "D) Tired and bored"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 52,
+      "teks": "4.11D",
+      "question": "Which sentence has the correct punctuation for a title?",
+      "choices": [
+        "A) I read the book Charlotte's Web last summer.",
+        "B) I read the book \"Charlotte's Web\" last summer.",
+        "C) I read the book charlotte's web last summer.",
+        "D) I read the book CHARLOTTE'S WEB last summer."
+      ],
+      "answer": "A",
+      "visual": null
+    },
+    {
+      "id": 53,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nEvery year, thousands of monarch butterflies travel from Canada to Mexico. They fly over 2,000 miles to reach their winter home in the warm mountain forests.\n\nWhat can the reader conclude about monarch butterflies?",
+      "choices": [
+        "A) They do not fly very far.",
+        "B) They prefer cold weather.",
+        "C) They make one of the longest insect migrations in the world.",
+        "D) They stay in Canada all year."
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 54,
+      "teks": "4.10A",
+      "question": "Read the passage.\n\nCities and rural areas are very different places to live. Cities have tall buildings, busy streets, and many restaurants. Rural areas have open fields, fewer people, and more wildlife. However, both places have schools and communities.\n\nWhat text structure does the author use?",
+      "choices": [
+        "A) Sequence",
+        "B) Cause and effect",
+        "C) Compare and contrast",
+        "D) Problem and solution"
+      ],
+      "answer": "C",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "venn",
+          "content": {
+            "left": "Cities: Tall buildings, Busy streets, Many restaurants",
+            "right": "Rural: Open fields, Fewer people, More wildlife",
+            "center": "Both: Schools, Communities"
+          }
+        }
+      }
+    },
+    {
+      "id": 55,
+      "teks": "4.11D",
+      "question": "Which word is a conjunction in this sentence?\n\nI wanted to play outside, but it started raining.",
+      "choices": [
+        "A) wanted",
+        "B) play",
+        "C) but",
+        "D) started"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 56,
+      "teks": "4.7C",
+      "question": "Read the passage.\n\nAccording to many experts, reading for at least 30 minutes every day helps students improve their vocabulary, comprehension, and writing skills. Schools that encourage daily reading see higher test scores.\n\nWhat is the author's purpose?",
+      "choices": [
+        "A) To entertain readers with a story",
+        "B) To inform and persuade readers about the benefits of daily reading",
+        "C) To describe how books are published",
+        "D) To compare reading to watching TV"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 57,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nThe old woman carefully unwrapped the yellowed letter and held it close to her heart. A tear rolled down her cheek as she whispered, \"I still remember.\"\n\nWhat can the reader infer about the letter?",
+      "choices": [
+        "A) It is a bill she needs to pay.",
+        "B) It is an important, emotional letter from her past.",
+        "C) It is a letter she wants to throw away.",
+        "D) It was written yesterday."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 58,
+      "teks": "4.11D",
+      "question": "Read the sentence.\n\nThe boys and girls in the fourth grade class has been studying Texas history.\n\nWhat is the correct way to revise this sentence?",
+      "choices": [
+        "A) The boys and girls in the fourth grade class have been studying Texas history.",
+        "B) The boys and girls in the fourth grade class is studying Texas history.",
+        "C) The boys and girls in the fourth grade class was studying Texas history.",
+        "D) The boys and girls in the fourth grade class are study Texas history."
+      ],
+      "answer": "A",
+      "visual": null
+    },
+    {
+      "id": 59,
+      "teks": "4.7F",
+      "question": "Read the sentence.\n\nThe arid region received less than five inches of rain per year.\n\nWhat does the word arid mean?",
+      "choices": [
+        "A) Extremely wet",
+        "B) Very dry",
+        "C) Extremely cold",
+        "D) Very windy"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 60,
+      "teks": "4.9D",
+      "question": "Read the passage.\n\nThe heart pumps blood throughout the body. Blood carries oxygen to the organs and muscles. When blood returns to the heart, it is pumped to the lungs to pick up more oxygen.\n\nWhat is the main idea?",
+      "choices": [
+        "A) The lungs help us breathe.",
+        "B) The heart pumps blood that carries oxygen to all parts of the body.",
+        "C) Blood is red.",
+        "D) Muscles need exercise to grow."
+      ],
+      "answer": "B",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "flow",
+          "content": {
+            "steps": [
+              "Heart pumps blood",
+              "Blood carries oxygen to body",
+              "Blood returns to heart",
+              "Pumped to lungs for oxygen"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 61,
+      "teks": "4.10C",
+      "question": "Read the sentence.\n\nShe runs like the wind.\n\nThis sentence is an example of \u2014",
+      "choices": [
+        "A) A metaphor",
+        "B) A simile",
+        "C) Personification",
+        "D) Hyperbole"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 62,
+      "teks": "4.11D",
+      "question": "Which sentence is a complex sentence?",
+      "choices": [
+        "A) The cat slept on the couch.",
+        "B) I ate breakfast and went to school.",
+        "C) Because it was raining, we stayed inside.",
+        "D) She read a book."
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 63,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nThe knight lowered his visor and gripped his lance tightly. Across the field, his opponent did the same. The crowd fell silent as the flag dropped.\n\nWhat is about to happen?",
+      "choices": [
+        "A) A parade",
+        "B) A jousting match",
+        "C) A feast",
+        "D) A ceremony"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 64,
+      "teks": "4.7F",
+      "question": "Read the sentence.\n\nThe cunning fox outsmarted the hounds by running through the stream to hide its scent.\n\nWhat does the word cunning mean?",
+      "choices": [
+        "A) Strong and powerful",
+        "B) Clever and sly",
+        "C) Fast and quick",
+        "D) Large and scary"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 65,
+      "teks": "4.8B",
+      "question": "Read the passage.\n\nLong ago in Japan, a woodcutter found a tiny glowing girl inside a bamboo stalk. He and his wife raised her as their own. She grew into the most beautiful woman in the land, but she was actually a princess from the Moon.\n\nWhat genre is this passage?",
+      "choices": [
+        "A) Realistic fiction",
+        "B) Informational text",
+        "C) Folktale or myth",
+        "D) Biography"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 66,
+      "teks": "4.11D",
+      "question": "Read the paragraph.\n\n(1) The Amazon River is the second-longest river in the world. (2) It flows through South America. (3) The river is home to many animals. (4) Piranhas, river dolphins, and anacondas live in it.\n\nWhich sentence could best be added after sentence 2 to provide more detail?",
+      "choices": [
+        "A) Rivers can be dangerous.",
+        "B) South America is a large continent.",
+        "C) It stretches over 4,000 miles from the Andes Mountains to the Atlantic Ocean.",
+        "D) People like to swim in rivers."
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 67,
+      "teks": "4.10C",
+      "question": "Read the sentence.\n\nThe thunder grumbled angrily across the sky.\n\nThis sentence is an example of \u2014",
+      "choices": [
+        "A) A simile",
+        "B) A metaphor",
+        "C) Personification",
+        "D) Hyperbole"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 68,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nMrs. Thompson packed her classroom with maps, globes, and flags from every country. She often told stories about her travels to Africa, Asia, and Europe.\n\nWhat can the reader conclude about Mrs. Thompson?",
+      "choices": [
+        "A) She has never traveled before.",
+        "B) She is passionate about geography and world cultures.",
+        "C) She only teaches math.",
+        "D) She doesn't like her classroom."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 69,
+      "teks": "4.9D",
+      "question": "Look at the table below about the planets.\n\nBased on the table, which planet has the most moons?",
+      "choices": [
+        "A) Earth",
+        "B) Mars",
+        "C) Jupiter",
+        "D) Saturn"
+      ],
+      "answer": "C",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": [
+            "Planet",
+            "Number of Moons"
+          ],
+          "rows": [
+            [
+              "Earth",
+              "1"
+            ],
+            [
+              "Mars",
+              "2"
+            ],
+            [
+              "Jupiter",
+              "95"
+            ],
+            [
+              "Saturn",
+              "83"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": 70,
+      "teks": "4.11D",
+      "question": "Which sentence uses the correct homophone?",
+      "choices": [
+        "A) The weather outside is fare.",
+        "B) We paid the bus fair.",
+        "C) The science fair is on Friday.",
+        "D) She has fare skin."
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 71,
+      "teks": "4.7C",
+      "question": "Read the passage.\n\nYou should volunteer at your local animal shelter. The animals need love and attention. By giving just a few hours each week, you can make a real difference in their lives.\n\nWhat is the author's purpose?",
+      "choices": [
+        "A) To inform readers about different animal shelters",
+        "B) To persuade readers to volunteer",
+        "C) To entertain readers with animal stories",
+        "D) To explain how to adopt a pet"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 72,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nThe ship's captain studied the dark clouds gathering on the horizon. He barked orders to the crew: \"Secure the cargo! Reef the sails!\" The wind was already picking up.\n\nWhat is the captain preparing for?",
+      "choices": [
+        "A) A race against another ship",
+        "B) Arriving at a port",
+        "C) A storm",
+        "D) A celebration"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 73,
+      "teks": "4.7F",
+      "question": "Read the sentence.\n\nThe protagonist of the story faced many challenges before finding the hidden treasure.\n\nWhat does the word protagonist mean?",
+      "choices": [
+        "A) The villain of the story",
+        "B) The main character",
+        "C) A minor character",
+        "D) The author"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 74,
+      "teks": "4.11D",
+      "question": "Read the sentence.\n\nRunning through the park the dog chased the squirrel.\n\nWhere should a comma be placed?",
+      "choices": [
+        "A) After running",
+        "B) After park",
+        "C) After dog",
+        "D) After chased"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 75,
+      "teks": "4.10A",
+      "question": "Read the passage.\n\nThe lack of rain caused crops to wither and die. As a result, food prices increased and many farmers lost their income. The drought affected the entire region.\n\nWhat text structure does the author use?",
+      "choices": [
+        "A) Compare and contrast",
+        "B) Sequence",
+        "C) Problem and solution",
+        "D) Cause and effect"
+      ],
+      "answer": "D",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "flow",
+          "content": {
+            "steps": [
+              "Lack of rain",
+              "Crops wither",
+              "Food prices increase",
+              "Farmers lose income"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 76,
+      "teks": "4.10C",
+      "question": "Read the sentence.\n\nBreaking the news to her was like pulling teeth.\n\nThe phrase \"like pulling teeth\" means \u2014",
+      "choices": [
+        "A) It was painful.",
+        "B) It was very difficult.",
+        "C) It involved a dentist.",
+        "D) It was fun and easy."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 77,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nNina looked at her painting and frowned. She picked up her brush, mixed a new color, and carefully added more details to the sky. She stepped back, tilted her head, and finally smiled.\n\nWhat does this passage show about Nina?",
+      "choices": [
+        "A) She gives up easily on projects.",
+        "B) She does not enjoy painting.",
+        "C) She is a perfectionist who keeps improving her work.",
+        "D) She is in a hurry to finish."
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 78,
+      "teks": "4.11D",
+      "question": "Which revision best improves the word choice in this sentence?\n\nThe nice sunset made the sky look nice.\n\nSelect the best revision.",
+      "choices": [
+        "A) The very nice sunset made the sky look very nice.",
+        "B) The nice sunset made the sky look really nice.",
+        "C) The brilliant sunset painted the sky in shades of orange and pink.",
+        "D) The good sunset made the sky look good and nice."
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 79,
+      "teks": "4.9D",
+      "question": "Read the passage.\n\nThe water cycle is a continuous process. First, the sun heats water in oceans and lakes, causing it to evaporate. The water vapor rises and forms clouds. When clouds become heavy with moisture, precipitation falls as rain or snow.\n\nWhat is the main idea?",
+      "choices": [
+        "A) The sun is very hot.",
+        "B) The water cycle is a continuous process of evaporation, condensation, and precipitation.",
+        "C) Rain comes from clouds.",
+        "D) Snow falls in winter."
+      ],
+      "answer": "B",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "flow",
+          "content": {
+            "steps": [
+              "Sun heats water",
+              "Water evaporates",
+              "Vapor forms clouds",
+              "Precipitation falls"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 80,
+      "teks": "4.7F",
+      "question": "Read the sentence.\n\nThe novice skater stumbled and fell several times during her first lesson.\n\nWhat does the word novice mean?",
+      "choices": [
+        "A) Expert",
+        "B) Beginner",
+        "C) Professional",
+        "D) Talented"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 81,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nThe scientist put on her safety goggles and gloves. She carefully measured each chemical and wrote down every number. One wrong measurement could ruin months of work.\n\nWhat does this passage tell the reader about the scientist's work?",
+      "choices": [
+        "A) It is boring and repetitive.",
+        "B) It requires precision and careful attention.",
+        "C) It is dangerous and should be avoided.",
+        "D) It does not involve any risk."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 82,
+      "teks": "4.11D",
+      "question": "Which sentence uses a relative pronoun correctly?",
+      "choices": [
+        "A) The student which won the award was very proud.",
+        "B) The student who won the award was very proud.",
+        "C) The student whom won the award was very proud.",
+        "D) The student what won the award was very proud."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 83,
+      "teks": "4.10C",
+      "question": "Read the sentence.\n\nHis backpack weighed a ton.\n\nThis sentence is an example of \u2014",
+      "choices": [
+        "A) A simile",
+        "B) A metaphor",
+        "C) Hyperbole",
+        "D) Personification"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 84,
+      "teks": "4.7C",
+      "question": "Read the passage.\n\nThe Great Pacific Garbage Patch is a massive collection of plastic floating in the Pacific Ocean. It covers an area twice the size of Texas. Marine animals mistake the plastic for food, which makes them sick.\n\nWhat is the author's purpose?",
+      "choices": [
+        "A) To entertain readers with an ocean adventure",
+        "B) To inform readers about ocean pollution",
+        "C) To describe the Pacific Ocean",
+        "D) To persuade readers to visit the beach"
+      ],
+      "answer": "B",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": [
+            "Ocean Fact",
+            "Detail"
+          ],
+          "rows": [
+            [
+              "Great Pacific Garbage Patch",
+              "Massive plastic collection"
+            ],
+            [
+              "Size",
+              "Twice the size of Texas"
+            ],
+            [
+              "Effect",
+              "Marine animals eat plastic"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": 85,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nThe two brothers sat on opposite sides of the room, arms crossed, refusing to look at each other. Their mother stood between them, hands on her hips.\n\nWhat most likely happened before this scene?",
+      "choices": [
+        "A) The brothers finished their chores.",
+        "B) The brothers had an argument.",
+        "C) The brothers played a game together.",
+        "D) The brothers came home from school."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 86,
+      "teks": "4.9D",
+      "question": "A student reads a book about volcanoes. The book has bold words followed by their definitions at the bottom of each page. What text feature is this?",
+      "choices": [
+        "A) An index",
+        "B) A caption",
+        "C) Footnotes or a glossary",
+        "D) A heading"
+      ],
+      "answer": "C",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": [
+            "Text Feature",
+            "What It Does"
+          ],
+          "rows": [
+            [
+              "Footnotes",
+              "Explain words at bottom of page"
+            ],
+            [
+              "Glossary",
+              "Lists definitions of key words"
+            ],
+            [
+              "Bold words",
+              "Show important vocabulary"
+            ],
+            [
+              "Index",
+              "Helps find topics by page"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": 87,
+      "teks": "4.11D",
+      "question": "Read the sentence.\n\nThe team celebrated after they winning the tournament.\n\nWhat is the correct revision?",
+      "choices": [
+        "A) The team celebrated after they won the tournament.",
+        "B) The team celebrated after they wins the tournament.",
+        "C) The team celebrate after they winning the tournament.",
+        "D) The team celebrated after them winning the tournament."
+      ],
+      "answer": "A",
+      "visual": null
+    },
+    {
+      "id": 88,
+      "teks": "4.7F",
+      "question": "Read the sentence.\n\nThe monotonous lecture put several students to sleep.\n\nWhat does the word monotonous mean?",
+      "choices": [
+        "A) Exciting and interesting",
+        "B) Dull and repetitive",
+        "C) Loud and scary",
+        "D) Short and sweet"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 89,
+      "teks": "4.10A",
+      "question": "A student is reading a passage about how a bill becomes a law. Which graphic organizer would best help the student understand the steps in the process?",
+      "choices": [
+        "A) A Venn diagram",
+        "B) A flow chart",
+        "C) A T-chart",
+        "D) A web"
+      ],
+      "answer": "B",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "flow",
+          "content": {
+            "steps": [
+              "Bill introduced",
+              "Committee review",
+              "House vote",
+              "Senate vote",
+              "President signs"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 90,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nThe fox watched the grapes hanging high on the vine. It jumped again and again but could not reach them. Finally, the fox walked away saying, \"Those grapes were probably sour anyway.\"\n\nWhat is the lesson of this story?",
+      "choices": [
+        "A) Grapes are hard to grow.",
+        "B) People sometimes pretend they don't want what they can't have.",
+        "C) Foxes don't eat grapes.",
+        "D) You should always jump higher."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 91,
+      "teks": "4.10C",
+      "question": "Read the sentence.\n\nThe stars danced in the midnight sky.\n\nThis sentence is an example of \u2014",
+      "choices": [
+        "A) A simile",
+        "B) An idiom",
+        "C) Personification",
+        "D) Hyperbole"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 92,
+      "teks": "4.11D",
+      "question": "Which sentence is punctuated correctly?",
+      "choices": [
+        "A) \"I can't believe it\" she exclaimed.",
+        "B) \"I can't believe it!\" she exclaimed.",
+        "C) \"I can't believe it\"! she exclaimed.",
+        "D) I can't believe it! \"she exclaimed\"."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 93,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nEvery time it rained, the basement flooded. Mr. Garcia finally decided to dig a drainage ditch along the side of the house. After that, the basement stayed dry even during heavy storms.\n\nWhat can the reader conclude about Mr. Garcia?",
+      "choices": [
+        "A) He likes rainy weather.",
+        "B) He found a practical solution to a persistent problem.",
+        "C) He does not know anything about houses.",
+        "D) He wants to move to a new house."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 94,
+      "teks": "4.7F",
+      "question": "Read the sentence.\n\nThe abundant harvest filled the barns to overflowing.\n\nWhat does the word abundant mean?",
+      "choices": [
+        "A) Very small",
+        "B) More than enough; plentiful",
+        "C) Barely sufficient",
+        "D) Completely empty"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 95,
+      "teks": "4.9D",
+      "question": "Read the passage.\n\nBenjamin Franklin was a remarkable American. He helped write the Declaration of Independence. He invented bifocal glasses and the lightning rod. He also started the first public library in America.\n\nWhich supporting detail shows Franklin was an inventor?",
+      "choices": [
+        "A) He helped write the Declaration of Independence.",
+        "B) He was a remarkable American.",
+        "C) He invented bifocal glasses and the lightning rod.",
+        "D) He started the first public library."
+      ],
+      "answer": "C",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": [
+            "Accomplishment",
+            "Category"
+          ],
+          "rows": [
+            [
+              "Declaration of Independence",
+              "Government"
+            ],
+            [
+              "Bifocal glasses",
+              "Invention"
+            ],
+            [
+              "Lightning rod",
+              "Invention"
+            ],
+            [
+              "First public library",
+              "Community"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": 96,
+      "teks": "4.11D",
+      "question": "Which pair of sentences shows the correct use of its and it's?",
+      "choices": [
+        "A) Its going to be a great day. The dog wagged it's tail.",
+        "B) It's going to be a great day. The dog wagged its tail.",
+        "C) Its going to be a great day. The dog wagged its tail.",
+        "D) It's going to be a great day. The dog wagged it's tail."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 97,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nThe violinist closed her eyes and drew the bow across the strings. The melody filled the concert hall, and for a moment, no one in the audience moved or breathed.\n\nWhat effect does the music have on the audience?",
+      "choices": [
+        "A) It bores them.",
+        "B) It confuses them.",
+        "C) It captivates and amazes them.",
+        "D) It scares them."
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 98,
+      "teks": "4.10C",
+      "question": "Read the sentence.\n\nHe was feeling under the weather, so he stayed home from school.\n\nThe phrase \"under the weather\" means \u2014",
+      "choices": [
+        "A) Standing in the rain",
+        "B) Feeling sick",
+        "C) Watching the forecast",
+        "D) Being cold outside"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 99,
+      "teks": "4.7C",
+      "question": "Read the passage.\n\nI remember my first day at Camp Lone Star. The cabins smelled like pine, and the lake shimmered in the morning light. I knew right away this would be the best summer ever.\n\nFrom whose point of view is this passage told?",
+      "choices": [
+        "A) Third person omniscient",
+        "B) Second person",
+        "C) First person",
+        "D) Third person limited"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 100,
+      "teks": "4.11D",
+      "question": "Read the paragraph.\n\nSarah wanted to be a veterinarian. She loved animals of all kinds. Every weekend, she helped at the local animal shelter.\n\nWhich sentence best concludes this paragraph?",
+      "choices": [
+        "A) She also liked reading books.",
+        "B) Her dedication showed she was on the right path to achieving her dream.",
+        "C) Her brother played soccer.",
+        "D) The weather was nice that day."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 101,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nThe detective examined the muddy footprints leading from the garden to the back door. She noticed a torn piece of fabric caught on the rose bush. She pulled out her magnifying glass and smiled.\n\nWhy did the detective smile?",
+      "choices": [
+        "A) She thought the garden was beautiful.",
+        "B) She found clues that could help solve the case.",
+        "C) She wanted to go home.",
+        "D) She liked rose bushes."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 102,
+      "teks": "4.7F",
+      "question": "Read the sentence.\n\nThe skeptical audience questioned every claim the speaker made.\n\nWhat does the word skeptical mean?",
+      "choices": [
+        "A) Trusting and believing",
+        "B) Doubtful and questioning",
+        "C) Excited and happy",
+        "D) Bored and sleepy"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 103,
+      "teks": "4.10A",
+      "question": "Read the passage.\n\nBirds build nests in different ways. Robins use mud and grass to create cup-shaped nests. Woodpeckers drill holes in trees. Eagles build enormous nests high in the treetops using sticks and branches.\n\nWhat text structure does the author use?",
+      "choices": [
+        "A) Cause and effect",
+        "B) Problem and solution",
+        "C) Sequence",
+        "D) Compare and contrast"
+      ],
+      "answer": "D",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": [
+            "Bird",
+            "Nest Type",
+            "Materials"
+          ],
+          "rows": [
+            [
+              "Robin",
+              "Cup-shaped",
+              "Mud and grass"
+            ],
+            [
+              "Woodpecker",
+              "Hole in tree",
+              "Drilled wood"
+            ],
+            [
+              "Eagle",
+              "Large platform",
+              "Sticks and branches"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": 104,
+      "teks": "4.11D",
+      "question": "Which sentence uses a prepositional phrase correctly?",
+      "choices": [
+        "A) On the shelf the books were stacked neatly.",
+        "B) The books were stacked neatly on the shelf.",
+        "C) The books on were stacked the shelf neatly.",
+        "D) Were the books stacked on neatly the shelf."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 105,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nThe farmer looked at the sky and shook his head. Not a single cloud in sight, and the forecast called for no rain all month. He walked to the well and found it was nearly dry.\n\nWhat is the farmer's main concern?",
+      "choices": [
+        "A) He needs to paint his barn.",
+        "B) His crops may die without water.",
+        "C) He wants to take a vacation.",
+        "D) He needs to buy new animals."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 106,
+      "teks": "4.10C",
+      "question": "Read the sentence.\n\nAfter waiting in line for an hour, she was so hungry she could eat a horse.\n\nThis sentence contains an example of \u2014",
+      "choices": [
+        "A) A simile",
+        "B) Personification",
+        "C) A metaphor",
+        "D) Hyperbole"
+      ],
+      "answer": "D",
+      "visual": null
+    },
+    {
+      "id": 107,
+      "teks": "4.11D",
+      "question": "A student wrote this sentence.\n\nThe painting was beautiful, it showed a sunset over the ocean.\n\nThis sentence contains a \u2014",
+      "choices": [
+        "A) Fragment",
+        "B) Run-on sentence (comma splice)",
+        "C) Correct use of a comma",
+        "D) Correctly written complex sentence"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 108,
+      "teks": "4.7F",
+      "question": "Read the sentence.\n\nThe tenacious reporter kept investigating the story even after being told to stop.\n\nWhat does the word tenacious mean?",
+      "choices": [
+        "A) Easily giving up",
+        "B) Persistent and determined",
+        "C) Frightened and cautious",
+        "D) Lazy and careless"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 109,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nThe small boat rocked violently in the waves. Water splashed over the sides as the fisherman gripped the mast with both hands. In the distance, he could see the lighthouse beam cutting through the fog.\n\nWhy is the fisherman holding on tightly?",
+      "choices": [
+        "A) He is excited about catching fish.",
+        "B) He is trying to stay in the boat during rough seas.",
+        "C) He is waving to someone on shore.",
+        "D) He is tired and resting."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 110,
+      "teks": "4.9D",
+      "question": "Read the passage.\n\nThe International Space Station orbits Earth about 250 miles above the surface. Astronauts from many countries live and work there. They conduct experiments in microgravity that cannot be done on Earth.\n\nWhat is the main idea?",
+      "choices": [
+        "A) Space is very far away.",
+        "B) The International Space Station is a place where astronauts from many countries work together on experiments.",
+        "C) Astronauts eat special food.",
+        "D) Earth is a planet."
+      ],
+      "answer": "B",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "web",
+          "content": {
+            "center": "International Space Station",
+            "branches": [
+              "Orbits 250 miles above Earth",
+              "Astronauts from many countries",
+              "Microgravity experiments",
+              "Continuous research"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 111,
+      "teks": "4.11D",
+      "question": "Which sentence uses correct capitalization?",
+      "choices": [
+        "A) We visited the grand canyon during Spring break.",
+        "B) We visited the Grand Canyon during spring break.",
+        "C) We visited the grand Canyon during Spring Break.",
+        "D) we visited the Grand Canyon during spring break."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 112,
+      "teks": "4.10C",
+      "question": "Read the sentence.\n\nThe old oak tree stood guard over the sleeping village.\n\nThis sentence contains an example of \u2014",
+      "choices": [
+        "A) A simile",
+        "B) A metaphor",
+        "C) Personification",
+        "D) An idiom"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 113,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nElena's grandmother had taught her to make tamales every December. Now, Elena was teaching her own daughter the same recipe. As they worked side by side in the kitchen, Elena felt connected to her family's history.\n\nWhat is the theme of this passage?",
+      "choices": [
+        "A) Cooking is difficult.",
+        "B) Family traditions connect generations.",
+        "C) Tamales are delicious.",
+        "D) December is a cold month."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 114,
+      "teks": "4.7F",
+      "question": "Read the sentence.\n\nThe unprecedented snowstorm surprised everyone because snow had never fallen in that region before.\n\nWhat does the word unprecedented mean?",
+      "choices": [
+        "A) Very common",
+        "B) Never done or experienced before",
+        "C) Extremely cold",
+        "D) Very small"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 115,
+      "teks": "4.11D",
+      "question": "Read the two sentences.\n\nThe explorers crossed the mountain. They were exhausted by the time they reached the other side.\n\nWhich is the best way to combine these sentences?",
+      "choices": [
+        "A) The explorers crossed the mountain, and by the time they reached the other side, they were exhausted.",
+        "B) The explorers crossed the mountain they were exhausted.",
+        "C) The explorers exhausted crossed the mountain the other side.",
+        "D) Crossing the mountain, the other side exhausted the explorers."
+      ],
+      "answer": "A",
+      "visual": null
+    },
+    {
+      "id": 116,
+      "teks": "4.7C",
+      "question": "Read the passage.\n\nPlastic straws harm ocean animals. Sea turtles and fish can choke on them. By switching to reusable straws, we can help protect marine life. Make the switch today!\n\nWhat is the author's purpose?",
+      "choices": [
+        "A) To inform readers about ocean animals",
+        "B) To entertain readers with a sea turtle story",
+        "C) To persuade readers to stop using plastic straws",
+        "D) To describe how straws are made"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 117,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nMarcus noticed that every time he helped his neighbor carry groceries, the old man's face would light up. One day, the neighbor handed Marcus a small wooden box. Inside was a hand-carved chess set. \"For being a good friend,\" the neighbor said.\n\nWhat is the theme?",
+      "choices": [
+        "A) Old people like chess.",
+        "B) Kindness is rewarded.",
+        "C) Groceries are heavy.",
+        "D) Wooden boxes are valuable."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 118,
+      "teks": "4.9D",
+      "question": "A student is researching Texas state symbols. Which source would be MOST reliable?",
+      "choices": [
+        "A) A social media post about Texas",
+        "B) A personal blog about living in Texas",
+        "C) The official Texas state government website",
+        "D) A fictional story set in Texas"
+      ],
+      "answer": "C",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": [
+            "Source Type",
+            "Reliability"
+          ],
+          "rows": [
+            [
+              "Government website",
+              "Most reliable"
+            ],
+            [
+              "Encyclopedia",
+              "Very reliable"
+            ],
+            [
+              "Personal blog",
+              "Less reliable"
+            ],
+            [
+              "Social media post",
+              "Least reliable"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": 119,
+      "teks": "4.10C",
+      "question": "Read the sentence.\n\nHis heart was a block of ice after the betrayal.\n\nThis sentence is an example of \u2014",
+      "choices": [
+        "A) A simile",
+        "B) A metaphor",
+        "C) Personification",
+        "D) Hyperbole"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 120,
+      "teks": "4.11D",
+      "question": "Which sentence correctly uses a colon?",
+      "choices": [
+        "A) I need: eggs, milk, and bread.",
+        "B) I need the following items: eggs, milk, and bread.",
+        "C) I: need eggs, milk, and bread.",
+        "D) I need the following: items eggs milk bread."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 121,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nThe archaeologist carefully brushed away the dirt to reveal a piece of pottery with intricate designs. Her hands trembled slightly \u2014 this was the same style as pottery found in ancient Mayan ruins thousands of miles away.\n\nWhy are the archaeologist's hands trembling?",
+      "choices": [
+        "A) She is cold.",
+        "B) She is afraid of the pottery.",
+        "C) She has made a significant discovery.",
+        "D) She is angry about the dirt."
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 122,
+      "teks": "4.7F",
+      "question": "Read the sentence.\n\nThe ingenious inventor created a machine that could harvest crops twice as fast.\n\nWhat does the word ingenious mean?",
+      "choices": [
+        "A) Very slow",
+        "B) Clumsy and foolish",
+        "C) Clever and original",
+        "D) Common and ordinary"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 123,
+      "teks": "4.10A",
+      "question": "Read the passage.\n\nToads and frogs look similar but have important differences. Frogs have smooth, wet skin while toads have bumpy, dry skin. Frogs live near water, but toads can live farther from it. Both are amphibians.\n\nWhat text structure does the author use?",
+      "choices": [
+        "A) Cause and effect",
+        "B) Sequence",
+        "C) Compare and contrast",
+        "D) Problem and solution"
+      ],
+      "answer": "C",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "t_chart",
+          "content": {
+            "left_title": "Frogs",
+            "right_title": "Toads",
+            "left_items": [
+              "Smooth, wet skin",
+              "Live near water"
+            ],
+            "right_items": [
+              "Bumpy, dry skin",
+              "Can live far from water"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 124,
+      "teks": "4.11D",
+      "question": "Read the paragraph.\n\nOur class pet hamster is named Biscuit. He runs on his wheel every night. He stuffs his cheeks with seeds. He is very cute.\n\nWhich revision best varies the sentence structure?",
+      "choices": [
+        "A) Biscuit is our class pet hamster. He runs on his wheel every night. He stuffs his cheeks with seeds. He is very cute.",
+        "B) Our class pet hamster, Biscuit, runs on his wheel every night and stuffs his cheeks with seeds. He is very cute.",
+        "C) Named Biscuit, our class pet hamster runs on his wheel every night, stuffs his adorable cheeks with seeds, and never fails to make us smile.",
+        "D) Biscuit, hamster, runs, stuffs, cute."
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 125,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nThe magician pulled a rabbit from his hat. The audience gasped. Then he made a volunteer float in the air. The crowd erupted in applause.\n\nWhat is the effect of the magician's tricks on the audience?",
+      "choices": [
+        "A) The audience is bored.",
+        "B) The audience is amazed and excited.",
+        "C) The audience is confused.",
+        "D) The audience is scared."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 126,
+      "teks": "4.10C",
+      "question": "Read the sentence.\n\nThe news hit her like a ton of bricks.\n\nThis sentence is an example of \u2014",
+      "choices": [
+        "A) A metaphor",
+        "B) Personification",
+        "C) A simile",
+        "D) An idiom"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 127,
+      "teks": "4.7F",
+      "question": "Read the sentence.\n\nThe frugal shopper always looked for the best deals and never wasted money.\n\nWhat does the word frugal mean?",
+      "choices": [
+        "A) Wasteful and careless",
+        "B) Careful with money; thrifty",
+        "C) Wealthy and generous",
+        "D) Confused about prices"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 128,
+      "teks": "4.11D",
+      "question": "Which sentence contains a correctly used adverb?",
+      "choices": [
+        "A) She sang beautiful at the concert.",
+        "B) She sang beautifully at the concert.",
+        "C) She sang beauty at the concert.",
+        "D) She sang beautifuly at the concert."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 129,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nThe rescue dog sniffed along the trail, its tail wagging furiously. Suddenly it stopped, pawed at the ground, and barked three times. The search team rushed over immediately.\n\nWhat can the reader infer about the dog's behavior?",
+      "choices": [
+        "A) The dog is tired and wants to rest.",
+        "B) The dog has found something important.",
+        "C) The dog is hungry.",
+        "D) The dog wants to play."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 130,
+      "teks": "4.9D",
+      "question": "Read the passage.\n\nEarthquakes happen when tectonic plates under Earth's surface shift suddenly. This movement creates shock waves that travel through the ground. Some earthquakes are so small people cannot feel them, while others cause major damage.\n\nWhich sentence is the main idea?",
+      "choices": [
+        "A) Some earthquakes cause major damage.",
+        "B) Earthquakes happen when tectonic plates shift suddenly.",
+        "C) Shock waves travel through the ground.",
+        "D) People cannot feel some earthquakes."
+      ],
+      "answer": "B",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "web",
+          "content": {
+            "center": "Earthquakes",
+            "branches": [
+              "Tectonic plates shift",
+              "Shock waves travel",
+              "Some too small to feel",
+              "Others cause major damage"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 131,
+      "teks": "4.10C",
+      "question": "Read the sentence.\n\nStudying for the test was a piece of cake.\n\nThe phrase \"a piece of cake\" is \u2014",
+      "choices": [
+        "A) A simile",
+        "B) Personification",
+        "C) A metaphor",
+        "D) An idiom meaning something is easy"
+      ],
+      "answer": "D",
+      "visual": null
+    },
+    {
+      "id": 132,
+      "teks": "4.11D",
+      "question": "A student writes the following paragraph.\n\n(1) The field trip was fun. (2) We saw dinosaur bones. (3) The guide told us about fossils. (4) I learned that some dinosaurs were as tall as buildings.\n\nWhich sentence would make the best opening sentence to replace sentence 1?",
+      "choices": [
+        "A) Our class went on a trip.",
+        "B) Our class visited the Natural History Museum for an unforgettable field trip.",
+        "C) I went somewhere.",
+        "D) We left school."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 133,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nRosa carefully carried the clay pot she had spent three weeks making in art class. As she walked down the hallway, another student bumped into her. The pot flew from her hands and shattered on the tile floor.\n\nHow does Rosa most likely feel?",
+      "choices": [
+        "A) Relieved",
+        "B) Heartbroken",
+        "C) Amused",
+        "D) Indifferent"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 134,
+      "teks": "4.7F",
+      "question": "Read the sentence.\n\nThe venture into the unknown cave was fraught with danger at every turn.\n\nWhat does the word fraught mean?",
+      "choices": [
+        "A) Empty of",
+        "B) Filled with",
+        "C) Missing",
+        "D) Free from"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 135,
+      "teks": "4.8B",
+      "question": "Read the passage.\n\nSetting: A kitchen. Morning.\n\nMOM: (flipping pancakes) Breakfast is almost ready!\nLUCAS: (running in) Mom, I can't find my homework!\nMOM: Did you check your backpack?\nLUCAS: (pauses) Oh. There it is.\n\nWhat genre is this passage?",
+      "choices": [
+        "A) Poetry",
+        "B) Informational text",
+        "C) Drama/Play",
+        "D) Myth"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 136,
+      "teks": "4.11D",
+      "question": "Which sentence uses the correct form of the adjective?",
+      "choices": [
+        "A) This is the most beautifulest painting I've ever seen.",
+        "B) This is the most beautiful painting I've ever seen.",
+        "C) This is the beautifulest painting I've ever seen.",
+        "D) This is the more beautiful painting I've ever seen."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 137,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nThe old clock on the mantel had stopped working years ago, but Grandmother refused to throw it away. She said it was a gift from Grandfather before he passed away. Every time she dusted it, she smiled softly.\n\nWhat does the clock represent to Grandmother?",
+      "choices": [
+        "A) A piece of junk that takes up space",
+        "B) A reminder of technology",
+        "C) A precious memory of her husband",
+        "D) An expensive antique to sell"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 138,
+      "teks": "4.10A",
+      "question": "Read the passage.\n\nWild parrots in San Francisco originally escaped from pet owners decades ago. Because the climate was mild and food was available, the parrots survived. As a result, their population grew, and now hundreds of wild parrots live in the city.\n\nWhat text structure does the author use?",
+      "choices": [
+        "A) Compare and contrast",
+        "B) Problem and solution",
+        "C) Cause and effect",
+        "D) Sequence"
+      ],
+      "answer": "C",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "flow",
+          "content": {
+            "steps": [
+              "Parrots escape from owners",
+              "Mild climate and food available",
+              "Parrots survive and breed",
+              "Hundreds live in city"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 139,
+      "teks": "4.9D",
+      "question": "Look at the web graphic organizer below.\n\nBased on the web, what is the central idea of the passage?",
+      "choices": [
+        "A) How to visit Texas",
+        "B) Texas natural resources",
+        "C) Texas state symbols",
+        "D) Texas weather patterns"
+      ],
+      "answer": "B",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "web",
+          "content": {
+            "center": "Texas Natural Resources",
+            "branches": [
+              "Oil and natural gas",
+              "Wind energy",
+              "Cattle and agriculture",
+              "Timber"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 140,
+      "teks": "4.7F",
+      "question": "Read the sentence.\n\nThe commotion in the hallway disrupted every classroom on the floor.\n\nWhat does the word commotion mean?",
+      "choices": [
+        "A) Silence and stillness",
+        "B) A noisy disturbance",
+        "C) A pleasant surprise",
+        "D) An organized activity"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 141,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nAmara placed her hand gently on the wounded bird's wing. She wrapped it carefully in soft cloth and placed the bird in a warm box with water nearby. She checked on it every hour throughout the night.\n\nWhat does this passage reveal about Amara's character?",
+      "choices": [
+        "A) She is impatient.",
+        "B) She is compassionate and caring.",
+        "C) She is afraid of birds.",
+        "D) She is only interested in science."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 142,
+      "teks": "4.11D",
+      "question": "Read the sentence.\n\nMe and him went to the store yesterday.\n\nWhich is the correct revision?",
+      "choices": [
+        "A) Him and me went to the store yesterday.",
+        "B) He and I went to the store yesterday.",
+        "C) I and he went to the store yesterday.",
+        "D) Him and I went to the store yesterday."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 143,
+      "teks": "4.10C",
+      "question": "Read the sentence.\n\nThe flowers bowed their heads in the gentle rain.\n\nThis sentence is an example of \u2014",
+      "choices": [
+        "A) A simile",
+        "B) Hyperbole",
+        "C) An idiom",
+        "D) Personification"
+      ],
+      "answer": "D",
+      "visual": null
+    },
+    {
+      "id": 144,
+      "teks": "4.7C",
+      "question": "Read the passage.\n\nThe documentary followed a team of marine biologists as they tracked great white sharks along the California coast. Using satellite tags, they discovered that the sharks traveled thousands of miles each year.\n\nWhat is the author's purpose?",
+      "choices": [
+        "A) To persuade people to swim with sharks",
+        "B) To entertain readers with a scary shark story",
+        "C) To inform readers about great white shark research",
+        "D) To compare sharks to other fish"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 145,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nEveryone in town said the old house at the end of Maple Street was haunted. But when a new family moved in and fixed it up, they found it was just a regular house that needed some love and attention.\n\nWhat is the theme of this passage?",
+      "choices": [
+        "A) Old houses should be torn down.",
+        "B) Don't believe everything people say without finding out for yourself.",
+        "C) Moving to a new town is scary.",
+        "D) Ghosts are not real."
+      ],
+      "answer": "B",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "flow",
+          "content": {
+            "steps": [
+              "Problem: Old house thought haunted",
+              "Action: New family moves in",
+              "Result: Just a regular house needing care"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 146,
+      "teks": "4.11D",
+      "question": "Which sentence correctly uses a transition word?",
+      "choices": [
+        "A) The test was hard, however, I studied every night.",
+        "B) The test was hard; however, I studied every night and passed.",
+        "C) However the test was hard I studied.",
+        "D) The test hard, however studied."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 147,
+      "teks": "4.7F",
+      "question": "Read the sentence.\n\nThe immense canyon stretched so far that they could barely see the other side.\n\nWhat does the word immense mean?",
+      "choices": [
+        "A) Extremely small",
+        "B) Extremely large",
+        "C) Very deep",
+        "D) Very narrow"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 148,
+      "teks": "4.9D",
+      "question": "Read the passage.\n\nThe human body has 206 bones. Babies are born with about 270 bones, but many of them fuse together as the child grows. The smallest bone in the body is the stirrup bone inside the ear.\n\nWhich is a supporting detail?",
+      "choices": [
+        "A) Bones are important.",
+        "B) Babies are born with about 270 bones, but many fuse together.",
+        "C) The human body is complex.",
+        "D) Ears help people hear."
+      ],
+      "answer": "B",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": [
+            "Fact",
+            "Detail"
+          ],
+          "rows": [
+            [
+              "Adult bones",
+              "206"
+            ],
+            [
+              "Baby bones",
+              "About 270"
+            ],
+            [
+              "Smallest bone",
+              "Stirrup (in ear)"
+            ],
+            [
+              "Why fewer in adults",
+              "Bones fuse together"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": 149,
+      "teks": "4.10C",
+      "question": "Read the sentence.\n\nThe lake was as smooth as glass.\n\nThis sentence is an example of \u2014",
+      "choices": [
+        "A) A metaphor",
+        "B) A simile",
+        "C) Personification",
+        "D) An idiom"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 150,
+      "teks": "4.11D",
+      "question": "A student is revising a paragraph about dolphins. Which sentence does NOT belong?\n\n(1) Dolphins are intelligent marine mammals. (2) They communicate using clicks and whistles. (3) My favorite color is blue. (4) Scientists study dolphin behavior to learn about ocean ecosystems.",
+      "choices": [
+        "A) Sentence 1",
+        "B) Sentence 2",
+        "C) Sentence 3",
+        "D) Sentence 4"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 151,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nThe musician played the last note and set down his guitar. The small coffee shop was silent for a moment. Then everyone stood up and clapped. A woman wiped tears from her eyes.\n\nWhat effect did the musician's performance have?",
+      "choices": [
+        "A) It bored the audience.",
+        "B) It deeply moved the audience.",
+        "C) It confused the audience.",
+        "D) It made the audience angry."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 152,
+      "teks": "4.7F",
+      "question": "Read the sentence.\n\nThe elaborate decorations transformed the plain gymnasium into a magical wonderland.\n\nWhat does the word elaborate mean?",
+      "choices": [
+        "A) Simple and plain",
+        "B) Detailed and fancy",
+        "C) Messy and ugly",
+        "D) Dark and gloomy"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 153,
+      "teks": "4.10A",
+      "question": "Read the passage.\n\nInvasive species like fire ants and zebra mussels damage local ecosystems. Scientists are working on new methods to control these species, including introducing natural predators and using targeted treatments.\n\nWhat text structure does the author use?",
+      "choices": [
+        "A) Sequence",
+        "B) Compare and contrast",
+        "C) Problem and solution",
+        "D) Description"
+      ],
+      "answer": "C",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "flow",
+          "content": {
+            "steps": [
+              "Problem: Invasive species damage ecosystems",
+              "Solution 1: Natural predators",
+              "Solution 2: Targeted treatments"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 154,
+      "teks": "4.11D",
+      "question": "Which sentence is a compound sentence?",
+      "choices": [
+        "A) The dog barked loudly at the mailman.",
+        "B) Although it was raining, we went outside.",
+        "C) She studied hard, and she passed the test.",
+        "D) Running quickly through the park."
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 155,
+      "teks": "4.6F",
+      "question": "Read the passage.\n\nThe astronaut floated to the window of the space station and looked down at Earth. The blue oceans and green land looked so peaceful from 250 miles above. For a moment, all the problems on the ground seemed very far away.\n\nWhat is the astronaut most likely feeling?",
+      "choices": [
+        "A) Bored and unimpressed",
+        "B) Awe and perspective",
+        "C) Homesick and sad",
+        "D) Angry about the mission"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 156,
+      "teks": "4.10C",
+      "question": "Read the sentence.\n\nIt's raining cats and dogs outside!\n\nThis sentence contains an example of \u2014",
+      "choices": [
+        "A) A simile",
+        "B) A metaphor",
+        "C) An idiom",
+        "D) Personification"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 157,
+      "teks": "4.7C",
+      "question": "Read the passage.\n\nSarah felt the butterflies in her stomach as she stepped onto the stage. She looked out at the sea of faces and took a deep breath. Her fingers found the piano keys, and the music began.\n\nFrom whose point of view is this passage told?",
+      "choices": [
+        "A) First person",
+        "B) Second person",
+        "C) Third person limited",
+        "D) Third person omniscient"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 158,
+      "teks": "4.11D",
+      "question": "Which sentence demonstrates correct parallel structure?",
+      "choices": [
+        "A) She likes swimming, to bike, and running.",
+        "B) She likes swimming, biking, and running.",
+        "C) She likes to swim, biking, and to run.",
+        "D) She likes swimming, biking, and to run."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 159,
+      "teks": "4.9D",
+      "question": "Read the passage.\n\nThe Amazon River dolphin, also known as the pink river dolphin, lives in the freshwater rivers of South America. Unlike ocean dolphins, they can turn their heads from side to side. They use echolocation to navigate the murky river water.\n\nWhich detail supports the idea that pink river dolphins are different from ocean dolphins?",
+      "choices": [
+        "A) They live in South America.",
+        "B) They can turn their heads from side to side, unlike ocean dolphins.",
+        "C) They use echolocation.",
+        "D) They are called pink river dolphins."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 160,
+      "teks": "4.11D",
+      "question": "A student is editing a research report and finds these sentences.\n\nThe experiment was conducted by the scientists. The results was recorded by the scientists. The findings was published by the scientists.\n\nWhich revision correctly fixes the errors and improves the writing?",
+      "choices": [
+        "A) The scientists conducted the experiment, recorded the results, and published their findings.",
+        "B) The experiment was conducted, the results was recorded, and findings was published.",
+        "C) The scientists conducts the experiment, records the results, and publish the findings.",
+        "D) The experiment was conducted. The results was recorded. The findings was published."
+      ],
+      "answer": "A",
+      "visual": null
+    }
+  ]
+}

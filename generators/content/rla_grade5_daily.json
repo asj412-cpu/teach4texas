@@ -1,0 +1,2611 @@
+{
+  "title": "4-A-Day RLA Daily Review",
+  "subject": "rla",
+  "grade": 5,
+  "description": "8 Weeks of Spiraling STAAR RLA Practice for Grade 5",
+  "questions": [
+    {
+      "id": 1,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nThe captain gripped the wheel as waves crashed over the bow. His crew looked to him for guidance, but even he wasn't sure they would make it through the storm. Still, he kept his voice steady and gave orders calmly.\n\nWhat can the reader infer about the captain?",
+      "choices": [
+        "A) He is inexperienced and unsure of himself.",
+        "B) He is a strong leader who stays calm under pressure.",
+        "C) He does not care about his crew.",
+        "D) He wants to turn the ship around."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 2,
+      "teks": "5.11D",
+      "question": "Which sentence correctly uses a subordinating conjunction?",
+      "choices": [
+        "A) Although it was late we decided to keep working.",
+        "B) Although it was late, we decided to keep working.",
+        "C) It was late, although we decided to keep working.",
+        "D) We decided although it was late to keep working."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 3,
+      "teks": "5.7F",
+      "question": "Read the sentence.\n\nThe legislation was met with widespread opposition from citizens who felt it infringed on their rights.\n\nWhat does the word infringed mean in this sentence?",
+      "choices": [
+        "A) Protected",
+        "B) Violated or encroached upon",
+        "C) Supported",
+        "D) Ignored completely"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 4,
+      "teks": "5.9D",
+      "question": "Read the passage.\n\nPhotosynthesis is the process by which plants convert sunlight into food. Chlorophyll in the leaves absorbs light energy. The plant then uses this energy, along with carbon dioxide and water, to produce glucose and oxygen.\n\nWhat is the main idea of this passage?",
+      "choices": [
+        "A) Plants have green leaves.",
+        "B) Photosynthesis is the process plants use to make food from sunlight.",
+        "C) Oxygen is important for humans.",
+        "D) Carbon dioxide is a gas."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 5,
+      "teks": "5.10C",
+      "question": "Read the sentence.\n\nHope is the thing with feathers that perches in the soul.\n\nThis sentence is an example of \u2014",
+      "choices": [
+        "A) A simile",
+        "B) A metaphor",
+        "C) Hyperbole",
+        "D) An idiom"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 6,
+      "teks": "5.11D",
+      "question": "Read the sentence.\n\nThe team have been practicing since August, and their hard work has paid off.\n\nWhich is the correct revision?",
+      "choices": [
+        "A) The team has been practicing since August, and their hard work has paid off.",
+        "B) The team have been practicing since August, and its hard work have paid off.",
+        "C) The team has been practicing since August, and they're hard work has paid off.",
+        "D) The team having been practicing since August and their hard work paid off."
+      ],
+      "answer": "A",
+      "visual": null
+    },
+    {
+      "id": 7,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nMaya stared at the acceptance letter, reading it three times to make sure it was real. She had applied to the Young Writers Program on a whim, never expecting to be selected. Her hands shook as she called her mother.\n\nHow does Maya feel?",
+      "choices": [
+        "A) Disappointed that she got in",
+        "B) Shocked and thrilled",
+        "C) Indifferent about the news",
+        "D) Angry at the program"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 8,
+      "teks": "5.10A",
+      "question": "Read the passage.\n\nRenewable energy sources like solar and wind power do not produce greenhouse gases. Fossil fuels such as coal and oil release carbon dioxide when burned. While renewable energy is becoming cheaper, fossil fuels still provide most of the world's electricity.\n\nWhat text structure does the author use?",
+      "choices": [
+        "A) Sequence",
+        "B) Problem and solution",
+        "C) Compare and contrast",
+        "D) Cause and effect"
+      ],
+      "answer": "C",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "t_chart",
+          "content": {
+            "left_title": "Renewable Energy",
+            "right_title": "Fossil Fuels",
+            "left_items": [
+              "No greenhouse gases",
+              "Becoming cheaper",
+              "Solar, wind"
+            ],
+            "right_items": [
+              "Releases CO2",
+              "Still dominant",
+              "Coal, oil"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 9,
+      "teks": "5.7F",
+      "question": "Read the sentence.\n\nThe ambassador's diplomatic response helped avoid an international conflict.\n\nWhat does the word diplomatic mean?",
+      "choices": [
+        "A) Rude and aggressive",
+        "B) Tactful and skilled in dealing with sensitive matters",
+        "C) Confused and uncertain",
+        "D) Loud and forceful"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 10,
+      "teks": "5.11D",
+      "question": "Which sentence uses a comma correctly with an introductory phrase?",
+      "choices": [
+        "A) After the long hike, we rested by the river.",
+        "B) After, the long hike we rested by the river.",
+        "C) After the long hike we, rested by the river.",
+        "D) After the long, hike we rested by the river."
+      ],
+      "answer": "A",
+      "visual": null
+    },
+    {
+      "id": 11,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nThe two friends walked in silence, neither willing to be the first to apologize. They had argued over something trivial, but pride kept them from speaking. As they reached the corner where their paths split, one of them finally said, \"I'm sorry.\"\n\nWhat is the theme of this passage?",
+      "choices": [
+        "A) Walking is good exercise.",
+        "B) It takes courage to swallow your pride and apologize.",
+        "C) Friends should never argue.",
+        "D) Silence is always uncomfortable."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 12,
+      "teks": "5.7C",
+      "question": "Read the passage.\n\nI was convinced that no one could run faster than me. Then the new kid showed up at tryouts and left me in the dust. I learned that day that there's always someone who can push you to be better.\n\nFrom whose point of view is this passage told?",
+      "choices": [
+        "A) Third person omniscient",
+        "B) Second person",
+        "C) First person",
+        "D) Third person limited"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 13,
+      "teks": "5.9D",
+      "question": "Read the passage.\n\nThe Underground Railroad was not an actual railroad. It was a secret network of routes and safe houses used by enslaved people to escape to freedom in the North. Brave conductors like Harriet Tubman risked their lives to guide people to safety.\n\nWhich detail best supports the idea that the Underground Railroad was dangerous?",
+      "choices": [
+        "A) It was not an actual railroad.",
+        "B) It was a network of routes.",
+        "C) Brave conductors risked their lives to guide people.",
+        "D) Enslaved people wanted freedom."
+      ],
+      "answer": "C",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": [
+            "Feature",
+            "Detail"
+          ],
+          "rows": [
+            [
+              "What it was",
+              "Secret network of routes and safe houses"
+            ],
+            [
+              "Who used it",
+              "Enslaved people escaping to freedom"
+            ],
+            [
+              "Famous conductor",
+              "Harriet Tubman"
+            ],
+            [
+              "Danger",
+              "Conductors risked their lives"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": 14,
+      "teks": "5.11D",
+      "question": "Read the sentence.\n\nThe scientists data showed significant results, however their conclusion was premature.\n\nWhich revision correctly punctuates this sentence?",
+      "choices": [
+        "A) The scientists' data showed significant results; however, their conclusion was premature.",
+        "B) The scientist's data showed significant results however, their conclusion was premature.",
+        "C) The scientists data showed significant results, however, their conclusion was premature.",
+        "D) The scientists' data showed significant results however their conclusion was premature."
+      ],
+      "answer": "A",
+      "visual": null
+    },
+    {
+      "id": 15,
+      "teks": "5.10C",
+      "question": "Read the sentence.\n\nThe mountain of homework on her desk seemed impossible to finish.\n\nThe phrase \"mountain of homework\" is an example of \u2014",
+      "choices": [
+        "A) A simile",
+        "B) Hyperbole",
+        "C) Personification",
+        "D) An idiom"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 16,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nThe archaeologist held her breath as she lifted the lid of the ancient chest. Inside lay a golden mask with jeweled eyes, untouched for three thousand years. This single discovery would rewrite what historians knew about the civilization.\n\nWhy is this discovery significant?",
+      "choices": [
+        "A) The mask is made of gold.",
+        "B) It changes historical understanding of an ancient civilization.",
+        "C) The chest was hard to open.",
+        "D) Archaeologists like finding old things."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 17,
+      "teks": "5.7F",
+      "question": "Read the sentence.\n\nThe candidate's rhetoric persuaded many voters to support the new policy.\n\nWhat does the word rhetoric mean?",
+      "choices": [
+        "A) Silence",
+        "B) The art of effective or persuasive speaking",
+        "C) Written instructions",
+        "D) Physical appearance"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 18,
+      "teks": "5.11D",
+      "question": "Which sentence demonstrates correct parallel structure?",
+      "choices": [
+        "A) The coach told the players to stretch, to hydrate, and they should rest.",
+        "B) The coach told the players to stretch, to hydrate, and to rest.",
+        "C) The coach told the players to stretch, hydrating, and rest.",
+        "D) The coach told the players stretching, to hydrate, and resting."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 19,
+      "teks": "5.10A",
+      "question": "Read the passage.\n\nBefore the invention of the printing press, books had to be copied by hand. This meant very few books existed and most people could not read. After Gutenberg invented the printing press around 1440, books became widely available, and literacy rates soared.\n\nWhat text structure does the author use?",
+      "choices": [
+        "A) Compare and contrast",
+        "B) Problem and solution",
+        "C) Cause and effect",
+        "D) Description"
+      ],
+      "answer": "C",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "flow",
+          "content": {
+            "steps": [
+              "Books copied by hand (few exist)",
+              "Gutenberg invents printing press (~1440)",
+              "Books widely available",
+              "Literacy rates soar"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 20,
+      "teks": "5.9D",
+      "question": "Look at the data table below about ecosystems.\n\nBased on the table, which ecosystem has the highest average temperature?",
+      "choices": [
+        "A) Tundra",
+        "B) Temperate Forest",
+        "C) Tropical Rainforest",
+        "D) Desert"
+      ],
+      "answer": "C",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": [
+            "Ecosystem",
+            "Avg. Temp (F)",
+            "Avg. Rainfall (in/yr)"
+          ],
+          "rows": [
+            [
+              "Tundra",
+              "10",
+              "10"
+            ],
+            [
+              "Temperate Forest",
+              "55",
+              "40"
+            ],
+            [
+              "Tropical Rainforest",
+              "80",
+              "100"
+            ],
+            [
+              "Desert",
+              "75",
+              "5"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": 21,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nThe general studied the map one last time. His troops were outnumbered three to one, but they held the high ground. He knew that if they could survive until nightfall, reinforcements would arrive. The decision he made in the next hour would determine the fate of the entire campaign.\n\nWhat is the central conflict in this passage?",
+      "choices": [
+        "A) The general cannot read the map.",
+        "B) The general must decide how to fight a battle against a larger force.",
+        "C) The reinforcements are lost.",
+        "D) The troops want to go home."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 22,
+      "teks": "5.11D",
+      "question": "Read the sentence.\n\nEveryone in the class except Maria and I are going on the field trip.\n\nWhich is the correct revision?",
+      "choices": [
+        "A) Everyone in the class except Maria and me is going on the field trip.",
+        "B) Everyone in the class except Maria and I is going on the field trip.",
+        "C) Everyone in the class except Maria and me are going on the field trip.",
+        "D) Everyone in the class except me and Maria are going on the field trip."
+      ],
+      "answer": "A",
+      "visual": null
+    },
+    {
+      "id": 23,
+      "teks": "5.10C",
+      "question": "Read the sentence.\n\nThe sun smiled down on the children playing in the park.\n\nThis sentence is an example of \u2014",
+      "choices": [
+        "A) A simile",
+        "B) A metaphor",
+        "C) Personification",
+        "D) Hyperbole"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 24,
+      "teks": "5.7C",
+      "question": "Read the passage.\n\nScreen time should be limited for all children under 12. Studies show that too much screen time hurts brain development, reduces physical activity, and disrupts sleep patterns. Parents need to set firm limits.\n\nWhat is the author's point of view?",
+      "choices": [
+        "A) Screen time is good for children.",
+        "B) Children should use screens as much as they want.",
+        "C) Screen time should be limited because it has negative effects.",
+        "D) Only parents should use screens."
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 25,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nThe violin had belonged to her great-grandmother, then her grandmother, then her mother. Now it was Keiko's turn. The instrument was old and slightly worn, but when she drew the bow across the strings, the sound was rich and full of history.\n\nWhat is the theme of this passage?",
+      "choices": [
+        "A) Old instruments sound bad.",
+        "B) Heritage and family connections are passed down through generations.",
+        "C) Everyone should learn to play violin.",
+        "D) Music is better than sports."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 26,
+      "teks": "5.7F",
+      "question": "Read the sentence.\n\nThe entrepreneur launched an innovative product that revolutionized the industry.\n\nWhat does the word innovative mean?",
+      "choices": [
+        "A) Outdated and old-fashioned",
+        "B) New, creative, and original",
+        "C) Expensive and overpriced",
+        "D) Broken and useless"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 27,
+      "teks": "5.11D",
+      "question": "A student wrote the following paragraph.\n\n(1) The class organized a bake sale. (2) They wanted to raise money for new library books. (3) Each student baked something special. (4) The bake sale raised over $500.\n\nWhich transition word best connects sentence 3 to sentence 4?",
+      "choices": [
+        "A) However,",
+        "B) In conclusion,",
+        "C) As a result,",
+        "D) On the other hand,"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 28,
+      "teks": "5.9D",
+      "question": "Read the passage.\n\nThe Bill of Rights is the first ten amendments to the U.S. Constitution. These amendments protect important freedoms like speech, religion, and the press. They were added in 1791 because many Americans feared the new government might become too powerful.\n\nWhy were the amendments added?",
+      "choices": [
+        "A) To make the Constitution longer",
+        "B) Because Americans feared the government might become too powerful",
+        "C) To create new laws about taxes",
+        "D) To replace the original Constitution"
+      ],
+      "answer": "B",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": [
+            "Amendment",
+            "Right Protected"
+          ],
+          "rows": [
+            [
+              "1st",
+              "Speech, religion, press"
+            ],
+            [
+              "2nd",
+              "Bear arms"
+            ],
+            [
+              "4th",
+              "Against unreasonable searches"
+            ],
+            [
+              "6th",
+              "Fair and speedy trial"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": 29,
+      "teks": "5.10C",
+      "question": "Read the sentence.\n\nThe thunder roared like a hungry lion.\n\nThis sentence is an example of \u2014",
+      "choices": [
+        "A) A metaphor",
+        "B) A simile",
+        "C) An idiom",
+        "D) Personification"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 30,
+      "teks": "5.10A",
+      "question": "Read the passage.\n\nPlastic pollution in the ocean is a growing crisis. Millions of tons of plastic enter the ocean each year, harming marine life. To address this, scientists are developing biodegradable alternatives, and some countries have banned single-use plastics.\n\nWhat text structure does the author use?",
+      "choices": [
+        "A) Sequence",
+        "B) Compare and contrast",
+        "C) Cause and effect",
+        "D) Problem and solution"
+      ],
+      "answer": "D",
+      "visual": null
+    },
+    {
+      "id": 31,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nLiam had always been the fastest runner in his grade. But when Zara transferred to his school and beat him in the first race, he felt something he had never felt before \u2014 the motivation to work even harder. Instead of resenting Zara, he asked her to be his training partner.\n\nWhat does Liam's response reveal about his character?",
+      "choices": [
+        "A) He is a sore loser.",
+        "B) He is mature and uses competition to improve himself.",
+        "C) He does not care about running.",
+        "D) He is jealous of Zara."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 32,
+      "teks": "5.11D",
+      "question": "Which sentence correctly uses a semicolon?",
+      "choices": [
+        "A) The library was closed; so we went to the bookstore instead.",
+        "B) The library was closed; we went to the bookstore instead.",
+        "C) The library; was closed we went to the bookstore instead.",
+        "D) The library was; closed we went to the bookstore instead."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 33,
+      "teks": "5.7F",
+      "question": "Read the sentence.\n\nThe journalist's unbiased reporting earned the trust of readers across the political spectrum.\n\nWhat does the word unbiased mean?",
+      "choices": [
+        "A) One-sided and unfair",
+        "B) Fair and not favoring one side",
+        "C) Incorrect and misleading",
+        "D) Boring and uninteresting"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 34,
+      "teks": "5.7C",
+      "question": "Read the passage.\n\nThe forest had always been a source of wonder for Mika. From her window, she watched the seasons change the leaves from green to gold to bare branches. She knew every bird call and could name each wildflower along the trail.\n\nFrom whose point of view is this passage told?",
+      "choices": [
+        "A) First person",
+        "B) Second person",
+        "C) Third person limited",
+        "D) Third person omniscient"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 35,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nThe boy in the wheelchair rolled up to the basketball court and watched the game. One of the players noticed him and tossed him the ball. He caught it, spun his chair around, and made a perfect shot from half-court. The entire court went silent, then erupted in cheers.\n\nWhat is the effect of the boy's shot?",
+      "choices": [
+        "A) Everyone leaves the court.",
+        "B) The players are angry.",
+        "C) Everyone is amazed and impressed.",
+        "D) The game is canceled."
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 36,
+      "teks": "5.11D",
+      "question": "Read the sentence.\n\nThe students' projects, which were displayed in the hallway were impressive.\n\nWhere should a comma be added?",
+      "choices": [
+        "A) After students'",
+        "B) After hallway",
+        "C) After which",
+        "D) After were"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 37,
+      "teks": "5.9D",
+      "question": "Read the passage.\n\nThe Dust Bowl was a period of severe dust storms in the 1930s that devastated the Great Plains. Years of drought and poor farming practices had stripped the topsoil. Huge clouds of dust buried farms, forced families to migrate, and caused widespread economic hardship.\n\nWhat is the main idea?",
+      "choices": [
+        "A) Dust is a common problem.",
+        "B) The Dust Bowl was a devastating ecological and economic disaster caused by drought and poor farming.",
+        "C) Farms are found in the Great Plains.",
+        "D) People moved during the 1930s."
+      ],
+      "answer": "B",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "flow",
+          "content": {
+            "steps": [
+              "Drought + poor farming",
+              "Topsoil stripped away",
+              "Dust storms bury farms",
+              "Families migrate"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 38,
+      "teks": "5.10C",
+      "question": "Read the sentence.\n\nShe let the cat out of the bag when she accidentally told everyone about the surprise party.\n\nThe phrase \"let the cat out of the bag\" is an example of \u2014",
+      "choices": [
+        "A) A simile",
+        "B) A metaphor",
+        "C) An idiom meaning to reveal a secret",
+        "D) Hyperbole"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 39,
+      "teks": "5.7F",
+      "question": "Read the sentence.\n\nThe mayor's controversial decision divided the community into opposing groups.\n\nWhat does the word controversial mean?",
+      "choices": [
+        "A) Universally agreed upon",
+        "B) Causing disagreement or debate",
+        "C) Completely ignored",
+        "D) Very popular"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 40,
+      "teks": "5.11D",
+      "question": "A student wants to improve this sentence.\n\nThe dog was big and brown and had spots and was very friendly.\n\nWhich revision is best?",
+      "choices": [
+        "A) The dog was big, brown, spotted, and very friendly.",
+        "B) The big brown spotted friendly dog.",
+        "C) The large, brown, spotted dog greeted everyone with a wagging tail.",
+        "D) A big brown dog with spots was friendly."
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 41,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nEvery morning before dawn, Mr. Okoro opens his bakery and begins mixing dough. By the time the first customers arrive, the shop is filled with the aroma of fresh bread. He has done this for thirty years without taking a single vacation.\n\nWhat does this passage reveal about Mr. Okoro?",
+      "choices": [
+        "A) He wishes he had a different career.",
+        "B) He is dedicated and hardworking.",
+        "C) He does not enjoy baking.",
+        "D) He plans to retire soon."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 42,
+      "teks": "5.10A",
+      "question": "Read the passage.\n\nThe invention of the telephone changed communication forever. Before the telephone, people relied on letters and telegrams, which could take days or weeks to arrive. After its invention, people could speak to one another instantly across great distances.\n\nWhat text structure does the author use?",
+      "choices": [
+        "A) Problem and solution",
+        "B) Compare and contrast",
+        "C) Sequence",
+        "D) Description"
+      ],
+      "answer": "B",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "t_chart",
+          "content": {
+            "left_title": "Before Telephone",
+            "right_title": "After Telephone",
+            "left_items": [
+              "Letters and telegrams",
+              "Days or weeks to communicate"
+            ],
+            "right_items": [
+              "Instant voice communication",
+              "Speak across great distances"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 43,
+      "teks": "5.7F",
+      "question": "Read the sentence.\n\nThe prolific author published over fifty novels during her career.\n\nWhat does the word prolific mean?",
+      "choices": [
+        "A) Lazy and unproductive",
+        "B) Producing a large amount of work",
+        "C) Famous and wealthy",
+        "D) Writing very slowly"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 44,
+      "teks": "5.11D",
+      "question": "Which sentence correctly punctuates dialogue?",
+      "choices": [
+        "A) \"I'll be there in five minutes\" said Marcus.",
+        "B) \"I'll be there in five minutes,\" said Marcus.",
+        "C) \"I'll be there in five minutes\", said Marcus.",
+        "D) I'll be there in five minutes, \"said Marcus\"."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 45,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nThe inventor had failed ninety-nine times. Each failure taught her something new about how the machine worked \u2014 and how it didn't. On the hundredth attempt, the gears turned smoothly, the lights flickered on, and the machine hummed to life.\n\nWhat is the theme of this passage?",
+      "choices": [
+        "A) Machines are complicated.",
+        "B) Persistence and learning from failure lead to success.",
+        "C) Inventors are always lucky.",
+        "D) It is important to give up when things get hard."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 46,
+      "teks": "5.10C",
+      "question": "Read the sentence.\n\nLife is a journey, not a destination.\n\nThis sentence is an example of \u2014",
+      "choices": [
+        "A) A simile",
+        "B) A metaphor",
+        "C) Personification",
+        "D) Hyperbole"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 47,
+      "teks": "5.9D",
+      "question": "Read the passage.\n\nThe Hubble Space Telescope has been orbiting Earth since 1990. It has captured stunning images of distant galaxies, nebulae, and stars. These images have helped scientists estimate the age of the universe at about 13.8 billion years.\n\nWhich detail supports the importance of the Hubble Telescope?",
+      "choices": [
+        "A) It was launched in 1990.",
+        "B) It orbits Earth.",
+        "C) Its images helped scientists estimate the age of the universe.",
+        "D) It is named Hubble."
+      ],
+      "answer": "C",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "web",
+          "content": {
+            "center": "Hubble Space Telescope",
+            "branches": [
+              "Orbiting since 1990",
+              "Images of galaxies and nebulae",
+              "Helped estimate universe age",
+              "13.8 billion years"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 48,
+      "teks": "5.11D",
+      "question": "Which sentence contains a dangling modifier?",
+      "choices": [
+        "A) While jogging through the park, Sarah spotted a deer.",
+        "B) Running down the street, the ice cream truck caught the children's attention.",
+        "C) After finishing dinner, we watched a movie.",
+        "D) Before leaving for school, Marcus packed his lunch."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 49,
+      "teks": "5.7C",
+      "question": "Read the passage.\n\nThere are two sides to the debate about school uniforms. Supporters say uniforms reduce bullying and create a sense of belonging. Opponents argue that uniforms limit self-expression and can be costly for families.\n\nWhat is the author's point of view?",
+      "choices": [
+        "A) The author strongly supports school uniforms.",
+        "B) The author is against school uniforms.",
+        "C) The author presents both sides without showing a personal opinion.",
+        "D) The author thinks uniforms are too expensive."
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 50,
+      "teks": "5.7F",
+      "question": "Read the sentence.\n\nThe committee reached a consensus after hours of deliberation.\n\nWhat does the word consensus mean?",
+      "choices": [
+        "A) A strong disagreement",
+        "B) A general agreement among the group",
+        "C) A secret vote",
+        "D) A complete failure"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 51,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nThe small-town diner had been in Stella's family for three generations. When a chain restaurant opened across the street, business dropped dramatically. Stella could have given up, but instead she created new recipes and hosted community events. Within a year, the diner was more popular than ever.\n\nWhat is the central message of this passage?",
+      "choices": [
+        "A) Chain restaurants are always bad.",
+        "B) Adaptability and determination can help overcome challenges.",
+        "C) Small towns don't need restaurants.",
+        "D) Old recipes are always better."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 52,
+      "teks": "5.11D",
+      "question": "Read the paragraph.\n\n(1) The Amazon rainforest is called the lungs of the Earth. (2) It produces a significant amount of the world's oxygen. (3) My sister visited Brazil last year. (4) Deforestation threatens this vital ecosystem.\n\nWhich sentence does NOT belong in this paragraph?",
+      "choices": [
+        "A) Sentence 1",
+        "B) Sentence 2",
+        "C) Sentence 3",
+        "D) Sentence 4"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 53,
+      "teks": "5.10C",
+      "question": "Read the sentence.\n\nThe alarm clock screamed at me to wake up.\n\nThis sentence is an example of \u2014",
+      "choices": [
+        "A) A simile",
+        "B) A metaphor",
+        "C) Personification",
+        "D) An idiom"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 54,
+      "teks": "5.10A",
+      "question": "Read the passage.\n\nOverfishing has depleted fish populations in many parts of the ocean. To solve this problem, governments have established marine protected areas where fishing is limited or banned. These protected zones allow fish populations to recover and help maintain healthy ocean ecosystems.\n\nWhat text structure does the author use?",
+      "choices": [
+        "A) Compare and contrast",
+        "B) Problem and solution",
+        "C) Sequence",
+        "D) Description"
+      ],
+      "answer": "B",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "flow",
+          "content": {
+            "steps": [
+              "Problem: Overfishing depletes fish",
+              "Solution: Marine protected areas",
+              "Result: Fish populations recover"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 55,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nNessa found a stray kitten shivering in the rain and brought it inside. Her mother said they couldn't keep it, but Nessa made a deal: she would do extra chores for a month. She kept her promise, and the kitten stayed.\n\nWhat does this passage show about Nessa?",
+      "choices": [
+        "A) She is irresponsible.",
+        "B) She is responsible and willing to work for what she wants.",
+        "C) She doesn't like animals.",
+        "D) She breaks her promises."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 56,
+      "teks": "5.7F",
+      "question": "Read the sentence.\n\nThe diverse population of the city includes people from over 100 different countries.\n\nWhat does the word diverse mean?",
+      "choices": [
+        "A) All the same",
+        "B) Made up of many different types",
+        "C) Very small",
+        "D) Unfriendly"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 57,
+      "teks": "5.11D",
+      "question": "Which sentence uses the correct verb tense consistently?",
+      "choices": [
+        "A) She walked to the store and buys some milk.",
+        "B) She walked to the store and bought some milk.",
+        "C) She walks to the store and bought some milk.",
+        "D) She was walking to the store and buys some milk."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 58,
+      "teks": "5.9D",
+      "question": "Read the passage.\n\nThe circulatory system moves blood throughout the body. The heart acts as a pump, pushing blood through arteries to deliver oxygen. Veins carry the blood back to the heart. This cycle repeats about 100,000 times every day.\n\nWhat is the main idea?",
+      "choices": [
+        "A) Veins are blue.",
+        "B) The circulatory system moves blood through the body using the heart as a pump.",
+        "C) Blood contains oxygen.",
+        "D) The heart beats fast during exercise."
+      ],
+      "answer": "B",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "flow",
+          "content": {
+            "steps": [
+              "Heart pumps blood",
+              "Arteries carry blood to body",
+              "Oxygen delivered",
+              "Veins return blood to heart"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 59,
+      "teks": "5.10C",
+      "question": "Read the sentence.\n\nThe test was a breeze.\n\nThis sentence is an example of \u2014",
+      "choices": [
+        "A) A simile",
+        "B) A metaphor",
+        "C) Personification",
+        "D) An idiom"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 60,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nThe astronomer had spent twenty years searching for a signal from another planet. Colleagues laughed at her work. But one night, the radio telescope picked up a pattern that was clearly not natural. Her hands trembled as she recorded the data.\n\nWhy do the astronomer's hands tremble?",
+      "choices": [
+        "A) She is cold from being outside.",
+        "B) She may have made a groundbreaking discovery.",
+        "C) She is upset about her colleagues.",
+        "D) She is tired from working all night."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 61,
+      "teks": "5.11D",
+      "question": "Read the sentence.\n\nThe teacher asked the students to bring they're books to class.\n\nWhich is the correct revision?",
+      "choices": [
+        "A) The teacher asked the students to bring there books to class.",
+        "B) The teacher asked the students to bring their books to class.",
+        "C) The teacher asked the students to bring they are books to class.",
+        "D) The teacher asked the students to bring theyre books to class."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 62,
+      "teks": "5.7C",
+      "question": "Read the passage.\n\nThe documentary showed both the beauty and the danger of living near an active volcano. Farmers loved the rich volcanic soil for growing crops, but they always lived with the risk of eruption.\n\nWhat is the author's purpose?",
+      "choices": [
+        "A) To persuade people to move near volcanoes",
+        "B) To entertain with a fictional volcano story",
+        "C) To inform readers about both the benefits and risks of living near volcanoes",
+        "D) To describe volcanic soil"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 63,
+      "teks": "5.7F",
+      "question": "Read the sentence.\n\nThe obsolete technology was replaced by faster and more efficient devices.\n\nWhat does the word obsolete mean?",
+      "choices": [
+        "A) Brand new",
+        "B) No longer in use or outdated",
+        "C) Very expensive",
+        "D) Extremely popular"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 64,
+      "teks": "5.10A",
+      "question": "Read the passage.\n\nFirst, the water in the ocean is heated by the sun and evaporates. Next, the warm, moist air rises and begins to cool. Then, the moisture condenses into clouds. Finally, the clouds release rain or snow as precipitation, and the cycle begins again.\n\nWhat text structure does the author use?",
+      "choices": [
+        "A) Compare and contrast",
+        "B) Problem and solution",
+        "C) Cause and effect",
+        "D) Sequence"
+      ],
+      "answer": "D",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "flow",
+          "content": {
+            "steps": [
+              "Sun heats ocean water",
+              "Warm air rises and cools",
+              "Moisture condenses into clouds",
+              "Precipitation falls"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 65,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nThe sculptor stepped back from her clay figure and stared at it critically. Something was wrong with the expression on the face. She had been working on this piece for weeks, trying to capture the emotion of hope. She picked up her tools and began again.\n\nWhat does this passage reveal about the sculptor?",
+      "choices": [
+        "A) She is satisfied with her work.",
+        "B) She is a perfectionist committed to her artistic vision.",
+        "C) She wants to finish quickly.",
+        "D) She does not enjoy sculpting."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 66,
+      "teks": "5.11D",
+      "question": "Which sentence is a complex sentence?",
+      "choices": [
+        "A) The sun set, and the stars appeared.",
+        "B) Because the road was icy, school was canceled.",
+        "C) She likes dogs and cats.",
+        "D) He ran to the store."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 67,
+      "teks": "5.10C",
+      "question": "Read the sentence.\n\nThe wind howled through the empty streets like a pack of wolves.\n\nThis sentence is an example of \u2014",
+      "choices": [
+        "A) A metaphor",
+        "B) A simile",
+        "C) An idiom",
+        "D) Hyperbole"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 68,
+      "teks": "5.9D",
+      "question": "Read the passage.\n\nThe Great Barrier Reef off the coast of Australia is the largest coral reef system in the world. It stretches over 1,400 miles and can be seen from space. The reef supports more than 1,500 species of fish and 400 types of coral.\n\nWhich sentence is a supporting detail?",
+      "choices": [
+        "A) Australia is a continent.",
+        "B) The reef supports more than 1,500 species of fish.",
+        "C) Oceans cover most of Earth.",
+        "D) Coral reefs are found in warm water."
+      ],
+      "answer": "B",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": [
+            "Great Barrier Reef Fact",
+            "Detail"
+          ],
+          "rows": [
+            [
+              "Location",
+              "Off coast of Australia"
+            ],
+            [
+              "Length",
+              "Over 1,400 miles"
+            ],
+            [
+              "Fish species",
+              "1,500+"
+            ],
+            [
+              "Coral types",
+              "400+"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": 69,
+      "teks": "5.7F",
+      "question": "Read the sentence.\n\nThe audacious plan to cross the desert on foot surprised everyone.\n\nWhat does the word audacious mean?",
+      "choices": [
+        "A) Boring and ordinary",
+        "B) Extremely bold and daring",
+        "C) Carefully planned",
+        "D) Canceled at the last minute"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 70,
+      "teks": "5.11D",
+      "question": "A student wrote the following sentence.\n\nThe museum, which had just opened last month was already attracting thousands of visitors.\n\nWhat punctuation needs to be added?",
+      "choices": [
+        "A) A comma after month",
+        "B) A period after month",
+        "C) A semicolon after month",
+        "D) A comma after attracting"
+      ],
+      "answer": "A",
+      "visual": null
+    },
+    {
+      "id": 71,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nThe cheetah crouched low in the grass, its muscles tensed. The gazelle grazed peacefully, unaware of the danger. In one explosive burst, the cheetah launched forward. The gazelle's ears perked up a second too late.\n\nWhat is the most likely outcome?",
+      "choices": [
+        "A) The gazelle escapes.",
+        "B) The cheetah catches the gazelle.",
+        "C) Both animals run away.",
+        "D) The cheetah gives up."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 72,
+      "teks": "5.7C",
+      "question": "Read the passage.\n\nSchools that serve healthy lunches see students perform better on tests. Research shows that good nutrition improves focus and energy throughout the day. Every school should invest in better cafeteria food.\n\nWhat is the author's purpose?",
+      "choices": [
+        "A) To entertain readers",
+        "B) To describe different types of school food",
+        "C) To persuade schools to serve healthier lunches",
+        "D) To compare school food to restaurant food"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 73,
+      "teks": "5.10C",
+      "question": "Read the sentence.\n\nThe old car coughed and sputtered before finally dying in the middle of the road.\n\nThis sentence is an example of \u2014",
+      "choices": [
+        "A) A simile",
+        "B) Hyperbole",
+        "C) Personification",
+        "D) An idiom"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 74,
+      "teks": "5.11D",
+      "question": "Read the two sentences.\n\nThe expedition reached the summit. The climbers planted their flag.\n\nWhich is the best way to combine these sentences?",
+      "choices": [
+        "A) The expedition reached the summit, and the climbers planted their flag.",
+        "B) The expedition reached the summit the climbers planted their flag.",
+        "C) When the expedition reached the summit, the climbers planted their flag.",
+        "D) Both A and C are correct."
+      ],
+      "answer": "D",
+      "visual": null
+    },
+    {
+      "id": 75,
+      "teks": "5.9D",
+      "question": "A student is writing a research report about the water cycle. Which source would be MOST reliable?",
+      "choices": [
+        "A) A classmate's essay about rain",
+        "B) A Wikipedia article about water",
+        "C) A published science textbook by an expert hydrologist",
+        "D) A cartoon about rain clouds"
+      ],
+      "answer": "C",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": [
+            "Source Type",
+            "Reliability Level"
+          ],
+          "rows": [
+            [
+              "Published textbook by expert",
+              "Most reliable"
+            ],
+            [
+              "Encyclopedia",
+              "Very reliable"
+            ],
+            [
+              "Wikipedia",
+              "Moderately reliable"
+            ],
+            [
+              "Classmate's essay",
+              "Least reliable"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": 76,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nWhen the town council announced plans to demolish the old oak tree in the park, twelve-year-old Amira organized a petition. She went door to door, gave a speech at the council meeting, and posted videos online. The council reversed their decision two weeks later.\n\nWhat is the theme of this passage?",
+      "choices": [
+        "A) Trees are very important.",
+        "B) One person's determination can create change.",
+        "C) Town councils always make wrong decisions.",
+        "D) Social media is the best way to solve problems."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 77,
+      "teks": "5.7F",
+      "question": "Read the sentence.\n\nThe philanthropic organization funded scholarships for hundreds of underprivileged students.\n\nWhat does the word philanthropic mean?",
+      "choices": [
+        "A) Profit-driven",
+        "B) Charitable and seeking to help others",
+        "C) Government-operated",
+        "D) Small and local"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 78,
+      "teks": "5.11D",
+      "question": "Which sentence uses an appositive phrase correctly?",
+      "choices": [
+        "A) My teacher, Mrs. Rodriguez is very kind.",
+        "B) My teacher Mrs. Rodriguez, is very kind.",
+        "C) My teacher, Mrs. Rodriguez, is very kind.",
+        "D) My, teacher Mrs. Rodriguez is very kind."
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 79,
+      "teks": "5.10A",
+      "question": "Read the passage.\n\nDeforestation leads to loss of biodiversity because animals lose their habitats. This, in turn, affects the food chain, as species that depend on those animals for food also decline. The effects ripple outward, impacting entire ecosystems.\n\nWhat text structure does the author use?",
+      "choices": [
+        "A) Compare and contrast",
+        "B) Problem and solution",
+        "C) Cause and effect",
+        "D) Sequence"
+      ],
+      "answer": "C",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "flow",
+          "content": {
+            "steps": [
+              "Deforestation",
+              "Animals lose habitats",
+              "Food chain disrupted",
+              "Entire ecosystems affected"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 80,
+      "teks": "5.8B",
+      "question": "Read the passage.\n\nIn the time before time, Coyote stole fire from the fire spirits and gave it to the people. The fire spirits chased Coyote across the land, but he was too clever for them. To this day, people have fire because of Coyote's bravery.\n\nWhat genre is this passage?",
+      "choices": [
+        "A) Biography",
+        "B) Science fiction",
+        "C) Myth or legend",
+        "D) Realistic fiction"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 81,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nSofia noticed that her elderly neighbor, Mr. Kim, had not been outside in three days. She baked a batch of cookies and knocked on his door. When he answered, she could see he had been sick. She called her parents, who helped arrange for someone to check on him daily.\n\nWhat does this passage reveal about Sofia?",
+      "choices": [
+        "A) She is nosy about her neighbors.",
+        "B) She is observant, compassionate, and takes initiative.",
+        "C) She only wants to bake cookies.",
+        "D) She is afraid of Mr. Kim."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 82,
+      "teks": "5.11D",
+      "question": "Read the sentence.\n\nThe book, which I borrowed from the library, were fascinating.\n\nWhich is the correct revision?",
+      "choices": [
+        "A) The book, which I borrowed from the library, was fascinating.",
+        "B) The book which I borrowed from the library were fascinating.",
+        "C) The book, which I borrowed from the library, are fascinating.",
+        "D) The book, I borrowed from the library, were fascinating."
+      ],
+      "answer": "A",
+      "visual": null
+    },
+    {
+      "id": 83,
+      "teks": "5.10C",
+      "question": "Read the sentence.\n\nI'm so tired I could sleep for a hundred years.\n\nThis sentence is an example of \u2014",
+      "choices": [
+        "A) A simile",
+        "B) A metaphor",
+        "C) Personification",
+        "D) Hyperbole"
+      ],
+      "answer": "D",
+      "visual": null
+    },
+    {
+      "id": 84,
+      "teks": "5.7C",
+      "question": "Read the passage.\n\nWe should all reduce our carbon footprint. Drive less, use energy-efficient appliances, and eat locally grown food. Small changes by millions of people can add up to a big difference for our planet.\n\nWhat is the author's purpose?",
+      "choices": [
+        "A) To entertain readers",
+        "B) To inform readers about carbon",
+        "C) To persuade readers to make environmentally friendly choices",
+        "D) To describe how cars work"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 85,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nDuring the Great Depression, many families lost their homes and savings. Despite the hardship, communities came together to help one another. Neighbors shared food, and churches organized shelters. It was a time of great suffering but also of remarkable generosity.\n\nWhat is the author's message about the Great Depression?",
+      "choices": [
+        "A) Everyone gave up hope.",
+        "B) Even in the worst times, people can show generosity and support one another.",
+        "C) The Great Depression was not very serious.",
+        "D) Only churches helped people."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 86,
+      "teks": "5.9D",
+      "question": "Look at the data table below.\n\nBased on the table, which state produces the most wind energy?",
+      "choices": [
+        "A) California",
+        "B) Iowa",
+        "C) Texas",
+        "D) Oklahoma"
+      ],
+      "answer": "C",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": [
+            "State",
+            "Wind Energy (MW)"
+          ],
+          "rows": [
+            [
+              "Texas",
+              "37,422"
+            ],
+            [
+              "Iowa",
+              "12,220"
+            ],
+            [
+              "Oklahoma",
+              "11,907"
+            ],
+            [
+              "California",
+              "6,022"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": 87,
+      "teks": "5.7F",
+      "question": "Read the sentence.\n\nThe expedition faced formidable obstacles, including freezing temperatures and treacherous terrain.\n\nWhat does the word formidable mean?",
+      "choices": [
+        "A) Small and easy to overcome",
+        "B) Inspiring fear or respect through difficulty",
+        "C) Invisible and unnoticed",
+        "D) Funny and entertaining"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 88,
+      "teks": "5.11D",
+      "question": "Read the paragraph.\n\nThe new community garden has been a wonderful addition to our neighborhood. First, it provides fresh vegetables for families. Second, it brings neighbors together. Third, it teaches children about where food comes from.\n\nWhich sentence would best conclude this paragraph?",
+      "choices": [
+        "A) I don't like vegetables.",
+        "B) Gardens need water to grow.",
+        "C) The community garden has improved our neighborhood in many meaningful ways.",
+        "D) My favorite flower is a daisy."
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 89,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nJasper the sheepdog watched over the flock day and night. When a coyote appeared at the edge of the field, Jasper placed himself between the coyote and the sheep. He barked fiercely until the coyote retreated into the woods.\n\nWhat can the reader infer about Jasper?",
+      "choices": [
+        "A) He is afraid of coyotes.",
+        "B) He is protective and brave.",
+        "C) He does not like the sheep.",
+        "D) He wants to play with the coyote."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 90,
+      "teks": "5.10C",
+      "question": "Read the sentence.\n\nKnowledge is a double-edged sword.\n\nThis sentence is an example of \u2014",
+      "choices": [
+        "A) A simile",
+        "B) A metaphor",
+        "C) Personification",
+        "D) Hyperbole"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 91,
+      "teks": "5.11D",
+      "question": "Which sentence correctly uses affect and effect?",
+      "choices": [
+        "A) The weather will effect our plans for the picnic.",
+        "B) The new policy will have a positive affect on students.",
+        "C) The storm did not affect the power lines, so there was no effect on the neighborhood.",
+        "D) The affect of the medicine was immediate."
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 92,
+      "teks": "5.7C",
+      "question": "Read the passage.\n\nThe narrator watched from a distance as the two armies clashed on the open plain. Neither side seemed willing to retreat. The battle would determine the fate of the kingdom, but the narrator felt only sadness at the waste of so many lives.\n\nWhat is the narrator's point of view about the battle?",
+      "choices": [
+        "A) The narrator is excited about the fighting.",
+        "B) The narrator thinks war is glorious.",
+        "C) The narrator feels sadness about the loss of life.",
+        "D) The narrator wants one side to win."
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 93,
+      "teks": "5.9D",
+      "question": "Read the passage.\n\nThe Rosetta Stone is an ancient artifact that helped scholars decode Egyptian hieroglyphics. It was carved in 196 BC and contains the same text in three scripts: hieroglyphics, Demotic, and Greek. By comparing the Greek text to the hieroglyphics, scholars were finally able to read ancient Egyptian writing.\n\nWhy is the Rosetta Stone important?",
+      "choices": [
+        "A) It is very old.",
+        "B) It helped scholars decode Egyptian hieroglyphics.",
+        "C) It was found in Egypt.",
+        "D) It has three scripts."
+      ],
+      "answer": "B",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": [
+            "Feature",
+            "Detail"
+          ],
+          "rows": [
+            [
+              "Date carved",
+              "196 BC"
+            ],
+            [
+              "Scripts",
+              "Hieroglyphics, Demotic, Greek"
+            ],
+            [
+              "Importance",
+              "Decoded Egyptian hieroglyphics"
+            ],
+            [
+              "Method",
+              "Compared Greek text to hieroglyphics"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": 94,
+      "teks": "5.7F",
+      "question": "Read the sentence.\n\nThe meager rations barely kept the soldiers alive during the long winter siege.\n\nWhat does the word meager mean?",
+      "choices": [
+        "A) Abundant and plentiful",
+        "B) Inadequately small in amount",
+        "C) Delicious and satisfying",
+        "D) Carefully measured"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 95,
+      "teks": "5.10A",
+      "question": "Read the passage.\n\nBullying in schools is a serious problem that affects millions of students. Many schools have implemented anti-bullying programs that teach empathy, conflict resolution, and bystander intervention. Studies show that schools with these programs see a significant decrease in bullying incidents.\n\nWhat text structure does the author use?",
+      "choices": [
+        "A) Sequence",
+        "B) Compare and contrast",
+        "C) Problem and solution",
+        "D) Description"
+      ],
+      "answer": "C",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "flow",
+          "content": {
+            "steps": [
+              "Problem: Bullying in schools",
+              "Solution: Anti-bullying programs",
+              "Teaches: Empathy, conflict resolution",
+              "Result: Decrease in incidents"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 96,
+      "teks": "5.11D",
+      "question": "Read the sentence.\n\nNeither the students nor the teacher were able to solve the puzzle.\n\nWhich is the correct revision?",
+      "choices": [
+        "A) Neither the students nor the teacher was able to solve the puzzle.",
+        "B) Neither the students nor the teacher are able to solve the puzzle.",
+        "C) Neither the students or the teacher were able to solve the puzzle.",
+        "D) The sentence is already correct."
+      ],
+      "answer": "A",
+      "visual": null
+    },
+    {
+      "id": 97,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nThe two scientists worked in labs on opposite sides of the world, unaware that they were solving the same problem. When they both published their results on the same day, the scientific community was stunned by the coincidence.\n\nWhat makes this situation remarkable?",
+      "choices": [
+        "A) Scientists always work alone.",
+        "B) Two independent researchers solved the same problem simultaneously.",
+        "C) The scientists were in the same lab.",
+        "D) Neither scientist was successful."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 98,
+      "teks": "5.10C",
+      "question": "Read the sentence.\n\nThe empty house stared at them with dark, hollow eyes.\n\nThis sentence uses \u2014",
+      "choices": [
+        "A) A simile and hyperbole",
+        "B) Personification and a metaphor",
+        "C) An idiom and a simile",
+        "D) Only literal language"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 99,
+      "teks": "5.9D",
+      "question": "A student is organizing research for a report about endangered species. Which graphic organizer would best help compare three different endangered animals?",
+      "choices": [
+        "A) A flow chart",
+        "B) A timeline",
+        "C) A data table with categories for each animal",
+        "D) A numbered list"
+      ],
+      "answer": "C",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": [
+            "Animal",
+            "Habitat",
+            "Population",
+            "Main Threat"
+          ],
+          "rows": [
+            [
+              "Giant Panda",
+              "Bamboo forests",
+              "~1,800",
+              "Habitat loss"
+            ],
+            [
+              "Sea Turtle",
+              "Tropical oceans",
+              "~6,000 nesting females",
+              "Pollution"
+            ],
+            [
+              "Snow Leopard",
+              "Mountain ranges",
+              "~4,000",
+              "Poaching"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": 100,
+      "teks": "5.11D",
+      "question": "A student is revising a persuasive essay. Which sentence uses the most effective persuasive language?",
+      "choices": [
+        "A) The school should maybe think about getting new computers.",
+        "B) New computers would be kind of nice for the school.",
+        "C) Investing in updated technology would significantly improve student learning outcomes.",
+        "D) Computers are good and the school should get them."
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 101,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nThe refugee family arrived in a country where they didn't speak the language. The father worked two jobs, the mother took English classes at night, and the children helped translate at stores and doctor's offices. Slowly, they built a new life.\n\nWhat is the theme of this passage?",
+      "choices": [
+        "A) Learning languages is easy.",
+        "B) Resilience and family teamwork can help overcome the challenges of starting over.",
+        "C) Refugees should not move to new countries.",
+        "D) Children should not have to help their parents."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 102,
+      "teks": "5.7F",
+      "question": "Read the sentence.\n\nThe pervasive influence of social media has changed how people communicate, shop, and consume news.\n\nWhat does the word pervasive mean?",
+      "choices": [
+        "A) Limited and restricted",
+        "B) Spreading widely throughout",
+        "C) Temporary and brief",
+        "D) Invisible and hidden"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 103,
+      "teks": "5.11D",
+      "question": "Read the sentence.\n\nThe principle of our school announced a new dress code policy.\n\nWhich word is used incorrectly?",
+      "choices": [
+        "A) announced",
+        "B) policy",
+        "C) principle (should be principal)",
+        "D) dress"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 104,
+      "teks": "5.10A",
+      "question": "Read the passage.\n\nThe ancient Romans built a vast network of roads connecting their empire. These roads were remarkably straight and well-engineered. Similarly, the Inca Empire in South America built an extensive road system through the Andes Mountains, though they used different construction techniques.\n\nWhat text structure does the author use?",
+      "choices": [
+        "A) Problem and solution",
+        "B) Compare and contrast",
+        "C) Cause and effect",
+        "D) Sequence"
+      ],
+      "answer": "B",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "venn",
+          "content": {
+            "left": "Romans: Straight roads, European empire",
+            "right": "Inca: Mountain roads, South American empire",
+            "center": "Both: Vast road networks, Connected empires"
+          }
+        }
+      }
+    },
+    {
+      "id": 105,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nThe coach gathered the team after their worst loss of the season. Instead of yelling, she sat down with them in a circle. \"What did we learn today?\" she asked. One by one, the players shared what they would do differently next time.\n\nWhat does this passage reveal about the coach's leadership style?",
+      "choices": [
+        "A) She is too soft and doesn't care about winning.",
+        "B) She uses reflection and learning as tools for improvement.",
+        "C) She is angry but hiding it.",
+        "D) She plans to quit coaching."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 106,
+      "teks": "5.10C",
+      "question": "Read the sentence.\n\nThe dancer moved across the stage as gracefully as a swan gliding on a lake.\n\nThis sentence is an example of \u2014",
+      "choices": [
+        "A) A metaphor",
+        "B) Personification",
+        "C) A simile",
+        "D) An idiom"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 107,
+      "teks": "5.7C",
+      "question": "Read the passage.\n\nEmma thought the new student seemed standoffish and unfriendly. But when she saw him sitting alone at lunch for the third day in a row, she walked over and sat down. She learned that he was just shy, not unfriendly, and they became close friends.\n\nWhat lesson does Emma learn?",
+      "choices": [
+        "A) New students are always unfriendly.",
+        "B) First impressions can be wrong; it's important to give people a chance.",
+        "C) You should never sit alone at lunch.",
+        "D) Making friends is impossible."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 108,
+      "teks": "5.11D",
+      "question": "Which sentence correctly uses who and whom?",
+      "choices": [
+        "A) Whom is going to the dance?",
+        "B) The teacher who I admire most is Mrs. Park.",
+        "C) To whom should I address this letter?",
+        "D) Who did you give the book to?"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 109,
+      "teks": "5.7F",
+      "question": "Read the sentence.\n\nThe benevolent ruler lowered taxes and built free schools for every child in the kingdom.\n\nWhat does the word benevolent mean?",
+      "choices": [
+        "A) Cruel and harsh",
+        "B) Kind and generous",
+        "C) Weak and indecisive",
+        "D) Young and inexperienced"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 110,
+      "teks": "5.9D",
+      "question": "Read the passage.\n\nThe human brain contains approximately 86 billion neurons. These neurons communicate through electrical and chemical signals. The brain uses about 20% of the body's total energy, even though it makes up only 2% of body weight.\n\nWhich detail supports the idea that the brain requires a lot of energy?",
+      "choices": [
+        "A) The brain has 86 billion neurons.",
+        "B) Neurons communicate through signals.",
+        "C) The brain uses 20% of the body's energy but is only 2% of body weight.",
+        "D) The brain is located in the skull."
+      ],
+      "answer": "C",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "web",
+          "content": {
+            "center": "Human Brain",
+            "branches": [
+              "86 billion neurons",
+              "Electrical and chemical signals",
+              "Uses 20% of body energy",
+              "Only 2% of body weight"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 111,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nThe rival chess players sat across from each other in silence. Each move was calculated and deliberate. After three hours, only a few pieces remained on the board. The younger player leaned forward and made a move that even the audience gasped at.\n\nWhat can the reader infer about the younger player's move?",
+      "choices": [
+        "A) It was a mistake.",
+        "B) It was a surprising and possibly brilliant move.",
+        "C) It ended the game in a draw.",
+        "D) It was a common opening move."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 112,
+      "teks": "5.11D",
+      "question": "Read the paragraph.\n\n(1) Mars has always fascinated scientists. (2) The red planet has polar ice caps and evidence of ancient rivers. (3) My dog's name is Mars. (4) NASA plans to send humans to Mars in the coming decades.\n\nWhich sentence should be removed because it does not belong?",
+      "choices": [
+        "A) Sentence 1",
+        "B) Sentence 2",
+        "C) Sentence 3",
+        "D) Sentence 4"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 113,
+      "teks": "5.10C",
+      "question": "Read the sentence.\n\nShe was drowning in paperwork.\n\nThis sentence is an example of \u2014",
+      "choices": [
+        "A) A simile",
+        "B) A metaphor",
+        "C) An idiom",
+        "D) Personification"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 114,
+      "teks": "5.7C",
+      "question": "Read the passage.\n\nBoth the school board president and the parent group have valid concerns about the proposed budget cuts. The president argues that cuts are necessary to balance the budget. Parents counter that reducing art and music programs harms student development.\n\nHow does the author present the debate?",
+      "choices": [
+        "A) By clearly supporting the school board",
+        "B) By clearly supporting the parents",
+        "C) By presenting both perspectives fairly",
+        "D) By ignoring both sides"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 115,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nThe library was Marcus's sanctuary. When school felt overwhelming, he would disappear between the shelves and lose himself in a book. The stories took him to places where anything was possible, and by the time he returned to reality, his problems seemed smaller.\n\nWhat role does reading play in Marcus's life?",
+      "choices": [
+        "A) It makes his problems worse.",
+        "B) It provides him an escape and helps him cope with stress.",
+        "C) He only reads because his teacher requires it.",
+        "D) He doesn't actually enjoy reading."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 116,
+      "teks": "5.11D",
+      "question": "Which sentence demonstrates the correct use of a colon?",
+      "choices": [
+        "A) The recipe calls for: flour, sugar, and eggs.",
+        "B) The recipe calls for three main ingredients: flour, sugar, and eggs.",
+        "C) The recipe: calls for flour, sugar, and eggs.",
+        "D) The: recipe calls for flour sugar and eggs."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 117,
+      "teks": "5.7F",
+      "question": "Read the sentence.\n\nThe deteriorating bridge posed a danger to drivers and required immediate repair.\n\nWhat does the word deteriorating mean?",
+      "choices": [
+        "A) Improving steadily",
+        "B) Getting worse in condition",
+        "C) Completely new",
+        "D) Beautifully decorated"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 118,
+      "teks": "5.10A",
+      "question": "Read the passage.\n\nInvasive pythons have devastated wildlife populations in the Florida Everglades. To combat this, the state holds annual python hunts and has invested in research to track and remove the snakes. These efforts have removed thousands of pythons, helping native species recover.\n\nWhat text structure does the author use?",
+      "choices": [
+        "A) Sequence",
+        "B) Problem and solution",
+        "C) Compare and contrast",
+        "D) Description"
+      ],
+      "answer": "B",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "flow",
+          "content": {
+            "steps": [
+              "Problem: Invasive pythons in Everglades",
+              "Solution: Annual python hunts + research",
+              "Result: Thousands removed, native species recovering"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 119,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nThe girl stood at the edge of the diving board, looking down at the pool far below. Her teammates cheered from the sidelines. She had practiced this dive a hundred times, but this was the state championship. She closed her eyes, bounced twice, and leaped.\n\nWhat is the girl most likely feeling?",
+      "choices": [
+        "A) Boredom",
+        "B) A mix of fear and determination",
+        "C) Anger at her teammates",
+        "D) Confusion about which dive to do"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 120,
+      "teks": "5.9D",
+      "question": "Read the passage.\n\nThe Transcontinental Railroad, completed in 1869, connected the East and West coasts of the United States. It reduced travel time from months to about a week. The railroad also spurred economic growth by making it easier to transport goods across the country.\n\nWhat is the main idea?",
+      "choices": [
+        "A) Trains are faster than horses.",
+        "B) The Transcontinental Railroad connected the country and transformed travel and the economy.",
+        "C) The railroad was completed in 1869.",
+        "D) Goods need to be transported."
+      ],
+      "answer": "B",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": [
+            "Transcontinental Railroad",
+            "Detail"
+          ],
+          "rows": [
+            [
+              "Completed",
+              "1869"
+            ],
+            [
+              "Connected",
+              "East and West coasts"
+            ],
+            [
+              "Travel time reduction",
+              "Months to about a week"
+            ],
+            [
+              "Economic impact",
+              "Easier transport of goods"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": 121,
+      "teks": "5.10C",
+      "question": "Read the sentence.\n\nHe hit the nail on the head with his analysis of the problem.\n\nThe phrase \"hit the nail on the head\" means \u2014",
+      "choices": [
+        "A) He used a hammer correctly.",
+        "B) He described the problem exactly right.",
+        "C) He hurt himself.",
+        "D) He built something."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 122,
+      "teks": "5.11D",
+      "question": "Read the sentence.\n\nThe students, along with the teacher, is preparing for the science fair.\n\nWhich is the correct revision?",
+      "choices": [
+        "A) The students, along with the teacher, are preparing for the science fair.",
+        "B) The students along with the teacher is preparing for the science fair.",
+        "C) The students, along with the teacher, was preparing for the science fair.",
+        "D) The students along, with the teacher is preparing for the science fair."
+      ],
+      "answer": "A",
+      "visual": null
+    },
+    {
+      "id": 123,
+      "teks": "5.7F",
+      "question": "Read the sentence.\n\nThe relentless rain continued for twelve straight days, flooding rivers and roads across the region.\n\nWhat does the word relentless mean?",
+      "choices": [
+        "A) Gentle and light",
+        "B) Continuous and unending",
+        "C) Occasional and random",
+        "D) Brief and mild"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 124,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nThe artist refused to sell her most personal painting, even when offered a fortune. \"Some things aren't for sale,\" she said. \"This painting holds every memory of my childhood home.\"\n\nWhat motivates the artist's refusal?",
+      "choices": [
+        "A) She thinks the price is too low.",
+        "B) The painting holds deep sentimental value that money cannot replace.",
+        "C) She does not like the buyer.",
+        "D) She plans to paint a better one."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 125,
+      "teks": "5.8B",
+      "question": "Read the passage.\n\nCaptain's Log, Stardate 7924.3: We have entered the Andromeda sector. The crew is anxious after detecting an unusual energy signature from the third moon. I have ordered a landing party to investigate.\n\nWhat genre is this passage?",
+      "choices": [
+        "A) Historical fiction",
+        "B) Science fiction",
+        "C) Realistic fiction",
+        "D) Biography"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 126,
+      "teks": "5.11D",
+      "question": "Which sentence correctly uses the subjunctive mood?",
+      "choices": [
+        "A) If I was the president, I would change the law.",
+        "B) If I were the president, I would change the law.",
+        "C) If I be the president, I would change the law.",
+        "D) If I am the president, I would change the law."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 127,
+      "teks": "5.10C",
+      "question": "Read the sentence.\n\nThe world is a stage, and we are all merely players.\n\nThis sentence is an example of \u2014",
+      "choices": [
+        "A) A simile",
+        "B) A metaphor",
+        "C) Hyperbole",
+        "D) An idiom"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 128,
+      "teks": "5.9D",
+      "question": "A student is reading a textbook chapter about ecosystems. The chapter has bold-faced vocabulary words and a glossary at the back. What should the student do when encountering an unfamiliar bold word?",
+      "choices": [
+        "A) Skip it and keep reading",
+        "B) Look up the word in the glossary to understand its meaning",
+        "C) Ask a friend what it means",
+        "D) Ignore all bold words"
+      ],
+      "answer": "B",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": [
+            "Text Feature",
+            "How to Use"
+          ],
+          "rows": [
+            [
+              "Bold words",
+              "Look up in glossary"
+            ],
+            [
+              "Glossary",
+              "Find definitions of key terms"
+            ],
+            [
+              "Index",
+              "Find specific topics"
+            ],
+            [
+              "Headings",
+              "Preview section topics"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": 129,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nThe town had been divided for years over whether to build a new highway through the forest preserve. Those who wanted the highway pointed to jobs and economic growth. Those who opposed it feared losing the habitat of rare birds. In the end, the town voted for an alternative route that preserved the forest while still improving transportation.\n\nWhat is the theme of this passage?",
+      "choices": [
+        "A) Economic growth always wins.",
+        "B) Compromise can satisfy different needs when people are willing to work together.",
+        "C) Forests are not important.",
+        "D) Highways are always harmful."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 130,
+      "teks": "5.7F",
+      "question": "Read the sentence.\n\nThe entrepreneur's perseverance through years of setbacks finally led to the company's success.\n\nWhat does the word perseverance mean?",
+      "choices": [
+        "A) Giving up when things get tough",
+        "B) Continued effort despite difficulty",
+        "C) Working without a plan",
+        "D) Achieving instant success"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 131,
+      "teks": "5.11D",
+      "question": "A student wrote the following opening paragraph for an essay about space exploration.\n\nSpace is really cool. There are lots of planets and stuff. People go to space sometimes.\n\nWhich revision improves the introduction?",
+      "choices": [
+        "A) Space is very cool and interesting. There are planets and things. People go up there.",
+        "B) Space exploration has captivated humanity for decades, driving technological innovation and expanding our understanding of the universe.",
+        "C) Space is big and dark. I like space.",
+        "D) Space, planets, stars, and stuff are cool things."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 132,
+      "teks": "5.10A",
+      "question": "Read the passage.\n\nHurricane Katrina struck the Gulf Coast in August 2005. The storm surge breached the levees in New Orleans, flooding 80% of the city. As a result, over a million people were displaced, and the economic damage exceeded $125 billion.\n\nWhat text structure does the author use?",
+      "choices": [
+        "A) Compare and contrast",
+        "B) Cause and effect",
+        "C) Problem and solution",
+        "D) Description"
+      ],
+      "answer": "B",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "flow",
+          "content": {
+            "steps": [
+              "Hurricane Katrina strikes (Aug 2005)",
+              "Levees breached in New Orleans",
+              "80% of city flooded",
+              "1 million+ displaced, $125B+ damage"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 133,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nThe veteran teacher hung her last poster on the wall of her new classroom. After thirty years at one school, she had transferred to a school in a struggling neighborhood. When colleagues asked why, she simply said, \"That's where they need me most.\"\n\nWhat does this reveal about the teacher?",
+      "choices": [
+        "A) She is unhappy at her old school.",
+        "B) She is selfless and committed to making a difference where it matters most.",
+        "C) She was forced to transfer.",
+        "D) She wants a shorter commute."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 134,
+      "teks": "5.10C",
+      "question": "Read the lines from a poem.\n\nThe fog comes\non little cat feet.\nIt sits looking\nover harbor and city.\n\nThese lines use \u2014",
+      "choices": [
+        "A) Hyperbole",
+        "B) A simile",
+        "C) An extended metaphor and personification",
+        "D) An idiom"
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 135,
+      "teks": "5.7F",
+      "question": "Read the sentence.\n\nThe documentary provided a comprehensive overview of the civil rights movement, covering every major event from 1955 to 1968.\n\nWhat does the word comprehensive mean?",
+      "choices": [
+        "A) Brief and incomplete",
+        "B) Including all or nearly all elements; thorough",
+        "C) Confusing and unclear",
+        "D) One-sided and biased"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 136,
+      "teks": "5.11D",
+      "question": "Which sentence demonstrates correct use of a dash?",
+      "choices": [
+        "A) The three friends \u2014 Maria, James, and Leo \u2014 planned the surprise party.",
+        "B) The three friends Maria \u2014 James and Leo \u2014 planned the surprise party.",
+        "C) The three \u2014 friends Maria James and Leo planned the surprise party.",
+        "D) \u2014 The three friends Maria James and Leo planned the surprise party."
+      ],
+      "answer": "A",
+      "visual": null
+    },
+    {
+      "id": 137,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nAs the school year ended, fifth grader Kai cleaned out his desk. He found the math worksheet he had cried over in September, the first story he had ever written for Mrs. Allen, and the friendship bracelet Dina had given him. He realized how much he had grown.\n\nWhat is the theme of this passage?",
+      "choices": [
+        "A) School desks are messy.",
+        "B) Growth and change happen gradually and are often only visible in reflection.",
+        "C) Fifth grade is the hardest year.",
+        "D) Students should clean their desks more often."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 138,
+      "teks": "5.9D",
+      "question": "Look at the web graphic organizer below.\n\nBased on the web, what topic is the student researching?",
+      "choices": [
+        "A) Types of government",
+        "B) Branches of the U.S. government",
+        "C) Famous presidents",
+        "D) How laws are made"
+      ],
+      "answer": "B",
+      "visual": {
+        "type": "graphic_organizer",
+        "params": {
+          "org_type": "web",
+          "content": {
+            "center": "U.S. Government Branches",
+            "branches": [
+              "Executive: President enforces laws",
+              "Legislative: Congress makes laws",
+              "Judicial: Supreme Court interprets laws"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 139,
+      "teks": "5.7C",
+      "question": "Read the passage.\n\nThe novel tells the story from the perspective of a twelve-year-old girl living during the Texas Revolution. Through her eyes, the reader experiences the fear and uncertainty of war, but also the hope and courage of ordinary people fighting for their future.\n\nWhat is the author's purpose in choosing a young narrator?",
+      "choices": [
+        "A) To make the story boring",
+        "B) To help young readers connect with the historical events through a relatable character",
+        "C) To show that children fought in the war",
+        "D) To avoid describing the war accurately"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 140,
+      "teks": "5.11D",
+      "question": "Read the sentence.\n\nLaying on the beach, the sun felt warm on our faces.\n\nWhich revision fixes the misplaced modifier?",
+      "choices": [
+        "A) The sun felt warm on our faces, laying on the beach.",
+        "B) While we were lying on the beach, the sun felt warm on our faces.",
+        "C) Laying on the beach, the warm sun felt our faces.",
+        "D) On the beach laying, the sun warm felt faces."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 141,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nThe debate team had lost five matches in a row. Their coach gathered them and said, \"Every loss teaches us something victories can't. Let's study what went wrong and come back stronger.\" By the end of the season, they had won the district championship.\n\nHow does the coach's attitude contribute to the team's success?",
+      "choices": [
+        "A) He ignored the losses completely.",
+        "B) He treated failures as learning opportunities, which motivated the team to improve.",
+        "C) He replaced all the team members.",
+        "D) He did not change anything about their preparation."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 142,
+      "teks": "5.7F",
+      "question": "Read the sentence.\n\nThe entrepreneur's endeavor to create affordable solar panels could transform energy access in developing countries.\n\nWhat does the word endeavor mean?",
+      "choices": [
+        "A) A lazy attempt",
+        "B) A serious effort toward a goal",
+        "C) A dangerous mistake",
+        "D) A casual hobby"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 143,
+      "teks": "5.10C",
+      "question": "Read the sentence.\n\nTime flies when you're having fun.\n\nThis sentence contains \u2014",
+      "choices": [
+        "A) A simile",
+        "B) A metaphor and personification",
+        "C) Hyperbole only",
+        "D) Literal language only"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 144,
+      "teks": "5.11D",
+      "question": "Which sentence is punctuated correctly?",
+      "choices": [
+        "A) The documentary which was released last year won three awards.",
+        "B) The documentary, which was released last year, won three awards.",
+        "C) The documentary which, was released last year won three awards.",
+        "D) The documentary, which was released last year won three awards."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 145,
+      "teks": "5.9D",
+      "question": "Read the passage.\n\nClimate change is causing glaciers to melt at an alarming rate. As glaciers shrink, sea levels rise, threatening coastal cities around the world. Scientists predict that if current trends continue, some island nations could be completely underwater within the next century.\n\nWhich detail best supports the urgency of the issue?",
+      "choices": [
+        "A) Glaciers are made of ice.",
+        "B) Some island nations could be completely underwater within the next century.",
+        "C) Scientists study climate change.",
+        "D) Coastal cities are near the ocean."
+      ],
+      "answer": "B",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": [
+            "Climate Change Effect",
+            "Impact"
+          ],
+          "rows": [
+            [
+              "Glaciers melting",
+              "Sea levels rise"
+            ],
+            [
+              "Rising seas",
+              "Coastal cities threatened"
+            ],
+            [
+              "Continued trends",
+              "Island nations underwater"
+            ],
+            [
+              "Timeline",
+              "Within next century"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": 146,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nIn the novel, the main character discovers that the person she trusted most has been lying to her. She must decide whether to confront the lie or walk away from the relationship entirely.\n\nWhat is the central conflict?",
+      "choices": [
+        "A) The character wants to become famous.",
+        "B) The character must deal with betrayal and decide how to respond.",
+        "C) The character is lost in a new city.",
+        "D) The character needs money for college."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 147,
+      "teks": "5.10C",
+      "question": "Read the sentence.\n\nHis words cut deeper than any knife.\n\nThis sentence uses \u2014",
+      "choices": [
+        "A) A simile with hyperbole",
+        "B) An idiom",
+        "C) Personification only",
+        "D) A metaphor only"
+      ],
+      "answer": "A",
+      "visual": null
+    },
+    {
+      "id": 148,
+      "teks": "5.11D",
+      "question": "Read the student's draft.\n\nThe Wright brothers were very interested in flying. They read about birds. They studied how wings worked. They built gliders. They finally built a plane that could fly.\n\nWhich revision best improves the paragraph by varying sentence structure?",
+      "choices": [
+        "A) The Wright brothers liked flying, birds, wings, gliders, and planes.",
+        "B) Fascinated by flight, the Wright brothers studied birds and wing mechanics, built experimental gliders, and ultimately constructed the first successful airplane.",
+        "C) The Wright brothers read and studied and built and flew.",
+        "D) Flying interested the Wright brothers a lot and they did stuff with it."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 149,
+      "teks": "5.7F",
+      "question": "Read the sentence.\n\nThe alliance between the two nations proved mutually beneficial, with both countries gaining access to new trade routes.\n\nWhat does the word alliance mean?",
+      "choices": [
+        "A) A war between two countries",
+        "B) A formal agreement or partnership between groups",
+        "C) A competition for resources",
+        "D) A complete separation"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 150,
+      "teks": "5.10A",
+      "question": "Read the passage.\n\nThe Erie Canal, completed in 1825, transformed trade in the young United States. Before the canal, shipping goods from the East Coast to the Great Lakes was slow and expensive. The canal reduced shipping costs by 90% and cut travel time from weeks to days.\n\nWhat text structure does the author use?",
+      "choices": [
+        "A) Problem and solution",
+        "B) Cause and effect",
+        "C) Compare and contrast",
+        "D) Description"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 151,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nThe young journalist's first big story exposed corruption in the city government. Powerful people tried to discredit her work, but she had documented everything carefully. The story led to major reforms, and she went on to win a national journalism award.\n\nWhat is the theme?",
+      "choices": [
+        "A) Journalism is an easy career.",
+        "B) Truth and integrity can triumph over powerful opposition.",
+        "C) City governments are always corrupt.",
+        "D) Awards are the most important thing in journalism."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 152,
+      "teks": "5.11D",
+      "question": "Which revision best strengthens this weak conclusion?\n\nOriginal: In conclusion, recycling is good and we should do it.\n\nSelect the best revision.",
+      "choices": [
+        "A) In conclusion, recycling is very good and we really should do it more.",
+        "B) So, recycling.",
+        "C) In conclusion, recycling conserves natural resources, reduces landfill waste, and protects our environment for future generations.",
+        "D) Recycling is fine, I guess."
+      ],
+      "answer": "C",
+      "visual": null
+    },
+    {
+      "id": 153,
+      "teks": "5.10C",
+      "question": "Read the sentence.\n\nThe silence after the announcement was deafening.\n\nThis sentence is an example of \u2014",
+      "choices": [
+        "A) A simile",
+        "B) An oxymoron (a type of figurative language)",
+        "C) An idiom",
+        "D) Literal description"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 154,
+      "teks": "5.7C",
+      "question": "Read the passage.\n\nThe soldier wrote in his diary every night. Through his words, we see the war not through grand battles and political strategy, but through the small, human moments \u2014 sharing a meal with a friend, writing a letter home, watching the sunset from a trench.\n\nWhat is the author's purpose in sharing the soldier's diary?",
+      "choices": [
+        "A) To glorify war",
+        "B) To present the human, personal side of war",
+        "C) To argue against writing diaries",
+        "D) To describe military strategy"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 155,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nThe committee argued for hours about the school mascot. Some wanted to keep the traditional bear; others pushed for something new. Finally, a quiet student in the back raised her hand and suggested they let the whole school vote. Everyone agreed, and the vote was scheduled for the following week.\n\nWhat skill does the quiet student demonstrate?",
+      "choices": [
+        "A) She demonstrates athletic ability.",
+        "B) She demonstrates the ability to find a democratic solution when others are stuck.",
+        "C) She demonstrates artistic talent.",
+        "D) She demonstrates a desire to avoid the problem."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 156,
+      "teks": "5.7F",
+      "question": "Read the sentence.\n\nThe amiable host greeted every guest with a warm smile and genuine conversation.\n\nWhat does the word amiable mean?",
+      "choices": [
+        "A) Hostile and rude",
+        "B) Friendly and pleasant",
+        "C) Shy and withdrawn",
+        "D) Strict and demanding"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 157,
+      "teks": "5.9D",
+      "question": "Read the passage.\n\nThe Lewis and Clark Expedition (1804-1806) was commissioned by President Thomas Jefferson to explore the western territories after the Louisiana Purchase. The team traveled over 8,000 miles, mapping rivers and mountains, documenting over 300 new species, and establishing relations with Native American tribes.\n\nWhat is the main idea?",
+      "choices": [
+        "A) Thomas Jefferson was a president.",
+        "B) The Lewis and Clark Expedition was a major exploration of the western territories that expanded American knowledge.",
+        "C) There are many rivers in the West.",
+        "D) Native Americans lived in the West."
+      ],
+      "answer": "B",
+      "visual": {
+        "type": "data_table",
+        "params": {
+          "headers": [
+            "Lewis & Clark Expedition",
+            "Detail"
+          ],
+          "rows": [
+            [
+              "Years",
+              "1804-1806"
+            ],
+            [
+              "Commissioned by",
+              "President Jefferson"
+            ],
+            [
+              "Distance",
+              "Over 8,000 miles"
+            ],
+            [
+              "Achievements",
+              "Mapped terrain, 300+ new species"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": 158,
+      "teks": "5.11D",
+      "question": "A student wrote the following sentence in a persuasive essay.\n\nPeople should recycle because its good for the environment and it helps save animals and stuff.\n\nWhich revision most improves the sentence?",
+      "choices": [
+        "A) People should recycle because it's good for the environment and it helps animals.",
+        "B) Recycling is essential because it conserves natural resources, reduces pollution, and protects wildlife habitats.",
+        "C) Recycling is good. The environment is important. Animals need help.",
+        "D) People gotta recycle cause it's real good for nature and things."
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 159,
+      "teks": "5.10C",
+      "question": "Read the stanza.\n\nI wandered lonely as a cloud\nThat floats on high o'er vales and hills.\n\nThis stanza contains an example of \u2014",
+      "choices": [
+        "A) A metaphor",
+        "B) A simile",
+        "C) Personification",
+        "D) Hyperbole"
+      ],
+      "answer": "B",
+      "visual": null
+    },
+    {
+      "id": 160,
+      "teks": "5.6F",
+      "question": "Read the passage.\n\nThe final question on the quiz show was worth ten thousand points \u2014 enough for Maya to win or lose everything. The audience held their breath. Maya closed her eyes, thought about all the books she had read and all the facts she had studied, and answered with confidence. The buzzer sounded, and the host smiled. \"That is... correct!\"\n\nWhat can the reader conclude about Maya?",
+      "choices": [
+        "A) She was lucky.",
+        "B) Her preparation and knowledge paid off in a high-pressure moment.",
+        "C) She guessed the answer randomly.",
+        "D) She did not want to win."
+      ],
+      "answer": "B",
+      "visual": null
+    }
+  ]
+}

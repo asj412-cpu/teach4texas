@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { width: 816px; height: 1056px; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; overflow: hidden; }
+.cover { width: 816px; height: 1056px; position: relative; background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 25%, #FEC89A 50%, #FFD93D 75%, #6BCB77 100%); display: flex; flex-direction: column; }
+.confetti { position: absolute; width: 100%; height: 100%; overflow: hidden; z-index: 0; }
+.confetti span { position: absolute; font-size: 40px; opacity: 0.15; }
+.confetti .c1 { top: 50px; left: 60px; transform: rotate(15deg); }
+.confetti .c2 { top: 120px; right: 80px; transform: rotate(-20deg); }
+.confetti .c3 { top: 350px; left: 30px; transform: rotate(45deg); }
+.confetti .c4 { bottom: 250px; right: 50px; transform: rotate(-10deg); }
+.confetti .c5 { bottom: 150px; left: 120px; transform: rotate(30deg); }
+.confetti .c6 { top: 500px; right: 120px; transform: rotate(-35deg); }
+.top-banner { background: rgba(255,255,255,0.95); margin: 30px 30px 0; border-radius: 20px; padding: 14px 30px; text-align: center; position: relative; z-index: 1; }
+.top-banner span { color: #FF6B6B; font-size: 16px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; }
+.main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 40px; position: relative; z-index: 1; }
+.title-box { background: rgba(255,255,255,0.95); border-radius: 24px; padding: 40px 50px; text-align: center; box-shadow: 0 8px 30px rgba(0,0,0,0.1); margin-bottom: 30px; max-width: 700px; }
+.title { font-size: 52px; font-weight: 900; line-height: 1.15; background: linear-gradient(135deg, #FF6B6B, #FF8E53, #6BCB77); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 12px; }
+.subtitle { color: #555; font-size: 22px; font-weight: 500; line-height: 1.4; }
+.features-row { display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; justify-content: center; }
+.feature { background: rgba(255,255,255,0.92); border-radius: 16px; padding: 18px 22px; text-align: center; width: 155px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+.feature .icon { font-size: 36px; margin-bottom: 6px; }
+.feature .label { font-size: 13px; font-weight: 700; color: #444; text-transform: uppercase; letter-spacing: 0.5px; }
+.grade-pill { background: #FF6B6B; color: #fff; padding: 12px 36px; border-radius: 30px; font-size: 20px; font-weight: 700; letter-spacing: 1px; display: inline-block; margin-top: 10px; }
+.bottom { background: rgba(0,0,0,0.15); padding: 24px 40px; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1; }
+.brand { color: #fff; font-size: 26px; font-weight: 800; letter-spacing: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+.brand span { color: #FFD93D; }
+.tagline { color: rgba(255,255,255,0.9); font-size: 13px; }
+.teks { color: #fff; font-size: 16px; font-weight: 600; background: rgba(255,255,255,0.2); padding: 8px 20px; border-radius: 12px; }
+</style>
+</head>
+<body>
+<div class="cover">
+  <div class="confetti">
+    <span class="c1">📝</span><span class="c2">🌟</span><span class="c3">📚</span>
+    <span class="c4">✏️</span><span class="c5">🎨</span><span class="c6">💡</span>
+  </div>
+  <div class="top-banner"><span>TEKS-Aligned &bull; STAAR 2.0 Ready &bull; No Prep</span></div>
+  <div class="main">
+    <div class="title-box">
+      <div class="title">Figurative Language Fun Pack</div>
+      <div class="subtitle">Similes, Metaphors, Idioms, Personification & Hyperbole — Hands-On Activities That Kids LOVE!</div>
+    </div>
+    <div class="features-row">
+      <div class="feature"><div class="icon">🎯</div><div class="label">Task Cards</div></div>
+      <div class="feature"><div class="icon">🔍</div><div class="label">Scavenger Hunt</div></div>
+      <div class="feature"><div class="icon">🎲</div><div class="label">Board Game</div></div>
+      <div class="feature"><div class="icon">📝</div><div class="label">Worksheets</div></div>
+    </div>
+    <div class="features-row">
+      <div class="feature"><div class="icon">🧩</div><div class="label">Matching</div></div>
+      <div class="feature"><div class="icon">✍️</div><div class="label">Creative Writing</div></div>
+      <div class="feature"><div class="icon">📊</div><div class="label">Assessment</div></div>
+      <div class="feature"><div class="icon">💻</div><div class="label">Digital Version</div></div>
+    </div>
+    <div class="grade-pill">Grades 3–5 ELAR</div>
+  </div>
+  <div class="bottom">
+    <div>
+      <div class="brand">Teach4<span>Texas</span></div>
+      <div class="tagline">Fun Resources for Texas Educators</div>
+    </div>
+    <div class="teks">50+ Activities</div>
+  </div>
+</div>
+</body>
+</html>

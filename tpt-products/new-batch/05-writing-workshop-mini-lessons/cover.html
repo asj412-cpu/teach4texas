@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { width: 816px; height: 1056px; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; overflow: hidden; }
+.cover { width: 816px; height: 1056px; position: relative; background: #FAFAFA; display: flex; flex-direction: column; }
+.accent-bar { height: 12px; background: linear-gradient(90deg, #E8D5B7, #9B59B6, #3498DB, #6BCB77, #FFD93D); }
+.notebook-lines { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+.notebook-lines .line { position: absolute; width: 100%; height: 1px; background: rgba(0,0,0,0.04); }
+.red-margin { position: absolute; left: 80px; top: 0; width: 2px; height: 100%; background: rgba(255,100,100,0.15); z-index: 0; }
+.content { flex: 1; display: flex; flex-direction: column; padding: 40px 50px; position: relative; z-index: 1; }
+.top-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; }
+.pencil { font-size: 60px; opacity: 0.8; }
+.badges { display: flex; gap: 10px; }
+.badge { padding: 8px 18px; border-radius: 20px; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+.badge-purple { background: #9B59B6; color: #fff; }
+.badge-outline { background: transparent; color: #9B59B6; border: 2px solid #9B59B6; }
+.title { font-size: 50px; font-weight: 900; line-height: 1.1; color: #2C3E50; margin-bottom: 14px; }
+.title span { color: #9B59B6; }
+.subtitle { font-size: 20px; color: #666; line-height: 1.5; margin-bottom: 35px; }
+.genre-row { display: flex; gap: 16px; margin-bottom: 30px; }
+.genre { flex: 1; border-radius: 18px; padding: 24px 20px; text-align: center; }
+.genre-narrative { background: linear-gradient(135deg, #FFE5EC, #FFB3C6); }
+.genre-opinion { background: linear-gradient(135deg, #D4E7FE, #A8D1FF); }
+.genre-inform { background: linear-gradient(135deg, #D5F5E3, #A3E4B8); }
+.genre .icon { font-size: 36px; margin-bottom: 8px; }
+.genre .name { font-size: 16px; font-weight: 800; color: #333; }
+.genre .detail { font-size: 12px; color: #666; margin-top: 4px; }
+.lesson-list { background: #fff; border-radius: 16px; padding: 22px 28px; box-shadow: 0 3px 12px rgba(0,0,0,0.06); flex: 1; border: 1px solid #eee; }
+.lesson-list h3 { font-size: 15px; font-weight: 800; color: #9B59B6; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 14px; }
+.lesson-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.lesson-item { font-size: 14px; color: #555; padding: 6px 0 6px 22px; position: relative; }
+.lesson-item::before { content: "✎"; position: absolute; left: 0; color: #9B59B6; font-size: 14px; }
+.bottom { background: linear-gradient(135deg, #9B59B6, #8E44AD); padding: 24px 50px; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1; }
+.brand { color: #fff; font-size: 26px; font-weight: 800; letter-spacing: 2px; }
+.brand span { opacity: 0.8; }
+.tagline { color: rgba(255,255,255,0.7); font-size: 13px; }
+.count { color: #FFD93D; font-size: 20px; font-weight: 800; }
+</style>
+</head>
+<body>
+<div class="cover">
+  <div class="accent-bar"></div>
+  <div class="red-margin"></div>
+  <div class="content">
+    <div class="top-row">
+      <div class="pencil">✏️</div>
+      <div class="badges">
+        <div class="badge badge-purple">TEKS-Aligned</div>
+        <div class="badge badge-outline">Grades 3–5</div>
+      </div>
+    </div>
+    <div class="title">Writing Workshop<br><span>Mini-Lessons</span></div>
+    <div class="subtitle">Narrative, Opinion & Informational Writing — Complete Lessons with Mentor Texts, Graphic Organizers & Rubrics</div>
+    <div class="genre-row">
+      <div class="genre genre-narrative"><div class="icon">📖</div><div class="name">Narrative</div><div class="detail">5 Lessons</div></div>
+      <div class="genre genre-opinion"><div class="icon">💬</div><div class="name">Opinion</div><div class="detail">5 Lessons</div></div>
+      <div class="genre genre-inform"><div class="icon">🔬</div><div class="name">Informational</div><div class="detail">5 Lessons</div></div>
+    </div>
+    <div class="lesson-list">
+      <h3>Each Mini-Lesson Includes</h3>
+      <div class="lesson-grid">
+        <div class="lesson-item">Mentor text excerpt</div>
+        <div class="lesson-item">Teacher script/guide</div>
+        <div class="lesson-item">Graphic organizer</div>
+        <div class="lesson-item">Student checklist</div>
+        <div class="lesson-item">Writing prompt</div>
+        <div class="lesson-item">Peer feedback form</div>
+        <div class="lesson-item">Scoring rubric</div>
+        <div class="lesson-item">Extension activities</div>
+      </div>
+    </div>
+  </div>
+  <div class="bottom">
+    <div>
+      <div class="brand">Teach4<span>Texas</span></div>
+      <div class="tagline">Professional Resources for Texas Educators</div>
+    </div>
+    <div class="count">15 Complete Lessons</div>
+  </div>
+</div>
+</body>
+</html>

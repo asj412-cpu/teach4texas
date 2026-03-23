@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { width: 816px; height: 1056px; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; overflow: hidden; background: #F8F9FA; }
+.cover { width: 816px; height: 1056px; position: relative; background: linear-gradient(160deg, #1B365D 0%, #1B365D 55%, #2E75B6 55%, #2E75B6 100%); display: flex; flex-direction: column; }
+.star-bg { position: absolute; top: 60px; right: 40px; font-size: 200px; color: rgba(255,255,255,0.06); line-height: 1; }
+.star-bg2 { position: absolute; bottom: 180px; left: -20px; font-size: 120px; color: rgba(255,255,255,0.05); line-height: 1; }
+.top-bar { height: 8px; background: #BF5700; width: 100%; }
+.content { flex: 1; display: flex; flex-direction: column; padding: 60px 50px 30px; position: relative; z-index: 1; }
+.badge { display: inline-block; background: #BF5700; color: #fff; padding: 8px 24px; border-radius: 20px; font-size: 16px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 30px; }
+.title { color: #fff; font-size: 48px; font-weight: 800; line-height: 1.15; margin-bottom: 16px; }
+.subtitle { color: rgba(255,255,255,0.9); font-size: 22px; font-weight: 400; line-height: 1.4; margin-bottom: 50px; }
+.features { list-style: none; margin-bottom: auto; }
+.features li { color: #fff; font-size: 19px; padding: 12px 0; padding-left: 36px; position: relative; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.features li:last-child { border-bottom: none; }
+.features li::before { content: "★"; position: absolute; left: 0; color: #BF5700; font-size: 18px; }
+.grade-ribbon { position: absolute; top: 200px; right: 0; background: #2E75B6; color: #fff; padding: 14px 30px 14px 40px; font-size: 18px; font-weight: 700; letter-spacing: 1px; clip-path: polygon(15px 0, 100% 0, 100% 100%, 15px 100%, 0 50%); }
+.bottom { background: rgba(0,0,0,0.2); padding: 28px 50px; display: flex; justify-content: space-between; align-items: center; }
+.brand { color: #fff; font-size: 28px; font-weight: 800; letter-spacing: 2px; }
+.brand span { color: #BF5700; }
+.tagline { color: rgba(255,255,255,0.7); font-size: 14px; }
+.texas-star { font-size: 36px; color: #BF5700; }
+.decorative-line { width: 60px; height: 4px; background: #BF5700; margin-bottom: 20px; }
+</style>
+</head>
+<body>
+<div class="cover">
+  <div class="top-bar"></div>
+  <div class="star-bg">★</div>
+  <div class="star-bg2">★</div>
+  <div class="content">
+    <div class="badge">T-TESS Evaluation</div>
+    <div class="decorative-line"></div>
+    <div class="title">T-TESS Observation Prep Kit</div>
+    <div class="subtitle">Score Distinguished on Every Domain</div>
+    <ul class="features">
+      <li>Domain-by-domain breakdown</li>
+      <li>Pre/during/post templates</li>
+      <li>Self-scoring rubric</li>
+      <li>Evidence log system</li>
+    </ul>
+    <div class="grade-ribbon">ALL GRADES</div>
+  </div>
+  <div class="bottom">
+    <div>
+      <div class="brand">Teach4<span>Texas</span></div>
+      <div class="tagline">Professional Resources for Texas Educators</div>
+    </div>
+    <div class="texas-star">★</div>
+  </div>
+</div>
+</body>
+</html>

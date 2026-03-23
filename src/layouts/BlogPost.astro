@@ -1,0 +1,66 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+const { frontmatter } = Astro.props;
+const { title, description, date, author, tags, image, keywords } = frontmatter;
+const formattedDate = new Date(date).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description: description,
+  datePublished: new Date(date).toISOString(),
+  author: { '@type': 'Person', name: author },
+  publisher: { '@type': 'Organization', name: 'Teach4Texas', url: 'https://teach4texas.com' },
+};
+---
+
+<BaseLayout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <article class="max-w-3xl mx-auto px-4 py-12">
+    <header class="mb-10">
+      <div class="flex flex-wrap gap-2 mb-4">
+        {tags.map((tag: string) => (
+          <span class="inline-block bg-blue-50 text-[#1B365D] text-xs font-semibold px-3 py-1 rounded-full">{tag}</span>
+        ))}
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-[#1B365D] leading-tight mb-4">{title}</h1>
+      <div class="flex items-center gap-4 text-gray-500 text-sm">
+        <span>By {author}</span>
+        <span>·</span>
+        <time datetime={new Date(date).toISOString()}>{formattedDate}</time>
+      </div>
+    </header>
+
+    <div class="prose prose-lg max-w-none prose-headings:text-[#1B365D] prose-a:text-[#BF5700] hover:prose-a:text-[#a34900]">
+      <slot />
+    </div>
+
+    <div class="mt-12 p-6 bg-gray-50 rounded-xl">
+      <div class="flex items-start gap-4">
+        <div class="w-12 h-12 rounded-full bg-[#1B365D] flex items-center justify-center flex-shrink-0">
+          <span class="text-white font-bold">T4T</span>
+        </div>
+        <div>
+          <h3 class="font-bold text-[#1B365D]">Teach4Texas</h3>
+          <p class="text-gray-600 mt-1 text-sm">We're Texas educators helping teachers navigate TIA designation, improve STAAR outcomes, and grow professionally. Everything we share comes from real classroom experience.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-12 bg-[#1B365D] text-white rounded-lg p-8 text-center">
+      <h2 class="text-2xl font-bold mb-3">Get More Resources Like This</h2>
+      <p class="text-blue-200 mb-6">STAAR prep tips, TIA strategies, and free templates — straight to your inbox.</p>
+      <form action="https://app.convertkit.com/forms/9114260/subscriptions" method="post" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+        <input type="email" name="email_address" placeholder="Enter your email" required class="flex-1 px-4 py-3 rounded-lg text-gray-900" />
+        <button type="submit" class="bg-[#BF5700] hover:bg-[#a34900] text-white font-bold py-3 px-6 rounded-lg transition-colors">Subscribe</button>
+      </form>
+    </div>
+  </article>
+</BaseLayout>

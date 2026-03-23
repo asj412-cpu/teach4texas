@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<BaseLayout title="Blog — Teach4Texas">
+  <div class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="text-4xl font-bold text-[#1B365D] mb-8">Blog</h1>
+    <div class="space-y-8">
+      {posts.map((post) => (
+        <article class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+          <a href={`/blog/${post.slug}`} class="block">
+            <time class="text-sm text-gray-500">{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+            <h2 class="text-2xl font-bold text-[#1B365D] hover:text-[#BF5700] transition-colors mt-1 mb-2">{post.data.title}</h2>
+            <p class="text-gray-600 mb-3">{post.data.description}</p>
+            <div class="flex gap-2 flex-wrap">
+              {post.data.tags.map((tag: string) => (
+                <span class="text-xs bg-blue-50 text-[#1B365D] px-2 py-1 rounded">{tag}</span>
+              ))}
+            </div>
+          </a>
+        </article>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

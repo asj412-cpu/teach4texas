@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<BaseLayout title="Teach4Texas — STAAR Prep, TIA Guides & Teacher Tools">
+  <section class="bg-gradient-to-br from-[#1B365D] to-[#2a4a7f] text-white py-20 px-4">
+    <div class="max-w-4xl mx-auto text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-6">Texas Teacher Tools That Actually Work</h1>
+      <p class="text-xl md:text-2xl text-blue-100 mb-4">STAAR Prep → Student Growth → TIA Designation</p>
+      <p class="text-lg text-blue-200 mb-8">Practical resources to boost your students' scores and earn up to $32,000/year through TIA.</p>
+      <a href="/blog" class="inline-block bg-[#BF5700] hover:bg-[#a34900] text-white font-bold py-3 px-8 rounded-lg transition-colors text-lg">Explore Resources</a>
+    </div>
+  </section>
+
+  <section class="py-16 px-4 bg-white">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-3xl font-bold text-center text-[#1B365D] mb-12">What We Cover</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="text-center p-6 rounded-lg border border-gray-200">
+          <div class="text-4xl mb-4">📊</div>
+          <h3 class="text-xl font-bold text-[#1B365D] mb-3">STAAR Prep</h3>
+          <p class="text-gray-600">Redesigned-format practice resources, strategies, and data-driven instruction guides for every tested subject.</p>
+        </div>
+        <div class="text-center p-6 rounded-lg border border-gray-200">
+          <div class="text-4xl mb-4">🏆</div>
+          <h3 class="text-xl font-bold text-[#1B365D] mb-3">TIA Designation</h3>
+          <p class="text-gray-600">Step-by-step guides to earning Recognized, Exemplary, or Master designation — written by designated teachers.</p>
+        </div>
+        <div class="text-center p-6 rounded-lg border border-gray-200">
+          <div class="text-4xl mb-4">🛠️</div>
+          <h3 class="text-xl font-bold text-[#1B365D] mb-3">Teacher Tools</h3>
+          <p class="text-gray-600">Templates, trackers, and micro-tools that save you hours every week on the busywork.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 px-4 bg-gray-50">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold text-center text-[#1B365D] mb-12">Latest Posts</h2>
+      <div class="space-y-8">
+        {posts.map((post) => (
+          <article class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
+            <a href={`/blog/${post.slug}`} class="block">
+              <h3 class="text-xl font-bold text-[#1B365D] hover:text-[#BF5700] transition-colors mb-2">{post.data.title}</h3>
+              <p class="text-gray-600 mb-3">{post.data.description}</p>
+              <div class="flex gap-2 flex-wrap">
+                {post.data.tags.map((tag: string) => (
+                  <span class="text-xs bg-blue-50 text-[#1B365D] px-2 py-1 rounded">{tag}</span>
+                ))}
+              </div>
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="subscribe" class="py-16 px-4 bg-[#1B365D] text-white">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-4">Stay in the Loop</h2>
+      <p class="text-blue-200 mb-6">Get STAAR prep tips, TIA strategies, and free resources delivered to your inbox.</p>
+      <p class="text-blue-300 text-sm mb-8">Join 100+ Texas teachers getting weekly tips. Unsubscribe anytime.</p>
+      <form action="https://app.convertkit.com/forms/9114260/subscriptions" method="post" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+        <input type="email" name="email_address" placeholder="Enter your email" required class="flex-1 px-4 py-3 rounded-lg text-gray-900" />
+        <button type="submit" class="bg-[#BF5700] hover:bg-[#a34900] text-white font-bold py-3 px-6 rounded-lg transition-colors">Subscribe</button>
+      </form>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,74 @@
+---
+const navLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/resources', label: 'Resources' },
+  { href: '/about', label: 'About' },
+];
+---
+
+<header class="bg-white border-b border-gray-100 sticky top-0 z-50">
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-2">
+        <span class="text-xl font-extrabold text-navy-700">Teach<span class="text-burnt-500">4</span>Texas</span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-8">
+        {navLinks.map((link) => (
+          <a
+            href={link.href}
+            class="text-sm font-medium text-gray-600 hover:text-navy-700 transition-colors"
+          >
+            {link.label}
+          </a>
+        ))}
+        <a
+          href="#subscribe"
+          class="inline-flex items-center px-4 py-2 bg-burnt-500 text-white text-sm font-semibold rounded-lg hover:bg-burnt-600 transition-colors"
+        >
+          Get Updates
+        </a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button
+        id="mobile-menu-btn"
+        class="md:hidden p-2 text-gray-600 hover:text-navy-700"
+        aria-label="Toggle menu"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Nav -->
+    <div id="mobile-menu" class="hidden md:hidden pb-4">
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          class="block py-2 text-sm font-medium text-gray-600 hover:text-navy-700"
+        >
+          {link.label}
+        </a>
+      ))}
+      <a
+        href="#subscribe"
+        class="mt-2 block text-center px-4 py-2 bg-burnt-500 text-white text-sm font-semibold rounded-lg hover:bg-burnt-600 transition-colors"
+      >
+        Get Updates
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  btn?.addEventListener('click', () => {
+    menu?.classList.toggle('hidden');
+  });
+</script>

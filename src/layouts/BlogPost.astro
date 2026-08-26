@@ -1,9 +1,16 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import ScoreDeskCta from '../components/ScoreDeskCta.astro';
+import { tptPacksForSlug } from '../lib/site-links';
 
-const { frontmatter } = Astro.props;
+interface Props {
+  frontmatter: Record<string, any>;
+  slug?: string;
+}
+
+const { frontmatter, slug } = Astro.props;
 const { title, description, date, author, tags, scoreDeskCta } = frontmatter;
+const packs = slug ? tptPacksForSlug(slug) : [];
 const formattedDate = new Date(date).toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'long',
@@ -43,7 +50,7 @@ const jsonLd = {
       <slot />
     </div>
 
-    {scoreDeskCta && <ScoreDeskCta intro={scoreDeskCta} />}
+    {scoreDeskCta && <ScoreDeskCta intro={scoreDeskCta} packs={packs} />}
 
     <div class="mt-12 p-6 bg-gray-50 rounded-xl">
       <div class="flex items-start gap-4">

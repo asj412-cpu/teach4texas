@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { SCORE_DESK_URL, TPT_STORE_URL } from '../lib/site-links';
+import { SCORE_DESK_URL, TPT_STORE_URL, TPT_PRODUCTS } from '../lib/site-links';
 ---
 
 <BaseLayout title="About — Teach4Texas">
@@ -26,6 +26,7 @@ import { SCORE_DESK_URL, TPT_STORE_URL } from '../lib/site-links';
       <ul>
         <li><a href={SCORE_DESK_URL} target="_blank" rel="noopener">Open Score Desk</a></li>
         <li><a href={TPT_STORE_URL} target="_blank" rel="noopener">Teachers Pay Teachers store</a></li>
+        <li><a href={TPT_PRODUCTS.freeCompanion.href} target="_blank" rel="noopener">Free Score Desk companion on TPT</a></li>
       </ul>
       <h2 class="text-[#1B365D]">Get in Touch</h2>
       <p>Have questions or want to share your TIA story? Email us at <a href="mailto:hello@teach4texas.com" class="text-[#BF5700]">hello@teach4texas.com</a>.</p>

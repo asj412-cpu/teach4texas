@@ -1,14 +1,16 @@
 ---
-import { SCORE_DESK_URL, TPT_STORE_URL } from '../lib/site-links';
+import { SCORE_DESK_URL, TPT_STORE_URL, type TptPack } from '../lib/site-links';
 
 interface Props {
   heading?: string;
   intro?: string;
+  packs?: TptPack[];
 }
 
 const {
   heading = 'Score Desk + printables',
   intro = 'Score Desk is a free local scoring app for STAAR ECR and SCR stacks, plus printable packs. Nothing is uploaded. Not a TEA endorsement.',
+  packs = [],
 } = Astro.props;
 ---
 
@@ -33,4 +35,17 @@ const {
       Get the printable packs on TPT
     </a>
   </div>
+  {packs.length > 0 && (
+    <p class="mt-4 text-sm text-gray-600">
+      Matching packs:{' '}
+      {packs.map((pack, index) => (
+        <span>
+          {index > 0 && <span> · </span>}
+          <a href={pack.href} target="_blank" rel="noopener" class="text-[#BF5700] font-semibold hover:text-[#a34900]">
+            {pack.label}
+          </a>
+        </span>
+      ))}
+    </p>
+  )}
 </div>

@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { SCORE_DESK_URL, TPT_STORE_URL } from '../lib/site-links';
+import { SCORE_DESK_URL, TPT_STORE_URL, TPT_PRODUCTS } from '../lib/site-links';
 ---
 
 <BaseLayout
@@ -34,6 +34,14 @@ import { SCORE_DESK_URL, TPT_STORE_URL } from '../lib/site-links';
         class="inline-block text-center border-2 border-[#BF5700] text-[#BF5700] hover:bg-[#BF5700] hover:text-white font-bold py-3 px-8 rounded-lg transition-colors"
       >
         Get the printable packs on TPT
+      </a>
+      <a
+        href={TPT_PRODUCTS.freeCompanion.href}
+        target="_blank"
+        rel="noopener"
+        class="inline-block text-center border-2 border-gray-300 text-[#1B365D] hover:border-[#1B365D] font-bold py-3 px-8 rounded-lg transition-colors"
+      >
+        {TPT_PRODUCTS.freeCompanion.label}
       </a>
     </div>
   </div>

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { TPT_STORE_URL, TPT_PRODUCTS } from '../lib/site-links';
 ---
 
 <BaseLayout title="Resources — Teach4Texas" description="STAAR prep resources, TIA guides, and classroom tools for Texas teachers. Available on TPT and Gumroad.">
@@ -22,7 +23,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <span class="text-[#BF5700] font-semibold text-sm">Open Score Desk &rarr;</span>
         </a>
 
-        <a href="https://www.teacherspayteachers.com/store/teach-4-texas" target="_blank" rel="noopener" class="block border-2 border-green-200 bg-green-50 rounded-lg p-6 hover:shadow-md transition-shadow">
+        <a href={TPT_PRODUCTS.freeCompanion.href} target="_blank" rel="noopener" class="block border-2 border-green-200 bg-green-50 rounded-lg p-6 hover:shadow-md transition-shadow">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="text-3xl">🆓</span>
+            <span class="inline-block bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">FREE</span>
+          </div>
+          <h3 class="text-xl font-bold text-[#1B365D] mb-2">Score Desk Companion</h3>
+          <p class="text-gray-600 mb-3">Free STAAR click-and-score one-pager to use with Score Desk. Nothing is uploaded.</p>
+          <span class="text-[#BF5700] font-semibold text-sm">Download on TPT &rarr;</span>
+        </a>
+
+        <a href={TPT_STORE_URL} target="_blank" rel="noopener" class="block border-2 border-green-200 bg-green-50 rounded-lg p-6 hover:shadow-md transition-shadow">
           <div class="flex items-center gap-3 mb-3">
             <span class="text-3xl">🌟</span>
             <span class="inline-block bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">FREE</span>
@@ -40,49 +51,49 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <h2 class="text-2xl font-bold text-[#1B365D] mb-2">On Teachers Pay Teachers</h2>
       <p class="text-gray-500 mb-6">Classroom-tested resources for STAAR prep and TIA.</p>
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <a href="https://www.teacherspayteachers.com/store/teach-4-texas" target="_blank" rel="noopener" class="block border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+        <a href={TPT_STORE_URL} target="_blank" rel="noopener" class="block border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
           <span class="text-3xl mb-3 block">📋</span>
           <h3 class="text-lg font-bold text-[#1B365D] mb-2">TIA Portfolio Guide & Evidence Kit</h3>
           <p class="text-gray-600 text-sm mb-3">Complete portfolio organization system with evidence collection checklists and month-by-month calendar.</p>
           <span class="text-[#BF5700] font-semibold text-sm">$8.99 on TPT &rarr;</span>
         </a>
 
-        <a href="https://www.teacherspayteachers.com/store/teach-4-texas" target="_blank" rel="noopener" class="block border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+        <a href={TPT_STORE_URL} target="_blank" rel="noopener" class="block border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
           <span class="text-3xl mb-3 block">✅</span>
           <h3 class="text-lg font-bold text-[#1B365D] mb-2">T-TESS Observation Prep Kit</h3>
           <p class="text-gray-600 text-sm mb-3">Domain-by-domain checklists and templates to help you score Distinguished on your next evaluation.</p>
           <span class="text-[#BF5700] font-semibold text-sm">$6.99 on TPT &rarr;</span>
         </a>
 
-        <a href="https://www.teacherspayteachers.com/store/teach-4-texas" target="_blank" rel="noopener" class="block border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+        <a href={TPT_STORE_URL} target="_blank" rel="noopener" class="block border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
           <span class="text-3xl mb-3 block">🔢</span>
           <h3 class="text-lg font-bold text-[#1B365D] mb-2">STAAR Math Lesson Plans (3-5)</h3>
           <p class="text-gray-600 text-sm mb-3">5 complete hands-on math lessons with STAAR 2.0 format practice for grades 3, 4, and 5.</p>
           <span class="text-[#BF5700] font-semibold text-sm">$9.99 on TPT &rarr;</span>
         </a>
 
-        <a href="https://www.teacherspayteachers.com/store/teach-4-texas" target="_blank" rel="noopener" class="block border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+        <a href={TPT_STORE_URL} target="_blank" rel="noopener" class="block border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
           <span class="text-3xl mb-3 block">📖</span>
           <h3 class="text-lg font-bold text-[#1B365D] mb-2">STAAR RLA Lesson Plans (3-5)</h3>
           <p class="text-gray-600 text-sm mb-3">Constructed response + reading comprehension lessons aligned to STAAR 2.0 for grades 3-5.</p>
           <span class="text-[#BF5700] font-semibold text-sm">$9.99 on TPT &rarr;</span>
         </a>
 
-        <a href="https://www.teacherspayteachers.com/store/teach-4-texas" target="_blank" rel="noopener" class="block border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+        <a href={TPT_STORE_URL} target="_blank" rel="noopener" class="block border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
           <span class="text-3xl mb-3 block">🔬</span>
           <h3 class="text-lg font-bold text-[#1B365D] mb-2">STAAR Science Lessons (5 & 8)</h3>
           <p class="text-gray-600 text-sm mb-3">Hands-on lab investigations and review activities for 5th and 8th grade science.</p>
           <span class="text-[#BF5700] font-semibold text-sm">$9.99 on TPT &rarr;</span>
         </a>
 
-        <a href="https://www.teacherspayteachers.com/store/teach-4-texas" target="_blank" rel="noopener" class="block border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+        <a href={TPT_STORE_URL} target="_blank" rel="noopener" class="block border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
           <span class="text-3xl mb-3 block">📈</span>
           <h3 class="text-lg font-bold text-[#1B365D] mb-2">Student Growth Tracker</h3>
           <p class="text-gray-600 text-sm mb-3">Google Sheets template to track student growth across assessments. Auto-calculates growth and generates charts for TIA documentation.</p>
           <span class="text-[#BF5700] font-semibold text-sm">On TPT &rarr;</span>
         </a>
 
-        <a href="https://www.teacherspayteachers.com/store/teach-4-texas" target="_blank" rel="noopener" class="block border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+        <a href={TPT_STORE_URL} target="_blank" rel="noopener" class="block border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
           <span class="text-3xl mb-3 block">🔓</span>
           <h3 class="text-lg font-bold text-[#1B365D] mb-2">Grammar Escape Rooms</h3>
           <p class="text-gray-600 text-sm mb-3">5 themed digital escape room activities for grammar review. Grades 3-5.</p>

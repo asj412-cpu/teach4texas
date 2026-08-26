@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SCORE_DESK_URL, TPT_STORE_URL, TPT_PRODUCTS } from '../lib/site-links';
+---
+
+<BaseLayout
+  title="Score Desk"
+  description="Score a STAAR ECR or SCR stack in one sitting. Build a TEKS rubric. Print the student checklist. Keep a BOY→EOY growth snapshot for TIA conversations. Nothing is uploaded."
+>
+  <div class="max-w-3xl mx-auto px-4 py-12">
+    <h1 class="text-4xl font-bold text-[#1B365D] mb-8">Score Desk</h1>
+    <div class="prose prose-lg max-w-none">
+      <p class="text-xl text-gray-700 font-medium">Teach4Texas Score Desk</p>
+      <p>
+        Score a STAAR ECR or SCR stack in one sitting. Build a TEKS rubric. Print the student checklist. Keep a BOY→EOY growth snapshot for TIA conversations.
+      </p>
+      <p>
+        Nothing is uploaded. First names or initials only.
+      </p>
+    </div>
+    <div class="mt-8 flex flex-col sm:flex-row gap-3">
+      <a
+        href={SCORE_DESK_URL}
+        target="_blank"
+        rel="noopener"
+        class="inline-block text-center bg-[#BF5700] hover:bg-[#a34900] text-white font-bold py-3 px-8 rounded-lg transition-colors"
+      >
+        Open Score Desk
+      </a>
+      <a
+        href={TPT_STORE_URL}
+        target="_blank"
+        rel="noopener"
+        class="inline-block text-center border-2 border-[#BF5700] text-[#BF5700] hover:bg-[#BF5700] hover:text-white font-bold py-3 px-8 rounded-lg transition-colors"
+      >
+        Get the printable packs on TPT
+      </a>
+      <a
+        href={TPT_PRODUCTS.freeCompanion.href}
+        target="_blank"
+        rel="noopener"
+        class="inline-block text-center border-2 border-gray-300 text-[#1B365D] hover:border-[#1B365D] font-bold py-3 px-8 rounded-lg transition-colors"
+      >
+        {TPT_PRODUCTS.freeCompanion.label}
+      </a>
+    </div>
+  </div>
+</BaseLayout>

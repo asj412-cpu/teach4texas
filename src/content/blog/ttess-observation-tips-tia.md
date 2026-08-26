@@ -6,6 +6,7 @@ date: 2026-02-18
 author: "Lone Star Educator"
 tags: ["T-TESS", "TIA", "observations", "teaching strategies"]
 image: "/images/blog/ttess-tips.jpg"
+scoreDeskCta: "Pair T-TESS evidence with Score Desk, a free local scoring app, plus printable packs for growth snapshots. Nothing is uploaded. Not a TEA endorsement."
 ---
 
 Your T-TESS observation scores aren't just feedback — they're a major factor in whether you earn TIA designation and the thousands of dollars that come with it.

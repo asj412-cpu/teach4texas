@@ -1,0 +1,51 @@
+---
+import { SCORE_DESK_URL, TPT_STORE_URL, type TptPack } from '../lib/site-links';
+
+interface Props {
+  heading?: string;
+  intro?: string;
+  packs?: TptPack[];
+}
+
+const {
+  heading = 'Score Desk + printables',
+  intro = 'Score Desk is a free local scoring app for STAAR ECR and SCR stacks, plus printable packs. Nothing is uploaded. Not a TEA endorsement.',
+  packs = [],
+} = Astro.props;
+---
+
+<div class="mt-10 p-6 border border-gray-200 rounded-xl bg-gray-50">
+  <h2 class="text-xl font-bold text-[#1B365D] mb-2">{heading}</h2>
+  <p class="text-gray-600 mb-5">{intro}</p>
+  <div class="flex flex-col sm:flex-row gap-3">
+    <a
+      href={SCORE_DESK_URL}
+      target="_blank"
+      rel="noopener"
+      class="inline-block text-center bg-[#BF5700] hover:bg-[#a34900] text-white font-bold py-3 px-6 rounded-lg transition-colors"
+    >
+      Open Score Desk
+    </a>
+    <a
+      href={TPT_STORE_URL}
+      target="_blank"
+      rel="noopener"
+      class="inline-block text-center border-2 border-[#BF5700] text-[#BF5700] hover:bg-[#BF5700] hover:text-white font-bold py-3 px-6 rounded-lg transition-colors"
+    >
+      Get the printable packs on TPT
+    </a>
+  </div>
+  {packs.length > 0 && (
+    <p class="mt-4 text-sm text-gray-600">
+      Matching packs:{' '}
+      {packs.map((pack, index) => (
+        <span>
+          {index > 0 && <span> · </span>}
+          <a href={pack.href} target="_blank" rel="noopener" class="text-[#BF5700] font-semibold hover:text-[#a34900]">
+            {pack.label}
+          </a>
+        </span>
+      ))}
+    </p>
+  )}
+</div>

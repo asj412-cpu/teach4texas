@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { SCORE_DESK_URL, TPT_STORE_URL, TPT_PRODUCTS } from '../lib/site-links';
 ---
 
 <BaseLayout title="About — Teach4Texas">
@@ -17,6 +18,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <li><strong>TIA guides</strong> written by designated teachers</li>
         <li><strong>Templates and tools</strong> that save you time on the busywork</li>
         <li><strong>Practical strategies</strong> — no theory, no fluff, just what works</li>
+      </ul>
+      <h2 class="text-[#1B365D]">Score Desk &amp; Store</h2>
+      <p>
+        <a href="/tools">Score Desk</a> is a free local scoring app for STAAR ECR and SCR stacks. Build a TEKS rubric, print the student checklist, and keep a BOY→EOY growth snapshot for TIA conversations. Nothing is uploaded. First names or initials only.
+      </p>
+      <ul>
+        <li><a href={SCORE_DESK_URL} target="_blank" rel="noopener">Open Score Desk</a></li>
+        <li><a href={TPT_STORE_URL} target="_blank" rel="noopener">Teachers Pay Teachers store</a></li>
+        <li><a href={TPT_PRODUCTS.freeCompanion.href} target="_blank" rel="noopener">Free Score Desk companion on TPT</a></li>
       </ul>
       <h2 class="text-[#1B365D]">Get in Touch</h2>
       <p>Have questions or want to share your TIA story? Email us at <a href="mailto:hello@teach4texas.com" class="text-[#BF5700]">hello@teach4texas.com</a>.</p>

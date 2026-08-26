@@ -6,6 +6,7 @@ date: 2026-02-20
 author: "Lone Star Educator"
 tags: ["TIA", "portfolio", "evidence", "professional development"]
 image: "/images/blog/tia-portfolio-evidence.jpg"
+scoreDeskCta: "Add a BOY→EOY growth snapshot to your TIA portfolio with Score Desk, a free local scoring app, plus printable packs. Nothing is uploaded. Not a TEA endorsement."
 ---
 
 You've heard the promise of TIA: up to $32,000 per year in additional compensation for Recognized, Exemplary, and Master teachers. You know your district has an approved TIA system. Maybe you've even attended a PD session where someone walked through the designation levels and you thought, "I do all of that. I should qualify."

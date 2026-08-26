@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { SCORE_DESK_URL, TPT_STORE_URL, TPT_PRODUCTS } from '../lib/site-links';
+import { SCORE_DESK_URL, TPT_STORE_URL, TPT_PRODUCTS, SCORE_DESK_PACKS } from '../lib/site-links';
 ---
 
 <BaseLayout
@@ -43,6 +43,16 @@ import { SCORE_DESK_URL, TPT_STORE_URL, TPT_PRODUCTS } from '../lib/site-links';
       >
         {TPT_PRODUCTS.freeCompanion.label}
       </a>
+    </div>
+    <div class="mt-10">
+      <h2 class="text-xl font-bold text-[#1B365D] mb-3">Printable packs on TPT</h2>
+      <ul class="space-y-2 text-[#BF5700] font-semibold">
+        {SCORE_DESK_PACKS.map((pack) => (
+          <li>
+            <a href={pack.href} target="_blank" rel="noopener" class="hover:text-[#a34900]">{pack.label}</a>
+          </li>
+        ))}
+      </ul>
     </div>
   </div>
 </BaseLayout>

@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
+    "test": "node scripts/assert-tpt-catalog.mjs",
+    "build": "npm test && astro build",
     "generate:pins": "python3 ../generate_pins.py",
     "astro": "astro"
   },

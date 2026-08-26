@@ -26,7 +26,27 @@ export const TPT_PRODUCTS = {
     href: 'https://www.teacherspayteachers.com/Product/FREE-Score-Desk-Companion-STAAR-Click-Score-One-Pager-17493794',
     label: 'Free Score Desk companion',
   },
+  numberVaultG7: {
+    href: 'https://www.teacherspayteachers.com/Product/Number-Vault-G7-STAAR-Math-Escape-Room-TEKS-73B-74A-74D-711A-17500215',
+    label: 'Number Vault G7',
+  },
+  archiveVault: {
+    href: 'https://www.teacherspayteachers.com/Product/Archive-Vault-English-I-STAAR-EOC-TEKS-E19C-E19D-E18A-Google-Slides-17468013',
+    label: 'Archive Vault English I',
+  },
+  cycleVault: {
+    href: 'https://www.teacherspayteachers.com/Product/Cycle-Vault-Biology-STAAR-EOC-Escape-Room-TEKS-B6A-B6C-B6B-Google-Slides-17468482',
+    label: 'Cycle Vault Biology',
+  },
 } as const satisfies Record<string, TptPack>;
+
+export const SCORE_DESK_PACKS: TptPack[] = [
+  TPT_PRODUCTS.ecr,
+  TPT_PRODUCTS.scr,
+  TPT_PRODUCTS.race,
+  TPT_PRODUCTS.tia,
+  TPT_PRODUCTS.freeCompanion,
+];
 
 const TIA_SLUGS = new Set([
   'tia-complete-guide',

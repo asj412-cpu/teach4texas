@@ -1,12 +1,10 @@
 ---
-import { SCORE_DESK_URL } from '../lib/site-links';
-
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/blog', label: 'Blog' },
   { href: '/resources', label: 'Resources' },
   { href: '/about', label: 'About' },
-  { href: SCORE_DESK_URL, label: 'Score Desk', external: true },
+  { href: '/tools', label: 'Score Desk' },
 ];
 ---
 
@@ -24,7 +22,6 @@ const navLinks = [
           <a
             href={link.href}
             class="text-sm font-medium text-gray-600 hover:text-navy-700 transition-colors"
-            {...(link.external ? { target: '_blank', rel: 'noopener' } : {})}
           >
             {link.label}
           </a>
@@ -55,7 +52,6 @@ const navLinks = [
         <a
           href={link.href}
           class="block py-2 text-sm font-medium text-gray-600 hover:text-navy-700"
-          {...(link.external ? { target: '_blank', rel: 'noopener' } : {})}
         >
           {link.label}
         </a>

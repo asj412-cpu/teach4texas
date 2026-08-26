@@ -6,6 +6,7 @@ date: 2026-02-18
 author: "Lone Star Educator"
 tags: ["TIA", "teacher pay", "Texas education", "professional development"]
 image: "/images/blog/tia-guide.jpg"
+scoreDeskCta: "Keep a BOY→EOY growth snapshot for TIA conversations with Score Desk, a free local scoring app, plus printable packs. Nothing is uploaded. Not a TEA endorsement."
 ---
 
 If you're a Texas teacher who hasn't heard of the Teacher Incentive Allotment — or you've heard the acronym "TIA" tossed around in PD sessions without anyone explaining it clearly — this guide is for you.

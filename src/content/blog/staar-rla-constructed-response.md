@@ -6,6 +6,7 @@ date: 2026-02-20
 author: "Lone Star Educator"
 tags: ["STAAR", "RLA", "writing", "constructed response", "strategies"]
 image: "/images/blog/staar-constructed-response.jpg"
+scoreDeskCta: "Score a STAAR ECR or SCR stack in one sitting with Score Desk, a free local scoring app, plus printable packs. Nothing is uploaded. Not a TEA endorsement."
 ---
 
 If there's one part of the STAAR RLA assessment that keeps Texas teachers up at night, it's the constructed response. Multiple choice? Students can at least make an educated guess. But when they're staring at a blank text box and have to produce an original written response grounded in a passage they just read? That's where preparation — or the lack of it — becomes painfully obvious.

@@ -6,6 +6,7 @@ date: 2026-02-18
 author: "Lone Star Educator"
 tags: ["STAAR", "TIA", "student growth", "data-driven instruction"]
 image: "/images/blog/staar-tia.jpg"
+scoreDeskCta: "Connect STAAR ECR/SCR scoring to TIA growth evidence with Score Desk, a free local scoring app, plus printable packs. Nothing is uploaded. Not a TEA endorsement."
 ---
 
 Here's something most Texas teachers in STAAR-tested grades don't fully realize: **the student growth data you're already generating can directly earn you thousands of dollars per year through TIA designation.**

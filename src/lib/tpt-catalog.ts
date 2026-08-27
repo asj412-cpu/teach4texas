@@ -19,7 +19,7 @@ const TPT = 'https://www.teacherspayteachers.com/Product';
 
 /**
  * Live Teach4 Texas (Spring) listings verified 200 from the store
- * https://www.teacherspayteachers.com/store/teach4-texas on 2026-08-26.
+ * https://www.teacherspayteachers.com/store/teach4-texas.
  * Prices are the listed TPT prices (no sitewide promo-code markdown).
  */
 export const TPT_LISTINGS: TptListing[] = [
@@ -80,6 +80,16 @@ export const TPT_LISTINGS: TptListing[] = [
       '12-page working growth file: BOY, MOY, and EOY class summaries, a conference one-pager, T-TESS teacher-chair notes, and artifact cover slips.',
     price: '$7.99',
     category: 'score-desk',
+    featured: true,
+  },
+  {
+    id: '17506345',
+    href: `${TPT}/Back-to-School-Escape-Room-Grade-3-STAAR-Math-TEKS-32A-32C-34A-17506345`,
+    title: 'Back to School Escape Room Grade 3 STAAR Math | TEKS 3.2A 3.2C 3.4A',
+    description:
+      'Grade 3 STAAR math scavenger/escape for the first week of school. Word problems, expanded notation, rounding to 10 or 100, and STAAR 2.0 items.',
+    price: '$4.99',
+    category: 'vault',
     featured: true,
   },
   {

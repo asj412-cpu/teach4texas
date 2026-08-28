@@ -93,6 +93,16 @@ export const TPT_LISTINGS: TptListing[] = [
     featured: true,
   },
   {
+    id: '17516930',
+    href: `${TPT}/First-Day-of-School-Scavenger-Hunt-Grade-4-STAAR-Math-TEKS-42B-44A-44H-17516930`,
+    title: 'First Day of School Scavenger Hunt | Grade 4 STAAR Math | TEKS 4.2B 4.4A 4.4H',
+    description:
+      'Grade 4 STAAR math scavenger hunt for the first week of school. Word problems, expanded notation, add/subtract to hundredths, remainders, and STAAR 2.0 items. Not a Number Vault reprint.',
+    price: '$4.99',
+    category: 'vault',
+    featured: true,
+  },
+  {
     id: '17500215',
     href: `${TPT}/Number-Vault-G7-STAAR-Math-Escape-Room-TEKS-73B-74A-74D-711A-17500215`,
     title: 'Number Vault G7 STAAR Math Escape Room | TEKS 7.3B 7.4A 7.4D 7.11A',

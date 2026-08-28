@@ -30,6 +30,10 @@ export const TPT_PRODUCTS = {
     href: 'https://www.teacherspayteachers.com/Product/Back-to-School-Escape-Room-Grade-3-STAAR-Math-TEKS-32A-32C-34A-17506345',
     label: 'Back to School Grade 3 STAAR Math',
   },
+  firstDayScavengerG4: {
+    href: 'https://www.teacherspayteachers.com/Product/First-Day-of-School-Scavenger-Hunt-Grade-4-STAAR-Math-TEKS-42B-44A-44H-17516930',
+    label: 'First Day of School Scavenger Hunt Grade 4 STAAR Math',
+  },
   numberVaultG7: {
     href: 'https://www.teacherspayteachers.com/Product/Number-Vault-G7-STAAR-Math-Escape-Room-TEKS-73B-74A-74D-711A-17500215',
     label: 'Number Vault G7',

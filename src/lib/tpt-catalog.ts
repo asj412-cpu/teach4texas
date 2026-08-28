@@ -93,6 +93,26 @@ export const TPT_LISTINGS: TptListing[] = [
     featured: true,
   },
   {
+    id: '17516930',
+    href: `${TPT}/First-Day-of-School-Scavenger-Hunt-Grade-4-STAAR-Math-TEKS-42B-44A-44H-17516930`,
+    title: 'First Day of School Scavenger Hunt | Grade 4 STAAR Math | TEKS 4.2B 4.4A 4.4H',
+    description:
+      'Grade 4 STAAR math scavenger hunt for the first week of school. Word problems, expanded notation, digit value through 1,000,000,000, and STAAR 2.0 items. Not a Number Vault reprint.',
+    price: '$4.99',
+    category: 'vault',
+    featured: true,
+  },
+  {
+    id: '17517520',
+    href: `${TPT}/Labor-Day-Escape-Room-Grade-3-STAAR-Math-TEKS-34K-34G-35A-17517520`,
+    title: 'Labor Day Escape Room | Grade 3 STAAR Math | TEKS 3.4K 3.4G 3.5A',
+    description:
+      'Labor Day weekend Grade 3 STAAR math escape room. Cadet Corps, TEKS 3.4K / 3.4G / 3.5A. Not a Number Vault reprint. Not a scavenger hunt.',
+    price: '$4.99',
+    category: 'vault',
+    featured: true,
+  },
+  {
     id: '17500215',
     href: `${TPT}/Number-Vault-G7-STAAR-Math-Escape-Room-TEKS-73B-74A-74D-711A-17500215`,
     title: 'Number Vault G7 STAAR Math Escape Room | TEKS 7.3B 7.4A 7.4D 7.11A',

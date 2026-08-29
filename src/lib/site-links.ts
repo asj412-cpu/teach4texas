@@ -26,6 +26,10 @@ export const TPT_PRODUCTS = {
     href: 'https://www.teacherspayteachers.com/Product/FREE-Score-Desk-Companion-STAAR-Click-Score-One-Pager-17493794',
     label: 'Free Score Desk companion',
   },
+  laborDayG3: {
+    href: 'https://www.teacherspayteachers.com/Product/Labor-Day-Escape-Room-Grade-3-STAAR-Math-TEKS-34K-34G-35A-17517520',
+    label: 'Labor Day Escape Room Grade 3 STAAR Math',
+  },
   backToSchoolG3: {
     href: 'https://www.teacherspayteachers.com/Product/Back-to-School-Escape-Room-Grade-3-STAAR-Math-TEKS-32A-32C-34A-17506345',
     label: 'Back to School Grade 3 STAAR Math',

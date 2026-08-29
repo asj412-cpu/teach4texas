@@ -83,6 +83,16 @@ export const TPT_LISTINGS: TptListing[] = [
     featured: true,
   },
   {
+    id: '17517520',
+    href: `${TPT}/Labor-Day-Escape-Room-Grade-3-STAAR-Math-TEKS-34K-34G-35A-17517520`,
+    title: 'Labor Day Escape Room Grade 3 STAAR Math | TEKS 3.4K 3.4G 3.5A',
+    description:
+      'Grade 3 STAAR math Labor Day escape room. Parade Depot, Helper Station, Weekend Market, Town Picnic. Self-checking Google Slides + printable missions. TEKS 3.4K, 3.4G, 3.5A.',
+    price: '$4.99',
+    category: 'vault',
+    featured: true,
+  },
+  {
     id: '17506345',
     href: `${TPT}/Back-to-School-Escape-Room-Grade-3-STAAR-Math-TEKS-32A-32C-34A-17506345`,
     title: 'Back to School Escape Room Grade 3 STAAR Math | TEKS 3.2A 3.2C 3.4A',

@@ -83,6 +83,16 @@ export const TPT_LISTINGS: TptListing[] = [
     featured: true,
   },
   {
+    id: '17538014',
+    href: `${TPT}/Crack-the-Code-Math-Mystery-Grade-3-STAAR-Math-TEKS-34E-34H-35B-17538014`,
+    title: 'Crack the Code Math Mystery | Grade 3 STAAR Math | TEKS 3.4E 3.4H 3.5B',
+    description:
+      'Grade 3 STAAR math crack-the-code mystery. Multiplication facts, arrays, and strip-diagram equations across Cipher Lab, Number Grid, Array Alley, Clue Desk, and Final Code. Not an escape room reprint. Not Jeopardy. Not a seasonal holiday pack.',
+    price: '$4.99',
+    category: 'vault',
+    featured: true,
+  },
+  {
     id: '17517520',
     href: `${TPT}/Labor-Day-Escape-Room-Grade-3-STAAR-Math-TEKS-34K-34G-35A-17517520`,
     title: 'Labor Day Escape Room Grade 3 STAAR Math | TEKS 3.4K 3.4G 3.5A',

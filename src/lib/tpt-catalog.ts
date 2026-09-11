@@ -83,6 +83,16 @@ export const TPT_LISTINGS: TptListing[] = [
     featured: true,
   },
   {
+    id: '17547396',
+    href: `${TPT}/Hispanic-Heritage-Month-Scavenger-Hunt-Grade-3-STAAR-Math-TEKS-34A-34F-35E-17547396`,
+    title: 'Hispanic Heritage Month Scavenger Hunt | Grade 3 STAAR Math | TEKS 3.4A 3.4F 3.5E',
+    description:
+      'Grade 3 STAAR math scavenger hunt for Hispanic Heritage Month. Stations for TEKS 3.4A, 3.4F, 3.5E (addition/subtraction within 1,000, multiplication facts, number-pair tables). Self-checking Cadet Corps Google Slides + printable missions. Not a color-by-code worksheet pack.',
+    price: '$4.99',
+    category: 'vault',
+    featured: true,
+  },
+  {
     id: '17538014',
     href: `${TPT}/Crack-the-Code-Math-Mystery-Grade-3-STAAR-Math-TEKS-34E-34H-35B-17538014`,
     title: 'Crack the Code Math Mystery | Grade 3 STAAR Math | TEKS 3.4E 3.4H 3.5B',

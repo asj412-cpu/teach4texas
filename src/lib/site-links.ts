@@ -26,6 +26,10 @@ export const TPT_PRODUCTS = {
     href: 'https://www.teacherspayteachers.com/Product/FREE-Score-Desk-Companion-STAAR-Click-Score-One-Pager-17493794',
     label: 'Free Score Desk companion',
   },
+  hispanicHeritageG3: {
+    href: 'https://www.teacherspayteachers.com/Product/Hispanic-Heritage-Month-Scavenger-Hunt-Grade-3-STAAR-Math-TEKS-34A-34F-35E-17547396',
+    label: 'Hispanic Heritage Month Scavenger Hunt Grade 3 STAAR Math',
+  },
   crackCodeMysteryG3: {
     href: 'https://www.teacherspayteachers.com/Product/Crack-the-Code-Math-Mystery-Grade-3-STAAR-Math-TEKS-34E-34H-35B-17538014',
     label: 'Crack the Code Math Mystery Grade 3 STAAR Math',

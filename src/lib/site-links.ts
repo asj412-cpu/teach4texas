@@ -26,6 +26,10 @@ export const TPT_PRODUCTS = {
     href: 'https://www.teacherspayteachers.com/Product/FREE-Score-Desk-Companion-STAAR-Click-Score-One-Pager-17493794',
     label: 'Free Score Desk companion',
   },
+  constitutionDayG3: {
+    href: 'https://www.teacherspayteachers.com/Product/Constitution-Day-Scavenger-Hunt-Grade-3-STAAR-Math-TEKS-34A-34F-35E-17677688',
+    label: 'Constitution Day Scavenger Hunt Grade 3 STAAR Math',
+  },
   hispanicHeritageG3: {
     href: 'https://www.teacherspayteachers.com/Product/Hispanic-Heritage-Month-Scavenger-Hunt-Grade-3-STAAR-Math-TEKS-34A-34F-35E-17547396',
     label: 'Hispanic Heritage Month Scavenger Hunt Grade 3 STAAR Math',

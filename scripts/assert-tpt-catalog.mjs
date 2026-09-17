@@ -63,6 +63,7 @@ const requiredIds = [
   '17493627', // SCR checklists
   '17493690', // RACE posters
   '17493754', // TIA Growth Evidence Kit
+  '17677688', // Constitution Day Scavenger Hunt Grade 3 STAAR Math
   '17547396', // Hispanic Heritage Month Scavenger Hunt Grade 3 STAAR Math
   '17538014', // Crack the Code Math Mystery Grade 3 STAAR Math
   '17517520', // Labor Day Escape Room Grade 3 STAAR Math

@@ -83,6 +83,16 @@ export const TPT_LISTINGS: TptListing[] = [
     featured: true,
   },
   {
+    id: '17677688',
+    href: `${TPT}/Constitution-Day-Scavenger-Hunt-Grade-3-STAAR-Math-TEKS-34A-34F-35E-17677688`,
+    title: 'Constitution Day Scavenger Hunt | Grade 3 STAAR Math | TEKS 3.4A 3.4F 3.5E',
+    description:
+      'Grade 3 STAAR math scavenger hunt for Constitution Day. Stations for TEKS 3.4A, 3.4F, 3.5E (addition/subtraction within 1,000, multiplication facts, number-pair tables). Self-checking Cadet Corps Google Slides + printable missions. Not an escape room. Not Number Vault. Not Jeopardy.',
+    price: '$4.99',
+    category: 'vault',
+    featured: true,
+  },
+  {
     id: '17547396',
     href: `${TPT}/Hispanic-Heritage-Month-Scavenger-Hunt-Grade-3-STAAR-Math-TEKS-34A-34F-35E-17547396`,
     title: 'Hispanic Heritage Month Scavenger Hunt | Grade 3 STAAR Math | TEKS 3.4A 3.4F 3.5E',

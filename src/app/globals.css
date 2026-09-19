@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #f8f9fa;
+  --foreground: #2d2d2d;
+  --t4t-navy: #1b365d;
+  --t4t-burnt: #bf5700;
+  --t4t-green: #548235;
+  --t4t-gold: #bf8700;
+  --t4t-light-blue: #e6f0fa;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+    sans-serif;
+}

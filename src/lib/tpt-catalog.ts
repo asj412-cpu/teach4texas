@@ -83,6 +83,16 @@ export const TPT_LISTINGS: TptListing[] = [
     featured: true,
   },
   {
+    id: '17696158',
+    href: `${TPT}/Texas-Grade-3-Morning-Work-4-Weeks-TEKS-Warmups-Print-Easel-17696158`,
+    title: 'Texas Grade 3 Morning Work | 4 Weeks TEKS Warmups | Print + Easel',
+    description:
+      'TEKS-tagged Grade 3 Math + RLA morning warmups, 4 weeks / 16 days, Print + Easel. Cadet Corps pages labeled with Texas TEKS (not Common Core). Not an escape room. Not Jeopardy.',
+    price: '$4.99',
+    category: 'classroom',
+    featured: true,
+  },
+  {
     id: '17677688',
     href: `${TPT}/Constitution-Day-Scavenger-Hunt-Grade-3-STAAR-Math-TEKS-34A-34F-35E-17677688`,
     title: 'Constitution Day Scavenger Hunt | Grade 3 STAAR Math | TEKS 3.4A 3.4F 3.5E',

@@ -26,6 +26,10 @@ export const TPT_PRODUCTS = {
     href: 'https://www.teacherspayteachers.com/Product/FREE-Score-Desk-Companion-STAAR-Click-Score-One-Pager-17493794',
     label: 'Free Score Desk companion',
   },
+  morningWorkG3: {
+    href: 'https://www.teacherspayteachers.com/Product/Texas-Grade-3-Morning-Work-4-Weeks-TEKS-Warmups-Print-Easel-17696158',
+    label: 'Texas Grade 3 Morning Work — 4 Weeks TEKS Warmups',
+  },
   constitutionDayG3: {
     href: 'https://www.teacherspayteachers.com/Product/Constitution-Day-Scavenger-Hunt-Grade-3-STAAR-Math-TEKS-34A-34F-35E-17677688',
     label: 'Constitution Day Scavenger Hunt Grade 3 STAAR Math',
@@ -85,6 +89,9 @@ export function tptPacksForSlug(slug: string): TptPack[] {
   }
   if (TIA_SLUGS.has(slug)) {
     return [TPT_PRODUCTS.tia, TPT_PRODUCTS.freeCompanion];
+  }
+  if (slug === 'grade-3-teks-morning-work-warmups') {
+    return [TPT_PRODUCTS.morningWorkG3];
   }
   return [];
 }

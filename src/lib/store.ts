@@ -6,6 +6,7 @@ import type { GameBoard } from "@/lib/domain/board";
 const backend = () => (isSupabaseConfigured() ? supabaseStore : fileStore);
 
 export const DEMO_ACCESS_CODE_DISPLAY = fileStore.DEMO_ACCESS_CODE_DISPLAY;
+export const DEMO_MEMORY_MATCH_CODE = fileStore.DEMO_MEMORY_MATCH_CODE;
 
 export const toHostBoardView = fileStore.toHostBoardView;
 
@@ -39,6 +40,12 @@ export async function ensureDemoAccessCode(
   plaintext = DEMO_ACCESS_CODE_DISPLAY,
 ) {
   return backend().ensureDemoAccessCode(plaintext);
+}
+
+export async function ensureMemoryMatchSample(
+  plaintext = DEMO_MEMORY_MATCH_CODE,
+) {
+  return backend().ensureMemoryMatchSample(plaintext);
 }
 
 export async function assertBoardAllowedForEntitlement(

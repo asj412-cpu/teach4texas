@@ -18,9 +18,11 @@ export async function POST(req: NextRequest) {
 
   // Optional claimed board_id must match entitlement
   let claimed: string | undefined;
+  let requestedType: string | undefined;
   try {
     const body = await req.json();
     claimed = body?.board_id;
+    requestedType = body?.game_type;
   } catch {
     // empty body ok
   }
@@ -32,12 +34,16 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const { room, hostToken } = createLiveRoom({ board: resolved.board });
+    const { room, hostToken } = createLiveRoom({
+      board: resolved.board,
+      gameType: requestedType,
+    });
     return NextResponse.json({
       ok: true,
       room_code: room.code,
       host_token: hostToken,
       board_id: resolved.board.id,
+      game_type: room.game_type,
       isolation: { mode: "single_game", board_id: resolved.board.id },
       view: hostView(room),
     });

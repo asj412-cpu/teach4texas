@@ -2,7 +2,13 @@ import {
   type GameBoard,
   GameBoardSchema,
   type HostBoardView,
+  type GameType,
+  type MemoryMatchItem,
+  boardGameType,
+  supportsBoardPlay,
+  supportsMemoryMatch,
 } from "@/lib/domain/board";
+import { itemsFromBoard } from "@/lib/domain/memory-match";
 import {
   type HostEntitlement,
   HostEntitlementSchema,
@@ -19,11 +25,17 @@ import {
   sha256Hex,
 } from "@/lib/crypto";
 import { buildSampleMathGrade3Board } from "@/lib/fixtures/sample-math-grade3";
+import {
+  buildSampleMemoryMatchBoard,
+  DEMO_MEMORY_MATCH_CODE,
+  MEMORY_MATCH_SAMPLE_BOARD_ID,
+} from "@/lib/fixtures/sample-memory-match";
 import { getServiceSupabase } from "@/lib/supabase-admin";
 
 const SAMPLE_BOARD_ID = "board_sample_math_g3";
 
 export const DEMO_ACCESS_CODE_DISPLAY = "T4T-DEMO-MATH-G3-SAMPLE01";
+export { DEMO_MEMORY_MATCH_CODE };
 
 type BoardRow = {
   id: string;
@@ -72,7 +84,43 @@ function throwIfError(error: { message: string } | null, context: string): void 
   }
 }
 
+type CellsPayload = {
+  v?: number;
+  game_type?: GameType;
+  items?: MemoryMatchItem[];
+  cells: unknown;
+};
+
+function unpackCells(raw: unknown): {
+  cells: unknown;
+  game_type?: GameType;
+  items?: MemoryMatchItem[];
+} {
+  if (raw && typeof raw === "object" && !Array.isArray(raw) && "cells" in raw) {
+    const p = raw as CellsPayload;
+    return {
+      cells: p.cells ?? [],
+      game_type: p.game_type,
+      items: p.items,
+    };
+  }
+  return { cells: raw };
+}
+
+function packCells(board: GameBoard): unknown {
+  if (boardGameType(board) !== "board" || (board.items?.length ?? 0) > 0) {
+    return {
+      v: 2,
+      game_type: boardGameType(board),
+      items: board.items,
+      cells: board.cells,
+    };
+  }
+  return board.cells;
+}
+
 function boardFromRow(row: BoardRow): GameBoard {
+  const unpacked = unpackCells(row.cells);
   return GameBoardSchema.parse({
     id: row.id,
     title: row.title,
@@ -81,7 +129,9 @@ function boardFromRow(row: BoardRow): GameBoard {
     theme: row.theme ?? undefined,
     status: row.status,
     tpt_sku: row.tpt_sku ?? undefined,
-    cells: row.cells,
+    game_type: unpacked.game_type ?? "board",
+    items: unpacked.items,
+    cells: unpacked.cells,
     created_at: iso(row.created_at),
     updated_at: iso(row.updated_at),
   });
@@ -120,7 +170,7 @@ function boardToRow(board: GameBoard): BoardRow {
     theme: board.theme ?? null,
     status: board.status,
     tpt_sku: board.tpt_sku ?? null,
-    cells: board.cells,
+    cells: packCells(board) as BoardRow["cells"],
     created_at: board.created_at,
     updated_at: board.updated_at,
   };
@@ -144,7 +194,7 @@ async function ensureSampleBoard(): Promise<GameBoard> {
 }
 
 export function toHostBoardView(board: GameBoard): HostBoardView {
-  const categories = [...new Set(board.cells.map((c) => c.category))];
+  const categories = [...new Set((board.cells ?? []).map((c) => c.category))];
   return {
     id: board.id,
     title: board.title,
@@ -154,6 +204,10 @@ export function toHostBoardView(board: GameBoard): HostBoardView {
     tpt_sku: board.tpt_sku,
     categories,
     cell_count: board.cells.length,
+    game_type: boardGameType(board),
+    item_count: itemsFromBoard(board).length,
+    supports_board: supportsBoardPlay(board),
+    supports_memory_match: supportsMemoryMatch(board),
   };
 }
 
@@ -167,13 +221,16 @@ export async function getBoard(boardId: string): Promise<GameBoard | null> {
 }
 
 export async function listBoardsForOperator(): Promise<
-  Pick<GameBoard, "id" | "title" | "grade" | "subject" | "status" | "tpt_sku">[]
+  Pick<
+    GameBoard,
+    "id" | "title" | "grade" | "subject" | "status" | "tpt_sku" | "game_type"
+  >[]
 > {
   await ensureSampleBoard();
   const sb = getServiceSupabase();
   const res = await sb
     .from("boards")
-    .select("id,title,grade,subject,status,tpt_sku")
+    .select("id,title,grade,subject,status,tpt_sku,cells")
     .order("created_at", { ascending: true });
   throwIfError(res.error, "listBoardsForOperator");
   return (res.data ?? []).map((row) => ({
@@ -183,6 +240,7 @@ export async function listBoardsForOperator(): Promise<
     subject: row.subject as GameBoard["subject"],
     status: row.status as GameBoard["status"],
     tpt_sku: (row.tpt_sku as string | null) ?? undefined,
+    game_type: unpackCells(row.cells).game_type ?? "board",
   }));
 }
 
@@ -365,6 +423,67 @@ export async function ensureDemoAccessCode(
   return { code: DEMO_ACCESS_CODE_DISPLAY, boardId: board.id, created: true };
 }
 
+async function ensureMemoryMatchBoard(): Promise<GameBoard> {
+  const sb = getServiceSupabase();
+  const existing = await sb
+    .from("boards")
+    .select("*")
+    .eq("id", MEMORY_MATCH_SAMPLE_BOARD_ID)
+    .maybeSingle();
+  throwIfError(existing.error, "ensureMemoryMatchBoard.select");
+  if (existing.data) {
+    return boardFromRow(existing.data as BoardRow);
+  }
+  const board = GameBoardSchema.parse(buildSampleMemoryMatchBoard());
+  const inserted = await sb
+    .from("boards")
+    .insert(boardToRow(board))
+    .select("*")
+    .single();
+  throwIfError(inserted.error, "ensureMemoryMatchBoard.insert");
+  return boardFromRow(inserted.data as BoardRow);
+}
+
+export async function ensureMemoryMatchSample(
+  plaintext = DEMO_MEMORY_MATCH_CODE,
+): Promise<{ code: string; boardId: string; created: boolean }> {
+  const board = await ensureMemoryMatchBoard();
+  const hash = sha256Hex(normalizeAccessCode(plaintext));
+  const sb = getServiceSupabase();
+  const existing = await sb
+    .from("product_codes")
+    .select("id")
+    .eq("code_hash", hash)
+    .maybeSingle();
+  throwIfError(existing.error, "ensureMemoryMatchSample.lookup");
+  if (existing.data) {
+    return { code: DEMO_MEMORY_MATCH_CODE, boardId: board.id, created: false };
+  }
+
+  const record = ProductCodeRecordSchema.parse({
+    id: generateId("pc"),
+    code_hash: hash,
+    board_id: board.id,
+    label: "Local demo / memory match sample",
+    max_sessions: null,
+    sessions_started: 0,
+    revoked_at: null,
+    created_at: new Date().toISOString(),
+  });
+  const ins = await sb.from("product_codes").insert({
+    id: record.id,
+    code_hash: record.code_hash,
+    board_id: record.board_id,
+    label: record.label ?? null,
+    max_sessions: record.max_sessions,
+    sessions_started: record.sessions_started,
+    revoked_at: record.revoked_at,
+    created_at: record.created_at,
+  });
+  throwIfError(ins.error, "ensureMemoryMatchSample.insert");
+  return { code: DEMO_MEMORY_MATCH_CODE, boardId: board.id, created: true };
+}
+
 export async function assertBoardAllowedForEntitlement(
   token: string | undefined,
   requestedBoardId: string,
@@ -407,6 +526,11 @@ export async function cloneBoard(opts: {
     subject: opts.subject ?? source.subject,
     tpt_sku: opts.tpt_sku ?? `${source.tpt_sku ?? "game"}-copy`,
     status: "draft",
+    game_type: source.game_type ?? "board",
+    items: source.items?.map((item) => ({
+      ...item,
+      id: generateId("mm"),
+    })),
     cells: source.cells.map((c) => ({
       ...c,
       id: `${c.category.slice(0, 3).toLowerCase()}-${c.points}-${generateId("c").slice(-4)}`,

@@ -1,0 +1,20 @@
+{
+  "id": "board_sample_memory_match",
+  "title": "Memory Match — Classroom Sample",
+  "grade": 3,
+  "subject": "math",
+  "theme": "Memory Match",
+  "status": "ready",
+  "tpt_sku": "t4t-memory-match-sample",
+  "game_type": "memory_match",
+  "items": [
+    { "id": "mm-1", "prompt": "Triangle", "match": "3 sides" },
+    { "id": "mm-2", "prompt": "Square", "match": "4 equal sides" },
+    { "id": "mm-3", "prompt": "Hexagon", "match": "6 sides" },
+    { "id": "mm-4", "prompt": "Pentagon", "match": "5 sides" },
+    { "id": "mm-5", "prompt": "Sum", "match": "Add the numbers" },
+    { "id": "mm-6", "prompt": "Product", "match": "Multiply the numbers" },
+    { "id": "mm-7", "prompt": "Even number", "match": "Divisible by 2" },
+    { "id": "mm-8", "prompt": "Odd number", "match": "Not divisible by 2" }
+  ]
+}

@@ -40,6 +40,7 @@ export async function GET(
     peek: {
       code: room.code,
       phase: room.phase,
+      game_type: room.game_type,
       title: room.board.title,
       player_count: Object.keys(room.players).length,
       lobby_locked: room.lobby_locked,

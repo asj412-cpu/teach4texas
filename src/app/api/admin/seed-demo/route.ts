@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isOperatorAuthorized } from "@/lib/operator-auth";
-import { ensureDemoAccessCode, listBoardsForOperator } from "@/lib/store";
+import {
+  ensureDemoAccessCode,
+  ensureMemoryMatchSample,
+  listBoardsForOperator,
+} from "@/lib/store";
 
 export const dynamic = "force-dynamic";
 
@@ -11,6 +15,7 @@ export async function POST(req: NextRequest) {
   }
 
   const demo = await ensureDemoAccessCode();
+  const match = await ensureMemoryMatchSample();
   const boards = await listBoardsForOperator();
 
   return NextResponse.json({
@@ -18,6 +23,11 @@ export async function POST(req: NextRequest) {
     demo_access_code: demo.code,
     board_id: demo.boardId,
     created: demo.created,
+    memory_match: {
+      demo_access_code: match.code,
+      board_id: match.boardId,
+      created: match.created,
+    },
     boards,
     tpt_flow: [
       "1. Mint or use demo_access_code for this board only",

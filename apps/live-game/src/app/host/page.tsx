@@ -2,8 +2,17 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import type { GameBoard, QuestionCell } from "@/lib/domain/board";
+import type { GameBoard, GameType, QuestionCell } from "@/lib/domain/board";
+import {
+  boardGameType,
+  supportsBoardPlay,
+  supportsMemoryMatch,
+  supportsTimedRace,
+} from "@/lib/domain/board";
 import type { HostRoomView } from "@/lib/domain/live-room";
+import { MemoryMatchHost } from "@/components/memory-match-host";
+import { TimedRaceHost } from "@/components/timed-race-host";
+import { kidPlainText } from "@/lib/plain-text";
 
 const HOST_TOKEN_KEY = "t4t_host_token";
 const ROOM_CODE_KEY = "t4t_room_code";
@@ -80,7 +89,7 @@ export default function HostPage() {
     return () => clearInterval(id);
   }, [hostToken, roomCode, poll]);
 
-  async function startLive() {
+  async function startLive(gameType?: GameType) {
     if (!board) return;
     setStarting(true);
     setError(null);
@@ -88,7 +97,7 @@ export default function HostPage() {
       const res = await fetch("/api/sessions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ board_id: board.id }),
+        body: JSON.stringify({ board_id: board.id, game_type: gameType }),
       });
       const data = await res.json();
       if (!res.ok || !data.ok) {
@@ -122,7 +131,7 @@ export default function HostPage() {
   const categories = useMemo(() => {
     const b = view?.board ?? board;
     if (!b) return [];
-    return [...new Set(b.cells.map((c) => c.category))];
+    return [...new Set((b.cells ?? []).map((c) => c.category))];
   }, [view, board]);
 
   if (loading) {
@@ -158,25 +167,75 @@ export default function HostPage() {
         <p className="text-xs font-semibold uppercase tracking-wide text-t4t-burnt">
           Paid game unlocked
         </p>
-        <h1 className="mt-1 text-2xl font-bold text-t4t-navy">{board.title}</h1>
+        <h1 className="mt-1 text-2xl font-bold text-t4t-navy">
+          {kidPlainText(board.title, 80)}
+        </h1>
         <p className="mt-2 text-sm text-t4t-darkText/75">
-          Grade {board.grade} · {board.subject.toUpperCase()} ·{" "}
-          {board.cells.length} questions. Only this game is available on this
-          host session.
+          Grade {board.grade} · {board.subject.toUpperCase()}
+          {supportsBoardPlay(board)
+            ? ` · ${board.cells.length} questions`
+            : supportsMemoryMatch(board)
+              ? ` · ${board.items?.length ?? 0} match pairs`
+              : supportsTimedRace(board)
+                ? ` · ${board.race_items?.length ?? 0} race items`
+                : ""}
+          {supportsMemoryMatch(board) ? " · Memory Match ready" : ""}
+          {supportsTimedRace(board) ? " · Timed Race ready" : ""}. Only this
+          game is available on this host session.
         </p>
-        <button
-          type="button"
-          disabled={starting}
-          onClick={startLive}
-          className="mt-8 rounded-xl bg-t4t-navy px-4 py-3 text-sm font-semibold text-white disabled:opacity-50"
-        >
-          {starting ? "Starting…" : "Start live class session"}
-        </button>
+        <div className="mt-8 flex flex-col gap-3">
+          {supportsBoardPlay(board) && (
+            <button
+              type="button"
+              disabled={starting}
+              onClick={() => startLive("board")}
+              className="rounded-xl bg-t4t-navy px-4 py-3 text-sm font-semibold text-white disabled:opacity-50"
+            >
+              {starting ? "Starting…" : "Start game show (Jeopardy board)"}
+            </button>
+          )}
+          {supportsMemoryMatch(board) && (
+            <button
+              type="button"
+              disabled={starting}
+              onClick={() => startLive("memory_match")}
+              className="rounded-xl bg-t4t-green px-4 py-3 text-sm font-semibold text-white disabled:opacity-50"
+            >
+              {starting
+                ? "Starting…"
+                : boardGameType(board) === "memory_match"
+                  ? "Start Memory Match"
+                  : "Start as Memory Match"}
+            </button>
+          )}
+          {supportsTimedRace(board) && (
+            <button
+              type="button"
+              disabled={starting}
+              onClick={() => startLive("timed_race")}
+              className="rounded-xl bg-t4t-burnt px-4 py-3 text-sm font-semibold text-white disabled:opacity-50"
+            >
+              {starting
+                ? "Starting…"
+                : boardGameType(board) === "timed_race"
+                  ? "Start Timed Race"
+                  : "Start as Timed Race"}
+            </button>
+          )}
+        </div>
         <p className="mt-3 text-xs text-t4t-darkText/50">
           Students will join with a short room code (not your TPT access code).
         </p>
       </div>
     );
+  }
+
+  if (view.game_type === "memory_match" && view.phase !== "final") {
+    return <MemoryMatchHost view={view} onAction={hostAction} />;
+  }
+
+  if (view.game_type === "timed_race" && view.phase !== "final") {
+    return <TimedRaceHost view={view} onAction={hostAction} />;
   }
 
   const used = new Set(view.used_cell_ids);
@@ -223,7 +282,7 @@ export default function HostPage() {
               {activeCell.daily_double ? " · DD" : ""}
             </p>
             <p className="mt-4 text-2xl font-bold leading-snug sm:text-3xl">
-              {activeCell.question}
+              {kidPlainText(activeCell.question, 240)}
             </p>
             <ul className="mt-6 space-y-2">
               {activeCell.choices.map((c, i) => (

@@ -40,3 +40,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# TPT packets may contain live product access codes — do not commit
+tpt-packets/

@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isOperatorAuthorized } from "@/lib/operator-auth";
-import { ensureDemoAccessCode, listBoardsForOperator } from "@/lib/store";
+import {
+  ensureDemoAccessCode,
+  ensureMemoryMatchSample,
+  ensureTimedRaceSample,
+  listBoardsForOperator,
+} from "@/lib/store";
 
 export const dynamic = "force-dynamic";
 
@@ -9,6 +14,8 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ ok: false, error: "UNAUTHORIZED" }, { status: 401 });
   }
   await ensureDemoAccessCode();
+  await ensureMemoryMatchSample();
+  await ensureTimedRaceSample();
   const boards = await listBoardsForOperator();
   return NextResponse.json({
     ok: true,

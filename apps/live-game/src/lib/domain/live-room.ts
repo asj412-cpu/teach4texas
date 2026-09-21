@@ -1,9 +1,25 @@
 import { z } from "zod";
-import type { GameBoard, QuestionCell } from "@/lib/domain/board";
+import type { GameBoard, GameType, QuestionCell } from "@/lib/domain/board";
+import {
+  itemsFromBoard,
+  toPlayerMatchView,
+  type PlayerMatchState,
+  type PlayerMatchView,
+} from "@/lib/domain/memory-match";
+import {
+  raceItemsFromBoard,
+  remainingMs,
+  toPlayerRaceView,
+  type PlayerRaceState,
+  type PlayerRaceView,
+} from "@/lib/domain/timed-race";
+import { kidPlainText } from "@/lib/plain-text";
 
 export const RoomPhaseSchema = z.enum([
   "lobby",
   "board",
+  "matching",
+  "racing",
   "question_open",
   "question_locked",
   "reveal",
@@ -25,6 +41,8 @@ export type LiveRoom = {
   board_id: string;
   /** Full board — host only; never send raw to students. */
   board: GameBoard;
+  /** Mechanic for this live session (packet default or host pick). */
+  game_type: GameType;
   host_token_hash: string;
   phase: RoomPhase;
   players: Record<string, LivePlayer>;
@@ -34,6 +52,12 @@ export type LiveRoom = {
   answers: Record<string, number>;
   /** player_id → points for active cell (after reveal) */
   points_awarded: Record<string, number>;
+  /** Memory Match per-student decks. Host never sends other students' cards. */
+  match_states: Record<string, PlayerMatchState>;
+  /** Timed Race per-student item order. Host never sends other students' prompts. */
+  race_states: Record<string, PlayerRaceState>;
+  /** Shared race countdown; null until host starts. */
+  race_ends_at: string | null;
   open_until: string | null;
   answer_seconds: number;
   lobby_locked: boolean;
@@ -45,6 +69,7 @@ export type HostRoomView = {
   role: "host";
   code: string;
   phase: RoomPhase;
+  game_type: GameType;
   board: GameBoard;
   players: { player_id: string; display_name: string; score: number; connected: boolean }[];
   active_cell_id: string | null;
@@ -52,6 +77,33 @@ export type HostRoomView = {
   answers: Record<string, number>;
   answer_count: number;
   points_awarded: Record<string, number>;
+  match: null | {
+    pair_total: number;
+    players: {
+      player_id: string;
+      display_name: string;
+      pairs_found: number;
+      moves: number;
+      completed: boolean;
+    }[];
+    /** Host-only pair key — keep off the 16:9 student-facing stage. */
+    pair_key: { prompt: string; match: string }[];
+  };
+  race: null | {
+    item_total: number;
+    seconds: number;
+    ends_at: string | null;
+    time_remaining_ms: number;
+    players: {
+      player_id: string;
+      display_name: string;
+      answered: number;
+      correct_count: number;
+      completed: boolean;
+    }[];
+    /** Host-only answer key — keep off the 16:9 student-facing stage. */
+    item_key: { prompt: string; answer: string }[];
+  };
   open_until: string | null;
   answer_seconds: number;
   lobby_locked: boolean;
@@ -91,6 +143,9 @@ export type PlayerRoomView = {
     answer?: string;
     teks?: string;
   };
+  game_type: GameType;
+  match: PlayerMatchView | null;
+  race: PlayerRaceView | null;
   open_until: string | null;
   answer_seconds: number;
   server_now: string;
@@ -100,11 +155,60 @@ export function getCell(board: GameBoard, cellId: string): QuestionCell | undefi
   return board.cells.find((c) => c.id === cellId);
 }
 
+function hostMatchView(room: LiveRoom): HostRoomView["match"] {
+  if (room.game_type !== "memory_match") return null;
+  const items = itemsFromBoard(room.board);
+  return {
+    pair_total: items.length,
+    players: Object.values(room.players).map((p) => {
+      const st = room.match_states[p.player_id];
+      return {
+        player_id: p.player_id,
+        display_name: p.display_name,
+        pairs_found: st?.pairs_found ?? 0,
+        moves: st?.moves ?? 0,
+        completed: Boolean(st?.completed_at),
+      };
+    }),
+    pair_key: items.map((item) => ({
+      prompt: kidPlainText(item.prompt, 80),
+      match: kidPlainText(item.match, 80),
+    })),
+  };
+}
+
+function hostRaceView(room: LiveRoom): HostRoomView["race"] {
+  if (room.game_type !== "timed_race") return null;
+  const items = raceItemsFromBoard(room.board);
+  const now = Date.now();
+  return {
+    item_total: items.length,
+    seconds: room.answer_seconds,
+    ends_at: room.race_ends_at,
+    time_remaining_ms: remainingMs(room.race_ends_at, now),
+    players: Object.values(room.players).map((p) => {
+      const st = room.race_states[p.player_id];
+      return {
+        player_id: p.player_id,
+        display_name: p.display_name,
+        answered: st?.cursor ?? 0,
+        correct_count: st?.correct_count ?? 0,
+        completed: Boolean(st?.completed_at),
+      };
+    }),
+    item_key: items.map((item) => ({
+      prompt: kidPlainText(item.prompt, 80),
+      answer: kidPlainText(item.choices[item.correct_index], 80),
+    })),
+  };
+}
+
 export function sanitizeForHost(room: LiveRoom): HostRoomView {
   return {
     role: "host",
     code: room.code,
     phase: room.phase,
+    game_type: room.game_type,
     board: room.board,
     players: Object.values(room.players).map((p) => ({
       player_id: p.player_id,
@@ -117,6 +221,8 @@ export function sanitizeForHost(room: LiveRoom): HostRoomView {
     answers: { ...room.answers },
     answer_count: Object.keys(room.answers).length,
     points_awarded: { ...room.points_awarded },
+    match: hostMatchView(room),
+    race: hostRaceView(room),
     open_until: room.open_until,
     answer_seconds: room.answer_seconds,
     lobby_locked: room.lobby_locked,
@@ -131,7 +237,7 @@ export function sanitizeForPlayer(
   const me = room.players[playerId];
   if (!me) return null;
 
-  const categories = [...new Set(room.board.cells.map((c) => c.category))];
+  const categories = [...new Set((room.board.cells ?? []).map((c) => c.category))];
   const used = new Set(room.used_cell_ids);
 
   let active_question: PlayerRoomView["active_question"] = null;
@@ -177,7 +283,7 @@ export function sanitizeForPlayer(
     my_answered: room.answers[playerId] !== undefined,
     board_grid: {
       categories,
-      cells: room.board.cells.map((c) => ({
+      cells: (room.board.cells ?? []).map((c) => ({
         id: c.id,
         category: c.category,
         points: c.points,
@@ -186,6 +292,15 @@ export function sanitizeForPlayer(
       })),
     },
     active_question,
+    game_type: room.game_type,
+    match:
+      room.game_type === "memory_match" && room.match_states[playerId]
+        ? toPlayerMatchView(room.match_states[playerId]!)
+        : null,
+    race:
+      room.game_type === "timed_race" && room.race_states[playerId]
+        ? toPlayerRaceView(room.race_states[playerId]!, room.race_ends_at)
+        : null,
     open_until: room.open_until,
     answer_seconds: room.answer_seconds,
     server_now: new Date().toISOString(),

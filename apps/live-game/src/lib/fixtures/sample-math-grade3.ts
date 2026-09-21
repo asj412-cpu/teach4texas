@@ -296,6 +296,7 @@ export function buildSampleMathGrade3Board(
     theme: "Game Show",
     status: "ready",
     tpt_sku: "t4t-math-g3-gameshow-sample",
+    game_type: "board",
     cells,
     created_at: now,
     updated_at: now,

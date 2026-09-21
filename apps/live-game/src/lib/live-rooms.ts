@@ -1,4 +1,5 @@
-import type { GameBoard } from "@/lib/domain/board";
+import type { GameBoard, GameType } from "@/lib/domain/board";
+import { resolvePlayableGameType } from "@/lib/domain/board";
 import {
   getCell,
   type LivePlayer,
@@ -6,6 +7,19 @@ import {
   sanitizeForHost,
   sanitizeForPlayer,
 } from "@/lib/domain/live-room";
+import {
+  applyCardFlip,
+  clearExpiredMismatch,
+  createPlayerMatchState,
+  itemsFromBoard,
+} from "@/lib/domain/memory-match";
+import {
+  applyRaceAnswer,
+  createPlayerRaceState,
+  raceItemsFromBoard,
+  raceTimeUp,
+  TIMED_RACE_SECONDS,
+} from "@/lib/domain/timed-race";
 import {
   generateId,
   generateOpaqueToken,
@@ -60,9 +74,30 @@ function maybeAutoLock(room: LiveRoom) {
   }
 }
 
+function maybeClearMismatches(room: LiveRoom) {
+  if (room.game_type !== "memory_match") return;
+  const now = Date.now();
+  for (const st of Object.values(room.match_states)) {
+    clearExpiredMismatch(st, now);
+  }
+}
+
+function ensurePlayerMatchState(room: LiveRoom, playerId: string) {
+  if (room.game_type !== "memory_match") return;
+  if (room.match_states[playerId]) return;
+  room.match_states[playerId] = createPlayerMatchState(itemsFromBoard(room.board));
+}
+
+function ensurePlayerRaceState(room: LiveRoom, playerId: string) {
+  if (room.game_type !== "timed_race") return;
+  if (room.race_states[playerId]) return;
+  room.race_states[playerId] = createPlayerRaceState(raceItemsFromBoard(room.board));
+}
+
 export function createLiveRoom(opts: {
   board: GameBoard;
   answerSeconds?: number;
+  gameType?: string | null;
 }): { room: LiveRoom; hostToken: string } {
   purgeExpired();
   let code = randomRoomCode();
@@ -74,10 +109,12 @@ export function createLiveRoom(opts: {
   }
 
   const hostToken = generateOpaqueToken();
+  const gameType: GameType = resolvePlayableGameType(opts.board, opts.gameType);
   const room: LiveRoom = {
     code,
     board_id: opts.board.id,
     board: opts.board,
+    game_type: gameType,
     host_token_hash: sha256Hex(hostToken),
     phase: "lobby",
     players: {},
@@ -85,8 +122,13 @@ export function createLiveRoom(opts: {
     used_cell_ids: [],
     answers: {},
     points_awarded: {},
+    match_states: {},
+    race_states: {},
+    race_ends_at: null,
     open_until: null,
-    answer_seconds: opts.answerSeconds ?? DEFAULT_ANSWER_SECONDS,
+    answer_seconds:
+      opts.answerSeconds ??
+      (gameType === "timed_race" ? TIMED_RACE_SECONDS : DEFAULT_ANSWER_SECONDS),
     lobby_locked: false,
     created_at: new Date().toISOString(),
     ended_at: null,
@@ -98,7 +140,10 @@ export function createLiveRoom(opts: {
 export function getRoom(code: string): LiveRoom | null {
   purgeExpired();
   const room = g().rooms.get(code.toUpperCase()) ?? null;
-  if (room) maybeAutoLock(room);
+  if (room) {
+    maybeAutoLock(room);
+    maybeClearMismatches(room);
+  }
   return room;
 }
 
@@ -109,11 +154,13 @@ export function verifyHost(room: LiveRoom, hostToken: string | undefined): boole
 
 export function hostView(room: LiveRoom) {
   maybeAutoLock(room);
+  maybeClearMismatches(room);
   return sanitizeForHost(room);
 }
 
 export function playerView(room: LiveRoom, playerId: string) {
   maybeAutoLock(room);
+  maybeClearMismatches(room);
   return sanitizeForPlayer(room, playerId);
 }
 
@@ -143,6 +190,12 @@ export function joinRoom(
       existing.resume_secret_hash === sha256Hex(resume.resume_secret)
     ) {
       existing.connected = true;
+      if (room.game_type === "memory_match" && room.phase === "matching") {
+        ensurePlayerMatchState(room, existing.player_id);
+      }
+      if (room.game_type === "timed_race" && room.phase === "racing") {
+        ensurePlayerRaceState(room, existing.player_id);
+      }
       const view = sanitizeForPlayer(room, existing.player_id);
       if (!view) return { ok: false, error: "JOIN_FAILED" };
       return {
@@ -186,6 +239,12 @@ export function joinRoom(
     resume_secret_hash: sha256Hex(resume_secret),
   };
   room.players[player_id] = player;
+  if (room.game_type === "memory_match" && room.phase === "matching") {
+    ensurePlayerMatchState(room, player_id);
+  }
+  if (room.game_type === "timed_race" && room.phase === "racing") {
+    ensurePlayerRaceState(room, player_id);
+  }
 
   const view = sanitizeForPlayer(room, player_id);
   if (!view) return { ok: false, error: "JOIN_FAILED" };
@@ -214,7 +273,22 @@ export function applyHostAction(
       if (room.phase !== "lobby") {
         return { ok: false, error: "ILLEGAL_TRANSITION" };
       }
-      room.phase = "board";
+      if (room.game_type === "memory_match") {
+        for (const pid of Object.keys(room.players)) {
+          ensurePlayerMatchState(room, pid);
+        }
+        room.phase = "matching";
+      } else if (room.game_type === "timed_race") {
+        for (const pid of Object.keys(room.players)) {
+          ensurePlayerRaceState(room, pid);
+        }
+        room.race_ends_at = new Date(
+          Date.now() + room.answer_seconds * 1000,
+        ).toISOString();
+        room.phase = "racing";
+      } else {
+        room.phase = "board";
+      }
       return { ok: true };
     }
     case "select_cell": {
@@ -310,11 +384,65 @@ export function applyHostAction(
     case "kick": {
       delete room.players[action.player_id];
       delete room.answers[action.player_id];
+      delete room.match_states[action.player_id];
+      delete room.race_states[action.player_id];
       return { ok: true };
     }
     default:
       return { ok: false, error: "UNKNOWN_ACTION" };
   }
+}
+
+export function flipMatchCard(
+  room: LiveRoom,
+  playerId: string,
+  cardIndex: number,
+): { ok: true } | { ok: false; error: string } {
+  maybeClearMismatches(room);
+  if (room.game_type !== "memory_match") {
+    return { ok: false, error: "NOT_MEMORY_MATCH" };
+  }
+  if (room.phase !== "matching") {
+    return { ok: false, error: "NOT_ACCEPTING_FLIPS" };
+  }
+  if (!room.players[playerId]) return { ok: false, error: "NOT_A_PLAYER" };
+  ensurePlayerMatchState(room, playerId);
+  const state = room.match_states[playerId];
+  if (!state) return { ok: false, error: "NO_MATCH_STATE" };
+  const result = applyCardFlip(state, cardIndex);
+  if (!result.ok) return result;
+  if (result.points > 0) {
+    room.players[playerId]!.score += result.points;
+  }
+  return { ok: true };
+}
+
+export function submitRaceAnswer(
+  room: LiveRoom,
+  playerId: string,
+  choiceIndex: number,
+): { ok: true } | { ok: false; error: string } {
+  if (room.game_type !== "timed_race") {
+    return { ok: false, error: "NOT_TIMED_RACE" };
+  }
+  if (room.phase !== "racing") {
+    return { ok: false, error: "NOT_ACCEPTING_ANSWERS" };
+  }
+  if (!room.players[playerId]) return { ok: false, error: "NOT_A_PLAYER" };
+  if (raceTimeUp(room.race_ends_at)) {
+    return { ok: false, error: "TIME_UP" };
+  }
+  ensurePlayerRaceState(room, playerId);
+  const state = room.race_states[playerId];
+  if (!state) return { ok: false, error: "NO_RACE_STATE" };
+  const result = applyRaceAnswer(state, choiceIndex, {
+    endsAt: room.race_ends_at,
+  });
+  if (!result.ok) return result;
+  if (result.points > 0) {
+    room.players[playerId]!.score += result.points;
+  }
+  return { ok: true };
 }
 
 export function submitAnswer(
@@ -323,6 +451,9 @@ export function submitAnswer(
   choiceIndex: number,
 ): { ok: true } | { ok: false; error: string } {
   maybeAutoLock(room);
+  if (room.game_type === "memory_match" || room.game_type === "timed_race") {
+    return { ok: false, error: "NOT_ACCEPTING_ANSWERS" };
+  }
   if (room.phase !== "question_open") {
     return { ok: false, error: "NOT_ACCEPTING_ANSWERS" };
   }

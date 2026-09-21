@@ -4,6 +4,9 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import type { PlayerRoomView } from "@/lib/domain/live-room";
+import { MemoryMatchPlay } from "@/components/memory-match-play";
+import { TimedRacePlay } from "@/components/timed-race-play";
+import { kidPlainText } from "@/lib/plain-text";
 
 const PLAYER_KEY = "t4t_player";
 
@@ -56,6 +59,40 @@ export default function PlayPage() {
     return () => clearInterval(id);
   }, [playerId, poll]);
 
+  async function flip(card_index: number) {
+    if (!playerId || !view || view.game_type !== "memory_match") return;
+    if (view.phase !== "matching" || !view.match?.can_flip) return;
+    setSubmitting(true);
+    try {
+      const res = await fetch(`/api/rooms/${code}/flip`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ player_id: playerId, card_index }),
+      });
+      const data = await res.json();
+      if (res.ok && data.ok) setView(data.view);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  async function raceAnswer(choice_index: number) {
+    if (!playerId || !view || view.game_type !== "timed_race") return;
+    if (view.phase !== "racing" || !view.race?.can_answer) return;
+    setSubmitting(true);
+    try {
+      const res = await fetch(`/api/rooms/${code}/race`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ player_id: playerId, choice_index }),
+      });
+      const data = await res.json();
+      if (res.ok && data.ok) setView(data.view);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
   async function answer(choice_index: number) {
     if (!playerId || !view || view.my_answered || view.phase !== "question_open")
       return;
@@ -96,15 +133,38 @@ export default function PlayPage() {
     return (
       <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6 text-center">
         <p className="text-sm uppercase text-t4t-burnt">You&apos;re in!</p>
-        <h1 className="mt-2 text-2xl font-bold text-t4t-navy">{view.title}</h1>
+        <h1 className="mt-2 text-2xl font-bold text-t4t-navy">
+          {kidPlainText(view.title, 80)}
+        </h1>
         <p className="mt-2 text-t4t-darkText/70">
-          Waiting for your teacher to start… ({view.players.length} players)
+          {view.game_type === "memory_match"
+            ? "Memory Match — waiting for your teacher to start"
+            : view.game_type === "timed_race"
+              ? "Timed Race — waiting for your teacher to start"
+              : "Waiting for your teacher to start"}{" "}
+          ({view.players.length} players)
         </p>
         <p className="mt-6 text-lg font-semibold text-t4t-navy">
           You: {view.my_display_name}
         </p>
         <p className="mt-1 text-sm">Your score: {view.my_score}</p>
       </div>
+    );
+  }
+
+  if (view.game_type === "memory_match" && view.phase !== "final") {
+    return (
+      <MemoryMatchPlay view={view} submitting={submitting} onFlip={flip} />
+    );
+  }
+
+  if (view.game_type === "timed_race" && view.phase !== "final") {
+    return (
+      <TimedRacePlay
+        view={view}
+        submitting={submitting}
+        onAnswer={raceAnswer}
+      />
     );
   }
 
@@ -141,7 +201,7 @@ export default function PlayPage() {
           {q.daily_double ? " · Daily Double" : ""}
         </p>
         <p className="mx-auto mt-4 max-w-lg text-center text-xl font-bold text-t4t-navy">
-          {q.question}
+          {kidPlainText(q.question, 240)}
         </p>
         <div className="mx-auto mt-8 flex max-w-md flex-col gap-3">
           {q.choices.map((choice, i) => {
@@ -166,7 +226,7 @@ export default function PlayPage() {
                 <span className="mr-2 font-bold text-t4t-burnt">
                   {String.fromCharCode(65 + i)}.
                 </span>
-                {choice}
+                {kidPlainText(choice, 120)}
               </button>
             );
           })}
@@ -183,7 +243,7 @@ export default function PlayPage() {
         )}
         {view.phase === "reveal" && q.answer && (
           <p className="mt-6 text-center text-sm font-semibold text-t4t-green">
-            Correct: {q.answer}
+            Correct: {kidPlainText(q.answer, 120)}
             {q.teks ? ` (${q.teks})` : ""}
           </p>
         )}
@@ -197,7 +257,9 @@ export default function PlayPage() {
   // Board waiting
   return (
     <div className="min-h-screen bg-t4t-lightGray px-4 py-8">
-      <h1 className="text-center text-lg font-bold text-t4t-navy">{view.title}</h1>
+      <h1 className="text-center text-lg font-bold text-t4t-navy">
+        {kidPlainText(view.title, 80)}
+      </h1>
       <p className="mt-1 text-center text-sm text-t4t-darkText/70">
         Your score: {view.my_score} · Wait for teacher to pick a question
       </p>

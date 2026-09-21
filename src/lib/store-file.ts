@@ -7,8 +7,10 @@ import {
   boardGameType,
   supportsBoardPlay,
   supportsMemoryMatch,
+  supportsTimedRace,
 } from "@/lib/domain/board";
 import { itemsFromBoard } from "@/lib/domain/memory-match";
+import { raceItemsFromBoard } from "@/lib/domain/timed-race";
 import {
   type HostEntitlement,
   HostEntitlementSchema,
@@ -28,6 +30,11 @@ import {
   DEMO_MEMORY_MATCH_CODE,
   MEMORY_MATCH_SAMPLE_BOARD_ID,
 } from "@/lib/fixtures/sample-memory-match";
+import {
+  buildSampleTimedRaceBoard,
+  DEMO_TIMED_RACE_CODE,
+  TIMED_RACE_SAMPLE_BOARD_ID,
+} from "@/lib/fixtures/sample-timed-race";
 import {
   ACCESS_CODE_COOKIE,
   ENTITLEMENT_TTL_HOURS,
@@ -52,19 +59,23 @@ async function ensureStore(): Promise<StoreShape> {
       product_codes: parsed.product_codes ?? [],
       entitlements: parsed.entitlements ?? [],
     };
-    if (seedMemoryMatchSample(store)) {
+    const seededMatch = seedMemoryMatchSample(store);
+    const seededRace = seedTimedRaceSample(store);
+    if (seededMatch || seededRace) {
       await writeStore(store);
     }
     return store;
   } catch {
     const board = GameBoardSchema.parse(buildSampleMathGrade3Board());
     const matchBoard = GameBoardSchema.parse(buildSampleMemoryMatchBoard());
+    const raceBoard = GameBoardSchema.parse(buildSampleTimedRaceBoard());
     const initial: StoreShape = {
-      boards: [board, matchBoard],
+      boards: [board, matchBoard, raceBoard],
       product_codes: [],
       entitlements: [],
     };
     seedMemoryMatchSample(initial);
+    seedTimedRaceSample(initial);
     await fs.writeFile(STORE_PATH, JSON.stringify(initial, null, 2), "utf8");
     return initial;
   }
@@ -84,6 +95,31 @@ function seedMemoryMatchSample(store: StoreShape): boolean {
         code_hash: hash,
         board_id: MEMORY_MATCH_SAMPLE_BOARD_ID,
         label: "Local demo / memory match sample",
+        max_sessions: null,
+        sessions_started: 0,
+        revoked_at: null,
+        created_at: new Date().toISOString(),
+      }),
+    );
+    dirty = true;
+  }
+  return dirty;
+}
+
+function seedTimedRaceSample(store: StoreShape): boolean {
+  let dirty = false;
+  if (!store.boards.some((b) => b.id === TIMED_RACE_SAMPLE_BOARD_ID)) {
+    store.boards.push(GameBoardSchema.parse(buildSampleTimedRaceBoard()));
+    dirty = true;
+  }
+  const hash = sha256Hex(normalizeAccessCode(DEMO_TIMED_RACE_CODE));
+  if (!store.product_codes.some((c) => c.code_hash === hash)) {
+    store.product_codes.push(
+      ProductCodeRecordSchema.parse({
+        id: generateId("pc"),
+        code_hash: hash,
+        board_id: TIMED_RACE_SAMPLE_BOARD_ID,
+        label: "Local demo / timed race sample",
         max_sessions: null,
         sessions_started: 0,
         revoked_at: null,
@@ -136,8 +172,10 @@ export function toHostBoardView(board: GameBoard): HostBoardView {
     cell_count: board.cells.length,
     game_type: boardGameType(board),
     item_count: itemsFromBoard(board).length,
+    race_item_count: raceItemsFromBoard(board).length,
     supports_board: supportsBoardPlay(board),
     supports_memory_match: supportsMemoryMatch(board),
+    supports_timed_race: supportsTimedRace(board),
   };
 }
 
@@ -267,7 +305,7 @@ export async function resolveEntitlement(
  */
 /** Fixed packaging string for local demo (any hyphenation of same alphanumerics works). */
 export const DEMO_ACCESS_CODE_DISPLAY = "T4T-DEMO-MATH-G3-SAMPLE01";
-export { DEMO_MEMORY_MATCH_CODE };
+export { DEMO_MEMORY_MATCH_CODE, DEMO_TIMED_RACE_CODE };
 
 export async function ensureDemoAccessCode(
   plaintext = DEMO_ACCESS_CODE_DISPLAY,
@@ -354,6 +392,49 @@ export async function ensureMemoryMatchSample(
   };
 }
 
+/** Seed Timed Race sample packet + known demo access code. Idempotent. */
+export async function ensureTimedRaceSample(
+  plaintext = DEMO_TIMED_RACE_CODE,
+): Promise<{ code: string; boardId: string; created: boolean }> {
+  const store = await ensureStore();
+  const board =
+    store.boards.find((b) => b.id === TIMED_RACE_SAMPLE_BOARD_ID) ??
+    GameBoardSchema.parse(buildSampleTimedRaceBoard());
+
+  if (!store.boards.some((b) => b.id === board.id)) {
+    store.boards.push(board);
+  }
+
+  const hash = sha256Hex(normalizeAccessCode(plaintext));
+  const existing = store.product_codes.find((c) => c.code_hash === hash);
+  if (existing) {
+    await writeStore(store);
+    return {
+      code: DEMO_TIMED_RACE_CODE,
+      boardId: board.id,
+      created: false,
+    };
+  }
+
+  const record = ProductCodeRecordSchema.parse({
+    id: generateId("pc"),
+    code_hash: hash,
+    board_id: board.id,
+    label: "Local demo / timed race sample",
+    max_sessions: null,
+    sessions_started: 0,
+    revoked_at: null,
+    created_at: new Date().toISOString(),
+  });
+  store.product_codes.push(record);
+  await writeStore(store);
+  return {
+    code: DEMO_TIMED_RACE_CODE,
+    boardId: board.id,
+    created: true,
+  };
+}
+
 export async function assertBoardAllowedForEntitlement(
   token: string | undefined,
   requestedBoardId: string,
@@ -408,6 +489,10 @@ export async function cloneBoard(opts: {
     items: source.items?.map((item) => ({
       ...item,
       id: generateId("mm"),
+    })),
+    race_items: source.race_items?.map((item) => ({
+      ...item,
+      id: generateId("tr"),
     })),
     cells: source.cells.map((c) => ({
       ...c,

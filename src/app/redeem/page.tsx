@@ -13,7 +13,9 @@ type HostBoard = {
   cell_count: number;
   game_type?: string;
   item_count?: number;
+  race_item_count?: number;
   supports_memory_match?: boolean;
+  supports_timed_race?: boolean;
   supports_board?: boolean;
 };
 
@@ -99,9 +101,14 @@ export default function RedeemPage() {
             Grade {unlocked.grade} · {unlocked.subject.toUpperCase()}
             {unlocked.game_type === "memory_match"
               ? ` · Memory Match · ${unlocked.item_count ?? 0} pairs`
-              : ` · ${unlocked.cell_count} questions`}
+              : unlocked.game_type === "timed_race"
+                ? ` · Timed Race · ${unlocked.race_item_count ?? 0} items`
+                : ` · ${unlocked.cell_count} questions`}
             {unlocked.supports_memory_match && unlocked.game_type !== "memory_match"
               ? " · can host as Memory Match"
+              : ""}
+            {unlocked.supports_timed_race && unlocked.game_type !== "timed_race"
+              ? " · can host as Timed Race"
               : ""}
           </p>
           <ul className="list-inside list-disc text-sm text-t4t-darkText/70">

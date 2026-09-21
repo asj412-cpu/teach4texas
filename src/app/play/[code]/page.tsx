@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import type { PlayerRoomView } from "@/lib/domain/live-room";
 import { MemoryMatchPlay } from "@/components/memory-match-play";
+import { TimedRacePlay } from "@/components/timed-race-play";
 import { kidPlainText } from "@/lib/plain-text";
 
 const PLAYER_KEY = "t4t_player";
@@ -75,6 +76,23 @@ export default function PlayPage() {
     }
   }
 
+  async function raceAnswer(choice_index: number) {
+    if (!playerId || !view || view.game_type !== "timed_race") return;
+    if (view.phase !== "racing" || !view.race?.can_answer) return;
+    setSubmitting(true);
+    try {
+      const res = await fetch(`/api/rooms/${code}/race`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ player_id: playerId, choice_index }),
+      });
+      const data = await res.json();
+      if (res.ok && data.ok) setView(data.view);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
   async function answer(choice_index: number) {
     if (!playerId || !view || view.my_answered || view.phase !== "question_open")
       return;
@@ -121,7 +139,9 @@ export default function PlayPage() {
         <p className="mt-2 text-t4t-darkText/70">
           {view.game_type === "memory_match"
             ? "Memory Match — waiting for your teacher to start"
-            : "Waiting for your teacher to start"}{" "}
+            : view.game_type === "timed_race"
+              ? "Timed Race — waiting for your teacher to start"
+              : "Waiting for your teacher to start"}{" "}
           ({view.players.length} players)
         </p>
         <p className="mt-6 text-lg font-semibold text-t4t-navy">
@@ -135,6 +155,16 @@ export default function PlayPage() {
   if (view.game_type === "memory_match" && view.phase !== "final") {
     return (
       <MemoryMatchPlay view={view} submitting={submitting} onFlip={flip} />
+    );
+  }
+
+  if (view.game_type === "timed_race" && view.phase !== "final") {
+    return (
+      <TimedRacePlay
+        view={view}
+        submitting={submitting}
+        onAnswer={raceAnswer}
+      />
     );
   }
 

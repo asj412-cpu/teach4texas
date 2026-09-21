@@ -3,6 +3,7 @@ import { isOperatorAuthorized } from "@/lib/operator-auth";
 import {
   ensureDemoAccessCode,
   ensureMemoryMatchSample,
+  ensureTimedRaceSample,
   listBoardsForOperator,
 } from "@/lib/store";
 
@@ -16,6 +17,7 @@ export async function POST(req: NextRequest) {
 
   const demo = await ensureDemoAccessCode();
   const match = await ensureMemoryMatchSample();
+  const race = await ensureTimedRaceSample();
   const boards = await listBoardsForOperator();
 
   return NextResponse.json({
@@ -27,6 +29,11 @@ export async function POST(req: NextRequest) {
       demo_access_code: match.code,
       board_id: match.boardId,
       created: match.created,
+    },
+    timed_race: {
+      demo_access_code: race.code,
+      board_id: race.boardId,
+      created: race.created,
     },
     boards,
     tpt_flow: [

@@ -7,9 +7,11 @@ import {
   boardGameType,
   supportsBoardPlay,
   supportsMemoryMatch,
+  supportsTimedRace,
 } from "@/lib/domain/board";
 import type { HostRoomView } from "@/lib/domain/live-room";
 import { MemoryMatchHost } from "@/components/memory-match-host";
+import { TimedRaceHost } from "@/components/timed-race-host";
 import { kidPlainText } from "@/lib/plain-text";
 
 const HOST_TOKEN_KEY = "t4t_host_token";
@@ -174,8 +176,11 @@ export default function HostPage() {
             ? ` · ${board.cells.length} questions`
             : supportsMemoryMatch(board)
               ? ` · ${board.items?.length ?? 0} match pairs`
-              : ""}
-          {supportsMemoryMatch(board) ? " · Memory Match ready" : ""}. Only this
+              : supportsTimedRace(board)
+                ? ` · ${board.race_items?.length ?? 0} race items`
+                : ""}
+          {supportsMemoryMatch(board) ? " · Memory Match ready" : ""}
+          {supportsTimedRace(board) ? " · Timed Race ready" : ""}. Only this
           game is available on this host session.
         </p>
         <div className="mt-8 flex flex-col gap-3">
@@ -203,6 +208,20 @@ export default function HostPage() {
                   : "Start as Memory Match"}
             </button>
           )}
+          {supportsTimedRace(board) && (
+            <button
+              type="button"
+              disabled={starting}
+              onClick={() => startLive("timed_race")}
+              className="rounded-xl bg-t4t-burnt px-4 py-3 text-sm font-semibold text-white disabled:opacity-50"
+            >
+              {starting
+                ? "Starting…"
+                : boardGameType(board) === "timed_race"
+                  ? "Start Timed Race"
+                  : "Start as Timed Race"}
+            </button>
+          )}
         </div>
         <p className="mt-3 text-xs text-t4t-darkText/50">
           Students will join with a short room code (not your TPT access code).
@@ -213,6 +232,10 @@ export default function HostPage() {
 
   if (view.game_type === "memory_match" && view.phase !== "final") {
     return <MemoryMatchHost view={view} onAction={hostAction} />;
+  }
+
+  if (view.game_type === "timed_race" && view.phase !== "final") {
+    return <TimedRaceHost view={view} onAction={hostAction} />;
   }
 
   const used = new Set(view.used_cell_ids);

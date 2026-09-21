@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const GameTypeSchema = z.enum(["board", "memory_match"]);
+export const GameTypeSchema = z.enum(["board", "memory_match", "timed_race"]);
 export type GameType = z.infer<typeof GameTypeSchema>;
 
 /** TEKS-agnostic pair for Memory Match. `teks` is optional on purpose. */
@@ -12,6 +12,22 @@ export const MemoryMatchItemSchema = z.object({
 });
 
 export type MemoryMatchItem = z.infer<typeof MemoryMatchItemSchema>;
+
+/** TEKS-agnostic 4-choice item for Timed Race. `teks` is optional on purpose. */
+export const TimedRaceItemSchema = z.object({
+  id: z.string().min(1),
+  prompt: z.string().min(1).max(200),
+  choices: z.tuple([z.string(), z.string(), z.string(), z.string()]),
+  correct_index: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+  ]),
+  teks: z.string().max(32).optional(),
+});
+
+export type TimedRaceItem = z.infer<typeof TimedRaceItemSchema>;
 
 /** Live MC cell — distinct from offline free-response TPT JSON. */
 export const QuestionCellSchema = z.object({
@@ -61,6 +77,8 @@ export const GameBoardSchema = z
     cells: z.array(QuestionCellSchema).default([]),
     /** Memory Match pairs. Ignored for game_type=board unless host picks Memory Match. */
     items: z.array(MemoryMatchItemSchema).max(12).optional(),
+    /** Timed Race items. Ignored for game_type=board unless host picks Timed Race. */
+    race_items: z.array(TimedRaceItemSchema).max(12).optional(),
     created_at: z.string(),
     updated_at: z.string(),
   })
@@ -91,6 +109,27 @@ export const GameBoardSchema = z
             message: `Category "${cat}" must have points 100–500 exactly once`,
           });
         }
+      }
+      return;
+    }
+
+    if (type === "timed_race") {
+      const raceCount =
+        board.race_items && board.race_items.length >= 4
+          ? board.race_items.length
+          : board.cells.length;
+      if (raceCount < 4) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message:
+            "Timed race needs at least 4 items (race_items JSON or board cells)",
+        });
+      }
+      if (board.race_items && board.race_items.length > 12) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Timed race supports at most 12 items",
+        });
       }
       return;
     }
@@ -129,8 +168,10 @@ export type HostBoardView = {
   cell_count: number;
   game_type: GameType;
   item_count: number;
+  race_item_count: number;
   supports_board: boolean;
   supports_memory_match: boolean;
+  supports_timed_race: boolean;
 };
 
 export function boardGameType(board: { game_type?: GameType }): GameType {
@@ -150,20 +191,35 @@ export function supportsMemoryMatch(board: {
   return (board.items?.length ?? 0) >= 4 || (board.cells?.length ?? 0) >= 4;
 }
 
+export function supportsTimedRace(board: {
+  race_items?: TimedRaceItem[];
+  cells?: { id: string }[];
+}): boolean {
+  return (board.race_items?.length ?? 0) >= 4 || (board.cells?.length ?? 0) >= 4;
+}
+
 export function resolvePlayableGameType(
   board: GameBoard,
   requested?: string | null,
 ): GameType {
+  if (requested === "timed_race" && supportsTimedRace(board)) {
+    return "timed_race";
+  }
   if (requested === "memory_match" && supportsMemoryMatch(board)) {
     return "memory_match";
   }
   if (requested === "board" && supportsBoardPlay(board)) {
     return "board";
   }
-  if (boardGameType(board) === "memory_match" && supportsMemoryMatch(board)) {
+  const native = boardGameType(board);
+  if (native === "timed_race" && supportsTimedRace(board)) {
+    return "timed_race";
+  }
+  if (native === "memory_match" && supportsMemoryMatch(board)) {
     return "memory_match";
   }
   if (supportsBoardPlay(board)) return "board";
   if (supportsMemoryMatch(board)) return "memory_match";
+  if (supportsTimedRace(board)) return "timed_race";
   return "board";
 }

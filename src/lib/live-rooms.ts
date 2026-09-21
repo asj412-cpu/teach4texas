@@ -14,6 +14,13 @@ import {
   itemsFromBoard,
 } from "@/lib/domain/memory-match";
 import {
+  applyRaceAnswer,
+  createPlayerRaceState,
+  raceItemsFromBoard,
+  raceTimeUp,
+  TIMED_RACE_SECONDS,
+} from "@/lib/domain/timed-race";
+import {
   generateId,
   generateOpaqueToken,
   sha256Hex,
@@ -81,6 +88,12 @@ function ensurePlayerMatchState(room: LiveRoom, playerId: string) {
   room.match_states[playerId] = createPlayerMatchState(itemsFromBoard(room.board));
 }
 
+function ensurePlayerRaceState(room: LiveRoom, playerId: string) {
+  if (room.game_type !== "timed_race") return;
+  if (room.race_states[playerId]) return;
+  room.race_states[playerId] = createPlayerRaceState(raceItemsFromBoard(room.board));
+}
+
 export function createLiveRoom(opts: {
   board: GameBoard;
   answerSeconds?: number;
@@ -110,8 +123,12 @@ export function createLiveRoom(opts: {
     answers: {},
     points_awarded: {},
     match_states: {},
+    race_states: {},
+    race_ends_at: null,
     open_until: null,
-    answer_seconds: opts.answerSeconds ?? DEFAULT_ANSWER_SECONDS,
+    answer_seconds:
+      opts.answerSeconds ??
+      (gameType === "timed_race" ? TIMED_RACE_SECONDS : DEFAULT_ANSWER_SECONDS),
     lobby_locked: false,
     created_at: new Date().toISOString(),
     ended_at: null,
@@ -176,6 +193,9 @@ export function joinRoom(
       if (room.game_type === "memory_match" && room.phase === "matching") {
         ensurePlayerMatchState(room, existing.player_id);
       }
+      if (room.game_type === "timed_race" && room.phase === "racing") {
+        ensurePlayerRaceState(room, existing.player_id);
+      }
       const view = sanitizeForPlayer(room, existing.player_id);
       if (!view) return { ok: false, error: "JOIN_FAILED" };
       return {
@@ -222,6 +242,9 @@ export function joinRoom(
   if (room.game_type === "memory_match" && room.phase === "matching") {
     ensurePlayerMatchState(room, player_id);
   }
+  if (room.game_type === "timed_race" && room.phase === "racing") {
+    ensurePlayerRaceState(room, player_id);
+  }
 
   const view = sanitizeForPlayer(room, player_id);
   if (!view) return { ok: false, error: "JOIN_FAILED" };
@@ -255,6 +278,14 @@ export function applyHostAction(
           ensurePlayerMatchState(room, pid);
         }
         room.phase = "matching";
+      } else if (room.game_type === "timed_race") {
+        for (const pid of Object.keys(room.players)) {
+          ensurePlayerRaceState(room, pid);
+        }
+        room.race_ends_at = new Date(
+          Date.now() + room.answer_seconds * 1000,
+        ).toISOString();
+        room.phase = "racing";
       } else {
         room.phase = "board";
       }
@@ -354,6 +385,7 @@ export function applyHostAction(
       delete room.players[action.player_id];
       delete room.answers[action.player_id];
       delete room.match_states[action.player_id];
+      delete room.race_states[action.player_id];
       return { ok: true };
     }
     default:
@@ -385,13 +417,41 @@ export function flipMatchCard(
   return { ok: true };
 }
 
+export function submitRaceAnswer(
+  room: LiveRoom,
+  playerId: string,
+  choiceIndex: number,
+): { ok: true } | { ok: false; error: string } {
+  if (room.game_type !== "timed_race") {
+    return { ok: false, error: "NOT_TIMED_RACE" };
+  }
+  if (room.phase !== "racing") {
+    return { ok: false, error: "NOT_ACCEPTING_ANSWERS" };
+  }
+  if (!room.players[playerId]) return { ok: false, error: "NOT_A_PLAYER" };
+  if (raceTimeUp(room.race_ends_at)) {
+    return { ok: false, error: "TIME_UP" };
+  }
+  ensurePlayerRaceState(room, playerId);
+  const state = room.race_states[playerId];
+  if (!state) return { ok: false, error: "NO_RACE_STATE" };
+  const result = applyRaceAnswer(state, choiceIndex, {
+    endsAt: room.race_ends_at,
+  });
+  if (!result.ok) return result;
+  if (result.points > 0) {
+    room.players[playerId]!.score += result.points;
+  }
+  return { ok: true };
+}
+
 export function submitAnswer(
   room: LiveRoom,
   playerId: string,
   choiceIndex: number,
 ): { ok: true } | { ok: false; error: string } {
   maybeAutoLock(room);
-  if (room.game_type === "memory_match") {
+  if (room.game_type === "memory_match" || room.game_type === "timed_race") {
     return { ok: false, error: "NOT_ACCEPTING_ANSWERS" };
   }
   if (room.phase !== "question_open") {

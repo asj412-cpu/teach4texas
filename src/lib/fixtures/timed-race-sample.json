@@ -1,0 +1,60 @@
+{
+  "id": "board_sample_timed_race",
+  "title": "Timed Race — Classroom Sample",
+  "grade": 3,
+  "subject": "math",
+  "theme": "Timed Race",
+  "status": "ready",
+  "tpt_sku": "t4t-timed-race-sample",
+  "game_type": "timed_race",
+  "race_items": [
+    {
+      "id": "tr-1",
+      "prompt": "What is 7 × 8?",
+      "choices": ["54", "56", "64", "48"],
+      "correct_index": 1
+    },
+    {
+      "id": "tr-2",
+      "prompt": "What is 45 + 27?",
+      "choices": ["62", "72", "71", "73"],
+      "correct_index": 1
+    },
+    {
+      "id": "tr-3",
+      "prompt": "How many sides does a hexagon have?",
+      "choices": ["5", "6", "7", "8"],
+      "correct_index": 1
+    },
+    {
+      "id": "tr-4",
+      "prompt": "What is 90 − 36?",
+      "choices": ["54", "64", "56", "44"],
+      "correct_index": 0
+    },
+    {
+      "id": "tr-5",
+      "prompt": "Which number is even?",
+      "choices": ["13", "21", "18", "27"],
+      "correct_index": 2
+    },
+    {
+      "id": "tr-6",
+      "prompt": "What is 6 × 9?",
+      "choices": ["54", "56", "63", "45"],
+      "correct_index": 0
+    },
+    {
+      "id": "tr-7",
+      "prompt": "Half of 24 is…",
+      "choices": ["8", "10", "12", "14"],
+      "correct_index": 2
+    },
+    {
+      "id": "tr-8",
+      "prompt": "Which is a triangle?",
+      "choices": ["3 sides", "4 sides", "5 sides", "6 sides"],
+      "correct_index": 0
+    }
+  ]
+}

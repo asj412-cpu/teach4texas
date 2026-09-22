@@ -66,6 +66,10 @@ export const TPT_PRODUCTS = {
     href: 'https://www.teacherspayteachers.com/Product/Cycle-Vault-Biology-STAAR-EOC-Escape-Room-TEKS-B6A-B6C-B6B-Google-Slides-17468482',
     label: 'Cycle Vault Biology',
   },
+  scienceVaultG8: {
+    href: 'https://www.teacherspayteachers.com/Product/Science-Vault-Grade-8-STAAR-Escape-Room-TEKS-86E-87A-87B-Google-Slides-17467685',
+    label: 'Science Vault Grade 8 STAAR Escape Room',
+  },
 } as const satisfies Record<string, TptPack>;
 
 export const SCORE_DESK_PACKS: TptPack[] = [
@@ -92,6 +96,9 @@ export function tptPacksForSlug(slug: string): TptPack[] {
   }
   if (slug === 'grade-3-teks-morning-work-warmups') {
     return [TPT_PRODUCTS.morningWorkG3];
+  }
+  if (slug === 'grade-8-science-vault-escape-room') {
+    return [TPT_PRODUCTS.scienceVaultG8];
   }
   return [];
 }

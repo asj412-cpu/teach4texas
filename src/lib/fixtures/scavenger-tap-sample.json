@@ -1,0 +1,100 @@
+{
+  "id": "board_sample_scavenger_tap",
+  "title": "Scavenger Hunt — Classroom Sample",
+  "grade": 3,
+  "subject": "math",
+  "theme": "Scavenger Hunt",
+  "status": "ready",
+  "tpt_sku": "t4t-scavenger-tap-sample",
+  "game_type": "scavenger_tap",
+  "scavenger_items": [
+    {
+      "id": "st-1",
+      "prompt": "Tap the even number.",
+      "targets": [
+        { "id": "st-1-a", "label": "13" },
+        { "id": "st-1-b", "label": "21" },
+        { "id": "st-1-c", "label": "18" },
+        { "id": "st-1-d", "label": "27" }
+      ],
+      "correct_target_id": "st-1-c"
+    },
+    {
+      "id": "st-2",
+      "prompt": "Tap the shape with 6 sides.",
+      "targets": [
+        { "id": "st-2-a", "label": "Triangle" },
+        { "id": "st-2-b", "label": "Square" },
+        { "id": "st-2-c", "label": "Pentagon" },
+        { "id": "st-2-d", "label": "Hexagon" }
+      ],
+      "correct_target_id": "st-2-d"
+    },
+    {
+      "id": "st-3",
+      "prompt": "Tap the product of 7 × 8.",
+      "targets": [
+        { "id": "st-3-a", "label": "54" },
+        { "id": "st-3-b", "label": "56" },
+        { "id": "st-3-c", "label": "64" },
+        { "id": "st-3-d", "label": "48" }
+      ],
+      "correct_target_id": "st-3-b"
+    },
+    {
+      "id": "st-4",
+      "prompt": "Tap the number that is a multiple of 5.",
+      "targets": [
+        { "id": "st-4-a", "label": "12" },
+        { "id": "st-4-b", "label": "18" },
+        { "id": "st-4-c", "label": "25" },
+        { "id": "st-4-d", "label": "32" }
+      ],
+      "correct_target_id": "st-4-c"
+    },
+    {
+      "id": "st-5",
+      "prompt": "Tap half of 24.",
+      "targets": [
+        { "id": "st-5-a", "label": "8" },
+        { "id": "st-5-b", "label": "10" },
+        { "id": "st-5-c", "label": "12" },
+        { "id": "st-5-d", "label": "14" }
+      ],
+      "correct_target_id": "st-5-c"
+    },
+    {
+      "id": "st-6",
+      "prompt": "Tap the odd number.",
+      "targets": [
+        { "id": "st-6-a", "label": "16" },
+        { "id": "st-6-b", "label": "22" },
+        { "id": "st-6-c", "label": "30" },
+        { "id": "st-6-d", "label": "17" }
+      ],
+      "correct_target_id": "st-6-d"
+    },
+    {
+      "id": "st-7",
+      "prompt": "Tap 90 minus 36.",
+      "targets": [
+        { "id": "st-7-a", "label": "54" },
+        { "id": "st-7-b", "label": "64" },
+        { "id": "st-7-c", "label": "56" },
+        { "id": "st-7-d", "label": "44" }
+      ],
+      "correct_target_id": "st-7-a"
+    },
+    {
+      "id": "st-8",
+      "prompt": "Tap the triangle.",
+      "targets": [
+        { "id": "st-8-a", "label": "3 sides" },
+        { "id": "st-8-b", "label": "4 sides" },
+        { "id": "st-8-c", "label": "5 sides" },
+        { "id": "st-8-d", "label": "6 sides" }
+      ],
+      "correct_target_id": "st-8-a"
+    }
+  ]
+}

@@ -13,6 +13,12 @@ import {
   type PlayerRaceState,
   type PlayerRaceView,
 } from "@/lib/domain/timed-race";
+import {
+  scavengerItemsFromBoard,
+  toPlayerScavengerView,
+  type PlayerScavengerState,
+  type PlayerScavengerView,
+} from "@/lib/domain/scavenger-tap";
 import { kidPlainText } from "@/lib/plain-text";
 
 export const RoomPhaseSchema = z.enum([
@@ -20,6 +26,7 @@ export const RoomPhaseSchema = z.enum([
   "board",
   "matching",
   "racing",
+  "scavenging",
   "question_open",
   "question_locked",
   "reveal",
@@ -58,6 +65,10 @@ export type LiveRoom = {
   race_states: Record<string, PlayerRaceState>;
   /** Shared race countdown; null until host starts. */
   race_ends_at: string | null;
+  /** Scavenger Tap per-student taps. Host never sends other students' targets. */
+  scavenger_states: Record<string, PlayerScavengerState>;
+  /** Shared clue index for host-paced scavenger. */
+  scavenger_index: number;
   open_until: string | null;
   answer_seconds: number;
   lobby_locked: boolean;
@@ -104,6 +115,21 @@ export type HostRoomView = {
     /** Host-only answer key — keep off the 16:9 student-facing stage. */
     item_key: { prompt: string; answer: string }[];
   };
+  scavenger: null | {
+    item_total: number;
+    item_index: number;
+    prompt: string | null;
+    has_next: boolean;
+    answer_count: number;
+    players: {
+      player_id: string;
+      display_name: string;
+      tapped: boolean;
+      correct_count: number;
+    }[];
+    /** Host-only answer key — keep off the 16:9 student-facing stage. */
+    item_key: { prompt: string; answer: string }[];
+  };
   open_until: string | null;
   answer_seconds: number;
   lobby_locked: boolean;
@@ -146,6 +172,7 @@ export type PlayerRoomView = {
   game_type: GameType;
   match: PlayerMatchView | null;
   race: PlayerRaceView | null;
+  scavenger: PlayerScavengerView | null;
   open_until: string | null;
   answer_seconds: number;
   server_now: string;
@@ -203,6 +230,39 @@ function hostRaceView(room: LiveRoom): HostRoomView["race"] {
   };
 }
 
+function hostScavengerView(room: LiveRoom): HostRoomView["scavenger"] {
+  if (room.game_type !== "scavenger_tap") return null;
+  const items = scavengerItemsFromBoard(room.board);
+  const idx = room.scavenger_index;
+  const item = items[idx] ?? null;
+  return {
+    item_total: items.length,
+    item_index: idx,
+    prompt: item ? kidPlainText(item.prompt, 200) : null,
+    has_next: idx < items.length - 1,
+    answer_count: Object.values(room.players).filter((p) => {
+      const st = room.scavenger_states[p.player_id];
+      return st?.answers[idx] !== undefined;
+    }).length,
+    players: Object.values(room.players).map((p) => {
+      const st = room.scavenger_states[p.player_id];
+      return {
+        player_id: p.player_id,
+        display_name: p.display_name,
+        tapped: st?.answers[idx] !== undefined,
+        correct_count: st?.correct_count ?? 0,
+      };
+    }),
+    item_key: items.map((it) => ({
+      prompt: kidPlainText(it.prompt, 80),
+      answer: kidPlainText(
+        it.targets.find((t) => t.id === it.correct_target_id)?.label ?? "",
+        80,
+      ),
+    })),
+  };
+}
+
 export function sanitizeForHost(room: LiveRoom): HostRoomView {
   return {
     role: "host",
@@ -223,6 +283,7 @@ export function sanitizeForHost(room: LiveRoom): HostRoomView {
     points_awarded: { ...room.points_awarded },
     match: hostMatchView(room),
     race: hostRaceView(room),
+    scavenger: hostScavengerView(room),
     open_until: room.open_until,
     answer_seconds: room.answer_seconds,
     lobby_locked: room.lobby_locked,
@@ -300,6 +361,14 @@ export function sanitizeForPlayer(
     race:
       room.game_type === "timed_race" && room.race_states[playerId]
         ? toPlayerRaceView(room.race_states[playerId]!, room.race_ends_at)
+        : null,
+    scavenger:
+      room.game_type === "scavenger_tap" && room.scavenger_states[playerId]
+        ? toPlayerScavengerView(
+            room.scavenger_states[playerId]!,
+            scavengerItemsFromBoard(room.board),
+            room.scavenger_index,
+          )
         : null,
     open_until: room.open_until,
     answer_seconds: room.answer_seconds,

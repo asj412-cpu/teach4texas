@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import type { PlayerRoomView } from "@/lib/domain/live-room";
 import { MemoryMatchPlay } from "@/components/memory-match-play";
+import { ScavengerTapPlay } from "@/components/scavenger-tap-play";
 import { TimedRacePlay } from "@/components/timed-race-play";
 import { kidPlainText } from "@/lib/plain-text";
 
@@ -68,6 +69,23 @@ export default function PlayPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ player_id: playerId, card_index }),
+      });
+      const data = await res.json();
+      if (res.ok && data.ok) setView(data.view);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  async function scavengerTap(target_id: string) {
+    if (!playerId || !view || view.game_type !== "scavenger_tap") return;
+    if (view.phase !== "scavenging" || !view.scavenger?.can_tap) return;
+    setSubmitting(true);
+    try {
+      const res = await fetch(`/api/rooms/${code}/scavenge`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ player_id: playerId, target_id }),
       });
       const data = await res.json();
       if (res.ok && data.ok) setView(data.view);
@@ -141,7 +159,9 @@ export default function PlayPage() {
             ? "Memory Match — waiting for your teacher to start"
             : view.game_type === "timed_race"
               ? "Timed Race — waiting for your teacher to start"
-              : "Waiting for your teacher to start"}{" "}
+              : view.game_type === "scavenger_tap"
+                ? "Scavenger Hunt — waiting for your teacher to start"
+                : "Waiting for your teacher to start"}{" "}
           ({view.players.length} players)
         </p>
         <p className="mt-6 text-lg font-semibold text-t4t-navy">
@@ -164,6 +184,16 @@ export default function PlayPage() {
         view={view}
         submitting={submitting}
         onAnswer={raceAnswer}
+      />
+    );
+  }
+
+  if (view.game_type === "scavenger_tap" && view.phase !== "final") {
+    return (
+      <ScavengerTapPlay
+        view={view}
+        submitting={submitting}
+        onTap={scavengerTap}
       />
     );
   }

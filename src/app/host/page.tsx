@@ -7,10 +7,12 @@ import {
   boardGameType,
   supportsBoardPlay,
   supportsMemoryMatch,
+  supportsScavengerTap,
   supportsTimedRace,
 } from "@/lib/domain/board";
 import type { HostRoomView } from "@/lib/domain/live-room";
 import { MemoryMatchHost } from "@/components/memory-match-host";
+import { ScavengerTapHost } from "@/components/scavenger-tap-host";
 import { TimedRaceHost } from "@/components/timed-race-host";
 import { kidPlainText } from "@/lib/plain-text";
 
@@ -178,10 +180,13 @@ export default function HostPage() {
               ? ` · ${board.items?.length ?? 0} match pairs`
               : supportsTimedRace(board)
                 ? ` · ${board.race_items?.length ?? 0} race items`
-                : ""}
+                : supportsScavengerTap(board)
+                  ? ` · ${board.scavenger_items?.length ?? 0} scavenger clues`
+                  : ""}
           {supportsMemoryMatch(board) ? " · Memory Match ready" : ""}
-          {supportsTimedRace(board) ? " · Timed Race ready" : ""}. Only this
-          game is available on this host session.
+          {supportsTimedRace(board) ? " · Timed Race ready" : ""}
+          {supportsScavengerTap(board) ? " · Scavenger Hunt ready" : ""}. Only
+          this game is available on this host session.
         </p>
         <div className="mt-8 flex flex-col gap-3">
           {supportsBoardPlay(board) && (
@@ -222,6 +227,20 @@ export default function HostPage() {
                   : "Start as Timed Race"}
             </button>
           )}
+          {supportsScavengerTap(board) && (
+            <button
+              type="button"
+              disabled={starting}
+              onClick={() => startLive("scavenger_tap")}
+              className="rounded-xl bg-t4t-gold px-4 py-3 text-sm font-semibold text-t4t-navy disabled:opacity-50"
+            >
+              {starting
+                ? "Starting…"
+                : boardGameType(board) === "scavenger_tap"
+                  ? "Start Scavenger Hunt"
+                  : "Start as Scavenger Hunt"}
+            </button>
+          )}
         </div>
         <p className="mt-3 text-xs text-t4t-darkText/50">
           Students will join with a short room code (not your TPT access code).
@@ -236,6 +255,10 @@ export default function HostPage() {
 
   if (view.game_type === "timed_race" && view.phase !== "final") {
     return <TimedRaceHost view={view} onAction={hostAction} />;
+  }
+
+  if (view.game_type === "scavenger_tap" && view.phase !== "final") {
+    return <ScavengerTapHost view={view} onAction={hostAction} />;
   }
 
   const used = new Set(view.used_cell_ids);

@@ -1,6 +1,11 @@
 import { z } from "zod";
 
-export const GameTypeSchema = z.enum(["board", "memory_match", "timed_race"]);
+export const GameTypeSchema = z.enum([
+  "board",
+  "memory_match",
+  "timed_race",
+  "scavenger_tap",
+]);
 export type GameType = z.infer<typeof GameTypeSchema>;
 
 /** TEKS-agnostic pair for Memory Match. `teks` is optional on purpose. */
@@ -28,6 +33,32 @@ export const TimedRaceItemSchema = z.object({
 });
 
 export type TimedRaceItem = z.infer<typeof TimedRaceItemSchema>;
+
+/** TEKS-agnostic labeled-hotspot item for Scavenger Tap. `teks` is optional. */
+export const ScavengerTargetSchema = z.object({
+  id: z.string().min(1),
+  label: z.string().min(1).max(80),
+});
+
+export const ScavengerTapItemSchema = z
+  .object({
+    id: z.string().min(1),
+    prompt: z.string().min(1).max(200),
+    targets: z.array(ScavengerTargetSchema).min(3).max(8),
+    correct_target_id: z.string().min(1),
+    teks: z.string().max(32).optional(),
+  })
+  .superRefine((item, ctx) => {
+    if (!item.targets.some((t) => t.id === item.correct_target_id)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "correct_target_id must match a target id",
+      });
+    }
+  });
+
+export type ScavengerTarget = z.infer<typeof ScavengerTargetSchema>;
+export type ScavengerTapItem = z.infer<typeof ScavengerTapItemSchema>;
 
 /** Live MC cell — distinct from offline free-response TPT JSON. */
 export const QuestionCellSchema = z.object({
@@ -79,6 +110,8 @@ export const GameBoardSchema = z
     items: z.array(MemoryMatchItemSchema).max(12).optional(),
     /** Timed Race items. Ignored for game_type=board unless host picks Timed Race. */
     race_items: z.array(TimedRaceItemSchema).max(12).optional(),
+    /** Scavenger Tap clues + labeled targets. Ignored unless host picks scavenger_tap. */
+    scavenger_items: z.array(ScavengerTapItemSchema).max(12).optional(),
     created_at: z.string(),
     updated_at: z.string(),
   })
@@ -134,6 +167,29 @@ export const GameBoardSchema = z
       return;
     }
 
+    if (type === "scavenger_tap") {
+      const scavengerCount =
+        board.scavenger_items && board.scavenger_items.length >= 4
+          ? board.scavenger_items.length
+          : board.race_items && board.race_items.length >= 4
+            ? board.race_items.length
+            : board.cells.length;
+      if (scavengerCount < 4) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message:
+            "Scavenger tap needs at least 4 items (scavenger_items JSON, race_items, or board cells)",
+        });
+      }
+      if (board.scavenger_items && board.scavenger_items.length > 12) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Scavenger tap supports at most 12 items",
+        });
+      }
+      return;
+    }
+
     const pairCount =
       board.items && board.items.length >= 4
         ? board.items.length
@@ -169,9 +225,11 @@ export type HostBoardView = {
   game_type: GameType;
   item_count: number;
   race_item_count: number;
+  scavenger_item_count: number;
   supports_board: boolean;
   supports_memory_match: boolean;
   supports_timed_race: boolean;
+  supports_scavenger_tap: boolean;
 };
 
 export function boardGameType(board: { game_type?: GameType }): GameType {
@@ -198,10 +256,25 @@ export function supportsTimedRace(board: {
   return (board.race_items?.length ?? 0) >= 4 || (board.cells?.length ?? 0) >= 4;
 }
 
+export function supportsScavengerTap(board: {
+  scavenger_items?: ScavengerTapItem[];
+  race_items?: TimedRaceItem[];
+  cells?: { id: string }[];
+}): boolean {
+  return (
+    (board.scavenger_items?.length ?? 0) >= 4 ||
+    (board.race_items?.length ?? 0) >= 4 ||
+    (board.cells?.length ?? 0) >= 4
+  );
+}
+
 export function resolvePlayableGameType(
   board: GameBoard,
   requested?: string | null,
 ): GameType {
+  if (requested === "scavenger_tap" && supportsScavengerTap(board)) {
+    return "scavenger_tap";
+  }
   if (requested === "timed_race" && supportsTimedRace(board)) {
     return "timed_race";
   }
@@ -212,6 +285,9 @@ export function resolvePlayableGameType(
     return "board";
   }
   const native = boardGameType(board);
+  if (native === "scavenger_tap" && supportsScavengerTap(board)) {
+    return "scavenger_tap";
+  }
   if (native === "timed_race" && supportsTimedRace(board)) {
     return "timed_race";
   }
@@ -221,5 +297,6 @@ export function resolvePlayableGameType(
   if (supportsBoardPlay(board)) return "board";
   if (supportsMemoryMatch(board)) return "memory_match";
   if (supportsTimedRace(board)) return "timed_race";
+  if (supportsScavengerTap(board)) return "scavenger_tap";
   return "board";
 }

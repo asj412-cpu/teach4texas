@@ -4,13 +4,16 @@ import {
   type HostBoardView,
   type GameType,
   type MemoryMatchItem,
+  type ScavengerTapItem,
   type TimedRaceItem,
   boardGameType,
   supportsBoardPlay,
   supportsMemoryMatch,
+  supportsScavengerTap,
   supportsTimedRace,
 } from "@/lib/domain/board";
 import { itemsFromBoard } from "@/lib/domain/memory-match";
+import { scavengerItemsFromBoard } from "@/lib/domain/scavenger-tap";
 import { raceItemsFromBoard } from "@/lib/domain/timed-race";
 import {
   type HostEntitlement,
@@ -38,12 +41,17 @@ import {
   DEMO_TIMED_RACE_CODE,
   TIMED_RACE_SAMPLE_BOARD_ID,
 } from "@/lib/fixtures/sample-timed-race";
+import {
+  buildSampleScavengerTapBoard,
+  DEMO_SCAVENGER_TAP_CODE,
+  SCAVENGER_TAP_SAMPLE_BOARD_ID,
+} from "@/lib/fixtures/sample-scavenger-tap";
 import { getServiceSupabase } from "@/lib/supabase-admin";
 
 const SAMPLE_BOARD_ID = "board_sample_math_g3";
 
 export const DEMO_ACCESS_CODE_DISPLAY = "T4T-DEMO-MATH-G3-SAMPLE01";
-export { DEMO_MEMORY_MATCH_CODE, DEMO_TIMED_RACE_CODE };
+export { DEMO_MEMORY_MATCH_CODE, DEMO_TIMED_RACE_CODE, DEMO_SCAVENGER_TAP_CODE };
 
 type BoardRow = {
   id: string;
@@ -97,6 +105,7 @@ type CellsPayload = {
   game_type?: GameType;
   items?: MemoryMatchItem[];
   race_items?: TimedRaceItem[];
+  scavenger_items?: ScavengerTapItem[];
   cells: unknown;
 };
 
@@ -105,6 +114,7 @@ function unpackCells(raw: unknown): {
   game_type?: GameType;
   items?: MemoryMatchItem[];
   race_items?: TimedRaceItem[];
+  scavenger_items?: ScavengerTapItem[];
 } {
   if (raw && typeof raw === "object" && !Array.isArray(raw) && "cells" in raw) {
     const p = raw as CellsPayload;
@@ -113,6 +123,7 @@ function unpackCells(raw: unknown): {
       game_type: p.game_type,
       items: p.items,
       race_items: p.race_items,
+      scavenger_items: p.scavenger_items,
     };
   }
   return { cells: raw };
@@ -122,13 +133,15 @@ function packCells(board: GameBoard): unknown {
   if (
     boardGameType(board) !== "board" ||
     (board.items?.length ?? 0) > 0 ||
-    (board.race_items?.length ?? 0) > 0
+    (board.race_items?.length ?? 0) > 0 ||
+    (board.scavenger_items?.length ?? 0) > 0
   ) {
     return {
       v: 2,
       game_type: boardGameType(board),
       items: board.items,
       race_items: board.race_items,
+      scavenger_items: board.scavenger_items,
       cells: board.cells,
     };
   }
@@ -148,6 +161,7 @@ function boardFromRow(row: BoardRow): GameBoard {
     game_type: unpacked.game_type ?? "board",
     items: unpacked.items,
     race_items: unpacked.race_items,
+    scavenger_items: unpacked.scavenger_items,
     cells: unpacked.cells,
     created_at: iso(row.created_at),
     updated_at: iso(row.updated_at),
@@ -224,9 +238,11 @@ export function toHostBoardView(board: GameBoard): HostBoardView {
     game_type: boardGameType(board),
     item_count: itemsFromBoard(board).length,
     race_item_count: raceItemsFromBoard(board).length,
+    scavenger_item_count: scavengerItemsFromBoard(board).length,
     supports_board: supportsBoardPlay(board),
     supports_memory_match: supportsMemoryMatch(board),
     supports_timed_race: supportsTimedRace(board),
+    supports_scavenger_tap: supportsScavengerTap(board),
   };
 }
 
@@ -564,6 +580,67 @@ export async function ensureTimedRaceSample(
   return { code: DEMO_TIMED_RACE_CODE, boardId: board.id, created: true };
 }
 
+async function ensureScavengerTapBoard(): Promise<GameBoard> {
+  const sb = getServiceSupabase();
+  const existing = await sb
+    .from("boards")
+    .select("*")
+    .eq("id", SCAVENGER_TAP_SAMPLE_BOARD_ID)
+    .maybeSingle();
+  throwIfError(existing.error, "ensureScavengerTapBoard.select");
+  if (existing.data) {
+    return boardFromRow(existing.data as BoardRow);
+  }
+  const board = GameBoardSchema.parse(buildSampleScavengerTapBoard());
+  const inserted = await sb
+    .from("boards")
+    .insert(boardToRow(board))
+    .select("*")
+    .single();
+  throwIfError(inserted.error, "ensureScavengerTapBoard.insert");
+  return boardFromRow(inserted.data as BoardRow);
+}
+
+export async function ensureScavengerTapSample(
+  plaintext = DEMO_SCAVENGER_TAP_CODE,
+): Promise<{ code: string; boardId: string; created: boolean }> {
+  const board = await ensureScavengerTapBoard();
+  const hash = sha256Hex(normalizeAccessCode(plaintext));
+  const sb = getServiceSupabase();
+  const existing = await sb
+    .from("product_codes")
+    .select("id")
+    .eq("code_hash", hash)
+    .maybeSingle();
+  throwIfError(existing.error, "ensureScavengerTapSample.lookup");
+  if (existing.data) {
+    return { code: DEMO_SCAVENGER_TAP_CODE, boardId: board.id, created: false };
+  }
+
+  const record = ProductCodeRecordSchema.parse({
+    id: generateId("pc"),
+    code_hash: hash,
+    board_id: board.id,
+    label: "Local demo / scavenger tap sample",
+    max_sessions: null,
+    sessions_started: 0,
+    revoked_at: null,
+    created_at: new Date().toISOString(),
+  });
+  const ins = await sb.from("product_codes").insert({
+    id: record.id,
+    code_hash: record.code_hash,
+    board_id: record.board_id,
+    label: record.label ?? null,
+    max_sessions: record.max_sessions,
+    sessions_started: record.sessions_started,
+    revoked_at: record.revoked_at,
+    created_at: record.created_at,
+  });
+  throwIfError(ins.error, "ensureScavengerTapSample.insert");
+  return { code: DEMO_SCAVENGER_TAP_CODE, boardId: board.id, created: true };
+}
+
 export async function assertBoardAllowedForEntitlement(
   token: string | undefined,
   requestedBoardId: string,
@@ -615,6 +692,21 @@ export async function cloneBoard(opts: {
       ...item,
       id: generateId("tr"),
     })),
+    scavenger_items: source.scavenger_items?.map((item) => {
+      const newId = generateId("st");
+      const correctIdx = item.targets.findIndex(
+        (t) => t.id === item.correct_target_id,
+      );
+      return {
+        ...item,
+        id: newId,
+        targets: item.targets.map((t, i) => ({
+          ...t,
+          id: `${newId}-t${i}`,
+        })),
+        correct_target_id: `${newId}-t${Math.max(0, correctIdx)}`,
+      };
+    }),
     cells: source.cells.map((c) => ({
       ...c,
       id: `${c.category.slice(0, 3).toLowerCase()}-${c.points}-${generateId("c").slice(-4)}`,

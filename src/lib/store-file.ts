@@ -7,9 +7,11 @@ import {
   boardGameType,
   supportsBoardPlay,
   supportsMemoryMatch,
+  supportsScavengerTap,
   supportsTimedRace,
 } from "@/lib/domain/board";
 import { itemsFromBoard } from "@/lib/domain/memory-match";
+import { scavengerItemsFromBoard } from "@/lib/domain/scavenger-tap";
 import { raceItemsFromBoard } from "@/lib/domain/timed-race";
 import {
   type HostEntitlement,
@@ -36,6 +38,11 @@ import {
   TIMED_RACE_SAMPLE_BOARD_ID,
 } from "@/lib/fixtures/sample-timed-race";
 import {
+  buildSampleScavengerTapBoard,
+  DEMO_SCAVENGER_TAP_CODE,
+  SCAVENGER_TAP_SAMPLE_BOARD_ID,
+} from "@/lib/fixtures/sample-scavenger-tap";
+import {
   ACCESS_CODE_COOKIE,
   ENTITLEMENT_TTL_HOURS,
 } from "@/lib/domain/access-code";
@@ -61,7 +68,8 @@ async function ensureStore(): Promise<StoreShape> {
     };
     const seededMatch = seedMemoryMatchSample(store);
     const seededRace = seedTimedRaceSample(store);
-    if (seededMatch || seededRace) {
+    const seededScavenger = seedScavengerTapSample(store);
+    if (seededMatch || seededRace || seededScavenger) {
       await writeStore(store);
     }
     return store;
@@ -69,13 +77,15 @@ async function ensureStore(): Promise<StoreShape> {
     const board = GameBoardSchema.parse(buildSampleMathGrade3Board());
     const matchBoard = GameBoardSchema.parse(buildSampleMemoryMatchBoard());
     const raceBoard = GameBoardSchema.parse(buildSampleTimedRaceBoard());
+    const scavengerBoard = GameBoardSchema.parse(buildSampleScavengerTapBoard());
     const initial: StoreShape = {
-      boards: [board, matchBoard, raceBoard],
+      boards: [board, matchBoard, raceBoard, scavengerBoard],
       product_codes: [],
       entitlements: [],
     };
     seedMemoryMatchSample(initial);
     seedTimedRaceSample(initial);
+    seedScavengerTapSample(initial);
     await fs.writeFile(STORE_PATH, JSON.stringify(initial, null, 2), "utf8");
     return initial;
   }
@@ -131,6 +141,31 @@ function seedTimedRaceSample(store: StoreShape): boolean {
   return dirty;
 }
 
+function seedScavengerTapSample(store: StoreShape): boolean {
+  let dirty = false;
+  if (!store.boards.some((b) => b.id === SCAVENGER_TAP_SAMPLE_BOARD_ID)) {
+    store.boards.push(GameBoardSchema.parse(buildSampleScavengerTapBoard()));
+    dirty = true;
+  }
+  const hash = sha256Hex(normalizeAccessCode(DEMO_SCAVENGER_TAP_CODE));
+  if (!store.product_codes.some((c) => c.code_hash === hash)) {
+    store.product_codes.push(
+      ProductCodeRecordSchema.parse({
+        id: generateId("pc"),
+        code_hash: hash,
+        board_id: SCAVENGER_TAP_SAMPLE_BOARD_ID,
+        label: "Local demo / scavenger tap sample",
+        max_sessions: null,
+        sessions_started: 0,
+        revoked_at: null,
+        created_at: new Date().toISOString(),
+      }),
+    );
+    dirty = true;
+  }
+  return dirty;
+}
+
 async function writeStore(store: StoreShape): Promise<void> {
   await fs.mkdir(DATA_DIR, { recursive: true });
   await fs.writeFile(STORE_PATH, JSON.stringify(store, null, 2), "utf8");
@@ -173,9 +208,11 @@ export function toHostBoardView(board: GameBoard): HostBoardView {
     game_type: boardGameType(board),
     item_count: itemsFromBoard(board).length,
     race_item_count: raceItemsFromBoard(board).length,
+    scavenger_item_count: scavengerItemsFromBoard(board).length,
     supports_board: supportsBoardPlay(board),
     supports_memory_match: supportsMemoryMatch(board),
     supports_timed_race: supportsTimedRace(board),
+    supports_scavenger_tap: supportsScavengerTap(board),
   };
 }
 
@@ -305,7 +342,7 @@ export async function resolveEntitlement(
  */
 /** Fixed packaging string for local demo (any hyphenation of same alphanumerics works). */
 export const DEMO_ACCESS_CODE_DISPLAY = "T4T-DEMO-MATH-G3-SAMPLE01";
-export { DEMO_MEMORY_MATCH_CODE, DEMO_TIMED_RACE_CODE };
+export { DEMO_MEMORY_MATCH_CODE, DEMO_TIMED_RACE_CODE, DEMO_SCAVENGER_TAP_CODE };
 
 export async function ensureDemoAccessCode(
   plaintext = DEMO_ACCESS_CODE_DISPLAY,
@@ -435,6 +472,49 @@ export async function ensureTimedRaceSample(
   };
 }
 
+/** Seed Scavenger Tap sample packet + known demo access code. Idempotent. */
+export async function ensureScavengerTapSample(
+  plaintext = DEMO_SCAVENGER_TAP_CODE,
+): Promise<{ code: string; boardId: string; created: boolean }> {
+  const store = await ensureStore();
+  const board =
+    store.boards.find((b) => b.id === SCAVENGER_TAP_SAMPLE_BOARD_ID) ??
+    GameBoardSchema.parse(buildSampleScavengerTapBoard());
+
+  if (!store.boards.some((b) => b.id === board.id)) {
+    store.boards.push(board);
+  }
+
+  const hash = sha256Hex(normalizeAccessCode(plaintext));
+  const existing = store.product_codes.find((c) => c.code_hash === hash);
+  if (existing) {
+    await writeStore(store);
+    return {
+      code: DEMO_SCAVENGER_TAP_CODE,
+      boardId: board.id,
+      created: false,
+    };
+  }
+
+  const record = ProductCodeRecordSchema.parse({
+    id: generateId("pc"),
+    code_hash: hash,
+    board_id: board.id,
+    label: "Local demo / scavenger tap sample",
+    max_sessions: null,
+    sessions_started: 0,
+    revoked_at: null,
+    created_at: new Date().toISOString(),
+  });
+  store.product_codes.push(record);
+  await writeStore(store);
+  return {
+    code: DEMO_SCAVENGER_TAP_CODE,
+    boardId: board.id,
+    created: true,
+  };
+}
+
 export async function assertBoardAllowedForEntitlement(
   token: string | undefined,
   requestedBoardId: string,
@@ -494,6 +574,21 @@ export async function cloneBoard(opts: {
       ...item,
       id: generateId("tr"),
     })),
+    scavenger_items: source.scavenger_items?.map((item) => {
+      const newId = generateId("st");
+      const correctIdx = item.targets.findIndex(
+        (t) => t.id === item.correct_target_id,
+      );
+      return {
+        ...item,
+        id: newId,
+        targets: item.targets.map((t, i) => ({
+          ...t,
+          id: `${newId}-t${i}`,
+        })),
+        correct_target_id: `${newId}-t${Math.max(0, correctIdx)}`,
+      };
+    }),
     cells: source.cells.map((c) => ({
       ...c,
       id: `${c.category.slice(0, 3).toLowerCase()}-${c.points}-${generateId("c").slice(-4)}`,

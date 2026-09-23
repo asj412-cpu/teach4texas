@@ -21,6 +21,11 @@ import {
   TIMED_RACE_SECONDS,
 } from "@/lib/domain/timed-race";
 import {
+  applyScavengerTap,
+  createPlayerScavengerState,
+  scavengerItemsFromBoard,
+} from "@/lib/domain/scavenger-tap";
+import {
   generateId,
   generateOpaqueToken,
   sha256Hex,
@@ -94,6 +99,12 @@ function ensurePlayerRaceState(room: LiveRoom, playerId: string) {
   room.race_states[playerId] = createPlayerRaceState(raceItemsFromBoard(room.board));
 }
 
+function ensurePlayerScavengerState(room: LiveRoom, playerId: string) {
+  if (room.game_type !== "scavenger_tap") return;
+  if (room.scavenger_states[playerId]) return;
+  room.scavenger_states[playerId] = createPlayerScavengerState();
+}
+
 export function createLiveRoom(opts: {
   board: GameBoard;
   answerSeconds?: number;
@@ -125,6 +136,8 @@ export function createLiveRoom(opts: {
     match_states: {},
     race_states: {},
     race_ends_at: null,
+    scavenger_states: {},
+    scavenger_index: 0,
     open_until: null,
     answer_seconds:
       opts.answerSeconds ??
@@ -161,6 +174,9 @@ export function hostView(room: LiveRoom) {
 export function playerView(room: LiveRoom, playerId: string) {
   maybeAutoLock(room);
   maybeClearMismatches(room);
+  if (room.game_type === "scavenger_tap" && room.phase === "scavenging") {
+    ensurePlayerScavengerState(room, playerId);
+  }
   return sanitizeForPlayer(room, playerId);
 }
 
@@ -195,6 +211,9 @@ export function joinRoom(
       }
       if (room.game_type === "timed_race" && room.phase === "racing") {
         ensurePlayerRaceState(room, existing.player_id);
+      }
+      if (room.game_type === "scavenger_tap" && room.phase === "scavenging") {
+        ensurePlayerScavengerState(room, existing.player_id);
       }
       const view = sanitizeForPlayer(room, existing.player_id);
       if (!view) return { ok: false, error: "JOIN_FAILED" };
@@ -245,6 +264,9 @@ export function joinRoom(
   if (room.game_type === "timed_race" && room.phase === "racing") {
     ensurePlayerRaceState(room, player_id);
   }
+  if (room.game_type === "scavenger_tap" && room.phase === "scavenging") {
+    ensurePlayerScavengerState(room, player_id);
+  }
 
   const view = sanitizeForPlayer(room, player_id);
   if (!view) return { ok: false, error: "JOIN_FAILED" };
@@ -260,7 +282,8 @@ export type HostAction =
   | { type: "back_to_board" }
   | { type: "end_game" }
   | { type: "lock_lobby"; locked: boolean }
-  | { type: "kick"; player_id: string };
+  | { type: "kick"; player_id: string }
+  | { type: "next_clue" };
 
 export function applyHostAction(
   room: LiveRoom,
@@ -286,9 +309,29 @@ export function applyHostAction(
           Date.now() + room.answer_seconds * 1000,
         ).toISOString();
         room.phase = "racing";
+      } else if (room.game_type === "scavenger_tap") {
+        room.scavenger_index = 0;
+        for (const pid of Object.keys(room.players)) {
+          ensurePlayerScavengerState(room, pid);
+        }
+        room.phase = "scavenging";
       } else {
         room.phase = "board";
       }
+      return { ok: true };
+    }
+    case "next_clue": {
+      if (room.game_type !== "scavenger_tap") {
+        return { ok: false, error: "NOT_SCAVENGER" };
+      }
+      if (room.phase !== "scavenging") {
+        return { ok: false, error: "ILLEGAL_TRANSITION" };
+      }
+      const items = scavengerItemsFromBoard(room.board);
+      if (room.scavenger_index >= items.length - 1) {
+        return { ok: false, error: "NO_MORE_CLUES" };
+      }
+      room.scavenger_index += 1;
       return { ok: true };
     }
     case "select_cell": {
@@ -386,6 +429,7 @@ export function applyHostAction(
       delete room.answers[action.player_id];
       delete room.match_states[action.player_id];
       delete room.race_states[action.player_id];
+      delete room.scavenger_states[action.player_id];
       return { ok: true };
     }
     default:
@@ -445,13 +489,46 @@ export function submitRaceAnswer(
   return { ok: true };
 }
 
+export function submitScavengerTap(
+  room: LiveRoom,
+  playerId: string,
+  targetId: string,
+): { ok: true } | { ok: false; error: string } {
+  if (room.game_type !== "scavenger_tap") {
+    return { ok: false, error: "NOT_SCAVENGER" };
+  }
+  if (room.phase !== "scavenging") {
+    return { ok: false, error: "NOT_ACCEPTING_TAPS" };
+  }
+  if (!room.players[playerId]) return { ok: false, error: "NOT_A_PLAYER" };
+  if (!targetId) return { ok: false, error: "INVALID_TARGET" };
+  ensurePlayerScavengerState(room, playerId);
+  const state = room.scavenger_states[playerId];
+  if (!state) return { ok: false, error: "NO_SCAVENGER_STATE" };
+  const result = applyScavengerTap(
+    state,
+    room.scavenger_index,
+    targetId,
+    scavengerItemsFromBoard(room.board),
+  );
+  if (!result.ok) return result;
+  if (result.points > 0) {
+    room.players[playerId]!.score += result.points;
+  }
+  return { ok: true };
+}
+
 export function submitAnswer(
   room: LiveRoom,
   playerId: string,
   choiceIndex: number,
 ): { ok: true } | { ok: false; error: string } {
   maybeAutoLock(room);
-  if (room.game_type === "memory_match" || room.game_type === "timed_race") {
+  if (
+    room.game_type === "memory_match" ||
+    room.game_type === "timed_race" ||
+    room.game_type === "scavenger_tap"
+  ) {
     return { ok: false, error: "NOT_ACCEPTING_ANSWERS" };
   }
   if (room.phase !== "question_open") {

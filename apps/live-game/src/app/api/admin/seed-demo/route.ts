@@ -3,6 +3,7 @@ import { isOperatorAuthorized } from "@/lib/operator-auth";
 import {
   ensureDemoAccessCode,
   ensureMemoryMatchSample,
+  ensureScavengerTapSample,
   ensureTimedRaceSample,
   listBoardsForOperator,
 } from "@/lib/store";
@@ -18,6 +19,7 @@ export async function POST(req: NextRequest) {
   const demo = await ensureDemoAccessCode();
   const match = await ensureMemoryMatchSample();
   const race = await ensureTimedRaceSample();
+  const scavenger = await ensureScavengerTapSample();
   const boards = await listBoardsForOperator();
 
   return NextResponse.json({
@@ -34,6 +36,11 @@ export async function POST(req: NextRequest) {
       demo_access_code: race.code,
       board_id: race.boardId,
       created: race.created,
+    },
+    scavenger_tap: {
+      demo_access_code: scavenger.code,
+      board_id: scavenger.boardId,
+      created: scavenger.created,
     },
     boards,
     tpt_flow: [

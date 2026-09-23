@@ -3,6 +3,7 @@ import { isOperatorAuthorized } from "@/lib/operator-auth";
 import {
   ensureDemoAccessCode,
   ensureMemoryMatchSample,
+  ensureScavengerTapSample,
   ensureTimedRaceSample,
   listBoardsForOperator,
 } from "@/lib/store";
@@ -16,6 +17,7 @@ export async function GET(req: NextRequest) {
   await ensureDemoAccessCode();
   await ensureMemoryMatchSample();
   await ensureTimedRaceSample();
+  await ensureScavengerTapSample();
   const boards = await listBoardsForOperator();
   return NextResponse.json({
     ok: true,

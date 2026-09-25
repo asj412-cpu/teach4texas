@@ -1,0 +1,99 @@
+{
+  "id": "board_sample_sequence_sort",
+  "title": "Order the Steps — Classroom Sample",
+  "grade": 3,
+  "subject": "math",
+  "theme": "Order the Steps",
+  "status": "ready",
+  "tpt_sku": "t4t-sequence-sort-sample",
+  "game_type": "sequence_sort",
+  "sequence_items": [
+    {
+      "id": "ss-1",
+      "prompt": "Order the steps to add 38 + 27.",
+      "steps": [
+        { "id": "ss-1-a", "label": "Add the ones" },
+        { "id": "ss-1-b", "label": "Regroup if the ones are 10 or more" },
+        { "id": "ss-1-c", "label": "Add the tens" },
+        { "id": "ss-1-d", "label": "Write the total" }
+      ],
+      "correct_order": ["ss-1-a", "ss-1-b", "ss-1-c", "ss-1-d"]
+    },
+    {
+      "id": "ss-2",
+      "prompt": "Order these numbers from smallest to largest.",
+      "steps": [
+        { "id": "ss-2-a", "label": "12" },
+        { "id": "ss-2-b", "label": "19" },
+        { "id": "ss-2-c", "label": "24" },
+        { "id": "ss-2-d", "label": "31" }
+      ],
+      "correct_order": ["ss-2-a", "ss-2-b", "ss-2-c", "ss-2-d"]
+    },
+    {
+      "id": "ss-3",
+      "prompt": "Order the steps to find the perimeter of a rectangle.",
+      "steps": [
+        { "id": "ss-3-a", "label": "Measure the length" },
+        { "id": "ss-3-b", "label": "Measure the width" },
+        { "id": "ss-3-c", "label": "Add length and width" },
+        { "id": "ss-3-d", "label": "Multiply that sum by 2" }
+      ],
+      "correct_order": ["ss-3-a", "ss-3-b", "ss-3-c", "ss-3-d"]
+    },
+    {
+      "id": "ss-4",
+      "prompt": "Order these coins from least value to greatest value.",
+      "steps": [
+        { "id": "ss-4-a", "label": "Penny" },
+        { "id": "ss-4-b", "label": "Nickel" },
+        { "id": "ss-4-c", "label": "Dime" },
+        { "id": "ss-4-d", "label": "Quarter" }
+      ],
+      "correct_order": ["ss-4-a", "ss-4-b", "ss-4-c", "ss-4-d"]
+    },
+    {
+      "id": "ss-5",
+      "prompt": "Order the steps to round 47 to the nearest ten.",
+      "steps": [
+        { "id": "ss-5-a", "label": "Look at the ones place" },
+        { "id": "ss-5-b", "label": "See that 7 is 5 or more" },
+        { "id": "ss-5-c", "label": "Round the tens up" },
+        { "id": "ss-5-d", "label": "Write 50" }
+      ],
+      "correct_order": ["ss-5-a", "ss-5-b", "ss-5-c", "ss-5-d"]
+    },
+    {
+      "id": "ss-6",
+      "prompt": "Order these fractions from smallest to largest.",
+      "steps": [
+        { "id": "ss-6-a", "label": "1/4" },
+        { "id": "ss-6-b", "label": "1/3" },
+        { "id": "ss-6-c", "label": "1/2" }
+      ],
+      "correct_order": ["ss-6-a", "ss-6-b", "ss-6-c"]
+    },
+    {
+      "id": "ss-7",
+      "prompt": "Order the steps to subtract 52 minus 18.",
+      "steps": [
+        { "id": "ss-7-a", "label": "Look at the ones" },
+        { "id": "ss-7-b", "label": "Regroup from the tens" },
+        { "id": "ss-7-c", "label": "Subtract the ones" },
+        { "id": "ss-7-d", "label": "Subtract the tens" }
+      ],
+      "correct_order": ["ss-7-a", "ss-7-b", "ss-7-c", "ss-7-d"]
+    },
+    {
+      "id": "ss-8",
+      "prompt": "Order these shapes from fewest sides to most sides.",
+      "steps": [
+        { "id": "ss-8-a", "label": "Triangle" },
+        { "id": "ss-8-b", "label": "Square" },
+        { "id": "ss-8-c", "label": "Pentagon" },
+        { "id": "ss-8-d", "label": "Hexagon" }
+      ],
+      "correct_order": ["ss-8-a", "ss-8-b", "ss-8-c", "ss-8-d"]
+    }
+  ]
+}

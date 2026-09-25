@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 import type { PlayerRoomView } from "@/lib/domain/live-room";
 import { MemoryMatchPlay } from "@/components/memory-match-play";
 import { ScavengerTapPlay } from "@/components/scavenger-tap-play";
+import { SequenceSortPlay } from "@/components/sequence-sort-play";
 import { TimedRacePlay } from "@/components/timed-race-play";
 import { kidPlainText } from "@/lib/plain-text";
 
@@ -69,6 +70,23 @@ export default function PlayPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ player_id: playerId, card_index }),
+      });
+      const data = await res.json();
+      if (res.ok && data.ok) setView(data.view);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  async function sequenceSubmit(order: string[]) {
+    if (!playerId || !view || view.game_type !== "sequence_sort") return;
+    if (view.phase !== "sorting" || !view.sequence?.can_submit) return;
+    setSubmitting(true);
+    try {
+      const res = await fetch(`/api/rooms/${code}/sort`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ player_id: playerId, order }),
       });
       const data = await res.json();
       if (res.ok && data.ok) setView(data.view);
@@ -161,7 +179,9 @@ export default function PlayPage() {
               ? "Timed Race — waiting for your teacher to start"
               : view.game_type === "scavenger_tap"
                 ? "Scavenger Hunt — waiting for your teacher to start"
-                : "Waiting for your teacher to start"}{" "}
+                : view.game_type === "sequence_sort"
+                  ? "Order the Steps — waiting for your teacher to start"
+                  : "Waiting for your teacher to start"}{" "}
           ({view.players.length} players)
         </p>
         <p className="mt-6 text-lg font-semibold text-t4t-navy">
@@ -194,6 +214,16 @@ export default function PlayPage() {
         view={view}
         submitting={submitting}
         onTap={scavengerTap}
+      />
+    );
+  }
+
+  if (view.game_type === "sequence_sort" && view.phase !== "final") {
+    return (
+      <SequenceSortPlay
+        view={view}
+        submitting={submitting}
+        onSubmit={sequenceSubmit}
       />
     );
   }

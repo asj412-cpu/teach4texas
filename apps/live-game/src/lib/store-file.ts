@@ -8,10 +8,12 @@ import {
   supportsBoardPlay,
   supportsMemoryMatch,
   supportsScavengerTap,
+  supportsSequenceSort,
   supportsTimedRace,
 } from "@/lib/domain/board";
 import { itemsFromBoard } from "@/lib/domain/memory-match";
 import { scavengerItemsFromBoard } from "@/lib/domain/scavenger-tap";
+import { sequenceItemsFromBoard } from "@/lib/domain/sequence-sort";
 import { raceItemsFromBoard } from "@/lib/domain/timed-race";
 import {
   type HostEntitlement,
@@ -43,6 +45,11 @@ import {
   SCAVENGER_TAP_SAMPLE_BOARD_ID,
 } from "@/lib/fixtures/sample-scavenger-tap";
 import {
+  buildSampleSequenceSortBoard,
+  DEMO_SEQUENCE_SORT_CODE,
+  SEQUENCE_SORT_SAMPLE_BOARD_ID,
+} from "@/lib/fixtures/sample-sequence-sort";
+import {
   ACCESS_CODE_COOKIE,
   ENTITLEMENT_TTL_HOURS,
 } from "@/lib/domain/access-code";
@@ -69,7 +76,8 @@ async function ensureStore(): Promise<StoreShape> {
     const seededMatch = seedMemoryMatchSample(store);
     const seededRace = seedTimedRaceSample(store);
     const seededScavenger = seedScavengerTapSample(store);
-    if (seededMatch || seededRace || seededScavenger) {
+    const seededSequence = seedSequenceSortSample(store);
+    if (seededMatch || seededRace || seededScavenger || seededSequence) {
       await writeStore(store);
     }
     return store;
@@ -78,14 +86,16 @@ async function ensureStore(): Promise<StoreShape> {
     const matchBoard = GameBoardSchema.parse(buildSampleMemoryMatchBoard());
     const raceBoard = GameBoardSchema.parse(buildSampleTimedRaceBoard());
     const scavengerBoard = GameBoardSchema.parse(buildSampleScavengerTapBoard());
+    const sequenceBoard = GameBoardSchema.parse(buildSampleSequenceSortBoard());
     const initial: StoreShape = {
-      boards: [board, matchBoard, raceBoard, scavengerBoard],
+      boards: [board, matchBoard, raceBoard, scavengerBoard, sequenceBoard],
       product_codes: [],
       entitlements: [],
     };
     seedMemoryMatchSample(initial);
     seedTimedRaceSample(initial);
     seedScavengerTapSample(initial);
+    seedSequenceSortSample(initial);
     await fs.writeFile(STORE_PATH, JSON.stringify(initial, null, 2), "utf8");
     return initial;
   }
@@ -166,6 +176,31 @@ function seedScavengerTapSample(store: StoreShape): boolean {
   return dirty;
 }
 
+function seedSequenceSortSample(store: StoreShape): boolean {
+  let dirty = false;
+  if (!store.boards.some((b) => b.id === SEQUENCE_SORT_SAMPLE_BOARD_ID)) {
+    store.boards.push(GameBoardSchema.parse(buildSampleSequenceSortBoard()));
+    dirty = true;
+  }
+  const hash = sha256Hex(normalizeAccessCode(DEMO_SEQUENCE_SORT_CODE));
+  if (!store.product_codes.some((c) => c.code_hash === hash)) {
+    store.product_codes.push(
+      ProductCodeRecordSchema.parse({
+        id: generateId("pc"),
+        code_hash: hash,
+        board_id: SEQUENCE_SORT_SAMPLE_BOARD_ID,
+        label: "Local demo / sequence sort sample",
+        max_sessions: null,
+        sessions_started: 0,
+        revoked_at: null,
+        created_at: new Date().toISOString(),
+      }),
+    );
+    dirty = true;
+  }
+  return dirty;
+}
+
 async function writeStore(store: StoreShape): Promise<void> {
   await fs.mkdir(DATA_DIR, { recursive: true });
   await fs.writeFile(STORE_PATH, JSON.stringify(store, null, 2), "utf8");
@@ -209,10 +244,12 @@ export function toHostBoardView(board: GameBoard): HostBoardView {
     item_count: itemsFromBoard(board).length,
     race_item_count: raceItemsFromBoard(board).length,
     scavenger_item_count: scavengerItemsFromBoard(board).length,
+    sequence_item_count: sequenceItemsFromBoard(board).length,
     supports_board: supportsBoardPlay(board),
     supports_memory_match: supportsMemoryMatch(board),
     supports_timed_race: supportsTimedRace(board),
     supports_scavenger_tap: supportsScavengerTap(board),
+    supports_sequence_sort: supportsSequenceSort(board),
   };
 }
 
@@ -342,7 +379,12 @@ export async function resolveEntitlement(
  */
 /** Fixed packaging string for local demo (any hyphenation of same alphanumerics works). */
 export const DEMO_ACCESS_CODE_DISPLAY = "T4T-DEMO-MATH-G3-SAMPLE01";
-export { DEMO_MEMORY_MATCH_CODE, DEMO_TIMED_RACE_CODE, DEMO_SCAVENGER_TAP_CODE };
+export {
+  DEMO_MEMORY_MATCH_CODE,
+  DEMO_TIMED_RACE_CODE,
+  DEMO_SCAVENGER_TAP_CODE,
+  DEMO_SEQUENCE_SORT_CODE,
+};
 
 export async function ensureDemoAccessCode(
   plaintext = DEMO_ACCESS_CODE_DISPLAY,
@@ -515,6 +557,49 @@ export async function ensureScavengerTapSample(
   };
 }
 
+/** Seed Sequence Sort sample packet + known demo access code. Idempotent. */
+export async function ensureSequenceSortSample(
+  plaintext = DEMO_SEQUENCE_SORT_CODE,
+): Promise<{ code: string; boardId: string; created: boolean }> {
+  const store = await ensureStore();
+  const board =
+    store.boards.find((b) => b.id === SEQUENCE_SORT_SAMPLE_BOARD_ID) ??
+    GameBoardSchema.parse(buildSampleSequenceSortBoard());
+
+  if (!store.boards.some((b) => b.id === board.id)) {
+    store.boards.push(board);
+  }
+
+  const hash = sha256Hex(normalizeAccessCode(plaintext));
+  const existing = store.product_codes.find((c) => c.code_hash === hash);
+  if (existing) {
+    await writeStore(store);
+    return {
+      code: DEMO_SEQUENCE_SORT_CODE,
+      boardId: board.id,
+      created: false,
+    };
+  }
+
+  const record = ProductCodeRecordSchema.parse({
+    id: generateId("pc"),
+    code_hash: hash,
+    board_id: board.id,
+    label: "Local demo / sequence sort sample",
+    max_sessions: null,
+    sessions_started: 0,
+    revoked_at: null,
+    created_at: new Date().toISOString(),
+  });
+  store.product_codes.push(record);
+  await writeStore(store);
+  return {
+    code: DEMO_SEQUENCE_SORT_CODE,
+    boardId: board.id,
+    created: true,
+  };
+}
+
 export async function assertBoardAllowedForEntitlement(
   token: string | undefined,
   requestedBoardId: string,
@@ -587,6 +672,21 @@ export async function cloneBoard(opts: {
           id: `${newId}-t${i}`,
         })),
         correct_target_id: `${newId}-t${Math.max(0, correctIdx)}`,
+      };
+    }),
+    sequence_items: source.sequence_items?.map((item) => {
+      const newId = generateId("ss");
+      const idMap: Record<string, string> = {};
+      const steps = item.steps.map((s, i) => {
+        const sid = `${newId}-s${i}`;
+        idMap[s.id] = sid;
+        return { ...s, id: sid };
+      });
+      return {
+        ...item,
+        id: newId,
+        steps,
+        correct_order: item.correct_order.map((id) => idMap[id] ?? id),
       };
     }),
     cells: source.cells.map((c) => ({

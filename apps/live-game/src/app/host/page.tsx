@@ -8,11 +8,13 @@ import {
   supportsBoardPlay,
   supportsMemoryMatch,
   supportsScavengerTap,
+  supportsSequenceSort,
   supportsTimedRace,
 } from "@/lib/domain/board";
 import type { HostRoomView } from "@/lib/domain/live-room";
 import { MemoryMatchHost } from "@/components/memory-match-host";
 import { ScavengerTapHost } from "@/components/scavenger-tap-host";
+import { SequenceSortHost } from "@/components/sequence-sort-host";
 import { TimedRaceHost } from "@/components/timed-race-host";
 import { kidPlainText } from "@/lib/plain-text";
 
@@ -182,10 +184,13 @@ export default function HostPage() {
                 ? ` · ${board.race_items?.length ?? 0} race items`
                 : supportsScavengerTap(board)
                   ? ` · ${board.scavenger_items?.length ?? 0} scavenger clues`
-                  : ""}
+                  : supportsSequenceSort(board)
+                    ? ` · ${board.sequence_items?.length ?? 0} sequence prompts`
+                    : ""}
           {supportsMemoryMatch(board) ? " · Memory Match ready" : ""}
           {supportsTimedRace(board) ? " · Timed Race ready" : ""}
-          {supportsScavengerTap(board) ? " · Scavenger Hunt ready" : ""}. Only
+          {supportsScavengerTap(board) ? " · Scavenger Hunt ready" : ""}
+          {supportsSequenceSort(board) ? " · Order the Steps ready" : ""}. Only
           this game is available on this host session.
         </p>
         <div className="mt-8 flex flex-col gap-3">
@@ -241,6 +246,20 @@ export default function HostPage() {
                   : "Start as Scavenger Hunt"}
             </button>
           )}
+          {supportsSequenceSort(board) && (
+            <button
+              type="button"
+              disabled={starting}
+              onClick={() => startLive("sequence_sort")}
+              className="rounded-xl border-2 border-t4t-gold bg-t4t-navy px-4 py-3 text-sm font-semibold text-t4t-gold disabled:opacity-50"
+            >
+              {starting
+                ? "Starting…"
+                : boardGameType(board) === "sequence_sort"
+                  ? "Start Order the Steps"
+                  : "Start as Order the Steps"}
+            </button>
+          )}
         </div>
         <p className="mt-3 text-xs text-t4t-darkText/50">
           Students will join with a short room code (not your TPT access code).
@@ -259,6 +278,10 @@ export default function HostPage() {
 
   if (view.game_type === "scavenger_tap" && view.phase !== "final") {
     return <ScavengerTapHost view={view} onAction={hostAction} />;
+  }
+
+  if (view.game_type === "sequence_sort" && view.phase !== "final") {
+    return <SequenceSortHost view={view} onAction={hostAction} />;
   }
 
   const used = new Set(view.used_cell_ids);

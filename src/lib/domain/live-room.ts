@@ -19,6 +19,12 @@ import {
   type PlayerScavengerState,
   type PlayerScavengerView,
 } from "@/lib/domain/scavenger-tap";
+import {
+  sequenceItemsFromBoard,
+  toPlayerSequenceView,
+  type PlayerSequenceState,
+  type PlayerSequenceView,
+} from "@/lib/domain/sequence-sort";
 import { kidPlainText } from "@/lib/plain-text";
 
 export const RoomPhaseSchema = z.enum([
@@ -27,6 +33,7 @@ export const RoomPhaseSchema = z.enum([
   "matching",
   "racing",
   "scavenging",
+  "sorting",
   "question_open",
   "question_locked",
   "reveal",
@@ -69,6 +76,10 @@ export type LiveRoom = {
   scavenger_states: Record<string, PlayerScavengerState>;
   /** Shared clue index for host-paced scavenger. */
   scavenger_index: number;
+  /** Sequence Sort per-student working orders. Host never sends other students' steps. */
+  sequence_states: Record<string, PlayerSequenceState>;
+  /** Shared prompt index for host-paced sequence sort. */
+  sequence_index: number;
   open_until: string | null;
   answer_seconds: number;
   lobby_locked: boolean;
@@ -130,6 +141,21 @@ export type HostRoomView = {
     /** Host-only answer key — keep off the 16:9 student-facing stage. */
     item_key: { prompt: string; answer: string }[];
   };
+  sequence: null | {
+    item_total: number;
+    item_index: number;
+    prompt: string | null;
+    has_next: boolean;
+    answer_count: number;
+    players: {
+      player_id: string;
+      display_name: string;
+      submitted: boolean;
+      correct_count: number;
+    }[];
+    /** Host-only answer key — keep off the 16:9 student-facing stage. */
+    item_key: { prompt: string; answer: string }[];
+  };
   open_until: string | null;
   answer_seconds: number;
   lobby_locked: boolean;
@@ -173,6 +199,7 @@ export type PlayerRoomView = {
   match: PlayerMatchView | null;
   race: PlayerRaceView | null;
   scavenger: PlayerScavengerView | null;
+  sequence: PlayerSequenceView | null;
   open_until: string | null;
   answer_seconds: number;
   server_now: string;
@@ -263,6 +290,42 @@ function hostScavengerView(room: LiveRoom): HostRoomView["scavenger"] {
   };
 }
 
+function hostSequenceView(room: LiveRoom): HostRoomView["sequence"] {
+  if (room.game_type !== "sequence_sort") return null;
+  const items = sequenceItemsFromBoard(room.board);
+  const idx = room.sequence_index;
+  const item = items[idx] ?? null;
+  return {
+    item_total: items.length,
+    item_index: idx,
+    prompt: item ? kidPlainText(item.prompt, 200) : null,
+    has_next: idx < items.length - 1,
+    answer_count: Object.values(room.players).filter((p) => {
+      const st = room.sequence_states[p.player_id];
+      return st?.answers[idx] !== undefined;
+    }).length,
+    players: Object.values(room.players).map((p) => {
+      const st = room.sequence_states[p.player_id];
+      return {
+        player_id: p.player_id,
+        display_name: p.display_name,
+        submitted: st?.answers[idx] !== undefined,
+        correct_count: st?.correct_count ?? 0,
+      };
+    }),
+    item_key: items.map((it) => {
+      const byId = new Map(it.steps.map((s) => [s.id, s.label]));
+      return {
+        prompt: kidPlainText(it.prompt, 80),
+        answer: kidPlainText(
+          it.correct_order.map((id) => byId.get(id) ?? "").join(" → "),
+          160,
+        ),
+      };
+    }),
+  };
+}
+
 export function sanitizeForHost(room: LiveRoom): HostRoomView {
   return {
     role: "host",
@@ -284,6 +347,7 @@ export function sanitizeForHost(room: LiveRoom): HostRoomView {
     match: hostMatchView(room),
     race: hostRaceView(room),
     scavenger: hostScavengerView(room),
+    sequence: hostSequenceView(room),
     open_until: room.open_until,
     answer_seconds: room.answer_seconds,
     lobby_locked: room.lobby_locked,
@@ -368,6 +432,14 @@ export function sanitizeForPlayer(
             room.scavenger_states[playerId]!,
             scavengerItemsFromBoard(room.board),
             room.scavenger_index,
+          )
+        : null,
+    sequence:
+      room.game_type === "sequence_sort" && room.sequence_states[playerId]
+        ? toPlayerSequenceView(
+            room.sequence_states[playerId]!,
+            sequenceItemsFromBoard(room.board),
+            room.sequence_index,
           )
         : null,
     open_until: room.open_until,

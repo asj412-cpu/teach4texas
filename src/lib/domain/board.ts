@@ -5,6 +5,7 @@ export const GameTypeSchema = z.enum([
   "memory_match",
   "timed_race",
   "scavenger_tap",
+  "sequence_sort",
 ]);
 export type GameType = z.infer<typeof GameTypeSchema>;
 
@@ -60,6 +61,51 @@ export const ScavengerTapItemSchema = z
 export type ScavengerTarget = z.infer<typeof ScavengerTargetSchema>;
 export type ScavengerTapItem = z.infer<typeof ScavengerTapItemSchema>;
 
+/** TEKS-agnostic ordered-steps item for Sequence Sort. `teks` is optional. */
+export const SequenceStepSchema = z.object({
+  id: z.string().min(1),
+  label: z.string().min(1).max(80),
+});
+
+export const SequenceSortItemSchema = z
+  .object({
+    id: z.string().min(1),
+    prompt: z.string().min(1).max(200),
+    steps: z.array(SequenceStepSchema).min(3).max(5),
+    correct_order: z.array(z.string().min(1)).min(3).max(5),
+    teks: z.string().max(32).optional(),
+  })
+  .superRefine((item, ctx) => {
+    const ids = item.steps.map((s) => s.id);
+    if (new Set(ids).size !== ids.length) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "step ids must be unique",
+      });
+    }
+    if (item.correct_order.length !== item.steps.length) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "correct_order must list every step id once",
+      });
+    }
+    if (new Set(item.correct_order).size !== item.correct_order.length) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "correct_order ids must be unique",
+      });
+    }
+    if (!item.correct_order.every((id) => ids.includes(id))) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "correct_order must match step ids",
+      });
+    }
+  });
+
+export type SequenceStep = z.infer<typeof SequenceStepSchema>;
+export type SequenceSortItem = z.infer<typeof SequenceSortItemSchema>;
+
 /** Live MC cell — distinct from offline free-response TPT JSON. */
 export const QuestionCellSchema = z.object({
   id: z.string().min(1),
@@ -112,6 +158,8 @@ export const GameBoardSchema = z
     race_items: z.array(TimedRaceItemSchema).max(12).optional(),
     /** Scavenger Tap clues + labeled targets. Ignored unless host picks scavenger_tap. */
     scavenger_items: z.array(ScavengerTapItemSchema).max(12).optional(),
+    /** Sequence Sort prompts + ordered steps. Ignored unless host picks sequence_sort. */
+    sequence_items: z.array(SequenceSortItemSchema).max(12).optional(),
     created_at: z.string(),
     updated_at: z.string(),
   })
@@ -190,6 +238,31 @@ export const GameBoardSchema = z
       return;
     }
 
+    if (type === "sequence_sort") {
+      const sequenceCount =
+        board.sequence_items && board.sequence_items.length >= 4
+          ? board.sequence_items.length
+          : board.scavenger_items && board.scavenger_items.length >= 4
+            ? board.scavenger_items.length
+            : board.race_items && board.race_items.length >= 4
+              ? board.race_items.length
+              : board.cells.length;
+      if (sequenceCount < 4) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message:
+            "Sequence sort needs at least 4 items (sequence_items JSON, scavenger_items, race_items, or board cells)",
+        });
+      }
+      if (board.sequence_items && board.sequence_items.length > 12) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Sequence sort supports at most 12 items",
+        });
+      }
+      return;
+    }
+
     const pairCount =
       board.items && board.items.length >= 4
         ? board.items.length
@@ -226,10 +299,12 @@ export type HostBoardView = {
   item_count: number;
   race_item_count: number;
   scavenger_item_count: number;
+  sequence_item_count: number;
   supports_board: boolean;
   supports_memory_match: boolean;
   supports_timed_race: boolean;
   supports_scavenger_tap: boolean;
+  supports_sequence_sort: boolean;
 };
 
 export function boardGameType(board: { game_type?: GameType }): GameType {
@@ -268,10 +343,27 @@ export function supportsScavengerTap(board: {
   );
 }
 
+export function supportsSequenceSort(board: {
+  sequence_items?: SequenceSortItem[];
+  scavenger_items?: ScavengerTapItem[];
+  race_items?: TimedRaceItem[];
+  cells?: { id: string }[];
+}): boolean {
+  return (
+    (board.sequence_items?.length ?? 0) >= 4 ||
+    (board.scavenger_items?.length ?? 0) >= 4 ||
+    (board.race_items?.length ?? 0) >= 4 ||
+    (board.cells?.length ?? 0) >= 4
+  );
+}
+
 export function resolvePlayableGameType(
   board: GameBoard,
   requested?: string | null,
 ): GameType {
+  if (requested === "sequence_sort" && supportsSequenceSort(board)) {
+    return "sequence_sort";
+  }
   if (requested === "scavenger_tap" && supportsScavengerTap(board)) {
     return "scavenger_tap";
   }
@@ -285,6 +377,9 @@ export function resolvePlayableGameType(
     return "board";
   }
   const native = boardGameType(board);
+  if (native === "sequence_sort" && supportsSequenceSort(board)) {
+    return "sequence_sort";
+  }
   if (native === "scavenger_tap" && supportsScavengerTap(board)) {
     return "scavenger_tap";
   }
@@ -298,5 +393,6 @@ export function resolvePlayableGameType(
   if (supportsMemoryMatch(board)) return "memory_match";
   if (supportsTimedRace(board)) return "timed_race";
   if (supportsScavengerTap(board)) return "scavenger_tap";
+  if (supportsSequenceSort(board)) return "sequence_sort";
   return "board";
 }

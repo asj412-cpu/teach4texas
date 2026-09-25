@@ -9,6 +9,7 @@ export const DEMO_ACCESS_CODE_DISPLAY = fileStore.DEMO_ACCESS_CODE_DISPLAY;
 export const DEMO_MEMORY_MATCH_CODE = fileStore.DEMO_MEMORY_MATCH_CODE;
 export const DEMO_TIMED_RACE_CODE = fileStore.DEMO_TIMED_RACE_CODE;
 export const DEMO_SCAVENGER_TAP_CODE = fileStore.DEMO_SCAVENGER_TAP_CODE;
+export const DEMO_SEQUENCE_SORT_CODE = fileStore.DEMO_SEQUENCE_SORT_CODE;
 
 export const toHostBoardView = fileStore.toHostBoardView;
 
@@ -60,6 +61,12 @@ export async function ensureScavengerTapSample(
   plaintext = DEMO_SCAVENGER_TAP_CODE,
 ) {
   return backend().ensureScavengerTapSample(plaintext);
+}
+
+export async function ensureSequenceSortSample(
+  plaintext = DEMO_SEQUENCE_SORT_CODE,
+) {
+  return backend().ensureSequenceSortSample(plaintext);
 }
 
 export async function assertBoardAllowedForEntitlement(

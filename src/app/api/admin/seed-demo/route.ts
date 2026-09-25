@@ -4,6 +4,7 @@ import {
   ensureDemoAccessCode,
   ensureMemoryMatchSample,
   ensureScavengerTapSample,
+  ensureSequenceSortSample,
   ensureTimedRaceSample,
   listBoardsForOperator,
 } from "@/lib/store";
@@ -20,6 +21,7 @@ export async function POST(req: NextRequest) {
   const match = await ensureMemoryMatchSample();
   const race = await ensureTimedRaceSample();
   const scavenger = await ensureScavengerTapSample();
+  const sequence = await ensureSequenceSortSample();
   const boards = await listBoardsForOperator();
 
   return NextResponse.json({
@@ -41,6 +43,11 @@ export async function POST(req: NextRequest) {
       demo_access_code: scavenger.code,
       board_id: scavenger.boardId,
       created: scavenger.created,
+    },
+    sequence_sort: {
+      demo_access_code: sequence.code,
+      board_id: sequence.boardId,
+      created: sequence.created,
     },
     boards,
     tpt_flow: [

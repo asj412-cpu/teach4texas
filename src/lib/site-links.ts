@@ -30,6 +30,10 @@ export const TPT_PRODUCTS = {
     href: 'https://www.teacherspayteachers.com/Product/Texas-Grade-3-Morning-Work-4-Weeks-TEKS-Warmups-Print-Easel-17696158',
     label: 'Texas Grade 3 Morning Work — 4 Weeks TEKS Warmups',
   },
+  morningWorkG4: {
+    href: 'https://www.teacherspayteachers.com/Product/Texas-Grade-4-Morning-Work-4-Weeks-TEKS-Warmups-Print-Easel-17751292',
+    label: 'Texas Grade 4 Morning Work — 4 Weeks TEKS Warmups',
+  },
   constitutionDayG3: {
     href: 'https://www.teacherspayteachers.com/Product/Constitution-Day-Scavenger-Hunt-Grade-3-STAAR-Math-TEKS-34A-34F-35E-17677688',
     label: 'Constitution Day Scavenger Hunt Grade 3 STAAR Math',
@@ -99,6 +103,9 @@ export function tptPacksForSlug(slug: string): TptPack[] {
   }
   if (slug === 'grade-8-science-vault-escape-room') {
     return [TPT_PRODUCTS.scienceVaultG8];
+  }
+  if (slug === 'grade-4-teks-morning-work-warmups') {
+    return [TPT_PRODUCTS.morningWorkG4];
   }
   return [];
 }

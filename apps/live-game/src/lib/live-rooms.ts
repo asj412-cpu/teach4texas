@@ -31,6 +31,11 @@ import {
   sequenceItemsFromBoard,
 } from "@/lib/domain/sequence-sort";
 import {
+  applyCategoryTap,
+  categoryItemsFromBoard,
+  createPlayerCategoryState,
+} from "@/lib/domain/category-sort";
+import {
   generateId,
   generateOpaqueToken,
   sha256Hex,
@@ -116,6 +121,12 @@ function ensurePlayerSequenceState(room: LiveRoom, playerId: string) {
   room.sequence_states[playerId] = createPlayerSequenceState();
 }
 
+function ensurePlayerCategoryState(room: LiveRoom, playerId: string) {
+  if (room.game_type !== "category_sort") return;
+  if (room.category_states[playerId]) return;
+  room.category_states[playerId] = createPlayerCategoryState();
+}
+
 export function createLiveRoom(opts: {
   board: GameBoard;
   answerSeconds?: number;
@@ -151,6 +162,8 @@ export function createLiveRoom(opts: {
     scavenger_index: 0,
     sequence_states: {},
     sequence_index: 0,
+    category_states: {},
+    category_index: 0,
     open_until: null,
     answer_seconds:
       opts.answerSeconds ??
@@ -193,6 +206,9 @@ export function playerView(room: LiveRoom, playerId: string) {
   if (room.game_type === "sequence_sort" && room.phase === "sorting") {
     ensurePlayerSequenceState(room, playerId);
   }
+  if (room.game_type === "category_sort" && room.phase === "binning") {
+    ensurePlayerCategoryState(room, playerId);
+  }
   return sanitizeForPlayer(room, playerId);
 }
 
@@ -233,6 +249,9 @@ export function joinRoom(
       }
       if (room.game_type === "sequence_sort" && room.phase === "sorting") {
         ensurePlayerSequenceState(room, existing.player_id);
+      }
+      if (room.game_type === "category_sort" && room.phase === "binning") {
+        ensurePlayerCategoryState(room, existing.player_id);
       }
       const view = sanitizeForPlayer(room, existing.player_id);
       if (!view) return { ok: false, error: "JOIN_FAILED" };
@@ -289,6 +308,9 @@ export function joinRoom(
   if (room.game_type === "sequence_sort" && room.phase === "sorting") {
     ensurePlayerSequenceState(room, player_id);
   }
+  if (room.game_type === "category_sort" && room.phase === "binning") {
+    ensurePlayerCategoryState(room, player_id);
+  }
 
   const view = sanitizeForPlayer(room, player_id);
   if (!view) return { ok: false, error: "JOIN_FAILED" };
@@ -306,7 +328,8 @@ export type HostAction =
   | { type: "lock_lobby"; locked: boolean }
   | { type: "kick"; player_id: string }
   | { type: "next_clue" }
-  | { type: "next_prompt" };
+  | { type: "next_prompt" }
+  | { type: "next_item" };
 
 export function applyHostAction(
   room: LiveRoom,
@@ -344,6 +367,12 @@ export function applyHostAction(
           ensurePlayerSequenceState(room, pid);
         }
         room.phase = "sorting";
+      } else if (room.game_type === "category_sort") {
+        room.category_index = 0;
+        for (const pid of Object.keys(room.players)) {
+          ensurePlayerCategoryState(room, pid);
+        }
+        room.phase = "binning";
       } else {
         room.phase = "board";
       }
@@ -375,6 +404,20 @@ export function applyHostAction(
         return { ok: false, error: "NO_MORE_PROMPTS" };
       }
       room.sequence_index += 1;
+      return { ok: true };
+    }
+    case "next_item": {
+      if (room.game_type !== "category_sort") {
+        return { ok: false, error: "NOT_CATEGORY" };
+      }
+      if (room.phase !== "binning") {
+        return { ok: false, error: "ILLEGAL_TRANSITION" };
+      }
+      const items = categoryItemsFromBoard(room.board);
+      if (room.category_index >= items.length - 1) {
+        return { ok: false, error: "NO_MORE_ITEMS" };
+      }
+      room.category_index += 1;
       return { ok: true };
     }
     case "select_cell": {
@@ -474,6 +517,7 @@ export function applyHostAction(
       delete room.race_states[action.player_id];
       delete room.scavenger_states[action.player_id];
       delete room.sequence_states[action.player_id];
+      delete room.category_states[action.player_id];
       return { ok: true };
     }
     default:
@@ -593,6 +637,35 @@ export function submitSequenceOrder(
   return { ok: true };
 }
 
+export function submitCategoryTap(
+  room: LiveRoom,
+  playerId: string,
+  categoryId: string,
+): { ok: true } | { ok: false; error: string } {
+  if (room.game_type !== "category_sort") {
+    return { ok: false, error: "NOT_CATEGORY" };
+  }
+  if (room.phase !== "binning") {
+    return { ok: false, error: "NOT_ACCEPTING_TAPS" };
+  }
+  if (!room.players[playerId]) return { ok: false, error: "NOT_A_PLAYER" };
+  if (!categoryId) return { ok: false, error: "INVALID_CATEGORY" };
+  ensurePlayerCategoryState(room, playerId);
+  const state = room.category_states[playerId];
+  if (!state) return { ok: false, error: "NO_CATEGORY_STATE" };
+  const result = applyCategoryTap(
+    state,
+    room.category_index,
+    categoryId,
+    categoryItemsFromBoard(room.board),
+  );
+  if (!result.ok) return result;
+  if (result.points > 0) {
+    room.players[playerId]!.score += result.points;
+  }
+  return { ok: true };
+}
+
 export function submitAnswer(
   room: LiveRoom,
   playerId: string,
@@ -603,7 +676,8 @@ export function submitAnswer(
     room.game_type === "memory_match" ||
     room.game_type === "timed_race" ||
     room.game_type === "scavenger_tap" ||
-    room.game_type === "sequence_sort"
+    room.game_type === "sequence_sort" ||
+    room.game_type === "category_sort"
   ) {
     return { ok: false, error: "NOT_ACCEPTING_ANSWERS" };
   }

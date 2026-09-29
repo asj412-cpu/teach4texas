@@ -16,10 +16,12 @@ type HostBoard = {
   race_item_count?: number;
   scavenger_item_count?: number;
   sequence_item_count?: number;
+  category_item_count?: number;
   supports_memory_match?: boolean;
   supports_timed_race?: boolean;
   supports_scavenger_tap?: boolean;
   supports_sequence_sort?: boolean;
+  supports_category_sort?: boolean;
   supports_board?: boolean;
 };
 
@@ -111,7 +113,9 @@ export default function RedeemPage() {
                   ? ` · Scavenger Hunt · ${unlocked.scavenger_item_count ?? 0} clues`
                   : unlocked.game_type === "sequence_sort"
                     ? ` · Order the Steps · ${unlocked.sequence_item_count ?? 0} prompts`
-                    : ` · ${unlocked.cell_count} questions`}
+                    : unlocked.game_type === "category_sort"
+                      ? ` · Sort into Bins · ${unlocked.category_item_count ?? 0} items`
+                      : ` · ${unlocked.cell_count} questions`}
             {unlocked.supports_memory_match && unlocked.game_type !== "memory_match"
               ? " · can host as Memory Match"
               : ""}
@@ -125,6 +129,10 @@ export default function RedeemPage() {
             {unlocked.supports_sequence_sort &&
             unlocked.game_type !== "sequence_sort"
               ? " · can host as Order the Steps"
+              : ""}
+            {unlocked.supports_category_sort &&
+            unlocked.game_type !== "category_sort"
+              ? " · can host as Sort into Bins"
               : ""}
           </p>
           <ul className="list-inside list-disc text-sm text-t4t-darkText/70">

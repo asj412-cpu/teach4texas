@@ -25,6 +25,12 @@ import {
   type PlayerSequenceState,
   type PlayerSequenceView,
 } from "@/lib/domain/sequence-sort";
+import {
+  categoryItemsFromBoard,
+  toPlayerCategoryView,
+  type PlayerCategoryState,
+  type PlayerCategoryView,
+} from "@/lib/domain/category-sort";
 import { kidPlainText } from "@/lib/plain-text";
 
 export const RoomPhaseSchema = z.enum([
@@ -34,6 +40,7 @@ export const RoomPhaseSchema = z.enum([
   "racing",
   "scavenging",
   "sorting",
+  "binning",
   "question_open",
   "question_locked",
   "reveal",
@@ -80,6 +87,10 @@ export type LiveRoom = {
   sequence_states: Record<string, PlayerSequenceState>;
   /** Shared prompt index for host-paced sequence sort. */
   sequence_index: number;
+  /** Category Sort per-student taps. Host never sends other students' bins. */
+  category_states: Record<string, PlayerCategoryState>;
+  /** Shared item index for host-paced category sort. */
+  category_index: number;
   open_until: string | null;
   answer_seconds: number;
   lobby_locked: boolean;
@@ -156,6 +167,23 @@ export type HostRoomView = {
     /** Host-only answer key — keep off the 16:9 student-facing stage. */
     item_key: { prompt: string; answer: string }[];
   };
+  category: null | {
+    item_total: number;
+    item_index: number;
+    prompt: string | null;
+    item_label: string | null;
+    categories: { id: string; label: string }[];
+    has_next: boolean;
+    answer_count: number;
+    players: {
+      player_id: string;
+      display_name: string;
+      tapped: boolean;
+      correct_count: number;
+    }[];
+    /** Host-only answer key — keep off the 16:9 student-facing stage. */
+    item_key: { prompt: string; answer: string }[];
+  };
   open_until: string | null;
   answer_seconds: number;
   lobby_locked: boolean;
@@ -200,6 +228,7 @@ export type PlayerRoomView = {
   race: PlayerRaceView | null;
   scavenger: PlayerScavengerView | null;
   sequence: PlayerSequenceView | null;
+  category: PlayerCategoryView | null;
   open_until: string | null;
   answer_seconds: number;
   server_now: string;
@@ -326,6 +355,49 @@ function hostSequenceView(room: LiveRoom): HostRoomView["sequence"] {
   };
 }
 
+function hostCategoryView(room: LiveRoom): HostRoomView["category"] {
+  if (room.game_type !== "category_sort") return null;
+  const items = categoryItemsFromBoard(room.board);
+  const idx = room.category_index;
+  const item = items[idx] ?? null;
+  return {
+    item_total: items.length,
+    item_index: idx,
+    prompt: item?.prompt ? kidPlainText(item.prompt, 200) : null,
+    item_label: item ? kidPlainText(item.item_label, 80) : null,
+    categories: item
+      ? item.categories.map((c) => ({
+          id: c.id,
+          label: kidPlainText(c.label, 80),
+        }))
+      : [],
+    has_next: idx < items.length - 1,
+    answer_count: Object.values(room.players).filter((p) => {
+      const st = room.category_states[p.player_id];
+      return st?.answers[idx] !== undefined;
+    }).length,
+    players: Object.values(room.players).map((p) => {
+      const st = room.category_states[p.player_id];
+      return {
+        player_id: p.player_id,
+        display_name: p.display_name,
+        tapped: st?.answers[idx] !== undefined,
+        correct_count: st?.correct_count ?? 0,
+      };
+    }),
+    item_key: items.map((it) => ({
+      prompt: kidPlainText(
+        it.prompt ? `${it.prompt} · ${it.item_label}` : it.item_label,
+        80,
+      ),
+      answer: kidPlainText(
+        it.categories.find((c) => c.id === it.correct_category_id)?.label ?? "",
+        80,
+      ),
+    })),
+  };
+}
+
 export function sanitizeForHost(room: LiveRoom): HostRoomView {
   return {
     role: "host",
@@ -348,6 +420,7 @@ export function sanitizeForHost(room: LiveRoom): HostRoomView {
     race: hostRaceView(room),
     scavenger: hostScavengerView(room),
     sequence: hostSequenceView(room),
+    category: hostCategoryView(room),
     open_until: room.open_until,
     answer_seconds: room.answer_seconds,
     lobby_locked: room.lobby_locked,
@@ -440,6 +513,14 @@ export function sanitizeForPlayer(
             room.sequence_states[playerId]!,
             sequenceItemsFromBoard(room.board),
             room.sequence_index,
+          )
+        : null,
+    category:
+      room.game_type === "category_sort" && room.category_states[playerId]
+        ? toPlayerCategoryView(
+            room.category_states[playerId]!,
+            categoryItemsFromBoard(room.board),
+            room.category_index,
           )
         : null,
     open_until: room.open_until,

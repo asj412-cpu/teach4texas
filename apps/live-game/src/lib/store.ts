@@ -10,6 +10,7 @@ export const DEMO_MEMORY_MATCH_CODE = fileStore.DEMO_MEMORY_MATCH_CODE;
 export const DEMO_TIMED_RACE_CODE = fileStore.DEMO_TIMED_RACE_CODE;
 export const DEMO_SCAVENGER_TAP_CODE = fileStore.DEMO_SCAVENGER_TAP_CODE;
 export const DEMO_SEQUENCE_SORT_CODE = fileStore.DEMO_SEQUENCE_SORT_CODE;
+export const DEMO_CATEGORY_SORT_CODE = fileStore.DEMO_CATEGORY_SORT_CODE;
 
 export const toHostBoardView = fileStore.toHostBoardView;
 
@@ -67,6 +68,12 @@ export async function ensureSequenceSortSample(
   plaintext = DEMO_SEQUENCE_SORT_CODE,
 ) {
   return backend().ensureSequenceSortSample(plaintext);
+}
+
+export async function ensureCategorySortSample(
+  plaintext = DEMO_CATEGORY_SORT_CODE,
+) {
+  return backend().ensureCategorySortSample(plaintext);
 }
 
 export async function assertBoardAllowedForEntitlement(

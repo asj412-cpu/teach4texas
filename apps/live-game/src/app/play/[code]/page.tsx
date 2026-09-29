@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import type { PlayerRoomView } from "@/lib/domain/live-room";
+import { CategorySortPlay } from "@/components/category-sort-play";
 import { MemoryMatchPlay } from "@/components/memory-match-play";
 import { ScavengerTapPlay } from "@/components/scavenger-tap-play";
 import { SequenceSortPlay } from "@/components/sequence-sort-play";
@@ -87,6 +88,23 @@ export default function PlayPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ player_id: playerId, order }),
+      });
+      const data = await res.json();
+      if (res.ok && data.ok) setView(data.view);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  async function categoryTap(category_id: string) {
+    if (!playerId || !view || view.game_type !== "category_sort") return;
+    if (view.phase !== "binning" || !view.category?.can_tap) return;
+    setSubmitting(true);
+    try {
+      const res = await fetch(`/api/rooms/${code}/bin`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ player_id: playerId, category_id }),
       });
       const data = await res.json();
       if (res.ok && data.ok) setView(data.view);
@@ -181,7 +199,9 @@ export default function PlayPage() {
                 ? "Scavenger Hunt — waiting for your teacher to start"
                 : view.game_type === "sequence_sort"
                   ? "Order the Steps — waiting for your teacher to start"
-                  : "Waiting for your teacher to start"}{" "}
+                  : view.game_type === "category_sort"
+                    ? "Sort into Bins — waiting for your teacher to start"
+                    : "Waiting for your teacher to start"}{" "}
           ({view.players.length} players)
         </p>
         <p className="mt-6 text-lg font-semibold text-t4t-navy">
@@ -224,6 +244,16 @@ export default function PlayPage() {
         view={view}
         submitting={submitting}
         onSubmit={sequenceSubmit}
+      />
+    );
+  }
+
+  if (view.game_type === "category_sort" && view.phase !== "final") {
+    return (
+      <CategorySortPlay
+        view={view}
+        submitting={submitting}
+        onTap={categoryTap}
       />
     );
   }

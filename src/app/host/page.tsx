@@ -6,12 +6,14 @@ import type { GameBoard, GameType, QuestionCell } from "@/lib/domain/board";
 import {
   boardGameType,
   supportsBoardPlay,
+  supportsCategorySort,
   supportsMemoryMatch,
   supportsScavengerTap,
   supportsSequenceSort,
   supportsTimedRace,
 } from "@/lib/domain/board";
 import type { HostRoomView } from "@/lib/domain/live-room";
+import { CategorySortHost } from "@/components/category-sort-host";
 import { MemoryMatchHost } from "@/components/memory-match-host";
 import { ScavengerTapHost } from "@/components/scavenger-tap-host";
 import { SequenceSortHost } from "@/components/sequence-sort-host";
@@ -186,11 +188,14 @@ export default function HostPage() {
                   ? ` · ${board.scavenger_items?.length ?? 0} scavenger clues`
                   : supportsSequenceSort(board)
                     ? ` · ${board.sequence_items?.length ?? 0} sequence prompts`
-                    : ""}
+                    : supportsCategorySort(board)
+                      ? ` · ${board.category_items?.length ?? 0} category items`
+                      : ""}
           {supportsMemoryMatch(board) ? " · Memory Match ready" : ""}
           {supportsTimedRace(board) ? " · Timed Race ready" : ""}
           {supportsScavengerTap(board) ? " · Scavenger Hunt ready" : ""}
-          {supportsSequenceSort(board) ? " · Order the Steps ready" : ""}. Only
+          {supportsSequenceSort(board) ? " · Order the Steps ready" : ""}
+          {supportsCategorySort(board) ? " · Sort into Bins ready" : ""}. Only
           this game is available on this host session.
         </p>
         <div className="mt-8 flex flex-col gap-3">
@@ -260,6 +265,20 @@ export default function HostPage() {
                   : "Start as Order the Steps"}
             </button>
           )}
+          {supportsCategorySort(board) && (
+            <button
+              type="button"
+              disabled={starting}
+              onClick={() => startLive("category_sort")}
+              className="rounded-xl border-2 border-t4t-green bg-t4t-lightBlue px-4 py-3 text-sm font-semibold text-t4t-navy disabled:opacity-50"
+            >
+              {starting
+                ? "Starting…"
+                : boardGameType(board) === "category_sort"
+                  ? "Start Sort into Bins"
+                  : "Start as Sort into Bins"}
+            </button>
+          )}
         </div>
         <p className="mt-3 text-xs text-t4t-darkText/50">
           Students will join with a short room code (not your TPT access code).
@@ -282,6 +301,10 @@ export default function HostPage() {
 
   if (view.game_type === "sequence_sort" && view.phase !== "final") {
     return <SequenceSortHost view={view} onAction={hostAction} />;
+  }
+
+  if (view.game_type === "category_sort" && view.phase !== "final") {
+    return <CategorySortHost view={view} onAction={hostAction} />;
   }
 
   const used = new Set(view.used_cell_ids);

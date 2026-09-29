@@ -5,15 +5,18 @@ import {
   type GameType,
   type MemoryMatchItem,
   type ScavengerTapItem,
+  type CategorySortItem,
   type SequenceSortItem,
   type TimedRaceItem,
   boardGameType,
   supportsBoardPlay,
+  supportsCategorySort,
   supportsMemoryMatch,
   supportsScavengerTap,
   supportsSequenceSort,
   supportsTimedRace,
 } from "@/lib/domain/board";
+import { categoryItemsFromBoard } from "@/lib/domain/category-sort";
 import { itemsFromBoard } from "@/lib/domain/memory-match";
 import { scavengerItemsFromBoard } from "@/lib/domain/scavenger-tap";
 import { sequenceItemsFromBoard } from "@/lib/domain/sequence-sort";
@@ -54,6 +57,11 @@ import {
   DEMO_SEQUENCE_SORT_CODE,
   SEQUENCE_SORT_SAMPLE_BOARD_ID,
 } from "@/lib/fixtures/sample-sequence-sort";
+import {
+  buildSampleCategorySortBoard,
+  CATEGORY_SORT_SAMPLE_BOARD_ID,
+  DEMO_CATEGORY_SORT_CODE,
+} from "@/lib/fixtures/sample-category-sort";
 import { getServiceSupabase } from "@/lib/supabase-admin";
 
 const SAMPLE_BOARD_ID = "board_sample_math_g3";
@@ -64,6 +72,7 @@ export {
   DEMO_TIMED_RACE_CODE,
   DEMO_SCAVENGER_TAP_CODE,
   DEMO_SEQUENCE_SORT_CODE,
+  DEMO_CATEGORY_SORT_CODE,
 };
 
 type BoardRow = {
@@ -120,6 +129,7 @@ type CellsPayload = {
   race_items?: TimedRaceItem[];
   scavenger_items?: ScavengerTapItem[];
   sequence_items?: SequenceSortItem[];
+  category_items?: CategorySortItem[];
   cells: unknown;
 };
 
@@ -130,6 +140,7 @@ function unpackCells(raw: unknown): {
   race_items?: TimedRaceItem[];
   scavenger_items?: ScavengerTapItem[];
   sequence_items?: SequenceSortItem[];
+  category_items?: CategorySortItem[];
 } {
   if (raw && typeof raw === "object" && !Array.isArray(raw) && "cells" in raw) {
     const p = raw as CellsPayload;
@@ -140,6 +151,7 @@ function unpackCells(raw: unknown): {
       race_items: p.race_items,
       scavenger_items: p.scavenger_items,
       sequence_items: p.sequence_items,
+      category_items: p.category_items,
     };
   }
   return { cells: raw };
@@ -151,7 +163,8 @@ function packCells(board: GameBoard): unknown {
     (board.items?.length ?? 0) > 0 ||
     (board.race_items?.length ?? 0) > 0 ||
     (board.scavenger_items?.length ?? 0) > 0 ||
-    (board.sequence_items?.length ?? 0) > 0
+    (board.sequence_items?.length ?? 0) > 0 ||
+    (board.category_items?.length ?? 0) > 0
   ) {
     return {
       v: 2,
@@ -160,6 +173,7 @@ function packCells(board: GameBoard): unknown {
       race_items: board.race_items,
       scavenger_items: board.scavenger_items,
       sequence_items: board.sequence_items,
+      category_items: board.category_items,
       cells: board.cells,
     };
   }
@@ -181,6 +195,7 @@ function boardFromRow(row: BoardRow): GameBoard {
     race_items: unpacked.race_items,
     scavenger_items: unpacked.scavenger_items,
     sequence_items: unpacked.sequence_items,
+    category_items: unpacked.category_items,
     cells: unpacked.cells,
     created_at: iso(row.created_at),
     updated_at: iso(row.updated_at),
@@ -259,11 +274,13 @@ export function toHostBoardView(board: GameBoard): HostBoardView {
     race_item_count: raceItemsFromBoard(board).length,
     scavenger_item_count: scavengerItemsFromBoard(board).length,
     sequence_item_count: sequenceItemsFromBoard(board).length,
+    category_item_count: categoryItemsFromBoard(board).length,
     supports_board: supportsBoardPlay(board),
     supports_memory_match: supportsMemoryMatch(board),
     supports_timed_race: supportsTimedRace(board),
     supports_scavenger_tap: supportsScavengerTap(board),
     supports_sequence_sort: supportsSequenceSort(board),
+    supports_category_sort: supportsCategorySort(board),
   };
 }
 
@@ -723,6 +740,67 @@ export async function ensureSequenceSortSample(
   return { code: DEMO_SEQUENCE_SORT_CODE, boardId: board.id, created: true };
 }
 
+async function ensureCategorySortBoard(): Promise<GameBoard> {
+  const sb = getServiceSupabase();
+  const existing = await sb
+    .from("boards")
+    .select("*")
+    .eq("id", CATEGORY_SORT_SAMPLE_BOARD_ID)
+    .maybeSingle();
+  throwIfError(existing.error, "ensureCategorySortBoard.select");
+  if (existing.data) {
+    return boardFromRow(existing.data as BoardRow);
+  }
+  const board = GameBoardSchema.parse(buildSampleCategorySortBoard());
+  const inserted = await sb
+    .from("boards")
+    .insert(boardToRow(board))
+    .select("*")
+    .single();
+  throwIfError(inserted.error, "ensureCategorySortBoard.insert");
+  return boardFromRow(inserted.data as BoardRow);
+}
+
+export async function ensureCategorySortSample(
+  plaintext = DEMO_CATEGORY_SORT_CODE,
+): Promise<{ code: string; boardId: string; created: boolean }> {
+  const board = await ensureCategorySortBoard();
+  const hash = sha256Hex(normalizeAccessCode(plaintext));
+  const sb = getServiceSupabase();
+  const existing = await sb
+    .from("product_codes")
+    .select("id")
+    .eq("code_hash", hash)
+    .maybeSingle();
+  throwIfError(existing.error, "ensureCategorySortSample.lookup");
+  if (existing.data) {
+    return { code: DEMO_CATEGORY_SORT_CODE, boardId: board.id, created: false };
+  }
+
+  const record = ProductCodeRecordSchema.parse({
+    id: generateId("pc"),
+    code_hash: hash,
+    board_id: board.id,
+    label: "Local demo / category sort sample",
+    max_sessions: null,
+    sessions_started: 0,
+    revoked_at: null,
+    created_at: new Date().toISOString(),
+  });
+  const ins = await sb.from("product_codes").insert({
+    id: record.id,
+    code_hash: record.code_hash,
+    board_id: record.board_id,
+    label: record.label ?? null,
+    max_sessions: record.max_sessions,
+    sessions_started: record.sessions_started,
+    revoked_at: record.revoked_at,
+    created_at: record.created_at,
+  });
+  throwIfError(ins.error, "ensureCategorySortSample.insert");
+  return { code: DEMO_CATEGORY_SORT_CODE, boardId: board.id, created: true };
+}
+
 export async function assertBoardAllowedForEntitlement(
   token: string | undefined,
   requestedBoardId: string,
@@ -802,6 +880,22 @@ export async function cloneBoard(opts: {
         id: newId,
         steps,
         correct_order: item.correct_order.map((id) => idMap[id] ?? id),
+      };
+    }),
+    category_items: source.category_items?.map((item) => {
+      const newId = generateId("cs");
+      const idMap: Record<string, string> = {};
+      const categories = item.categories.map((c, i) => {
+        const cid = `${newId}-c${i}`;
+        idMap[c.id] = cid;
+        return { ...c, id: cid };
+      });
+      return {
+        ...item,
+        id: newId,
+        categories,
+        correct_category_id:
+          idMap[item.correct_category_id] ?? item.correct_category_id,
       };
     }),
     cells: source.cells.map((c) => ({

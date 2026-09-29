@@ -1,0 +1,101 @@
+{
+  "id": "board_sample_category_sort",
+  "title": "Sort into Bins — Classroom Sample",
+  "grade": 3,
+  "subject": "math",
+  "theme": "Sort into Bins",
+  "status": "ready",
+  "tpt_sku": "t4t-category-sort-sample",
+  "game_type": "category_sort",
+  "category_items": [
+    {
+      "id": "cs-1",
+      "prompt": "Even or odd?",
+      "item_label": "24",
+      "categories": [
+        { "id": "cs-1-a", "label": "Even" },
+        { "id": "cs-1-b", "label": "Odd" }
+      ],
+      "correct_category_id": "cs-1-a"
+    },
+    {
+      "id": "cs-2",
+      "prompt": "Sort this shape.",
+      "item_label": "Cube",
+      "categories": [
+        { "id": "cs-2-a", "label": "Flat (2D)" },
+        { "id": "cs-2-b", "label": "Solid (3D)" }
+      ],
+      "correct_category_id": "cs-2-b"
+    },
+    {
+      "id": "cs-3",
+      "prompt": "Where does the 7 belong in 273?",
+      "item_label": "7 in 273",
+      "categories": [
+        { "id": "cs-3-a", "label": "Ones" },
+        { "id": "cs-3-b", "label": "Tens" },
+        { "id": "cs-3-c", "label": "Hundreds" }
+      ],
+      "correct_category_id": "cs-3-b"
+    },
+    {
+      "id": "cs-4",
+      "prompt": "Sort this coin by value.",
+      "item_label": "Dime",
+      "categories": [
+        { "id": "cs-4-a", "label": "1 cent" },
+        { "id": "cs-4-b", "label": "5 cents" },
+        { "id": "cs-4-c", "label": "10 cents" },
+        { "id": "cs-4-d", "label": "25 cents" }
+      ],
+      "correct_category_id": "cs-4-c"
+    },
+    {
+      "id": "cs-5",
+      "prompt": "Compare this fraction to one half.",
+      "item_label": "1/4",
+      "categories": [
+        { "id": "cs-5-a", "label": "Less than 1/2" },
+        { "id": "cs-5-b", "label": "Equal to 1/2" },
+        { "id": "cs-5-c", "label": "Greater than 1/2" }
+      ],
+      "correct_category_id": "cs-5-a"
+    },
+    {
+      "id": "cs-6",
+      "prompt": "Sort this unit.",
+      "item_label": "Meter",
+      "categories": [
+        { "id": "cs-6-a", "label": "Length" },
+        { "id": "cs-6-b", "label": "Weight" },
+        { "id": "cs-6-c", "label": "Time" }
+      ],
+      "correct_category_id": "cs-6-a"
+    },
+    {
+      "id": "cs-7",
+      "prompt": "What kind of problem is this?",
+      "item_label": "8 × 3",
+      "categories": [
+        { "id": "cs-7-a", "label": "Add" },
+        { "id": "cs-7-b", "label": "Subtract" },
+        { "id": "cs-7-c", "label": "Multiply" },
+        { "id": "cs-7-d", "label": "Divide" }
+      ],
+      "correct_category_id": "cs-7-c"
+    },
+    {
+      "id": "cs-8",
+      "prompt": "Sort this shape by number of sides.",
+      "item_label": "Pentagon",
+      "categories": [
+        { "id": "cs-8-a", "label": "3 sides" },
+        { "id": "cs-8-b", "label": "4 sides" },
+        { "id": "cs-8-c", "label": "5 sides" },
+        { "id": "cs-8-d", "label": "6 sides" }
+      ],
+      "correct_category_id": "cs-8-c"
+    }
+  ]
+}

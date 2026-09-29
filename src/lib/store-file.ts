@@ -6,11 +6,13 @@ import {
   type HostBoardView,
   boardGameType,
   supportsBoardPlay,
+  supportsCategorySort,
   supportsMemoryMatch,
   supportsScavengerTap,
   supportsSequenceSort,
   supportsTimedRace,
 } from "@/lib/domain/board";
+import { categoryItemsFromBoard } from "@/lib/domain/category-sort";
 import { itemsFromBoard } from "@/lib/domain/memory-match";
 import { scavengerItemsFromBoard } from "@/lib/domain/scavenger-tap";
 import { sequenceItemsFromBoard } from "@/lib/domain/sequence-sort";
@@ -50,6 +52,11 @@ import {
   SEQUENCE_SORT_SAMPLE_BOARD_ID,
 } from "@/lib/fixtures/sample-sequence-sort";
 import {
+  buildSampleCategorySortBoard,
+  CATEGORY_SORT_SAMPLE_BOARD_ID,
+  DEMO_CATEGORY_SORT_CODE,
+} from "@/lib/fixtures/sample-category-sort";
+import {
   ACCESS_CODE_COOKIE,
   ENTITLEMENT_TTL_HOURS,
 } from "@/lib/domain/access-code";
@@ -77,7 +84,14 @@ async function ensureStore(): Promise<StoreShape> {
     const seededRace = seedTimedRaceSample(store);
     const seededScavenger = seedScavengerTapSample(store);
     const seededSequence = seedSequenceSortSample(store);
-    if (seededMatch || seededRace || seededScavenger || seededSequence) {
+    const seededCategory = seedCategorySortSample(store);
+    if (
+      seededMatch ||
+      seededRace ||
+      seededScavenger ||
+      seededSequence ||
+      seededCategory
+    ) {
       await writeStore(store);
     }
     return store;
@@ -87,8 +101,16 @@ async function ensureStore(): Promise<StoreShape> {
     const raceBoard = GameBoardSchema.parse(buildSampleTimedRaceBoard());
     const scavengerBoard = GameBoardSchema.parse(buildSampleScavengerTapBoard());
     const sequenceBoard = GameBoardSchema.parse(buildSampleSequenceSortBoard());
+    const categoryBoard = GameBoardSchema.parse(buildSampleCategorySortBoard());
     const initial: StoreShape = {
-      boards: [board, matchBoard, raceBoard, scavengerBoard, sequenceBoard],
+      boards: [
+        board,
+        matchBoard,
+        raceBoard,
+        scavengerBoard,
+        sequenceBoard,
+        categoryBoard,
+      ],
       product_codes: [],
       entitlements: [],
     };
@@ -96,6 +118,7 @@ async function ensureStore(): Promise<StoreShape> {
     seedTimedRaceSample(initial);
     seedScavengerTapSample(initial);
     seedSequenceSortSample(initial);
+    seedCategorySortSample(initial);
     await fs.writeFile(STORE_PATH, JSON.stringify(initial, null, 2), "utf8");
     return initial;
   }
@@ -201,6 +224,31 @@ function seedSequenceSortSample(store: StoreShape): boolean {
   return dirty;
 }
 
+function seedCategorySortSample(store: StoreShape): boolean {
+  let dirty = false;
+  if (!store.boards.some((b) => b.id === CATEGORY_SORT_SAMPLE_BOARD_ID)) {
+    store.boards.push(GameBoardSchema.parse(buildSampleCategorySortBoard()));
+    dirty = true;
+  }
+  const hash = sha256Hex(normalizeAccessCode(DEMO_CATEGORY_SORT_CODE));
+  if (!store.product_codes.some((c) => c.code_hash === hash)) {
+    store.product_codes.push(
+      ProductCodeRecordSchema.parse({
+        id: generateId("pc"),
+        code_hash: hash,
+        board_id: CATEGORY_SORT_SAMPLE_BOARD_ID,
+        label: "Local demo / category sort sample",
+        max_sessions: null,
+        sessions_started: 0,
+        revoked_at: null,
+        created_at: new Date().toISOString(),
+      }),
+    );
+    dirty = true;
+  }
+  return dirty;
+}
+
 async function writeStore(store: StoreShape): Promise<void> {
   await fs.mkdir(DATA_DIR, { recursive: true });
   await fs.writeFile(STORE_PATH, JSON.stringify(store, null, 2), "utf8");
@@ -245,11 +293,13 @@ export function toHostBoardView(board: GameBoard): HostBoardView {
     race_item_count: raceItemsFromBoard(board).length,
     scavenger_item_count: scavengerItemsFromBoard(board).length,
     sequence_item_count: sequenceItemsFromBoard(board).length,
+    category_item_count: categoryItemsFromBoard(board).length,
     supports_board: supportsBoardPlay(board),
     supports_memory_match: supportsMemoryMatch(board),
     supports_timed_race: supportsTimedRace(board),
     supports_scavenger_tap: supportsScavengerTap(board),
     supports_sequence_sort: supportsSequenceSort(board),
+    supports_category_sort: supportsCategorySort(board),
   };
 }
 
@@ -384,6 +434,7 @@ export {
   DEMO_TIMED_RACE_CODE,
   DEMO_SCAVENGER_TAP_CODE,
   DEMO_SEQUENCE_SORT_CODE,
+  DEMO_CATEGORY_SORT_CODE,
 };
 
 export async function ensureDemoAccessCode(
@@ -600,6 +651,49 @@ export async function ensureSequenceSortSample(
   };
 }
 
+/** Seed Category Sort sample packet + known demo access code. Idempotent. */
+export async function ensureCategorySortSample(
+  plaintext = DEMO_CATEGORY_SORT_CODE,
+): Promise<{ code: string; boardId: string; created: boolean }> {
+  const store = await ensureStore();
+  const board =
+    store.boards.find((b) => b.id === CATEGORY_SORT_SAMPLE_BOARD_ID) ??
+    GameBoardSchema.parse(buildSampleCategorySortBoard());
+
+  if (!store.boards.some((b) => b.id === board.id)) {
+    store.boards.push(board);
+  }
+
+  const hash = sha256Hex(normalizeAccessCode(plaintext));
+  const existing = store.product_codes.find((c) => c.code_hash === hash);
+  if (existing) {
+    await writeStore(store);
+    return {
+      code: DEMO_CATEGORY_SORT_CODE,
+      boardId: board.id,
+      created: false,
+    };
+  }
+
+  const record = ProductCodeRecordSchema.parse({
+    id: generateId("pc"),
+    code_hash: hash,
+    board_id: board.id,
+    label: "Local demo / category sort sample",
+    max_sessions: null,
+    sessions_started: 0,
+    revoked_at: null,
+    created_at: new Date().toISOString(),
+  });
+  store.product_codes.push(record);
+  await writeStore(store);
+  return {
+    code: DEMO_CATEGORY_SORT_CODE,
+    boardId: board.id,
+    created: true,
+  };
+}
+
 export async function assertBoardAllowedForEntitlement(
   token: string | undefined,
   requestedBoardId: string,
@@ -687,6 +781,22 @@ export async function cloneBoard(opts: {
         id: newId,
         steps,
         correct_order: item.correct_order.map((id) => idMap[id] ?? id),
+      };
+    }),
+    category_items: source.category_items?.map((item) => {
+      const newId = generateId("cs");
+      const idMap: Record<string, string> = {};
+      const categories = item.categories.map((c, i) => {
+        const cid = `${newId}-c${i}`;
+        idMap[c.id] = cid;
+        return { ...c, id: cid };
+      });
+      return {
+        ...item,
+        id: newId,
+        categories,
+        correct_category_id:
+          idMap[item.correct_category_id] ?? item.correct_category_id,
       };
     }),
     cells: source.cells.map((c) => ({

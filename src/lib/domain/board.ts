@@ -6,6 +6,7 @@ export const GameTypeSchema = z.enum([
   "timed_race",
   "scavenger_tap",
   "sequence_sort",
+  "category_sort",
 ]);
 export type GameType = z.infer<typeof GameTypeSchema>;
 
@@ -106,6 +107,40 @@ export const SequenceSortItemSchema = z
 export type SequenceStep = z.infer<typeof SequenceStepSchema>;
 export type SequenceSortItem = z.infer<typeof SequenceSortItemSchema>;
 
+/** TEKS-agnostic labeled-bin item for Category Sort. `teks` is optional. */
+export const CategoryBinSchema = z.object({
+  id: z.string().min(1),
+  label: z.string().min(1).max(80),
+});
+
+export const CategorySortItemSchema = z
+  .object({
+    id: z.string().min(1),
+    prompt: z.string().min(1).max(200).optional(),
+    item_label: z.string().min(1).max(80),
+    categories: z.array(CategoryBinSchema).min(2).max(4),
+    correct_category_id: z.string().min(1),
+    teks: z.string().max(32).optional(),
+  })
+  .superRefine((item, ctx) => {
+    const ids = item.categories.map((c) => c.id);
+    if (new Set(ids).size !== ids.length) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "category ids must be unique",
+      });
+    }
+    if (!item.categories.some((c) => c.id === item.correct_category_id)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "correct_category_id must match a category id",
+      });
+    }
+  });
+
+export type CategoryBin = z.infer<typeof CategoryBinSchema>;
+export type CategorySortItem = z.infer<typeof CategorySortItemSchema>;
+
 /** Live MC cell — distinct from offline free-response TPT JSON. */
 export const QuestionCellSchema = z.object({
   id: z.string().min(1),
@@ -160,6 +195,8 @@ export const GameBoardSchema = z
     scavenger_items: z.array(ScavengerTapItemSchema).max(12).optional(),
     /** Sequence Sort prompts + ordered steps. Ignored unless host picks sequence_sort. */
     sequence_items: z.array(SequenceSortItemSchema).max(12).optional(),
+    /** Category Sort items + labeled bins. Ignored unless host picks category_sort. */
+    category_items: z.array(CategorySortItemSchema).max(12).optional(),
     created_at: z.string(),
     updated_at: z.string(),
   })
@@ -263,6 +300,31 @@ export const GameBoardSchema = z
       return;
     }
 
+    if (type === "category_sort") {
+      const categoryCount =
+        board.category_items && board.category_items.length >= 4
+          ? board.category_items.length
+          : board.scavenger_items && board.scavenger_items.length >= 4
+            ? board.scavenger_items.length
+            : board.race_items && board.race_items.length >= 4
+              ? board.race_items.length
+              : board.cells.length;
+      if (categoryCount < 4) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message:
+            "Category sort needs at least 4 items (category_items JSON, scavenger_items, race_items, or board cells)",
+        });
+      }
+      if (board.category_items && board.category_items.length > 12) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Category sort supports at most 12 items",
+        });
+      }
+      return;
+    }
+
     const pairCount =
       board.items && board.items.length >= 4
         ? board.items.length
@@ -300,11 +362,13 @@ export type HostBoardView = {
   race_item_count: number;
   scavenger_item_count: number;
   sequence_item_count: number;
+  category_item_count: number;
   supports_board: boolean;
   supports_memory_match: boolean;
   supports_timed_race: boolean;
   supports_scavenger_tap: boolean;
   supports_sequence_sort: boolean;
+  supports_category_sort: boolean;
 };
 
 export function boardGameType(board: { game_type?: GameType }): GameType {
@@ -357,10 +421,27 @@ export function supportsSequenceSort(board: {
   );
 }
 
+export function supportsCategorySort(board: {
+  category_items?: CategorySortItem[];
+  scavenger_items?: ScavengerTapItem[];
+  race_items?: TimedRaceItem[];
+  cells?: { id: string }[];
+}): boolean {
+  return (
+    (board.category_items?.length ?? 0) >= 4 ||
+    (board.scavenger_items?.length ?? 0) >= 4 ||
+    (board.race_items?.length ?? 0) >= 4 ||
+    (board.cells?.length ?? 0) >= 4
+  );
+}
+
 export function resolvePlayableGameType(
   board: GameBoard,
   requested?: string | null,
 ): GameType {
+  if (requested === "category_sort" && supportsCategorySort(board)) {
+    return "category_sort";
+  }
   if (requested === "sequence_sort" && supportsSequenceSort(board)) {
     return "sequence_sort";
   }
@@ -377,6 +458,9 @@ export function resolvePlayableGameType(
     return "board";
   }
   const native = boardGameType(board);
+  if (native === "category_sort" && supportsCategorySort(board)) {
+    return "category_sort";
+  }
   if (native === "sequence_sort" && supportsSequenceSort(board)) {
     return "sequence_sort";
   }
@@ -394,5 +478,6 @@ export function resolvePlayableGameType(
   if (supportsTimedRace(board)) return "timed_race";
   if (supportsScavengerTap(board)) return "scavenger_tap";
   if (supportsSequenceSort(board)) return "sequence_sort";
+  if (supportsCategorySort(board)) return "category_sort";
   return "board";
 }

@@ -4,6 +4,7 @@ import {
   ensureDemoAccessCode,
   ensureMemoryMatchSample,
   ensureScavengerTapSample,
+  ensureCategorySortSample,
   ensureSequenceSortSample,
   ensureTimedRaceSample,
   listBoardsForOperator,
@@ -20,6 +21,7 @@ export async function GET(req: NextRequest) {
   await ensureTimedRaceSample();
   await ensureScavengerTapSample();
   await ensureSequenceSortSample();
+  await ensureCategorySortSample();
   const boards = await listBoardsForOperator();
   return NextResponse.json({
     ok: true,

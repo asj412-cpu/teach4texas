@@ -6,18 +6,21 @@ import {
   type MemoryMatchItem,
   type ScavengerTapItem,
   type CategorySortItem,
+  type OddOneOutItem,
   type SequenceSortItem,
   type TimedRaceItem,
   boardGameType,
   supportsBoardPlay,
   supportsCategorySort,
   supportsMemoryMatch,
+  supportsOddOneOut,
   supportsScavengerTap,
   supportsSequenceSort,
   supportsTimedRace,
 } from "@/lib/domain/board";
 import { categoryItemsFromBoard } from "@/lib/domain/category-sort";
 import { itemsFromBoard } from "@/lib/domain/memory-match";
+import { oddItemsFromBoard } from "@/lib/domain/odd-one-out";
 import { scavengerItemsFromBoard } from "@/lib/domain/scavenger-tap";
 import { sequenceItemsFromBoard } from "@/lib/domain/sequence-sort";
 import { raceItemsFromBoard } from "@/lib/domain/timed-race";
@@ -62,6 +65,11 @@ import {
   CATEGORY_SORT_SAMPLE_BOARD_ID,
   DEMO_CATEGORY_SORT_CODE,
 } from "@/lib/fixtures/sample-category-sort";
+import {
+  buildSampleOddOneOutBoard,
+  DEMO_ODD_ONE_OUT_CODE,
+  ODD_ONE_OUT_SAMPLE_BOARD_ID,
+} from "@/lib/fixtures/sample-odd-one-out";
 import { getServiceSupabase } from "@/lib/supabase-admin";
 
 const SAMPLE_BOARD_ID = "board_sample_math_g3";
@@ -73,6 +81,7 @@ export {
   DEMO_SCAVENGER_TAP_CODE,
   DEMO_SEQUENCE_SORT_CODE,
   DEMO_CATEGORY_SORT_CODE,
+  DEMO_ODD_ONE_OUT_CODE,
 };
 
 type BoardRow = {
@@ -130,6 +139,7 @@ type CellsPayload = {
   scavenger_items?: ScavengerTapItem[];
   sequence_items?: SequenceSortItem[];
   category_items?: CategorySortItem[];
+  odd_items?: OddOneOutItem[];
   cells: unknown;
 };
 
@@ -141,6 +151,7 @@ function unpackCells(raw: unknown): {
   scavenger_items?: ScavengerTapItem[];
   sequence_items?: SequenceSortItem[];
   category_items?: CategorySortItem[];
+  odd_items?: OddOneOutItem[];
 } {
   if (raw && typeof raw === "object" && !Array.isArray(raw) && "cells" in raw) {
     const p = raw as CellsPayload;
@@ -152,6 +163,7 @@ function unpackCells(raw: unknown): {
       scavenger_items: p.scavenger_items,
       sequence_items: p.sequence_items,
       category_items: p.category_items,
+      odd_items: p.odd_items,
     };
   }
   return { cells: raw };
@@ -164,7 +176,8 @@ function packCells(board: GameBoard): unknown {
     (board.race_items?.length ?? 0) > 0 ||
     (board.scavenger_items?.length ?? 0) > 0 ||
     (board.sequence_items?.length ?? 0) > 0 ||
-    (board.category_items?.length ?? 0) > 0
+    (board.category_items?.length ?? 0) > 0 ||
+    (board.odd_items?.length ?? 0) > 0
   ) {
     return {
       v: 2,
@@ -174,6 +187,7 @@ function packCells(board: GameBoard): unknown {
       scavenger_items: board.scavenger_items,
       sequence_items: board.sequence_items,
       category_items: board.category_items,
+      odd_items: board.odd_items,
       cells: board.cells,
     };
   }
@@ -196,6 +210,7 @@ function boardFromRow(row: BoardRow): GameBoard {
     scavenger_items: unpacked.scavenger_items,
     sequence_items: unpacked.sequence_items,
     category_items: unpacked.category_items,
+    odd_items: unpacked.odd_items,
     cells: unpacked.cells,
     created_at: iso(row.created_at),
     updated_at: iso(row.updated_at),
@@ -275,12 +290,14 @@ export function toHostBoardView(board: GameBoard): HostBoardView {
     scavenger_item_count: scavengerItemsFromBoard(board).length,
     sequence_item_count: sequenceItemsFromBoard(board).length,
     category_item_count: categoryItemsFromBoard(board).length,
+    odd_item_count: oddItemsFromBoard(board).length,
     supports_board: supportsBoardPlay(board),
     supports_memory_match: supportsMemoryMatch(board),
     supports_timed_race: supportsTimedRace(board),
     supports_scavenger_tap: supportsScavengerTap(board),
     supports_sequence_sort: supportsSequenceSort(board),
     supports_category_sort: supportsCategorySort(board),
+    supports_odd_one_out: supportsOddOneOut(board),
   };
 }
 
@@ -801,6 +818,67 @@ export async function ensureCategorySortSample(
   return { code: DEMO_CATEGORY_SORT_CODE, boardId: board.id, created: true };
 }
 
+async function ensureOddOneOutBoard(): Promise<GameBoard> {
+  const sb = getServiceSupabase();
+  const existing = await sb
+    .from("boards")
+    .select("*")
+    .eq("id", ODD_ONE_OUT_SAMPLE_BOARD_ID)
+    .maybeSingle();
+  throwIfError(existing.error, "ensureOddOneOutBoard.select");
+  if (existing.data) {
+    return boardFromRow(existing.data as BoardRow);
+  }
+  const board = GameBoardSchema.parse(buildSampleOddOneOutBoard());
+  const inserted = await sb
+    .from("boards")
+    .insert(boardToRow(board))
+    .select("*")
+    .single();
+  throwIfError(inserted.error, "ensureOddOneOutBoard.insert");
+  return boardFromRow(inserted.data as BoardRow);
+}
+
+export async function ensureOddOneOutSample(
+  plaintext = DEMO_ODD_ONE_OUT_CODE,
+): Promise<{ code: string; boardId: string; created: boolean }> {
+  const board = await ensureOddOneOutBoard();
+  const hash = sha256Hex(normalizeAccessCode(plaintext));
+  const sb = getServiceSupabase();
+  const existing = await sb
+    .from("product_codes")
+    .select("id")
+    .eq("code_hash", hash)
+    .maybeSingle();
+  throwIfError(existing.error, "ensureOddOneOutSample.lookup");
+  if (existing.data) {
+    return { code: DEMO_ODD_ONE_OUT_CODE, boardId: board.id, created: false };
+  }
+
+  const record = ProductCodeRecordSchema.parse({
+    id: generateId("pc"),
+    code_hash: hash,
+    board_id: board.id,
+    label: "Local demo / odd one out sample",
+    max_sessions: null,
+    sessions_started: 0,
+    revoked_at: null,
+    created_at: new Date().toISOString(),
+  });
+  const ins = await sb.from("product_codes").insert({
+    id: record.id,
+    code_hash: record.code_hash,
+    board_id: record.board_id,
+    label: record.label ?? null,
+    max_sessions: record.max_sessions,
+    sessions_started: record.sessions_started,
+    revoked_at: record.revoked_at,
+    created_at: record.created_at,
+  });
+  throwIfError(ins.error, "ensureOddOneOutSample.insert");
+  return { code: DEMO_ODD_ONE_OUT_CODE, boardId: board.id, created: true };
+}
+
 export async function assertBoardAllowedForEntitlement(
   token: string | undefined,
   requestedBoardId: string,
@@ -896,6 +974,21 @@ export async function cloneBoard(opts: {
         categories,
         correct_category_id:
           idMap[item.correct_category_id] ?? item.correct_category_id,
+      };
+    }),
+    odd_items: source.odd_items?.map((item) => {
+      const newId = generateId("oo");
+      const idMap: Record<string, string> = {};
+      const options = item.options.map((o, i) => {
+        const oid = `${newId}-o${i}`;
+        idMap[o.id] = oid;
+        return { ...o, id: oid };
+      });
+      return {
+        ...item,
+        id: newId,
+        options,
+        odd_option_id: idMap[item.odd_option_id] ?? item.odd_option_id,
       };
     }),
     cells: source.cells.map((c) => ({

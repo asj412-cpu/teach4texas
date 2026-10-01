@@ -7,6 +7,7 @@ export const GameTypeSchema = z.enum([
   "scavenger_tap",
   "sequence_sort",
   "category_sort",
+  "odd_one_out",
 ]);
 export type GameType = z.infer<typeof GameTypeSchema>;
 
@@ -141,6 +142,39 @@ export const CategorySortItemSchema = z
 export type CategoryBin = z.infer<typeof CategoryBinSchema>;
 export type CategorySortItem = z.infer<typeof CategorySortItemSchema>;
 
+/** TEKS-agnostic option set for Odd One Out. `teks` is optional. */
+export const OddOptionSchema = z.object({
+  id: z.string().min(1),
+  label: z.string().min(1).max(80),
+});
+
+export const OddOneOutItemSchema = z
+  .object({
+    id: z.string().min(1),
+    prompt: z.string().min(1).max(200).optional(),
+    options: z.array(OddOptionSchema).min(3).max(4),
+    odd_option_id: z.string().min(1),
+    teks: z.string().max(32).optional(),
+  })
+  .superRefine((item, ctx) => {
+    const ids = item.options.map((o) => o.id);
+    if (new Set(ids).size !== ids.length) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "option ids must be unique",
+      });
+    }
+    if (!item.options.some((o) => o.id === item.odd_option_id)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "odd_option_id must match an option id",
+      });
+    }
+  });
+
+export type OddOption = z.infer<typeof OddOptionSchema>;
+export type OddOneOutItem = z.infer<typeof OddOneOutItemSchema>;
+
 /** Live MC cell — distinct from offline free-response TPT JSON. */
 export const QuestionCellSchema = z.object({
   id: z.string().min(1),
@@ -197,6 +231,8 @@ export const GameBoardSchema = z
     sequence_items: z.array(SequenceSortItemSchema).max(12).optional(),
     /** Category Sort items + labeled bins. Ignored unless host picks category_sort. */
     category_items: z.array(CategorySortItemSchema).max(12).optional(),
+    /** Odd One Out rounds + option sets. Ignored unless host picks odd_one_out. */
+    odd_items: z.array(OddOneOutItemSchema).max(12).optional(),
     created_at: z.string(),
     updated_at: z.string(),
   })
@@ -325,6 +361,36 @@ export const GameBoardSchema = z
       return;
     }
 
+    if (type === "odd_one_out") {
+      const oddCount =
+        board.odd_items && board.odd_items.length >= 4
+          ? board.odd_items.length
+          : board.category_items &&
+              board.category_items.filter((i) => i.categories.length >= 3)
+                .length >= 4
+            ? board.category_items.filter((i) => i.categories.length >= 3)
+                .length
+            : board.scavenger_items && board.scavenger_items.length >= 4
+              ? board.scavenger_items.length
+              : board.race_items && board.race_items.length >= 4
+                ? board.race_items.length
+                : board.cells.length;
+      if (oddCount < 4) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message:
+            "Odd one out needs at least 4 items (odd_items JSON, category_items, scavenger_items, race_items, or board cells)",
+        });
+      }
+      if (board.odd_items && board.odd_items.length > 12) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Odd one out supports at most 12 items",
+        });
+      }
+      return;
+    }
+
     const pairCount =
       board.items && board.items.length >= 4
         ? board.items.length
@@ -363,12 +429,14 @@ export type HostBoardView = {
   scavenger_item_count: number;
   sequence_item_count: number;
   category_item_count: number;
+  odd_item_count: number;
   supports_board: boolean;
   supports_memory_match: boolean;
   supports_timed_race: boolean;
   supports_scavenger_tap: boolean;
   supports_sequence_sort: boolean;
   supports_category_sort: boolean;
+  supports_odd_one_out: boolean;
 };
 
 export function boardGameType(board: { game_type?: GameType }): GameType {
@@ -435,10 +503,31 @@ export function supportsCategorySort(board: {
   );
 }
 
+export function supportsOddOneOut(board: {
+  odd_items?: OddOneOutItem[];
+  category_items?: CategorySortItem[];
+  scavenger_items?: ScavengerTapItem[];
+  race_items?: TimedRaceItem[];
+  cells?: { id: string }[];
+}): boolean {
+  const categoryWithBins =
+    board.category_items?.filter((i) => i.categories.length >= 3).length ?? 0;
+  return (
+    (board.odd_items?.length ?? 0) >= 4 ||
+    categoryWithBins >= 4 ||
+    (board.scavenger_items?.length ?? 0) >= 4 ||
+    (board.race_items?.length ?? 0) >= 4 ||
+    (board.cells?.length ?? 0) >= 4
+  );
+}
+
 export function resolvePlayableGameType(
   board: GameBoard,
   requested?: string | null,
 ): GameType {
+  if (requested === "odd_one_out" && supportsOddOneOut(board)) {
+    return "odd_one_out";
+  }
   if (requested === "category_sort" && supportsCategorySort(board)) {
     return "category_sort";
   }
@@ -458,6 +547,9 @@ export function resolvePlayableGameType(
     return "board";
   }
   const native = boardGameType(board);
+  if (native === "odd_one_out" && supportsOddOneOut(board)) {
+    return "odd_one_out";
+  }
   if (native === "category_sort" && supportsCategorySort(board)) {
     return "category_sort";
   }
@@ -479,5 +571,6 @@ export function resolvePlayableGameType(
   if (supportsScavengerTap(board)) return "scavenger_tap";
   if (supportsSequenceSort(board)) return "sequence_sort";
   if (supportsCategorySort(board)) return "category_sort";
+  if (supportsOddOneOut(board)) return "odd_one_out";
   return "board";
 }

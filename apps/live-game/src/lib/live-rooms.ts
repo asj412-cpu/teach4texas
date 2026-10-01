@@ -36,6 +36,11 @@ import {
   createPlayerCategoryState,
 } from "@/lib/domain/category-sort";
 import {
+  applyOddTap,
+  createPlayerOddState,
+  oddItemsFromBoard,
+} from "@/lib/domain/odd-one-out";
+import {
   generateId,
   generateOpaqueToken,
   sha256Hex,
@@ -127,6 +132,12 @@ function ensurePlayerCategoryState(room: LiveRoom, playerId: string) {
   room.category_states[playerId] = createPlayerCategoryState();
 }
 
+function ensurePlayerOddState(room: LiveRoom, playerId: string) {
+  if (room.game_type !== "odd_one_out") return;
+  if (room.odd_states[playerId]) return;
+  room.odd_states[playerId] = createPlayerOddState();
+}
+
 export function createLiveRoom(opts: {
   board: GameBoard;
   answerSeconds?: number;
@@ -164,6 +175,8 @@ export function createLiveRoom(opts: {
     sequence_index: 0,
     category_states: {},
     category_index: 0,
+    odd_states: {},
+    odd_index: 0,
     open_until: null,
     answer_seconds:
       opts.answerSeconds ??
@@ -209,6 +222,9 @@ export function playerView(room: LiveRoom, playerId: string) {
   if (room.game_type === "category_sort" && room.phase === "binning") {
     ensurePlayerCategoryState(room, playerId);
   }
+  if (room.game_type === "odd_one_out" && room.phase === "odding") {
+    ensurePlayerOddState(room, playerId);
+  }
   return sanitizeForPlayer(room, playerId);
 }
 
@@ -252,6 +268,9 @@ export function joinRoom(
       }
       if (room.game_type === "category_sort" && room.phase === "binning") {
         ensurePlayerCategoryState(room, existing.player_id);
+      }
+      if (room.game_type === "odd_one_out" && room.phase === "odding") {
+        ensurePlayerOddState(room, existing.player_id);
       }
       const view = sanitizeForPlayer(room, existing.player_id);
       if (!view) return { ok: false, error: "JOIN_FAILED" };
@@ -311,6 +330,9 @@ export function joinRoom(
   if (room.game_type === "category_sort" && room.phase === "binning") {
     ensurePlayerCategoryState(room, player_id);
   }
+  if (room.game_type === "odd_one_out" && room.phase === "odding") {
+    ensurePlayerOddState(room, player_id);
+  }
 
   const view = sanitizeForPlayer(room, player_id);
   if (!view) return { ok: false, error: "JOIN_FAILED" };
@@ -329,7 +351,8 @@ export type HostAction =
   | { type: "kick"; player_id: string }
   | { type: "next_clue" }
   | { type: "next_prompt" }
-  | { type: "next_item" };
+  | { type: "next_item" }
+  | { type: "next_round" };
 
 export function applyHostAction(
   room: LiveRoom,
@@ -373,6 +396,12 @@ export function applyHostAction(
           ensurePlayerCategoryState(room, pid);
         }
         room.phase = "binning";
+      } else if (room.game_type === "odd_one_out") {
+        room.odd_index = 0;
+        for (const pid of Object.keys(room.players)) {
+          ensurePlayerOddState(room, pid);
+        }
+        room.phase = "odding";
       } else {
         room.phase = "board";
       }
@@ -418,6 +447,20 @@ export function applyHostAction(
         return { ok: false, error: "NO_MORE_ITEMS" };
       }
       room.category_index += 1;
+      return { ok: true };
+    }
+    case "next_round": {
+      if (room.game_type !== "odd_one_out") {
+        return { ok: false, error: "NOT_ODD_ONE_OUT" };
+      }
+      if (room.phase !== "odding") {
+        return { ok: false, error: "ILLEGAL_TRANSITION" };
+      }
+      const items = oddItemsFromBoard(room.board);
+      if (room.odd_index >= items.length - 1) {
+        return { ok: false, error: "NO_MORE_ROUNDS" };
+      }
+      room.odd_index += 1;
       return { ok: true };
     }
     case "select_cell": {
@@ -518,6 +561,7 @@ export function applyHostAction(
       delete room.scavenger_states[action.player_id];
       delete room.sequence_states[action.player_id];
       delete room.category_states[action.player_id];
+      delete room.odd_states[action.player_id];
       return { ok: true };
     }
     default:
@@ -666,6 +710,35 @@ export function submitCategoryTap(
   return { ok: true };
 }
 
+export function submitOddTap(
+  room: LiveRoom,
+  playerId: string,
+  optionId: string,
+): { ok: true } | { ok: false; error: string } {
+  if (room.game_type !== "odd_one_out") {
+    return { ok: false, error: "NOT_ODD_ONE_OUT" };
+  }
+  if (room.phase !== "odding") {
+    return { ok: false, error: "NOT_ACCEPTING_TAPS" };
+  }
+  if (!room.players[playerId]) return { ok: false, error: "NOT_A_PLAYER" };
+  if (!optionId) return { ok: false, error: "INVALID_OPTION" };
+  ensurePlayerOddState(room, playerId);
+  const state = room.odd_states[playerId];
+  if (!state) return { ok: false, error: "NO_ODD_STATE" };
+  const result = applyOddTap(
+    state,
+    room.odd_index,
+    optionId,
+    oddItemsFromBoard(room.board),
+  );
+  if (!result.ok) return result;
+  if (result.points > 0) {
+    room.players[playerId]!.score += result.points;
+  }
+  return { ok: true };
+}
+
 export function submitAnswer(
   room: LiveRoom,
   playerId: string,
@@ -677,7 +750,8 @@ export function submitAnswer(
     room.game_type === "timed_race" ||
     room.game_type === "scavenger_tap" ||
     room.game_type === "sequence_sort" ||
-    room.game_type === "category_sort"
+    room.game_type === "category_sort" ||
+    room.game_type === "odd_one_out"
   ) {
     return { ok: false, error: "NOT_ACCEPTING_ANSWERS" };
   }

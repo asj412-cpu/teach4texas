@@ -1,0 +1,98 @@
+{
+  "id": "board_sample_odd_one_out",
+  "title": "Find the Odd One — Classroom Sample",
+  "grade": 3,
+  "subject": "math",
+  "theme": "Find the Odd One",
+  "status": "ready",
+  "tpt_sku": "t4t-odd-one-out-sample",
+  "game_type": "odd_one_out",
+  "odd_items": [
+    {
+      "id": "oo-1",
+      "prompt": "Which number does not belong?",
+      "options": [
+        { "id": "oo-1-a", "label": "2" },
+        { "id": "oo-1-b", "label": "4" },
+        { "id": "oo-1-c", "label": "6" },
+        { "id": "oo-1-d", "label": "9" }
+      ],
+      "odd_option_id": "oo-1-d"
+    },
+    {
+      "id": "oo-2",
+      "prompt": "Which shape does not belong?",
+      "options": [
+        { "id": "oo-2-a", "label": "Cube" },
+        { "id": "oo-2-b", "label": "Sphere" },
+        { "id": "oo-2-c", "label": "Cone" },
+        { "id": "oo-2-d", "label": "Square" }
+      ],
+      "odd_option_id": "oo-2-d"
+    },
+    {
+      "id": "oo-3",
+      "prompt": "Which fraction does not belong?",
+      "options": [
+        { "id": "oo-3-a", "label": "1/2" },
+        { "id": "oo-3-b", "label": "2/4" },
+        { "id": "oo-3-c", "label": "1/3" }
+      ],
+      "odd_option_id": "oo-3-c"
+    },
+    {
+      "id": "oo-4",
+      "prompt": "Which unit does not belong?",
+      "options": [
+        { "id": "oo-4-a", "label": "Hour" },
+        { "id": "oo-4-b", "label": "Minute" },
+        { "id": "oo-4-c", "label": "Second" },
+        { "id": "oo-4-d", "label": "Meter" }
+      ],
+      "odd_option_id": "oo-4-d"
+    },
+    {
+      "id": "oo-5",
+      "prompt": "Which problem does not belong?",
+      "options": [
+        { "id": "oo-5-a", "label": "3 × 4" },
+        { "id": "oo-5-b", "label": "2 × 5" },
+        { "id": "oo-5-c", "label": "6 × 1" },
+        { "id": "oo-5-d", "label": "8 + 2" }
+      ],
+      "odd_option_id": "oo-5-d"
+    },
+    {
+      "id": "oo-6",
+      "prompt": "Which is not a coin?",
+      "options": [
+        { "id": "oo-6-a", "label": "Nickel" },
+        { "id": "oo-6-b", "label": "Dime" },
+        { "id": "oo-6-c", "label": "Dollar bill" }
+      ],
+      "odd_option_id": "oo-6-c"
+    },
+    {
+      "id": "oo-7",
+      "prompt": "Which shape does not belong?",
+      "options": [
+        { "id": "oo-7-a", "label": "Triangle" },
+        { "id": "oo-7-b", "label": "Square" },
+        { "id": "oo-7-c", "label": "Pentagon" },
+        { "id": "oo-7-d", "label": "Circle" }
+      ],
+      "odd_option_id": "oo-7-d"
+    },
+    {
+      "id": "oo-8",
+      "prompt": "Which number does not belong?",
+      "options": [
+        { "id": "oo-8-a", "label": "100" },
+        { "id": "oo-8-b", "label": "200" },
+        { "id": "oo-8-c", "label": "300" },
+        { "id": "oo-8-d", "label": "45" }
+      ],
+      "odd_option_id": "oo-8-d"
+    }
+  ]
+}

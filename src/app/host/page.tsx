@@ -8,6 +8,7 @@ import {
   supportsBoardPlay,
   supportsCategorySort,
   supportsMemoryMatch,
+  supportsOddOneOut,
   supportsScavengerTap,
   supportsSequenceSort,
   supportsTimedRace,
@@ -15,6 +16,7 @@ import {
 import type { HostRoomView } from "@/lib/domain/live-room";
 import { CategorySortHost } from "@/components/category-sort-host";
 import { MemoryMatchHost } from "@/components/memory-match-host";
+import { OddOneOutHost } from "@/components/odd-one-out-host";
 import { ScavengerTapHost } from "@/components/scavenger-tap-host";
 import { SequenceSortHost } from "@/components/sequence-sort-host";
 import { TimedRaceHost } from "@/components/timed-race-host";
@@ -190,12 +192,15 @@ export default function HostPage() {
                     ? ` · ${board.sequence_items?.length ?? 0} sequence prompts`
                     : supportsCategorySort(board)
                       ? ` · ${board.category_items?.length ?? 0} category items`
-                      : ""}
+                      : supportsOddOneOut(board)
+                        ? ` · ${board.odd_items?.length ?? 0} odd-one-out rounds`
+                        : ""}
           {supportsMemoryMatch(board) ? " · Memory Match ready" : ""}
           {supportsTimedRace(board) ? " · Timed Race ready" : ""}
           {supportsScavengerTap(board) ? " · Scavenger Hunt ready" : ""}
           {supportsSequenceSort(board) ? " · Order the Steps ready" : ""}
-          {supportsCategorySort(board) ? " · Sort into Bins ready" : ""}. Only
+          {supportsCategorySort(board) ? " · Sort into Bins ready" : ""}
+          {supportsOddOneOut(board) ? " · Find the Odd One ready" : ""}. Only
           this game is available on this host session.
         </p>
         <div className="mt-8 flex flex-col gap-3">
@@ -279,6 +284,20 @@ export default function HostPage() {
                   : "Start as Sort into Bins"}
             </button>
           )}
+          {supportsOddOneOut(board) && (
+            <button
+              type="button"
+              disabled={starting}
+              onClick={() => startLive("odd_one_out")}
+              className="rounded-xl border-2 border-t4t-burnt bg-white px-4 py-3 text-sm font-semibold text-t4t-navy disabled:opacity-50"
+            >
+              {starting
+                ? "Starting…"
+                : boardGameType(board) === "odd_one_out"
+                  ? "Start Find the Odd One"
+                  : "Start as Find the Odd One"}
+            </button>
+          )}
         </div>
         <p className="mt-3 text-xs text-t4t-darkText/50">
           Students will join with a short room code (not your TPT access code).
@@ -305,6 +324,10 @@ export default function HostPage() {
 
   if (view.game_type === "category_sort" && view.phase !== "final") {
     return <CategorySortHost view={view} onAction={hostAction} />;
+  }
+
+  if (view.game_type === "odd_one_out" && view.phase !== "final") {
+    return <OddOneOutHost view={view} onAction={hostAction} />;
   }
 
   const used = new Set(view.used_cell_ids);

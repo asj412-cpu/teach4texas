@@ -8,12 +8,14 @@ import {
   supportsBoardPlay,
   supportsCategorySort,
   supportsMemoryMatch,
+  supportsOddOneOut,
   supportsScavengerTap,
   supportsSequenceSort,
   supportsTimedRace,
 } from "@/lib/domain/board";
 import { categoryItemsFromBoard } from "@/lib/domain/category-sort";
 import { itemsFromBoard } from "@/lib/domain/memory-match";
+import { oddItemsFromBoard } from "@/lib/domain/odd-one-out";
 import { scavengerItemsFromBoard } from "@/lib/domain/scavenger-tap";
 import { sequenceItemsFromBoard } from "@/lib/domain/sequence-sort";
 import { raceItemsFromBoard } from "@/lib/domain/timed-race";
@@ -57,6 +59,11 @@ import {
   DEMO_CATEGORY_SORT_CODE,
 } from "@/lib/fixtures/sample-category-sort";
 import {
+  buildSampleOddOneOutBoard,
+  DEMO_ODD_ONE_OUT_CODE,
+  ODD_ONE_OUT_SAMPLE_BOARD_ID,
+} from "@/lib/fixtures/sample-odd-one-out";
+import {
   ACCESS_CODE_COOKIE,
   ENTITLEMENT_TTL_HOURS,
 } from "@/lib/domain/access-code";
@@ -85,12 +92,14 @@ async function ensureStore(): Promise<StoreShape> {
     const seededScavenger = seedScavengerTapSample(store);
     const seededSequence = seedSequenceSortSample(store);
     const seededCategory = seedCategorySortSample(store);
+    const seededOdd = seedOddOneOutSample(store);
     if (
       seededMatch ||
       seededRace ||
       seededScavenger ||
       seededSequence ||
-      seededCategory
+      seededCategory ||
+      seededOdd
     ) {
       await writeStore(store);
     }
@@ -102,6 +111,7 @@ async function ensureStore(): Promise<StoreShape> {
     const scavengerBoard = GameBoardSchema.parse(buildSampleScavengerTapBoard());
     const sequenceBoard = GameBoardSchema.parse(buildSampleSequenceSortBoard());
     const categoryBoard = GameBoardSchema.parse(buildSampleCategorySortBoard());
+    const oddBoard = GameBoardSchema.parse(buildSampleOddOneOutBoard());
     const initial: StoreShape = {
       boards: [
         board,
@@ -110,6 +120,7 @@ async function ensureStore(): Promise<StoreShape> {
         scavengerBoard,
         sequenceBoard,
         categoryBoard,
+        oddBoard,
       ],
       product_codes: [],
       entitlements: [],
@@ -119,6 +130,7 @@ async function ensureStore(): Promise<StoreShape> {
     seedScavengerTapSample(initial);
     seedSequenceSortSample(initial);
     seedCategorySortSample(initial);
+    seedOddOneOutSample(initial);
     await fs.writeFile(STORE_PATH, JSON.stringify(initial, null, 2), "utf8");
     return initial;
   }
@@ -249,6 +261,31 @@ function seedCategorySortSample(store: StoreShape): boolean {
   return dirty;
 }
 
+function seedOddOneOutSample(store: StoreShape): boolean {
+  let dirty = false;
+  if (!store.boards.some((b) => b.id === ODD_ONE_OUT_SAMPLE_BOARD_ID)) {
+    store.boards.push(GameBoardSchema.parse(buildSampleOddOneOutBoard()));
+    dirty = true;
+  }
+  const hash = sha256Hex(normalizeAccessCode(DEMO_ODD_ONE_OUT_CODE));
+  if (!store.product_codes.some((c) => c.code_hash === hash)) {
+    store.product_codes.push(
+      ProductCodeRecordSchema.parse({
+        id: generateId("pc"),
+        code_hash: hash,
+        board_id: ODD_ONE_OUT_SAMPLE_BOARD_ID,
+        label: "Local demo / odd one out sample",
+        max_sessions: null,
+        sessions_started: 0,
+        revoked_at: null,
+        created_at: new Date().toISOString(),
+      }),
+    );
+    dirty = true;
+  }
+  return dirty;
+}
+
 async function writeStore(store: StoreShape): Promise<void> {
   await fs.mkdir(DATA_DIR, { recursive: true });
   await fs.writeFile(STORE_PATH, JSON.stringify(store, null, 2), "utf8");
@@ -294,12 +331,14 @@ export function toHostBoardView(board: GameBoard): HostBoardView {
     scavenger_item_count: scavengerItemsFromBoard(board).length,
     sequence_item_count: sequenceItemsFromBoard(board).length,
     category_item_count: categoryItemsFromBoard(board).length,
+    odd_item_count: oddItemsFromBoard(board).length,
     supports_board: supportsBoardPlay(board),
     supports_memory_match: supportsMemoryMatch(board),
     supports_timed_race: supportsTimedRace(board),
     supports_scavenger_tap: supportsScavengerTap(board),
     supports_sequence_sort: supportsSequenceSort(board),
     supports_category_sort: supportsCategorySort(board),
+    supports_odd_one_out: supportsOddOneOut(board),
   };
 }
 
@@ -435,6 +474,7 @@ export {
   DEMO_SCAVENGER_TAP_CODE,
   DEMO_SEQUENCE_SORT_CODE,
   DEMO_CATEGORY_SORT_CODE,
+  DEMO_ODD_ONE_OUT_CODE,
 };
 
 export async function ensureDemoAccessCode(
@@ -694,6 +734,49 @@ export async function ensureCategorySortSample(
   };
 }
 
+/** Seed Odd One Out sample packet + known demo access code. Idempotent. */
+export async function ensureOddOneOutSample(
+  plaintext = DEMO_ODD_ONE_OUT_CODE,
+): Promise<{ code: string; boardId: string; created: boolean }> {
+  const store = await ensureStore();
+  const board =
+    store.boards.find((b) => b.id === ODD_ONE_OUT_SAMPLE_BOARD_ID) ??
+    GameBoardSchema.parse(buildSampleOddOneOutBoard());
+
+  if (!store.boards.some((b) => b.id === board.id)) {
+    store.boards.push(board);
+  }
+
+  const hash = sha256Hex(normalizeAccessCode(plaintext));
+  const existing = store.product_codes.find((c) => c.code_hash === hash);
+  if (existing) {
+    await writeStore(store);
+    return {
+      code: DEMO_ODD_ONE_OUT_CODE,
+      boardId: board.id,
+      created: false,
+    };
+  }
+
+  const record = ProductCodeRecordSchema.parse({
+    id: generateId("pc"),
+    code_hash: hash,
+    board_id: board.id,
+    label: "Local demo / odd one out sample",
+    max_sessions: null,
+    sessions_started: 0,
+    revoked_at: null,
+    created_at: new Date().toISOString(),
+  });
+  store.product_codes.push(record);
+  await writeStore(store);
+  return {
+    code: DEMO_ODD_ONE_OUT_CODE,
+    boardId: board.id,
+    created: true,
+  };
+}
+
 export async function assertBoardAllowedForEntitlement(
   token: string | undefined,
   requestedBoardId: string,
@@ -797,6 +880,21 @@ export async function cloneBoard(opts: {
         categories,
         correct_category_id:
           idMap[item.correct_category_id] ?? item.correct_category_id,
+      };
+    }),
+    odd_items: source.odd_items?.map((item) => {
+      const newId = generateId("oo");
+      const idMap: Record<string, string> = {};
+      const options = item.options.map((o, i) => {
+        const oid = `${newId}-o${i}`;
+        idMap[o.id] = oid;
+        return { ...o, id: oid };
+      });
+      return {
+        ...item,
+        id: newId,
+        options,
+        odd_option_id: idMap[item.odd_option_id] ?? item.odd_option_id,
       };
     }),
     cells: source.cells.map((c) => ({

@@ -31,6 +31,12 @@ import {
   type PlayerCategoryState,
   type PlayerCategoryView,
 } from "@/lib/domain/category-sort";
+import {
+  oddItemsFromBoard,
+  toPlayerOddView,
+  type PlayerOddState,
+  type PlayerOddView,
+} from "@/lib/domain/odd-one-out";
 import { kidPlainText } from "@/lib/plain-text";
 
 export const RoomPhaseSchema = z.enum([
@@ -41,6 +47,7 @@ export const RoomPhaseSchema = z.enum([
   "scavenging",
   "sorting",
   "binning",
+  "odding",
   "question_open",
   "question_locked",
   "reveal",
@@ -91,6 +98,10 @@ export type LiveRoom = {
   category_states: Record<string, PlayerCategoryState>;
   /** Shared item index for host-paced category sort. */
   category_index: number;
+  /** Odd One Out per-student taps. Host never sends other students' options. */
+  odd_states: Record<string, PlayerOddState>;
+  /** Shared round index for host-paced odd one out. */
+  odd_index: number;
   open_until: string | null;
   answer_seconds: number;
   lobby_locked: boolean;
@@ -184,6 +195,22 @@ export type HostRoomView = {
     /** Host-only answer key — keep off the 16:9 student-facing stage. */
     item_key: { prompt: string; answer: string }[];
   };
+  odd: null | {
+    item_total: number;
+    item_index: number;
+    prompt: string | null;
+    options: { id: string; label: string }[];
+    has_next: boolean;
+    answer_count: number;
+    players: {
+      player_id: string;
+      display_name: string;
+      tapped: boolean;
+      correct_count: number;
+    }[];
+    /** Host-only answer key — keep off the 16:9 student-facing stage. */
+    item_key: { prompt: string; answer: string }[];
+  };
   open_until: string | null;
   answer_seconds: number;
   lobby_locked: boolean;
@@ -229,6 +256,7 @@ export type PlayerRoomView = {
   scavenger: PlayerScavengerView | null;
   sequence: PlayerSequenceView | null;
   category: PlayerCategoryView | null;
+  odd: PlayerOddView | null;
   open_until: string | null;
   answer_seconds: number;
   server_now: string;
@@ -398,6 +426,45 @@ function hostCategoryView(room: LiveRoom): HostRoomView["category"] {
   };
 }
 
+function hostOddView(room: LiveRoom): HostRoomView["odd"] {
+  if (room.game_type !== "odd_one_out") return null;
+  const items = oddItemsFromBoard(room.board);
+  const idx = room.odd_index;
+  const item = items[idx] ?? null;
+  return {
+    item_total: items.length,
+    item_index: idx,
+    prompt: item?.prompt ? kidPlainText(item.prompt, 200) : null,
+    options: item
+      ? item.options.map((o) => ({
+          id: o.id,
+          label: kidPlainText(o.label, 80),
+        }))
+      : [],
+    has_next: idx < items.length - 1,
+    answer_count: Object.values(room.players).filter((p) => {
+      const st = room.odd_states[p.player_id];
+      return st?.answers[idx] !== undefined;
+    }).length,
+    players: Object.values(room.players).map((p) => {
+      const st = room.odd_states[p.player_id];
+      return {
+        player_id: p.player_id,
+        display_name: p.display_name,
+        tapped: st?.answers[idx] !== undefined,
+        correct_count: st?.correct_count ?? 0,
+      };
+    }),
+    item_key: items.map((it) => ({
+      prompt: kidPlainText(it.prompt ?? "Find the odd one", 80),
+      answer: kidPlainText(
+        it.options.find((o) => o.id === it.odd_option_id)?.label ?? "",
+        80,
+      ),
+    })),
+  };
+}
+
 export function sanitizeForHost(room: LiveRoom): HostRoomView {
   return {
     role: "host",
@@ -421,6 +488,7 @@ export function sanitizeForHost(room: LiveRoom): HostRoomView {
     scavenger: hostScavengerView(room),
     sequence: hostSequenceView(room),
     category: hostCategoryView(room),
+    odd: hostOddView(room),
     open_until: room.open_until,
     answer_seconds: room.answer_seconds,
     lobby_locked: room.lobby_locked,
@@ -521,6 +589,14 @@ export function sanitizeForPlayer(
             room.category_states[playerId]!,
             categoryItemsFromBoard(room.board),
             room.category_index,
+          )
+        : null,
+    odd:
+      room.game_type === "odd_one_out" && room.odd_states[playerId]
+        ? toPlayerOddView(
+            room.odd_states[playerId]!,
+            oddItemsFromBoard(room.board),
+            room.odd_index,
           )
         : null,
     open_until: room.open_until,

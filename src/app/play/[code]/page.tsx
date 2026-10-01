@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 import type { PlayerRoomView } from "@/lib/domain/live-room";
 import { CategorySortPlay } from "@/components/category-sort-play";
 import { MemoryMatchPlay } from "@/components/memory-match-play";
+import { OddOneOutPlay } from "@/components/odd-one-out-play";
 import { ScavengerTapPlay } from "@/components/scavenger-tap-play";
 import { SequenceSortPlay } from "@/components/sequence-sort-play";
 import { TimedRacePlay } from "@/components/timed-race-play";
@@ -113,6 +114,23 @@ export default function PlayPage() {
     }
   }
 
+  async function oddTap(option_id: string) {
+    if (!playerId || !view || view.game_type !== "odd_one_out") return;
+    if (view.phase !== "odding" || !view.odd?.can_tap) return;
+    setSubmitting(true);
+    try {
+      const res = await fetch(`/api/rooms/${code}/odd`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ player_id: playerId, option_id }),
+      });
+      const data = await res.json();
+      if (res.ok && data.ok) setView(data.view);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
   async function scavengerTap(target_id: string) {
     if (!playerId || !view || view.game_type !== "scavenger_tap") return;
     if (view.phase !== "scavenging" || !view.scavenger?.can_tap) return;
@@ -201,7 +219,9 @@ export default function PlayPage() {
                   ? "Order the Steps — waiting for your teacher to start"
                   : view.game_type === "category_sort"
                     ? "Sort into Bins — waiting for your teacher to start"
-                    : "Waiting for your teacher to start"}{" "}
+                    : view.game_type === "odd_one_out"
+                      ? "Find the Odd One — waiting for your teacher to start"
+                      : "Waiting for your teacher to start"}{" "}
           ({view.players.length} players)
         </p>
         <p className="mt-6 text-lg font-semibold text-t4t-navy">
@@ -255,6 +275,12 @@ export default function PlayPage() {
         submitting={submitting}
         onTap={categoryTap}
       />
+    );
+  }
+
+  if (view.game_type === "odd_one_out" && view.phase !== "final") {
+    return (
+      <OddOneOutPlay view={view} submitting={submitting} onTap={oddTap} />
     );
   }
 

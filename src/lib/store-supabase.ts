@@ -7,6 +7,7 @@ import {
   type ScavengerTapItem,
   type CategorySortItem,
   type OddOneOutItem,
+  type TrueFalseDashItem,
   type SequenceSortItem,
   type TimedRaceItem,
   boardGameType,
@@ -15,12 +16,14 @@ import {
   supportsMemoryMatch,
   supportsOddOneOut,
   supportsScavengerTap,
+  supportsTrueFalseDash,
   supportsSequenceSort,
   supportsTimedRace,
 } from "@/lib/domain/board";
 import { categoryItemsFromBoard } from "@/lib/domain/category-sort";
 import { itemsFromBoard } from "@/lib/domain/memory-match";
 import { oddItemsFromBoard } from "@/lib/domain/odd-one-out";
+import { dashItemsFromBoard } from "@/lib/domain/true-false-dash";
 import { scavengerItemsFromBoard } from "@/lib/domain/scavenger-tap";
 import { sequenceItemsFromBoard } from "@/lib/domain/sequence-sort";
 import { raceItemsFromBoard } from "@/lib/domain/timed-race";
@@ -70,6 +73,11 @@ import {
   DEMO_ODD_ONE_OUT_CODE,
   ODD_ONE_OUT_SAMPLE_BOARD_ID,
 } from "@/lib/fixtures/sample-odd-one-out";
+import {
+  buildSampleTrueFalseDashBoard,
+  DEMO_TRUE_FALSE_DASH_CODE,
+  TRUE_FALSE_DASH_SAMPLE_BOARD_ID,
+} from "@/lib/fixtures/sample-true-false-dash";
 import { getServiceSupabase } from "@/lib/supabase-admin";
 
 const SAMPLE_BOARD_ID = "board_sample_math_g3";
@@ -82,6 +90,7 @@ export {
   DEMO_SEQUENCE_SORT_CODE,
   DEMO_CATEGORY_SORT_CODE,
   DEMO_ODD_ONE_OUT_CODE,
+  DEMO_TRUE_FALSE_DASH_CODE,
 };
 
 type BoardRow = {
@@ -140,6 +149,7 @@ type CellsPayload = {
   sequence_items?: SequenceSortItem[];
   category_items?: CategorySortItem[];
   odd_items?: OddOneOutItem[];
+  dash_items?: TrueFalseDashItem[];
   cells: unknown;
 };
 
@@ -152,6 +162,7 @@ function unpackCells(raw: unknown): {
   sequence_items?: SequenceSortItem[];
   category_items?: CategorySortItem[];
   odd_items?: OddOneOutItem[];
+  dash_items?: TrueFalseDashItem[];
 } {
   if (raw && typeof raw === "object" && !Array.isArray(raw) && "cells" in raw) {
     const p = raw as CellsPayload;
@@ -164,6 +175,7 @@ function unpackCells(raw: unknown): {
       sequence_items: p.sequence_items,
       category_items: p.category_items,
       odd_items: p.odd_items,
+      dash_items: p.dash_items,
     };
   }
   return { cells: raw };
@@ -177,7 +189,8 @@ function packCells(board: GameBoard): unknown {
     (board.scavenger_items?.length ?? 0) > 0 ||
     (board.sequence_items?.length ?? 0) > 0 ||
     (board.category_items?.length ?? 0) > 0 ||
-    (board.odd_items?.length ?? 0) > 0
+    (board.odd_items?.length ?? 0) > 0 ||
+    (board.dash_items?.length ?? 0) > 0
   ) {
     return {
       v: 2,
@@ -188,6 +201,7 @@ function packCells(board: GameBoard): unknown {
       sequence_items: board.sequence_items,
       category_items: board.category_items,
       odd_items: board.odd_items,
+      dash_items: board.dash_items,
       cells: board.cells,
     };
   }
@@ -211,6 +225,7 @@ function boardFromRow(row: BoardRow): GameBoard {
     sequence_items: unpacked.sequence_items,
     category_items: unpacked.category_items,
     odd_items: unpacked.odd_items,
+    dash_items: unpacked.dash_items,
     cells: unpacked.cells,
     created_at: iso(row.created_at),
     updated_at: iso(row.updated_at),
@@ -291,6 +306,7 @@ export function toHostBoardView(board: GameBoard): HostBoardView {
     sequence_item_count: sequenceItemsFromBoard(board).length,
     category_item_count: categoryItemsFromBoard(board).length,
     odd_item_count: oddItemsFromBoard(board).length,
+    dash_item_count: dashItemsFromBoard(board).length,
     supports_board: supportsBoardPlay(board),
     supports_memory_match: supportsMemoryMatch(board),
     supports_timed_race: supportsTimedRace(board),
@@ -298,6 +314,7 @@ export function toHostBoardView(board: GameBoard): HostBoardView {
     supports_sequence_sort: supportsSequenceSort(board),
     supports_category_sort: supportsCategorySort(board),
     supports_odd_one_out: supportsOddOneOut(board),
+    supports_true_false_dash: supportsTrueFalseDash(board),
   };
 }
 
@@ -879,6 +896,67 @@ export async function ensureOddOneOutSample(
   return { code: DEMO_ODD_ONE_OUT_CODE, boardId: board.id, created: true };
 }
 
+async function ensureTrueFalseDashBoard(): Promise<GameBoard> {
+  const sb = getServiceSupabase();
+  const existing = await sb
+    .from("boards")
+    .select("*")
+    .eq("id", TRUE_FALSE_DASH_SAMPLE_BOARD_ID)
+    .maybeSingle();
+  throwIfError(existing.error, "ensureTrueFalseDashBoard.select");
+  if (existing.data) {
+    return boardFromRow(existing.data as BoardRow);
+  }
+  const board = GameBoardSchema.parse(buildSampleTrueFalseDashBoard());
+  const inserted = await sb
+    .from("boards")
+    .insert(boardToRow(board))
+    .select("*")
+    .single();
+  throwIfError(inserted.error, "ensureTrueFalseDashBoard.insert");
+  return boardFromRow(inserted.data as BoardRow);
+}
+
+export async function ensureTrueFalseDashSample(
+  plaintext = DEMO_TRUE_FALSE_DASH_CODE,
+): Promise<{ code: string; boardId: string; created: boolean }> {
+  const board = await ensureTrueFalseDashBoard();
+  const hash = sha256Hex(normalizeAccessCode(plaintext));
+  const sb = getServiceSupabase();
+  const existing = await sb
+    .from("product_codes")
+    .select("id")
+    .eq("code_hash", hash)
+    .maybeSingle();
+  throwIfError(existing.error, "ensureTrueFalseDashSample.lookup");
+  if (existing.data) {
+    return { code: DEMO_TRUE_FALSE_DASH_CODE, boardId: board.id, created: false };
+  }
+
+  const record = ProductCodeRecordSchema.parse({
+    id: generateId("pc"),
+    code_hash: hash,
+    board_id: board.id,
+    label: "Local demo / true false dash sample",
+    max_sessions: null,
+    sessions_started: 0,
+    revoked_at: null,
+    created_at: new Date().toISOString(),
+  });
+  const ins = await sb.from("product_codes").insert({
+    id: record.id,
+    code_hash: record.code_hash,
+    board_id: record.board_id,
+    label: record.label ?? null,
+    max_sessions: record.max_sessions,
+    sessions_started: record.sessions_started,
+    revoked_at: record.revoked_at,
+    created_at: record.created_at,
+  });
+  throwIfError(ins.error, "ensureTrueFalseDashSample.insert");
+  return { code: DEMO_TRUE_FALSE_DASH_CODE, boardId: board.id, created: true };
+}
+
 export async function assertBoardAllowedForEntitlement(
   token: string | undefined,
   requestedBoardId: string,
@@ -991,6 +1069,10 @@ export async function cloneBoard(opts: {
         odd_option_id: idMap[item.odd_option_id] ?? item.odd_option_id,
       };
     }),
+    dash_items: source.dash_items?.map((item) => ({
+      ...item,
+      id: generateId("tf"),
+    })),
     cells: source.cells.map((c) => ({
       ...c,
       id: `${c.category.slice(0, 3).toLowerCase()}-${c.points}-${generateId("c").slice(-4)}`,

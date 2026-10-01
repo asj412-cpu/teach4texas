@@ -43,6 +43,11 @@ import {
   oddItemsFromBoard,
 } from "@/lib/domain/odd-one-out";
 import {
+  applyDashTap,
+  createPlayerDashState,
+  dashItemsFromBoard,
+} from "@/lib/domain/true-false-dash";
+import {
   generateId,
   generateOpaqueToken,
   sha256Hex,
@@ -141,6 +146,12 @@ function ensurePlayerOddState(room: LiveRoom, playerId: string) {
 }
 
 
+function ensurePlayerDashState(room: LiveRoom, playerId: string) {
+  if (room.game_type !== "true_false_dash") return;
+  if (room.dash_states[playerId]) return;
+  room.dash_states[playerId] = createPlayerDashState();
+}
+
 function ensureHostPlayer(room: LiveRoom) {
   if (room.players[HOST_PLAYER_ID]) return;
   room.players[HOST_PLAYER_ID] = {
@@ -169,12 +180,14 @@ function resetRoomToLobby(room: LiveRoom) {
   room.sequence_index = 0;
   room.category_index = 0;
   room.odd_index = 0;
+  room.dash_index = 0;
   room.match_states = {};
   room.race_states = {};
   room.scavenger_states = {};
   room.sequence_states = {};
   room.category_states = {};
   room.odd_states = {};
+  room.dash_states = {};
   for (const p of Object.values(room.players)) {
     p.score = 0;
     p.connected = true;
@@ -221,6 +234,8 @@ export function createLiveRoom(opts: {
     category_index: 0,
     odd_states: {},
     odd_index: 0,
+    dash_states: {},
+    dash_index: 0,
     open_until: null,
     answer_seconds:
       opts.answerSeconds ??
@@ -271,6 +286,9 @@ export function hostView(room: LiveRoom) {
   if (room.game_type === "odd_one_out" && room.phase === "odding") {
     ensurePlayerOddState(room, HOST_PLAYER_ID);
   }
+  if (room.game_type === "true_false_dash" && room.phase === "dashing") {
+    ensurePlayerDashState(room, HOST_PLAYER_ID);
+  }
   return sanitizeForHost(room);
 }
 
@@ -288,6 +306,9 @@ export function playerView(room: LiveRoom, playerId: string) {
   }
   if (room.game_type === "odd_one_out" && room.phase === "odding") {
     ensurePlayerOddState(room, playerId);
+  }
+  if (room.game_type === "true_false_dash" && room.phase === "dashing") {
+    ensurePlayerDashState(room, playerId);
   }
   return sanitizeForPlayer(room, playerId);
 }
@@ -335,6 +356,9 @@ export function joinRoom(
       }
       if (room.game_type === "odd_one_out" && room.phase === "odding") {
         ensurePlayerOddState(room, existing.player_id);
+      }
+      if (room.game_type === "true_false_dash" && room.phase === "dashing") {
+        ensurePlayerDashState(room, existing.player_id);
       }
       const view = sanitizeForPlayer(room, existing.player_id);
       if (!view) return { ok: false, error: "JOIN_FAILED" };
@@ -397,6 +421,9 @@ export function joinRoom(
   if (room.game_type === "odd_one_out" && room.phase === "odding") {
     ensurePlayerOddState(room, player_id);
   }
+  if (room.game_type === "true_false_dash" && room.phase === "dashing") {
+    ensurePlayerDashState(room, player_id);
+  }
 
   const view = sanitizeForPlayer(room, player_id);
   if (!view) return { ok: false, error: "JOIN_FAILED" };
@@ -419,13 +446,15 @@ export type HostAction =
   | { type: "next_prompt" }
   | { type: "next_item" }
   | { type: "next_round" }
+  | { type: "next_claim" }
   | { type: "host_answer"; choice_index: number }
   | { type: "host_flip"; card_index: number }
   | { type: "host_race"; choice_index: number }
   | { type: "host_scavenge"; target_id: string }
   | { type: "host_sort"; order: string[] }
   | { type: "host_bin"; category_id: string }
-  | { type: "host_odd"; option_id: string };
+  | { type: "host_odd"; option_id: string }
+  | { type: "host_dash"; answer: boolean };
 
 export function applyHostAction(
   room: LiveRoom,
@@ -476,6 +505,12 @@ export function applyHostAction(
           ensurePlayerOddState(room, pid);
         }
         room.phase = "odding";
+      } else if (room.game_type === "true_false_dash") {
+        room.dash_index = 0;
+        for (const pid of Object.keys(room.players)) {
+          ensurePlayerDashState(room, pid);
+        }
+        room.phase = "dashing";
       } else {
         room.phase = "board";
       }
@@ -535,6 +570,20 @@ export function applyHostAction(
         return { ok: false, error: "NO_MORE_ROUNDS" };
       }
       room.odd_index += 1;
+      return { ok: true };
+    }
+    case "next_claim": {
+      if (room.game_type !== "true_false_dash") {
+        return { ok: false, error: "NOT_TRUE_FALSE" };
+      }
+      if (room.phase !== "dashing") {
+        return { ok: false, error: "ILLEGAL_TRANSITION" };
+      }
+      const items = dashItemsFromBoard(room.board);
+      if (room.dash_index >= items.length - 1) {
+        return { ok: false, error: "NO_MORE_CLAIMS" };
+      }
+      room.dash_index += 1;
       return { ok: true };
     }
     case "select_cell": {
@@ -647,6 +696,7 @@ export function applyHostAction(
       delete room.sequence_states[action.player_id];
       delete room.category_states[action.player_id];
       delete room.odd_states[action.player_id];
+      delete room.dash_states[action.player_id];
       return { ok: true };
     }
     case "host_answer": {
@@ -676,6 +726,10 @@ export function applyHostAction(
     case "host_odd": {
       ensureHostPlayer(room);
       return submitOddTap(room, HOST_PLAYER_ID, action.option_id);
+    }
+    case "host_dash": {
+      ensureHostPlayer(room);
+      return submitDashTap(room, HOST_PLAYER_ID, action.answer);
     }
     default:
       return { ok: false, error: "UNKNOWN_ACTION" };
@@ -852,6 +906,35 @@ export function submitOddTap(
   return { ok: true };
 }
 
+export function submitDashTap(
+  room: LiveRoom,
+  playerId: string,
+  answer: boolean,
+): { ok: true } | { ok: false; error: string } {
+  if (room.game_type !== "true_false_dash") {
+    return { ok: false, error: "NOT_TRUE_FALSE" };
+  }
+  if (room.phase !== "dashing") {
+    return { ok: false, error: "NOT_ACCEPTING_TAPS" };
+  }
+  if (!room.players[playerId]) return { ok: false, error: "NOT_A_PLAYER" };
+  if (typeof answer !== "boolean") return { ok: false, error: "INVALID_ANSWER" };
+  ensurePlayerDashState(room, playerId);
+  const state = room.dash_states[playerId];
+  if (!state) return { ok: false, error: "NO_DASH_STATE" };
+  const result = applyDashTap(
+    state,
+    room.dash_index,
+    answer,
+    dashItemsFromBoard(room.board),
+  );
+  if (!result.ok) return result;
+  if (result.points > 0) {
+    room.players[playerId]!.score += result.points;
+  }
+  return { ok: true };
+}
+
 export function submitAnswer(
   room: LiveRoom,
   playerId: string,
@@ -864,7 +947,8 @@ export function submitAnswer(
     room.game_type === "scavenger_tap" ||
     room.game_type === "sequence_sort" ||
     room.game_type === "category_sort" ||
-    room.game_type === "odd_one_out"
+    room.game_type === "odd_one_out" ||
+    room.game_type === "true_false_dash"
   ) {
     return { ok: false, error: "NOT_ACCEPTING_ANSWERS" };
   }

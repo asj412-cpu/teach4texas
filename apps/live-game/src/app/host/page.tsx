@@ -137,7 +137,19 @@ export default function HostPage() {
       body: JSON.stringify(body),
     });
     const data = await res.json();
-    if (res.ok && data.ok) setView(data.view);
+    if (!res.ok || !data.ok) return;
+
+    // Return to game: leave the live room → redeemed host lobby (distinct from Play again).
+    if (body.type === "return_to_game") {
+      sessionStorage.removeItem(HOST_TOKEN_KEY);
+      sessionStorage.removeItem(ROOM_CODE_KEY);
+      setHostToken(null);
+      setRoomCode(null);
+      setView(null);
+      return;
+    }
+
+    setView(data.view);
   }
 
   const categories = useMemo(() => {
@@ -310,35 +322,6 @@ export default function HostPage() {
     );
   }
 
-  if (view.game_type === "memory_match" && view.phase !== "final") {
-    return <MemoryMatchHost view={view} onAction={hostAction} />;
-  }
-
-  if (view.game_type === "timed_race" && view.phase !== "final") {
-    return <TimedRaceHost view={view} onAction={hostAction} />;
-  }
-
-  if (view.game_type === "scavenger_tap" && view.phase !== "final") {
-    return <ScavengerTapHost view={view} onAction={hostAction} />;
-  }
-
-  if (view.game_type === "sequence_sort" && view.phase !== "final") {
-    return <SequenceSortHost view={view} onAction={hostAction} />;
-  }
-
-  if (view.game_type === "category_sort" && view.phase !== "final") {
-    return <CategorySortHost view={view} onAction={hostAction} />;
-  }
-
-  if (view.game_type === "odd_one_out" && view.phase !== "final") {
-    return <OddOneOutHost view={view} onAction={hostAction} />;
-  }
-
-  const used = new Set(view.used_cell_ids);
-  const activeCell: QuestionCell | undefined = view.active_cell_id
-    ? view.board.cells.find((c) => c.id === view.active_cell_id)
-    : undefined;
-
   if (view.phase === "final") {
     const ranked = [...view.players].sort((a, b) => b.score - a.score);
     return (
@@ -363,6 +346,35 @@ export default function HostPage() {
       </div>
     );
   }
+
+  if (view.game_type === "memory_match") {
+    return <MemoryMatchHost view={view} onAction={hostAction} />;
+  }
+
+  if (view.game_type === "timed_race") {
+    return <TimedRaceHost view={view} onAction={hostAction} />;
+  }
+
+  if (view.game_type === "scavenger_tap") {
+    return <ScavengerTapHost view={view} onAction={hostAction} />;
+  }
+
+  if (view.game_type === "sequence_sort") {
+    return <SequenceSortHost view={view} onAction={hostAction} />;
+  }
+
+  if (view.game_type === "category_sort") {
+    return <CategorySortHost view={view} onAction={hostAction} />;
+  }
+
+  if (view.game_type === "odd_one_out") {
+    return <OddOneOutHost view={view} onAction={hostAction} />;
+  }
+
+  const used = new Set(view.used_cell_ids);
+  const activeCell: QuestionCell | undefined = view.active_cell_id
+    ? view.board.cells.find((c) => c.id === view.active_cell_id)
+    : undefined;
 
   if (
     activeCell &&

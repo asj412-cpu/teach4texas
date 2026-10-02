@@ -91,6 +91,7 @@ async function ensureStore(): Promise<StoreShape> {
       product_codes: parsed.product_codes ?? [],
       entitlements: parsed.entitlements ?? [],
     };
+    const seededMath = seedMathGrade3Sample(store);
     const seededMatch = seedMemoryMatchSample(store);
     const seededRace = seedTimedRaceSample(store);
     const seededScavenger = seedScavengerTapSample(store);
@@ -98,6 +99,7 @@ async function ensureStore(): Promise<StoreShape> {
     const seededCategory = seedCategorySortSample(store);
     const seededOdd = seedOddOneOutSample(store);
     if (
+      seededMath ||
       seededMatch ||
       seededRace ||
       seededScavenger ||
@@ -129,6 +131,7 @@ async function ensureStore(): Promise<StoreShape> {
       product_codes: [],
       entitlements: [],
     };
+    seedMathGrade3Sample(initial);
     seedMemoryMatchSample(initial);
     seedTimedRaceSample(initial);
     seedScavengerTapSample(initial);
@@ -138,6 +141,33 @@ async function ensureStore(): Promise<StoreShape> {
     await fs.writeFile(STORE_PATH, JSON.stringify(initial, null, 2), "utf8");
     return initial;
   }
+}
+
+
+function seedMathGrade3Sample(store: StoreShape): boolean {
+  let dirty = false;
+  const boardId = "board_sample_math_g3";
+  if (!store.boards.some((b) => b.id === boardId)) {
+    store.boards.push(GameBoardSchema.parse(buildSampleMathGrade3Board()));
+    dirty = true;
+  }
+  const hash = sha256Hex(normalizeAccessCode("T4T-DEMO-MATH-G3-SAMPLE01"));
+  if (!store.product_codes.some((c) => c.code_hash === hash)) {
+    store.product_codes.push(
+      ProductCodeRecordSchema.parse({
+        id: generateId("pc"),
+        code_hash: hash,
+        board_id: boardId,
+        label: "Local demo / packaging sample",
+        max_sessions: null,
+        sessions_started: 0,
+        revoked_at: null,
+        created_at: new Date().toISOString(),
+      }),
+    );
+    dirty = true;
+  }
+  return dirty;
 }
 
 function seedMemoryMatchSample(store: StoreShape): boolean {

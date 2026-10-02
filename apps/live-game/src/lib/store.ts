@@ -12,6 +12,7 @@ export const DEMO_SCAVENGER_TAP_CODE = fileStore.DEMO_SCAVENGER_TAP_CODE;
 export const DEMO_SEQUENCE_SORT_CODE = fileStore.DEMO_SEQUENCE_SORT_CODE;
 export const DEMO_CATEGORY_SORT_CODE = fileStore.DEMO_CATEGORY_SORT_CODE;
 export const DEMO_ODD_ONE_OUT_CODE = fileStore.DEMO_ODD_ONE_OUT_CODE;
+export const DEMO_TRUE_FALSE_DASH_CODE = fileStore.DEMO_TRUE_FALSE_DASH_CODE;
 
 export const toHostBoardView = fileStore.toHostBoardView;
 
@@ -81,6 +82,12 @@ export async function ensureOddOneOutSample(
   plaintext = DEMO_ODD_ONE_OUT_CODE,
 ) {
   return backend().ensureOddOneOutSample(plaintext);
+}
+
+export async function ensureTrueFalseDashSample(
+  plaintext = DEMO_TRUE_FALSE_DASH_CODE,
+) {
+  return backend().ensureTrueFalseDashSample(plaintext);
 }
 
 export async function assertBoardAllowedForEntitlement(

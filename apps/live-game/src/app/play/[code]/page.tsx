@@ -7,6 +7,7 @@ import type { PlayerRoomView } from "@/lib/domain/live-room";
 import { CategorySortPlay } from "@/components/category-sort-play";
 import { MemoryMatchPlay } from "@/components/memory-match-play";
 import { OddOneOutPlay } from "@/components/odd-one-out-play";
+import { TrueFalseDashPlay } from "@/components/true-false-dash-play";
 import { ScavengerTapPlay } from "@/components/scavenger-tap-play";
 import { SequenceSortPlay } from "@/components/sequence-sort-play";
 import { TimedRacePlay } from "@/components/timed-race-play";
@@ -131,6 +132,23 @@ export default function PlayPage() {
     }
   }
 
+  async function dashTap(answer: boolean) {
+    if (!playerId || !view || view.game_type !== "true_false_dash") return;
+    if (view.phase !== "dashing" || !view.dash?.can_tap) return;
+    setSubmitting(true);
+    try {
+      const res = await fetch(`/api/rooms/${code}/dash`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ player_id: playerId, answer }),
+      });
+      const data = await res.json();
+      if (res.ok && data.ok) setView(data.view);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
   async function scavengerTap(target_id: string) {
     if (!playerId || !view || view.game_type !== "scavenger_tap") return;
     if (view.phase !== "scavenging" || !view.scavenger?.can_tap) return;
@@ -221,7 +239,9 @@ export default function PlayPage() {
                     ? "Sort into Bins — waiting for your teacher to start"
                     : view.game_type === "odd_one_out"
                       ? "Find the Odd One — waiting for your teacher to start"
-                      : "Waiting for your teacher to start"}{" "}
+                      : view.game_type === "true_false_dash"
+                        ? "True or False Dash — waiting for your teacher to start"
+                        : "Waiting for your teacher to start"}{" "}
           ({view.players.length} players)
         </p>
         <p className="mt-6 text-lg font-semibold text-t4t-navy">
@@ -281,6 +301,12 @@ export default function PlayPage() {
   if (view.game_type === "odd_one_out" && view.phase !== "final") {
     return (
       <OddOneOutPlay view={view} submitting={submitting} onTap={oddTap} />
+    );
+  }
+
+  if (view.game_type === "true_false_dash" && view.phase !== "final") {
+    return (
+      <TrueFalseDashPlay view={view} submitting={submitting} onTap={dashTap} />
     );
   }
 

@@ -6,6 +6,7 @@ import {
   ensureScavengerTapSample,
   ensureCategorySortSample,
   ensureOddOneOutSample,
+  ensureTrueFalseDashSample,
   ensureSequenceSortSample,
   ensureTimedRaceSample,
   listBoardsForOperator,
@@ -26,6 +27,7 @@ export async function POST(req: NextRequest) {
   const sequence = await ensureSequenceSortSample();
   const category = await ensureCategorySortSample();
   const odd = await ensureOddOneOutSample();
+  const dash = await ensureTrueFalseDashSample();
   const boards = await listBoardsForOperator();
 
   return NextResponse.json({
@@ -62,6 +64,11 @@ export async function POST(req: NextRequest) {
       demo_access_code: odd.code,
       board_id: odd.boardId,
       created: odd.created,
+    },
+    true_false_dash: {
+      demo_access_code: dash.code,
+      board_id: dash.boardId,
+      created: dash.created,
     },
     boards,
     tpt_flow: [

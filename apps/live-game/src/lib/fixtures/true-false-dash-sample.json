@@ -1,0 +1,52 @@
+{
+  "id": "board_sample_true_false_dash",
+  "title": "True or False Dash — Classroom Sample",
+  "grade": 3,
+  "subject": "math",
+  "theme": "True or False Dash",
+  "status": "ready",
+  "tpt_sku": "t4t-true-false-dash-sample",
+  "game_type": "true_false_dash",
+  "dash_items": [
+    {
+      "id": "tf-1",
+      "prompt": "A square has four equal sides.",
+      "answer": true
+    },
+    {
+      "id": "tf-2",
+      "prompt": "The product of 4 and 3 is 15.",
+      "answer": false
+    },
+    {
+      "id": "tf-3",
+      "prompt": "One half equals two fourths.",
+      "answer": true
+    },
+    {
+      "id": "tf-4",
+      "prompt": "A triangle has four sides.",
+      "answer": false
+    },
+    {
+      "id": "tf-5",
+      "prompt": "There are 60 seconds in one minute.",
+      "answer": true
+    },
+    {
+      "id": "tf-6",
+      "prompt": "A nickel is worth 10 cents.",
+      "answer": false
+    },
+    {
+      "id": "tf-7",
+      "prompt": "Even numbers end in 0, 2, 4, 6, or 8.",
+      "answer": true
+    },
+    {
+      "id": "tf-8",
+      "prompt": "Ten hundreds equals 100.",
+      "answer": false
+    }
+  ]
+}

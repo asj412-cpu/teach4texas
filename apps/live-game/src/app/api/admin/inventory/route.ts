@@ -6,6 +6,7 @@ import {
   ensureScavengerTapSample,
   ensureCategorySortSample,
   ensureOddOneOutSample,
+  ensureTrueFalseDashSample,
   ensureSequenceSortSample,
   ensureTimedRaceSample,
   listBoardsForOperator,
@@ -24,6 +25,7 @@ export async function GET(req: NextRequest) {
   await ensureSequenceSortSample();
   await ensureCategorySortSample();
   await ensureOddOneOutSample();
+  await ensureTrueFalseDashSample();
   const boards = await listBoardsForOperator();
   return NextResponse.json({
     ok: true,

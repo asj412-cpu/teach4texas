@@ -81,6 +81,9 @@ const DATA_DIR = path.join(
 );
 const STORE_PATH = path.join(DATA_DIR, "store.json");
 
+/** Fixed packaging string for local demo (any hyphenation of same alphanumerics works). */
+export const DEMO_ACCESS_CODE_DISPLAY = "T4T-DEMO-MATH-G3-SAMPLE01";
+
 async function ensureStore(): Promise<StoreShape> {
   await fs.mkdir(DATA_DIR, { recursive: true });
   try {
@@ -142,7 +145,6 @@ async function ensureStore(): Promise<StoreShape> {
     return initial;
   }
 }
-
 
 function seedMathGrade3Sample(store: StoreShape): boolean {
   let dirty = false;
@@ -500,8 +502,6 @@ export async function resolveEntitlement(
  * Seed a demo code for local/TPT packaging tests.
  * Idempotent: reuses existing hash if DEMO_CODE already minted.
  */
-/** Fixed packaging string for local demo (any hyphenation of same alphanumerics works). */
-export const DEMO_ACCESS_CODE_DISPLAY = "T4T-DEMO-MATH-G3-SAMPLE01";
 export {
   DEMO_MEMORY_MATCH_CODE,
   DEMO_TIMED_RACE_CODE,

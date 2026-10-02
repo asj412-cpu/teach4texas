@@ -2,6 +2,8 @@ import type { GameBoard, GameType } from "@/lib/domain/board";
 import { resolvePlayableGameType } from "@/lib/domain/board";
 import {
   getCell,
+  HOST_DISPLAY_NAME,
+  HOST_PLAYER_ID,
   type LivePlayer,
   type LiveRoom,
   sanitizeForHost,
@@ -138,6 +140,48 @@ function ensurePlayerOddState(room: LiveRoom, playerId: string) {
   room.odd_states[playerId] = createPlayerOddState();
 }
 
+
+function ensureHostPlayer(room: LiveRoom) {
+  if (room.players[HOST_PLAYER_ID]) return;
+  room.players[HOST_PLAYER_ID] = {
+    player_id: HOST_PLAYER_ID,
+    display_name: HOST_DISPLAY_NAME,
+    score: 0,
+    connected: true,
+    resume_secret_hash: sha256Hex(`host-seat:${room.code}`),
+  };
+}
+
+function studentPlayerCount(room: LiveRoom): number {
+  return Object.keys(room.players).filter((id) => id !== HOST_PLAYER_ID).length;
+}
+
+function resetRoomToLobby(room: LiveRoom) {
+  room.phase = "lobby";
+  room.ended_at = null;
+  room.active_cell_id = null;
+  room.used_cell_ids = [];
+  room.answers = {};
+  room.points_awarded = {};
+  room.open_until = null;
+  room.race_ends_at = null;
+  room.scavenger_index = 0;
+  room.sequence_index = 0;
+  room.category_index = 0;
+  room.odd_index = 0;
+  room.match_states = {};
+  room.race_states = {};
+  room.scavenger_states = {};
+  room.sequence_states = {};
+  room.category_states = {};
+  room.odd_states = {};
+  for (const p of Object.values(room.players)) {
+    p.score = 0;
+    p.connected = true;
+  }
+  ensureHostPlayer(room);
+}
+
 export function createLiveRoom(opts: {
   board: GameBoard;
   answerSeconds?: number;
@@ -185,6 +229,7 @@ export function createLiveRoom(opts: {
     created_at: new Date().toISOString(),
     ended_at: null,
   };
+  ensureHostPlayer(room);
   g().rooms.set(code, room);
   return { room, hostToken };
 }
@@ -207,6 +252,25 @@ export function verifyHost(room: LiveRoom, hostToken: string | undefined): boole
 export function hostView(room: LiveRoom) {
   maybeAutoLock(room);
   maybeClearMismatches(room);
+  ensureHostPlayer(room);
+  if (room.game_type === "memory_match" && room.phase === "matching") {
+    ensurePlayerMatchState(room, HOST_PLAYER_ID);
+  }
+  if (room.game_type === "timed_race" && room.phase === "racing") {
+    ensurePlayerRaceState(room, HOST_PLAYER_ID);
+  }
+  if (room.game_type === "scavenger_tap" && room.phase === "scavenging") {
+    ensurePlayerScavengerState(room, HOST_PLAYER_ID);
+  }
+  if (room.game_type === "sequence_sort" && room.phase === "sorting") {
+    ensurePlayerSequenceState(room, HOST_PLAYER_ID);
+  }
+  if (room.game_type === "category_sort" && room.phase === "binning") {
+    ensurePlayerCategoryState(room, HOST_PLAYER_ID);
+  }
+  if (room.game_type === "odd_one_out" && room.phase === "odding") {
+    ensurePlayerOddState(room, HOST_PLAYER_ID);
+  }
   return sanitizeForHost(room);
 }
 
@@ -291,7 +355,7 @@ export function joinRoom(
   const name = displayName.trim().slice(0, 16);
   if (name.length < 2) return { ok: false, error: "NAME_INVALID" };
 
-  const count = Object.keys(room.players).length;
+  const count = studentPlayerCount(room);
   if (count >= MAX_PLAYERS) return { ok: false, error: "ROOM_FULL" };
 
   // Unique display name suffix
@@ -347,12 +411,21 @@ export type HostAction =
   | { type: "reveal" }
   | { type: "back_to_board" }
   | { type: "end_game" }
+  | { type: "play_again" }
+  | { type: "return_to_game" }
   | { type: "lock_lobby"; locked: boolean }
   | { type: "kick"; player_id: string }
   | { type: "next_clue" }
   | { type: "next_prompt" }
   | { type: "next_item" }
-  | { type: "next_round" };
+  | { type: "next_round" }
+  | { type: "host_answer"; choice_index: number }
+  | { type: "host_flip"; card_index: number }
+  | { type: "host_race"; choice_index: number }
+  | { type: "host_scavenge"; target_id: string }
+  | { type: "host_sort"; order: string[] }
+  | { type: "host_bin"; category_id: string }
+  | { type: "host_odd"; option_id: string };
 
 export function applyHostAction(
   room: LiveRoom,
@@ -365,6 +438,7 @@ export function applyHostAction(
       if (room.phase !== "lobby") {
         return { ok: false, error: "ILLEGAL_TRANSITION" };
       }
+      ensureHostPlayer(room);
       if (room.game_type === "memory_match") {
         for (const pid of Object.keys(room.players)) {
           ensurePlayerMatchState(room, pid);
@@ -549,11 +623,22 @@ export function applyHostAction(
       room.open_until = null;
       return { ok: true };
     }
+    case "play_again":
+    case "return_to_game": {
+      if (room.phase !== "final") {
+        return { ok: false, error: "ILLEGAL_TRANSITION" };
+      }
+      resetRoomToLobby(room);
+      return { ok: true };
+    }
     case "lock_lobby": {
       room.lobby_locked = action.locked;
       return { ok: true };
     }
     case "kick": {
+      if (action.player_id === HOST_PLAYER_ID) {
+        return { ok: false, error: "CANNOT_KICK_HOST" };
+      }
       delete room.players[action.player_id];
       delete room.answers[action.player_id];
       delete room.match_states[action.player_id];
@@ -563,6 +648,34 @@ export function applyHostAction(
       delete room.category_states[action.player_id];
       delete room.odd_states[action.player_id];
       return { ok: true };
+    }
+    case "host_answer": {
+      ensureHostPlayer(room);
+      return submitAnswer(room, HOST_PLAYER_ID, action.choice_index);
+    }
+    case "host_flip": {
+      ensureHostPlayer(room);
+      return flipMatchCard(room, HOST_PLAYER_ID, action.card_index);
+    }
+    case "host_race": {
+      ensureHostPlayer(room);
+      return submitRaceAnswer(room, HOST_PLAYER_ID, action.choice_index);
+    }
+    case "host_scavenge": {
+      ensureHostPlayer(room);
+      return submitScavengerTap(room, HOST_PLAYER_ID, action.target_id);
+    }
+    case "host_sort": {
+      ensureHostPlayer(room);
+      return submitSequenceOrder(room, HOST_PLAYER_ID, action.order);
+    }
+    case "host_bin": {
+      ensureHostPlayer(room);
+      return submitCategoryTap(room, HOST_PLAYER_ID, action.category_id);
+    }
+    case "host_odd": {
+      ensureHostPlayer(room);
+      return submitOddTap(room, HOST_PLAYER_ID, action.option_id);
     }
     default:
       return { ok: false, error: "UNKNOWN_ACTION" };

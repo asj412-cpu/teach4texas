@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { HostRoomView } from "@/lib/domain/live-room";
+import { HostSeatPanel } from "@/components/host-seat-panel";
 import { kidPlainText } from "@/lib/plain-text";
 
 export function ScavengerTapHost({
@@ -35,7 +36,7 @@ export function ScavengerTapHost({
               {view.code}
             </p>
             <p className="text-xs text-white/70">
-              {view.players.length} joined · students go to /join
+              {view.players.filter((p) => p.player_id !== "host").length} joined · students go to /join
             </p>
           </div>
         </div>
@@ -109,7 +110,7 @@ export function ScavengerTapHost({
               : ""}
           </p>
           <div className="mt-4 grid h-[calc(100%-7.5rem)] grid-cols-2 gap-2 overflow-y-auto sm:grid-cols-3 lg:grid-cols-4">
-            {ranked.length === 0 && (
+            {ranked.filter((p) => p.player_id !== "host").length === 0 && (
               <p className="col-span-full self-center text-center text-t4t-darkText/50">
                 Waiting for students…
               </p>
@@ -140,6 +141,8 @@ export function ScavengerTapHost({
           </div>
         </div>
 
+
+          <HostSeatPanel view={view} onAction={onAction} />
         <div className="mt-6 flex flex-wrap items-start justify-between gap-4">
           <div>
             <button

@@ -64,6 +64,24 @@ export type LivePlayer = {
   resume_secret_hash: string;
 };
 
+/** Reserved seat for teacher answers on the host screen. */
+export const HOST_PLAYER_ID = "host";
+export const HOST_DISPLAY_NAME = "host";
+
+export type HostSeatView = {
+  player_id: typeof HOST_PLAYER_ID;
+  display_name: typeof HOST_DISPLAY_NAME;
+  score: number;
+  /** Jeopardy: whether host locked an answer this question. */
+  answered: boolean;
+  match: PlayerMatchView | null;
+  race: PlayerRaceView | null;
+  scavenger: PlayerScavengerView | null;
+  sequence: PlayerSequenceView | null;
+  category: PlayerCategoryView | null;
+  odd: PlayerOddView | null;
+};
+
 export type LiveRoom = {
   code: string;
   board_id: string;
@@ -211,6 +229,8 @@ export type HostRoomView = {
     /** Host-only answer key — keep off the 16:9 student-facing stage. */
     item_key: { prompt: string; answer: string }[];
   };
+  /** Teacher playable seat — same inputs as students for this game_type. */
+  host_seat: HostSeatView;
   open_until: string | null;
   answer_seconds: number;
   lobby_locked: boolean;
@@ -465,6 +485,58 @@ function hostOddView(room: LiveRoom): HostRoomView["odd"] {
   };
 }
 
+
+function hostSeatView(room: LiveRoom): HostSeatView {
+  const host = room.players[HOST_PLAYER_ID];
+  const score = host?.score ?? 0;
+  return {
+    player_id: HOST_PLAYER_ID,
+    display_name: HOST_DISPLAY_NAME,
+    score,
+    answered: room.answers[HOST_PLAYER_ID] !== undefined,
+    match:
+      room.game_type === "memory_match" && room.match_states[HOST_PLAYER_ID]
+        ? toPlayerMatchView(room.match_states[HOST_PLAYER_ID]!)
+        : null,
+    race:
+      room.game_type === "timed_race" && room.race_states[HOST_PLAYER_ID]
+        ? toPlayerRaceView(room.race_states[HOST_PLAYER_ID]!, room.race_ends_at)
+        : null,
+    scavenger:
+      room.game_type === "scavenger_tap" && room.scavenger_states[HOST_PLAYER_ID]
+        ? toPlayerScavengerView(
+            room.scavenger_states[HOST_PLAYER_ID]!,
+            scavengerItemsFromBoard(room.board),
+            room.scavenger_index,
+          )
+        : null,
+    sequence:
+      room.game_type === "sequence_sort" && room.sequence_states[HOST_PLAYER_ID]
+        ? toPlayerSequenceView(
+            room.sequence_states[HOST_PLAYER_ID]!,
+            sequenceItemsFromBoard(room.board),
+            room.sequence_index,
+          )
+        : null,
+    category:
+      room.game_type === "category_sort" && room.category_states[HOST_PLAYER_ID]
+        ? toPlayerCategoryView(
+            room.category_states[HOST_PLAYER_ID]!,
+            categoryItemsFromBoard(room.board),
+            room.category_index,
+          )
+        : null,
+    odd:
+      room.game_type === "odd_one_out" && room.odd_states[HOST_PLAYER_ID]
+        ? toPlayerOddView(
+            room.odd_states[HOST_PLAYER_ID]!,
+            oddItemsFromBoard(room.board),
+            room.odd_index,
+          )
+        : null,
+  };
+}
+
 export function sanitizeForHost(room: LiveRoom): HostRoomView {
   return {
     role: "host",
@@ -489,6 +561,7 @@ export function sanitizeForHost(room: LiveRoom): HostRoomView {
     sequence: hostSequenceView(room),
     category: hostCategoryView(room),
     odd: hostOddView(room),
+    host_seat: hostSeatView(room),
     open_until: room.open_until,
     answer_seconds: room.answer_seconds,
     lobby_locked: room.lobby_locked,

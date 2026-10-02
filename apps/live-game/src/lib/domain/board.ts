@@ -8,6 +8,7 @@ export const GameTypeSchema = z.enum([
   "sequence_sort",
   "category_sort",
   "odd_one_out",
+  "true_false_dash",
 ]);
 export type GameType = z.infer<typeof GameTypeSchema>;
 
@@ -175,6 +176,16 @@ export const OddOneOutItemSchema = z
 export type OddOption = z.infer<typeof OddOptionSchema>;
 export type OddOneOutItem = z.infer<typeof OddOneOutItemSchema>;
 
+/** TEKS-agnostic claim for True or False Dash. `teks` is optional. */
+export const TrueFalseDashItemSchema = z.object({
+  id: z.string().min(1),
+  prompt: z.string().min(1).max(200),
+  answer: z.boolean(),
+  teks: z.string().max(32).optional(),
+});
+
+export type TrueFalseDashItem = z.infer<typeof TrueFalseDashItemSchema>;
+
 /** Live MC cell — distinct from offline free-response TPT JSON. */
 export const QuestionCellSchema = z.object({
   id: z.string().min(1),
@@ -233,6 +244,8 @@ export const GameBoardSchema = z
     category_items: z.array(CategorySortItemSchema).max(12).optional(),
     /** Odd One Out rounds + option sets. Ignored unless host picks odd_one_out. */
     odd_items: z.array(OddOneOutItemSchema).max(12).optional(),
+    /** True or False Dash claims. Ignored unless host picks true_false_dash. */
+    dash_items: z.array(TrueFalseDashItemSchema).max(12).optional(),
     created_at: z.string(),
     updated_at: z.string(),
   })
@@ -391,6 +404,35 @@ export const GameBoardSchema = z
       return;
     }
 
+    if (type === "true_false_dash") {
+      const dashCount =
+        board.dash_items && board.dash_items.length >= 4
+          ? board.dash_items.length
+          : board.odd_items && board.odd_items.length >= 4
+            ? board.odd_items.length
+            : board.category_items && board.category_items.length >= 4
+              ? board.category_items.length
+              : board.scavenger_items && board.scavenger_items.length >= 4
+                ? board.scavenger_items.length
+                : board.race_items && board.race_items.length >= 4
+                  ? board.race_items.length
+                  : board.cells.length;
+      if (dashCount < 4) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message:
+            "True or false dash needs at least 4 claims (dash_items JSON, odd_items, category_items, scavenger_items, race_items, or board cells)",
+        });
+      }
+      if (board.dash_items && board.dash_items.length > 12) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "True or false dash supports at most 12 claims",
+        });
+      }
+      return;
+    }
+
     const pairCount =
       board.items && board.items.length >= 4
         ? board.items.length
@@ -430,6 +472,7 @@ export type HostBoardView = {
   sequence_item_count: number;
   category_item_count: number;
   odd_item_count: number;
+  dash_item_count: number;
   supports_board: boolean;
   supports_memory_match: boolean;
   supports_timed_race: boolean;
@@ -437,6 +480,7 @@ export type HostBoardView = {
   supports_sequence_sort: boolean;
   supports_category_sort: boolean;
   supports_odd_one_out: boolean;
+  supports_true_false_dash: boolean;
 };
 
 export function boardGameType(board: { game_type?: GameType }): GameType {
@@ -521,10 +565,31 @@ export function supportsOddOneOut(board: {
   );
 }
 
+export function supportsTrueFalseDash(board: {
+  dash_items?: TrueFalseDashItem[];
+  odd_items?: OddOneOutItem[];
+  category_items?: CategorySortItem[];
+  scavenger_items?: ScavengerTapItem[];
+  race_items?: TimedRaceItem[];
+  cells?: { id: string }[];
+}): boolean {
+  return (
+    (board.dash_items?.length ?? 0) >= 4 ||
+    (board.odd_items?.length ?? 0) >= 4 ||
+    (board.category_items?.length ?? 0) >= 4 ||
+    (board.scavenger_items?.length ?? 0) >= 4 ||
+    (board.race_items?.length ?? 0) >= 4 ||
+    (board.cells?.length ?? 0) >= 4
+  );
+}
+
 export function resolvePlayableGameType(
   board: GameBoard,
   requested?: string | null,
 ): GameType {
+  if (requested === "true_false_dash" && supportsTrueFalseDash(board)) {
+    return "true_false_dash";
+  }
   if (requested === "odd_one_out" && supportsOddOneOut(board)) {
     return "odd_one_out";
   }
@@ -547,6 +612,9 @@ export function resolvePlayableGameType(
     return "board";
   }
   const native = boardGameType(board);
+  if (native === "true_false_dash" && supportsTrueFalseDash(board)) {
+    return "true_false_dash";
+  }
   if (native === "odd_one_out" && supportsOddOneOut(board)) {
     return "odd_one_out";
   }
@@ -572,5 +640,6 @@ export function resolvePlayableGameType(
   if (supportsSequenceSort(board)) return "sequence_sort";
   if (supportsCategorySort(board)) return "category_sort";
   if (supportsOddOneOut(board)) return "odd_one_out";
+  if (supportsTrueFalseDash(board)) return "true_false_dash";
   return "board";
 }

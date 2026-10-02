@@ -37,6 +37,12 @@ import {
   type PlayerOddState,
   type PlayerOddView,
 } from "@/lib/domain/odd-one-out";
+import {
+  dashItemsFromBoard,
+  toPlayerDashView,
+  type PlayerDashState,
+  type PlayerDashView,
+} from "@/lib/domain/true-false-dash";
 import { kidPlainText } from "@/lib/plain-text";
 
 export const RoomPhaseSchema = z.enum([
@@ -48,6 +54,7 @@ export const RoomPhaseSchema = z.enum([
   "sorting",
   "binning",
   "odding",
+  "dashing",
   "question_open",
   "question_locked",
   "reveal",
@@ -80,6 +87,7 @@ export type HostSeatView = {
   sequence: PlayerSequenceView | null;
   category: PlayerCategoryView | null;
   odd: PlayerOddView | null;
+  dash: PlayerDashView | null;
 };
 
 export type LiveRoom = {
@@ -120,6 +128,10 @@ export type LiveRoom = {
   odd_states: Record<string, PlayerOddState>;
   /** Shared round index for host-paced odd one out. */
   odd_index: number;
+  /** True or False Dash per-student taps. Host never sends other students' choices. */
+  dash_states: Record<string, PlayerDashState>;
+  /** Shared claim index for host-paced true or false dash. */
+  dash_index: number;
   open_until: string | null;
   answer_seconds: number;
   lobby_locked: boolean;
@@ -231,6 +243,22 @@ export type HostRoomView = {
   };
   /** Teacher playable seat — same inputs as students for this game_type. */
   host_seat: HostSeatView;
+  dash: null | {
+    item_total: number;
+    item_index: number;
+    prompt: string | null;
+    has_next: boolean;
+    answer_count: number;
+    players: {
+      player_id: string;
+      display_name: string;
+      tapped: boolean;
+      correct_count: number;
+      streak: number;
+    }[];
+    /** Host-only answer key — keep off the 16:9 student-facing stage. */
+    item_key: { prompt: string; answer: string }[];
+  };
   open_until: string | null;
   answer_seconds: number;
   lobby_locked: boolean;
@@ -277,6 +305,7 @@ export type PlayerRoomView = {
   sequence: PlayerSequenceView | null;
   category: PlayerCategoryView | null;
   odd: PlayerOddView | null;
+  dash: PlayerDashView | null;
   open_until: string | null;
   answer_seconds: number;
   server_now: string;
@@ -534,6 +563,45 @@ function hostSeatView(room: LiveRoom): HostSeatView {
             room.odd_index,
           )
         : null,
+    dash:
+      room.game_type === "true_false_dash" && room.dash_states[HOST_PLAYER_ID]
+        ? toPlayerDashView(
+            room.dash_states[HOST_PLAYER_ID]!,
+            dashItemsFromBoard(room.board),
+            room.dash_index,
+          )
+        : null,
+  };
+}
+
+function hostDashView(room: LiveRoom): HostRoomView["dash"] {
+  if (room.game_type !== "true_false_dash") return null;
+  const items = dashItemsFromBoard(room.board);
+  const idx = room.dash_index;
+  const item = items[idx] ?? null;
+  return {
+    item_total: items.length,
+    item_index: idx,
+    prompt: item ? kidPlainText(item.prompt, 200) : null,
+    has_next: idx < items.length - 1,
+    answer_count: Object.values(room.players).filter((p) => {
+      const st = room.dash_states[p.player_id];
+      return st?.answers[idx] !== undefined;
+    }).length,
+    players: Object.values(room.players).map((p) => {
+      const st = room.dash_states[p.player_id];
+      return {
+        player_id: p.player_id,
+        display_name: p.display_name,
+        tapped: st?.answers[idx] !== undefined,
+        correct_count: st?.correct_count ?? 0,
+        streak: st?.streak ?? 0,
+      };
+    }),
+    item_key: items.map((it) => ({
+      prompt: kidPlainText(it.prompt, 80),
+      answer: it.answer ? "True" : "False",
+    })),
   };
 }
 
@@ -562,6 +630,7 @@ export function sanitizeForHost(room: LiveRoom): HostRoomView {
     category: hostCategoryView(room),
     odd: hostOddView(room),
     host_seat: hostSeatView(room),
+    dash: hostDashView(room),
     open_until: room.open_until,
     answer_seconds: room.answer_seconds,
     lobby_locked: room.lobby_locked,
@@ -670,6 +739,14 @@ export function sanitizeForPlayer(
             room.odd_states[playerId]!,
             oddItemsFromBoard(room.board),
             room.odd_index,
+          )
+        : null,
+    dash:
+      room.game_type === "true_false_dash" && room.dash_states[playerId]
+        ? toPlayerDashView(
+            room.dash_states[playerId]!,
+            dashItemsFromBoard(room.board),
+            room.dash_index,
           )
         : null,
     open_until: room.open_until,

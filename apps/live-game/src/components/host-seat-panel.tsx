@@ -325,6 +325,39 @@ export function HostSeatPanel({
     );
   }
 
+  if (view.game_type === "true_false_dash" && view.phase === "dashing" && seat.dash) {
+    const dash = seat.dash;
+    return (
+      <div className="mt-4 rounded-xl border border-t4t-gold/40 bg-black/25 p-3">
+        {scoreLine}
+        {dash.tapped ? (
+          <p className="text-sm text-white/80">
+            Locked in — wait for next claim.
+          </p>
+        ) : (
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              disabled={busy || !dash.can_tap}
+              onClick={() => act({ type: "host_claim", answer: true })}
+              className="min-h-14 rounded-lg border border-white/30 bg-white/10 px-2 py-2 text-sm font-semibold text-white hover:bg-t4t-gold hover:text-t4t-navy disabled:opacity-60"
+            >
+              True
+            </button>
+            <button
+              type="button"
+              disabled={busy || !dash.can_tap}
+              onClick={() => act({ type: "host_claim", answer: false })}
+              className="min-h-14 rounded-lg border border-white/30 bg-white/10 px-2 py-2 text-sm font-semibold text-white hover:bg-t4t-gold hover:text-t4t-navy disabled:opacity-60"
+            >
+              False
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  }
+
   // Lobby / inactive: still show host score chip when seated
   if (view.phase === "lobby" || view.phase === "board") {
     return (

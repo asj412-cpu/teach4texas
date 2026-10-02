@@ -359,6 +359,7 @@ export default function HostPage() {
             </li>
           ))}
         </ol>
+        <HostFinalActions onAction={hostAction} />
       </div>
     );
   }

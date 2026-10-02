@@ -81,7 +81,11 @@ type StoreShape = {
   entitlements: HostEntitlement[];
 };
 
-const DATA_DIR = path.join(process.cwd(), "data");
+const DATA_DIR = path.join(
+  process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME
+    ? "/tmp/live-game-data"
+    : path.join(process.cwd(), "data"),
+);
 const STORE_PATH = path.join(DATA_DIR, "store.json");
 
 async function ensureStore(): Promise<StoreShape> {

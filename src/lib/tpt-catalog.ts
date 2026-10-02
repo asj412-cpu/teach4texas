@@ -73,16 +73,6 @@ export const TPT_LISTINGS: TptListing[] = [
     featured: true,
   },
   {
-    id: '17493754',
-    href: `${TPT}/TIA-Growth-Evidence-Kit-BOY-MOY-EOY-Conference-Portfolio-17493754`,
-    title: 'TIA Growth Evidence Kit | BOY MOY EOY | Conference + Portfolio',
-    description:
-      '12-page working growth file: BOY, MOY, and EOY class summaries, a conference one-pager, T-TESS teacher-chair notes, and artifact cover slips.',
-    price: '$7.99',
-    category: 'score-desk',
-    featured: true,
-  },
-  {
     id: '17696158',
     href: `${TPT}/Texas-Grade-3-Morning-Work-4-Weeks-TEKS-Warmups-Print-Easel-17696158`,
     title: 'Texas Grade 3 Morning Work | 4 Weeks TEKS Warmups | Print + Easel',
@@ -100,16 +90,6 @@ export const TPT_LISTINGS: TptListing[] = [
       'TEKS-tagged Grade 4 Math + RLA morning warmups, 4 weeks / 16 days, Print + Easel. Cadet Corps pages labeled with Texas TEKS (not Common Core). Not an escape room. Not Jeopardy.',
     price: '$4.99',
     category: 'classroom',
-    featured: true,
-  },
-  {
-    id: '17677688',
-    href: `${TPT}/Constitution-Day-Scavenger-Hunt-Grade-3-STAAR-Math-TEKS-34A-34F-35E-17677688`,
-    title: 'Constitution Day Scavenger Hunt | Grade 3 STAAR Math | TEKS 3.4A 3.4F 3.5E',
-    description:
-      'Grade 3 STAAR math scavenger hunt for Constitution Day. Stations for TEKS 3.4A, 3.4F, 3.5E (addition/subtraction within 1,000, multiplication facts, number-pair tables). Self-checking Cadet Corps Google Slides + printable missions. Not an escape room. Not Number Vault. Not Jeopardy.',
-    price: '$4.99',
-    category: 'vault',
     featured: true,
   },
   {
@@ -289,7 +269,8 @@ export const TPT_LISTINGS: TptListing[] = [
     description:
       'Editable guide to building a TIA portfolio for Recognized, Exemplary, or Master designation.',
     price: '$2.99',
-    category: 'classroom',
+    category: 'score-desk',
+    featured: true,
   },
   {
     id: '15593390',

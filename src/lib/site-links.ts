@@ -19,8 +19,8 @@ export const TPT_PRODUCTS = {
     label: 'RACE constructed-response posters',
   },
   tia: {
-    href: 'https://www.teacherspayteachers.com/Product/TIA-Growth-Evidence-Kit-BOY-MOY-EOY-Conference-Portfolio-17493754',
-    label: 'TIA Growth Evidence Kit',
+    href: 'https://www.teacherspayteachers.com/Product/TIA-Portfolio-Guide-Evidence-Kit-Texas-Teacher-Incentive-Allotment-Roadmap-15602263',
+    label: 'TIA Portfolio Guide & Evidence Kit',
   },
   freeCompanion: {
     href: 'https://www.teacherspayteachers.com/Product/FREE-Score-Desk-Companion-STAAR-Click-Score-One-Pager-17493794',
@@ -33,10 +33,6 @@ export const TPT_PRODUCTS = {
   morningWorkG4: {
     href: 'https://www.teacherspayteachers.com/Product/Texas-Grade-4-Morning-Work-4-Weeks-TEKS-Warmups-Print-Easel-17751292',
     label: 'Texas Grade 4 Morning Work — 4 Weeks TEKS Warmups',
-  },
-  constitutionDayG3: {
-    href: 'https://www.teacherspayteachers.com/Product/Constitution-Day-Scavenger-Hunt-Grade-3-STAAR-Math-TEKS-34A-34F-35E-17677688',
-    label: 'Constitution Day Scavenger Hunt Grade 3 STAAR Math',
   },
   hispanicHeritageG3: {
     href: 'https://www.teacherspayteachers.com/Product/Hispanic-Heritage-Month-Scavenger-Hunt-Grade-3-STAAR-Math-TEKS-34A-34F-35E-17547396',

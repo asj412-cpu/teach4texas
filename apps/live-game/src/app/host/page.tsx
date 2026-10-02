@@ -20,6 +20,10 @@ import { OddOneOutHost } from "@/components/odd-one-out-host";
 import { ScavengerTapHost } from "@/components/scavenger-tap-host";
 import { SequenceSortHost } from "@/components/sequence-sort-host";
 import { TimedRaceHost } from "@/components/timed-race-host";
+import {
+  HostFinalActions,
+  HostSeatPanel,
+} from "@/components/host-seat-panel";
 import { kidPlainText } from "@/lib/plain-text";
 
 const HOST_TOKEN_KEY = "t4t_host_token";
@@ -377,22 +381,40 @@ export default function HostPage() {
               {kidPlainText(activeCell.question, 240)}
             </p>
             <ul className="mt-6 space-y-2">
-              {activeCell.choices.map((c, i) => (
-                <li
-                  key={i}
-                  className={`rounded-xl border px-4 py-3 ${
-                    view.phase === "reveal" && i === activeCell.correct_index
-                      ? "border-t4t-gold bg-t4t-gold/20"
-                      : "border-white/20"
-                  }`}
-                >
-                  <span className="font-bold text-t4t-gold">
-                    {String.fromCharCode(65 + i)}.
-                  </span>{" "}
-                  {c}
-                </li>
-              ))}
+              {activeCell.choices.map((c, i) => {
+                const canPick =
+                  view.phase === "question_open" && !view.host_seat.answered;
+                const picked =
+                  view.host_seat.answered &&
+                  view.answers.host === i;
+                return (
+                  <li key={i}>
+                    <button
+                      type="button"
+                      disabled={!canPick}
+                      onClick={() =>
+                        hostAction({ type: "host_answer", choice_index: i })
+                      }
+                      className={`w-full rounded-xl border px-4 py-3 text-left ${
+                        view.phase === "reveal" && i === activeCell.correct_index
+                          ? "border-t4t-gold bg-t4t-gold/20"
+                          : picked
+                            ? "border-t4t-gold bg-white/10"
+                            : "border-white/20"
+                      } ${canPick ? "hover:bg-white/10" : ""} disabled:cursor-default`}
+                    >
+                      <span className="font-bold text-t4t-gold">
+                        {String.fromCharCode(65 + i)}.
+                      </span>{" "}
+                      {c}
+                    </button>
+                  </li>
+                );
+              })}
             </ul>
+            {view.phase === "question_open" && view.host_seat.answered && (
+              <p className="mt-2 text-sm text-t4t-gold">Your host answer is locked in.</p>
+            )}
             {view.phase === "reveal" && (
               <p className="mt-4 text-sm text-t4t-gold">
                 TEKS {activeCell.teks} · {activeCell.answer}
@@ -403,6 +425,12 @@ export default function HostPage() {
             <p className="text-xs uppercase text-white/60">Control dock</p>
             <p className="mt-2 text-sm">
               Answers: {view.answer_count} / {view.players.length}
+            </p>
+            <p className="text-sm">
+              host score:{" "}
+              <span className="font-bold text-t4t-gold">
+                {view.host_seat.score}
+              </span>
             </p>
             <p className="text-sm">Phase: {view.phase}</p>
             <div className="mt-4 flex flex-col gap-2">
@@ -468,7 +496,7 @@ export default function HostPage() {
               {view.code}
             </p>
             <p className="text-xs text-white/70">
-              {view.players.length} joined · students go to /join
+              {view.players.filter((p) => p.player_id !== "host").length} joined · students go to /join
             </p>
           </div>
         </div>
@@ -559,7 +587,7 @@ export default function HostPage() {
                 {p.display_name} — {p.score} pts
               </li>
             ))}
-            {view.players.length === 0 && (
+            {view.players.filter((p) => p.player_id !== "host").length === 0 && (
               <li className="text-t4t-darkText/50">Waiting for students…</li>
             )}
           </ul>

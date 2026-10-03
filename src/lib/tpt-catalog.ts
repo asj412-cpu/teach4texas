@@ -93,6 +93,16 @@ export const TPT_LISTINGS: TptListing[] = [
     featured: true,
   },
   {
+    id: '17812227',
+    href: `${TPT}/Halloween-Escape-Room-Grade-4-STAAR-Math-TEKS-44D-44E-45A-17812227`,
+    title: 'Halloween Escape Room | Grade 4 STAAR Math | TEKS 4.4D 4.4E 4.5A',
+    description:
+      'Grade 4 STAAR math Halloween escape room. Missions for TEKS 4.4D, 4.4E, 4.5A (multiply up to 4×1 and 2×2, divide up to 4-digit by 1-digit, represent multi-step problems with strip diagrams/equations). Self-checking Cadet Corps Google Slides + printable missions. Not a color-by-number worksheet pack.',
+    price: '$4.99',
+    category: 'vault',
+    featured: true,
+  },
+  {
     id: '17547396',
     href: `${TPT}/Hispanic-Heritage-Month-Scavenger-Hunt-Grade-3-STAAR-Math-TEKS-34A-34F-35E-17547396`,
     title: 'Hispanic Heritage Month Scavenger Hunt | Grade 3 STAAR Math | TEKS 3.4A 3.4F 3.5E',

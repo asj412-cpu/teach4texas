@@ -88,8 +88,10 @@ export function TrueFalseDashPlay({
           disabled={submitting || !dash.can_tap}
           onClick={() => onTap(true)}
           className={`min-h-24 rounded-2xl border-2 px-3 py-4 text-center text-2xl font-extrabold shadow-sm transition active:scale-95 disabled:opacity-70 ${
-            dash.picked === true
-              ? "border-t4t-green bg-t4t-green text-white"
+            dash.tapped && dash.picked === true
+              ? dash.last_correct
+                ? "border-t4t-green bg-t4t-green text-white"
+                : "border-t4t-burnt bg-t4t-burnt text-white"
               : "border-t4t-green/40 bg-white text-t4t-green"
           }`}
         >
@@ -100,8 +102,10 @@ export function TrueFalseDashPlay({
           disabled={submitting || !dash.can_tap}
           onClick={() => onTap(false)}
           className={`min-h-24 rounded-2xl border-2 px-3 py-4 text-center text-2xl font-extrabold shadow-sm transition active:scale-95 disabled:opacity-70 ${
-            dash.picked === false
-              ? "border-t4t-burnt bg-t4t-burnt text-white"
+            dash.tapped && dash.picked === false
+              ? dash.last_correct
+                ? "border-t4t-green bg-t4t-green text-white"
+                : "border-t4t-burnt bg-t4t-burnt text-white"
               : "border-t4t-burnt/40 bg-white text-t4t-burnt"
           }`}
         >
@@ -109,9 +113,13 @@ export function TrueFalseDashPlay({
         </button>
       </div>
 
-      {dash.tapped && !dash.completed && !showCombo && (
-        <p className="mt-6 text-center text-sm text-t4t-navy">
-          Locked in — wait for the next claim.
+      {dash.tapped && !dash.completed && (
+        <p
+          className={`mt-6 text-center text-xl font-extrabold ${
+            dash.last_correct ? "text-t4t-green" : "text-t4t-burnt"
+          }`}
+        >
+          {dash.last_correct ? "Correct!" : "Miss."}
         </p>
       )}
     </div>

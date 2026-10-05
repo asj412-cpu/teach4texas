@@ -11,6 +11,7 @@ import {
   supportsOddOneOut,
   supportsScavengerTap,
   supportsTrueFalseDash,
+  supportsEscapeVault,
   supportsSequenceSort,
   supportsTimedRace,
 } from "@/lib/domain/board";
@@ -18,6 +19,7 @@ import { categoryItemsFromBoard } from "@/lib/domain/category-sort";
 import { itemsFromBoard } from "@/lib/domain/memory-match";
 import { oddItemsFromBoard } from "@/lib/domain/odd-one-out";
 import { dashItemsFromBoard } from "@/lib/domain/true-false-dash";
+import { vaultRoomsFromBoard } from "@/lib/domain/escape-vault";
 import { scavengerItemsFromBoard } from "@/lib/domain/scavenger-tap";
 import { sequenceItemsFromBoard } from "@/lib/domain/sequence-sort";
 import { raceItemsFromBoard } from "@/lib/domain/timed-race";
@@ -72,6 +74,11 @@ import {
   TRUE_FALSE_DASH_SAMPLE_BOARD_ID,
 } from "@/lib/fixtures/sample-true-false-dash";
 import {
+  buildSampleEscapeVaultBoard,
+  DEMO_ESCAPE_VAULT_CODE,
+  ESCAPE_VAULT_SAMPLE_BOARD_ID,
+} from "@/lib/fixtures/sample-escape-vault";
+import {
   ACCESS_CODE_COOKIE,
   ENTITLEMENT_TTL_HOURS,
 } from "@/lib/domain/access-code";
@@ -120,6 +127,7 @@ async function ensureStore(): Promise<StoreShape> {
     const seededCategory = seedCategorySortSample(store);
     const seededOdd = seedOddOneOutSample(store);
     const seededDash = seedTrueFalseDashSample(store);
+    const seededVault = seedEscapeVaultSample(store);
     if (
       seededMath ||
       seededMatch ||
@@ -128,7 +136,8 @@ async function ensureStore(): Promise<StoreShape> {
       seededSequence ||
       seededCategory ||
       seededOdd ||
-      seededDash
+      seededDash ||
+      seededVault
     ) {
       await writeStore(store);
     }
@@ -142,6 +151,7 @@ async function ensureStore(): Promise<StoreShape> {
     const categoryBoard = GameBoardSchema.parse(buildSampleCategorySortBoard());
     const oddBoard = GameBoardSchema.parse(buildSampleOddOneOutBoard());
     const dashBoard = GameBoardSchema.parse(buildSampleTrueFalseDashBoard());
+    const vaultBoard = GameBoardSchema.parse(buildSampleEscapeVaultBoard());
     const initial: StoreShape = {
       boards: [
         board,
@@ -152,6 +162,7 @@ async function ensureStore(): Promise<StoreShape> {
         categoryBoard,
         oddBoard,
         dashBoard,
+        vaultBoard,
       ],
       product_codes: [],
       entitlements: [],
@@ -165,6 +176,7 @@ async function ensureStore(): Promise<StoreShape> {
     seedCategorySortSample(initial);
     seedOddOneOutSample(initial);
     seedTrueFalseDashSample(initial);
+    seedEscapeVaultSample(initial);
     await fs.writeFile(STORE_PATH, JSON.stringify(initial, null, 2), "utf8");
     return initial;
   }
@@ -371,6 +383,31 @@ function seedTrueFalseDashSample(store: StoreShape): boolean {
   return dirty;
 }
 
+function seedEscapeVaultSample(store: StoreShape): boolean {
+  let dirty = false;
+  if (!store.boards.some((b) => b.id === ESCAPE_VAULT_SAMPLE_BOARD_ID)) {
+    store.boards.push(GameBoardSchema.parse(buildSampleEscapeVaultBoard()));
+    dirty = true;
+  }
+  const hash = sha256Hex(normalizeAccessCode(DEMO_ESCAPE_VAULT_CODE));
+  if (!store.product_codes.some((c) => c.code_hash === hash)) {
+    store.product_codes.push(
+      ProductCodeRecordSchema.parse({
+        id: generateId("pc"),
+        code_hash: hash,
+        board_id: ESCAPE_VAULT_SAMPLE_BOARD_ID,
+        label: "Local demo / escape vault sample",
+        max_sessions: null,
+        sessions_started: 0,
+        revoked_at: null,
+        created_at: new Date().toISOString(),
+      }),
+    );
+    dirty = true;
+  }
+  return dirty;
+}
+
 async function writeStore(store: StoreShape): Promise<void> {
   await fs.mkdir(DATA_DIR, { recursive: true });
   await fs.writeFile(STORE_PATH, JSON.stringify(store, null, 2), "utf8");
@@ -418,6 +455,7 @@ export function toHostBoardView(board: GameBoard): HostBoardView {
     category_item_count: categoryItemsFromBoard(board).length,
     odd_item_count: oddItemsFromBoard(board).length,
     dash_item_count: dashItemsFromBoard(board).length,
+    vault_room_count: vaultRoomsFromBoard(board).length,
     supports_board: supportsBoardPlay(board),
     supports_memory_match: supportsMemoryMatch(board),
     supports_timed_race: supportsTimedRace(board),
@@ -426,6 +464,7 @@ export function toHostBoardView(board: GameBoard): HostBoardView {
     supports_category_sort: supportsCategorySort(board),
     supports_odd_one_out: supportsOddOneOut(board),
     supports_true_false_dash: supportsTrueFalseDash(board),
+    supports_escape_vault: supportsEscapeVault(board),
   };
 }
 
@@ -576,6 +615,7 @@ export {
   DEMO_CATEGORY_SORT_CODE,
   DEMO_ODD_ONE_OUT_CODE,
   DEMO_TRUE_FALSE_DASH_CODE,
+  DEMO_ESCAPE_VAULT_CODE,
 };
 
 export async function ensureDemoAccessCode(
@@ -921,6 +961,49 @@ export async function ensureTrueFalseDashSample(
   };
 }
 
+/** Seed Escape Vault sample packet + known demo access code. Idempotent. */
+export async function ensureEscapeVaultSample(
+  plaintext = DEMO_ESCAPE_VAULT_CODE,
+): Promise<{ code: string; boardId: string; created: boolean }> {
+  const store = await ensureStore();
+  const board =
+    store.boards.find((b) => b.id === ESCAPE_VAULT_SAMPLE_BOARD_ID) ??
+    GameBoardSchema.parse(buildSampleEscapeVaultBoard());
+
+  if (!store.boards.some((b) => b.id === board.id)) {
+    store.boards.push(board);
+  }
+
+  const hash = sha256Hex(normalizeAccessCode(plaintext));
+  const existing = store.product_codes.find((c) => c.code_hash === hash);
+  if (existing) {
+    await writeStore(store);
+    return {
+      code: DEMO_ESCAPE_VAULT_CODE,
+      boardId: board.id,
+      created: false,
+    };
+  }
+
+  const record = ProductCodeRecordSchema.parse({
+    id: generateId("pc"),
+    code_hash: hash,
+    board_id: board.id,
+    label: "Local demo / escape vault sample",
+    max_sessions: null,
+    sessions_started: 0,
+    revoked_at: null,
+    created_at: new Date().toISOString(),
+  });
+  store.product_codes.push(record);
+  await writeStore(store);
+  return {
+    code: DEMO_ESCAPE_VAULT_CODE,
+    boardId: board.id,
+    created: true,
+  };
+}
+
 export async function assertBoardAllowedForEntitlement(
   token: string | undefined,
   requestedBoardId: string,
@@ -1044,6 +1127,15 @@ export async function cloneBoard(opts: {
     dash_items: source.dash_items?.map((item) => ({
       ...item,
       id: generateId("tf"),
+    })),
+    vault_rooms: source.vault_rooms?.map((room) => ({
+      ...room,
+      id: generateId("vr"),
+      puzzles: room.puzzles.map((p) => ({
+        ...p,
+        id: generateId("vp"),
+        choices: p.choices?.map((c) => ({ ...c })),
+      })),
     })),
     cells: source.cells.map((c) => ({
       ...c,

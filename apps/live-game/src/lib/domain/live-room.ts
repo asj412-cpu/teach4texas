@@ -43,6 +43,22 @@ import {
   type PlayerDashState,
   type PlayerDashView,
 } from "@/lib/domain/true-false-dash";
+import {
+  canUnlockVault,
+  chipsFromUnlocked,
+  currentVaultPuzzle,
+  currentVaultRoom,
+  isVaultAnswerCorrect,
+  resolveVaultLockState,
+  studentMajorityCorrect,
+  toPlayerVaultView,
+  vaultAnswerLabel,
+  vaultPuzzleKey,
+  vaultRoomsFromBoard,
+  type PlayerVaultState,
+  type PlayerVaultView,
+  type VaultLockState,
+} from "@/lib/domain/escape-vault";
 import { kidPlainText } from "@/lib/plain-text";
 
 export const RoomPhaseSchema = z.enum([
@@ -55,6 +71,7 @@ export const RoomPhaseSchema = z.enum([
   "binning",
   "odding",
   "dashing",
+  "escaping",
   "question_open",
   "question_locked",
   "reveal",
@@ -88,6 +105,7 @@ export type HostSeatView = {
   category: PlayerCategoryView | null;
   odd: PlayerOddView | null;
   dash: PlayerDashView | null;
+  vault: PlayerVaultView | null;
 };
 
 export type LiveRoom = {
@@ -132,6 +150,13 @@ export type LiveRoom = {
   dash_states: Record<string, PlayerDashState>;
   /** Shared claim index for host-paced true or false dash. */
   dash_index: number;
+  /** Escape Vault per-student answers. Host never sends other students' picks. */
+  vault_states: Record<string, PlayerVaultState>;
+  vault_room_index: number;
+  vault_puzzle_index: number;
+  vault_revealed: boolean;
+  vault_unlocked_rooms: string[];
+  vault_started_at: string | null;
   open_until: string | null;
   answer_seconds: number;
   lobby_locked: boolean;
@@ -259,6 +284,39 @@ export type HostRoomView = {
     /** Host-only answer key — keep off the 16:9 student-facing stage. */
     item_key: { prompt: string; answer: string }[];
   };
+  vault: null | {
+    room_total: number;
+    room_index: number;
+    room_name: string | null;
+    room_chip: string | null;
+    theme_key: string | null;
+    puzzle_total: number;
+    puzzle_index: number;
+    prompt: string | null;
+    kind: "mc" | "numeric" | null;
+    choices: { id: string; label: string }[];
+    teks: string | null;
+    has_next_room: boolean;
+    has_next_puzzle: boolean;
+    answer_count: number;
+    correct_count: number;
+    student_count: number;
+    majority_met: boolean;
+    can_unlock: boolean;
+    lock_state: VaultLockState;
+    revealed: boolean;
+    chips: string[];
+    elapsed_ms: number;
+    players: {
+      player_id: string;
+      display_name: string;
+      answered: boolean;
+      correct_count: number;
+      last_correct: boolean;
+    }[];
+    /** Host-only answer key — keep off the 16:9 student-facing stage. */
+    item_key: { room: string; prompt: string; answer: string }[];
+  };
   open_until: string | null;
   answer_seconds: number;
   lobby_locked: boolean;
@@ -306,6 +364,7 @@ export type PlayerRoomView = {
   category: PlayerCategoryView | null;
   odd: PlayerOddView | null;
   dash: PlayerDashView | null;
+  vault: PlayerVaultView | null;
   open_until: string | null;
   answer_seconds: number;
   server_now: string;
@@ -571,6 +630,126 @@ function hostSeatView(room: LiveRoom): HostSeatView {
             room.dash_index,
           )
         : null,
+    vault:
+      room.game_type === "escape_vault" && room.vault_states[HOST_PLAYER_ID]
+        ? toPlayerVaultView(
+            room.vault_states[HOST_PLAYER_ID]!,
+            vaultRoomsFromBoard(room.board),
+            room.vault_room_index,
+            room.vault_puzzle_index,
+            vaultViewExtra(room),
+          )
+        : null,
+  };
+}
+
+function vaultViewExtra(room: LiveRoom) {
+  const rooms = vaultRoomsFromBoard(room.board);
+  const current = currentVaultRoom(rooms, room.vault_room_index);
+  const majority = studentMajorityCorrect({
+    players: Object.values(room.players),
+    hostId: HOST_PLAYER_ID,
+    states: room.vault_states,
+    rooms,
+    roomIndex: room.vault_room_index,
+    puzzleIndex: room.vault_puzzle_index,
+  });
+  const unlocked = current
+    ? room.vault_unlocked_rooms.includes(current.id)
+    : false;
+  return {
+    unlockedRoomIds: room.vault_unlocked_rooms,
+    revealed: room.vault_revealed,
+    lockState: resolveVaultLockState({
+      unlocked,
+      majority,
+      revealed: room.vault_revealed,
+    }),
+  };
+}
+
+function hostVaultView(room: LiveRoom): HostRoomView["vault"] {
+  if (room.game_type !== "escape_vault") return null;
+  const rooms = vaultRoomsFromBoard(room.board);
+  const idx = room.vault_room_index;
+  const pIdx = room.vault_puzzle_index;
+  const roomRow = currentVaultRoom(rooms, idx);
+  const puzzle = currentVaultPuzzle(rooms, idx, pIdx);
+  const key = vaultPuzzleKey(idx, pIdx);
+  const extra = vaultViewExtra(room);
+  const majority = studentMajorityCorrect({
+    players: Object.values(room.players),
+    hostId: HOST_PLAYER_ID,
+    states: room.vault_states,
+    rooms,
+    roomIndex: idx,
+    puzzleIndex: pIdx,
+  });
+  const studentCount = Object.values(room.players).filter(
+    (p) => p.player_id !== HOST_PLAYER_ID && p.connected,
+  ).length;
+  const started = room.vault_started_at
+    ? new Date(room.vault_started_at).getTime()
+    : Date.now();
+  return {
+    room_total: rooms.length,
+    room_index: idx,
+    room_name: roomRow?.name ?? null,
+    room_chip: roomRow?.chip ?? null,
+    theme_key: roomRow?.theme_key ?? null,
+    puzzle_total: roomRow?.puzzles.length ?? 0,
+    puzzle_index: pIdx,
+    prompt: puzzle ? kidPlainText(puzzle.prompt, 400) : null,
+    kind: puzzle?.kind ?? null,
+    choices: puzzle?.choices
+      ? puzzle.choices.map((c) => ({
+          id: c.id,
+          label: kidPlainText(c.label, 80),
+        }))
+      : [],
+    teks: puzzle?.teks ?? null,
+    has_next_room: idx < rooms.length - 1,
+    has_next_puzzle: Boolean(roomRow && pIdx < roomRow.puzzles.length - 1),
+    answer_count: Object.values(room.players).filter((p) => {
+      const st = room.vault_states[p.player_id];
+      return st?.answers[key] !== undefined;
+    }).length,
+    correct_count: Object.values(room.players).filter((p) => {
+      const st = room.vault_states[p.player_id];
+      const ans = st?.answers[key];
+      return puzzle && ans ? isVaultAnswerCorrect(puzzle, ans) : false;
+    }).length,
+    student_count: studentCount,
+    majority_met: majority,
+    can_unlock: canUnlockVault({
+      unlockRule: roomRow?.unlock_rule ?? "majority",
+      majority,
+      revealed: room.vault_revealed,
+    }),
+    lock_state: extra.lockState,
+    revealed: room.vault_revealed,
+    chips: chipsFromUnlocked(rooms, room.vault_unlocked_rooms),
+    elapsed_ms: Math.max(0, Date.now() - started),
+    players: Object.values(room.players).map((p) => {
+      const st = room.vault_states[p.player_id];
+      const ans = st?.answers[key];
+      return {
+        player_id: p.player_id,
+        display_name: p.display_name,
+        answered: ans !== undefined,
+        correct_count: st?.correct_count ?? 0,
+        last_correct: Boolean(
+          puzzle && ans && isVaultAnswerCorrect(puzzle, ans),
+        ),
+      };
+    }),
+    item_key: rooms.flatMap((r) =>
+      r.puzzles.map((it) => ({
+        room: r.name,
+        prompt: kidPlainText(it.prompt, 80),
+        answer: vaultAnswerLabel(it),
+      })),
+    ),
   };
 }
 
@@ -631,6 +810,7 @@ export function sanitizeForHost(room: LiveRoom): HostRoomView {
     odd: hostOddView(room),
     host_seat: hostSeatView(room),
     dash: hostDashView(room),
+    vault: hostVaultView(room),
     open_until: room.open_until,
     answer_seconds: room.answer_seconds,
     lobby_locked: room.lobby_locked,
@@ -747,6 +927,16 @@ export function sanitizeForPlayer(
             room.dash_states[playerId]!,
             dashItemsFromBoard(room.board),
             room.dash_index,
+          )
+        : null,
+    vault:
+      room.game_type === "escape_vault" && room.vault_states[playerId]
+        ? toPlayerVaultView(
+            room.vault_states[playerId]!,
+            vaultRoomsFromBoard(room.board),
+            room.vault_room_index,
+            room.vault_puzzle_index,
+            vaultViewExtra(room),
           )
         : null,
     open_until: room.open_until,

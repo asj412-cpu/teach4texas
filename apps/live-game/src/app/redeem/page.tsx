@@ -19,6 +19,7 @@ type HostBoard = {
   category_item_count?: number;
   odd_item_count?: number;
   dash_item_count?: number;
+  vault_room_count?: number;
   supports_memory_match?: boolean;
   supports_timed_race?: boolean;
   supports_scavenger_tap?: boolean;
@@ -26,6 +27,7 @@ type HostBoard = {
   supports_category_sort?: boolean;
   supports_odd_one_out?: boolean;
   supports_true_false_dash?: boolean;
+  supports_escape_vault?: boolean;
   supports_board?: boolean;
 };
 
@@ -123,7 +125,9 @@ export default function RedeemPage() {
                         ? ` · Find the Odd One · ${unlocked.odd_item_count ?? 0} rounds`
                         : unlocked.game_type === "true_false_dash"
                           ? ` · True or False Dash · ${unlocked.dash_item_count ?? 0} claims`
-                          : ` · ${unlocked.cell_count} questions`}
+                          : unlocked.game_type === "escape_vault"
+                            ? ` · Escape Vault · ${unlocked.vault_room_count ?? 0} rooms`
+                            : ` · ${unlocked.cell_count} questions`}
             {unlocked.supports_memory_match && unlocked.game_type !== "memory_match"
               ? " · can host as Memory Match"
               : ""}
@@ -149,6 +153,10 @@ export default function RedeemPage() {
             {unlocked.supports_true_false_dash &&
             unlocked.game_type !== "true_false_dash"
               ? " · can host as True or False Dash"
+              : ""}
+            {unlocked.supports_escape_vault &&
+            unlocked.game_type !== "escape_vault"
+              ? " · can host as Escape Vault"
               : ""}
           </p>
           <ul className="list-inside list-disc text-sm text-t4t-darkText/70">

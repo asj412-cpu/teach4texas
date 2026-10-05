@@ -1,0 +1,126 @@
+{
+  "id": "board_sample_escape_vault_thanksgiving_g4",
+  "title": "Thanksgiving Escape — Grade 4 STAAR Math",
+  "grade": 4,
+  "subject": "math",
+  "theme": "Thanksgiving Escape",
+  "status": "ready",
+  "tpt_sku": "17850252",
+  "game_type": "escape_vault",
+  "vault_rooms": [
+    {
+      "id": "room-pie-kitchen",
+      "name": "Pie Kitchen",
+      "chip": "G",
+      "theme_key": "pie",
+      "unlock_rule": "majority",
+      "puzzles": [
+        {
+          "id": "S1-1",
+          "prompt": "Cadet Jake has 5/8 of a pumpkin pie left on the cooling rack. Cadet Avery adds 2/8 of a pie from the second rack. How much pie do they have together?",
+          "kind": "mc",
+          "choices": [
+            { "id": "A", "label": "3/8 of a pie" },
+            { "id": "B", "label": "7/8 of a pie" },
+            { "id": "C", "label": "7/16 of a pie" },
+            { "id": "D", "label": "10/8 of a pie" }
+          ],
+          "correct_choice_id": "B",
+          "teks": "4.3E",
+          "hint": "Same-size pie pieces mean keep the denominator 8. Add the pieces: 5 + 2 = 7."
+        }
+      ]
+    },
+    {
+      "id": "room-dinner-table",
+      "name": "Dinner Table",
+      "chip": "I",
+      "theme_key": "dinner",
+      "unlock_rule": "majority",
+      "puzzles": [
+        {
+          "id": "S2-1",
+          "prompt": "Cadet Jake seats 53 Thanksgiving guests. Each table holds 6 guests. How many tables does he need so every guest has a seat?",
+          "kind": "mc",
+          "choices": [
+            { "id": "A", "label": "9 tables" },
+            { "id": "B", "label": "8 tables" },
+            { "id": "C", "label": "47 tables" },
+            { "id": "D", "label": "5 tables" }
+          ],
+          "correct_choice_id": "A",
+          "teks": "4.4H",
+          "hint": "6 × 8 = 48, remainder 5. Those 5 guests still need a table, so round up to 9."
+        }
+      ]
+    },
+    {
+      "id": "room-harvest-market",
+      "name": "Harvest Market",
+      "chip": "V",
+      "theme_key": "harvest",
+      "unlock_rule": "majority",
+      "puzzles": [
+        {
+          "id": "S3-1",
+          "prompt": "A cider jug holds 2 liters. Cadet Jake buys 3 jugs and pours 500 milliliters for a tasting cup. (1 liter = 1,000 milliliters) How many milliliters of cider remain?",
+          "kind": "mc",
+          "choices": [
+            { "id": "A", "label": "5,500 liters" },
+            { "id": "B", "label": "1,500 milliliters" },
+            { "id": "C", "label": "6,000 milliliters" },
+            { "id": "D", "label": "5,500 milliliters" }
+          ],
+          "correct_choice_id": "D",
+          "teks": "4.8C",
+          "hint": "Convert liters first (6 L = 6,000 mL), then subtract the 500 mL tasting."
+        }
+      ]
+    },
+    {
+      "id": "room-leftover-lab",
+      "name": "Leftover Lab",
+      "chip": "E",
+      "theme_key": "leftover",
+      "unlock_rule": "majority",
+      "puzzles": [
+        {
+          "id": "S4-1",
+          "prompt": "The leftover lab starts with 3 gravy containers of 750 milliliters each. Cadets use 400 milliliters for sandwiches, then pour 250 milliliters into a guest jar. How many milliliters of gravy remain?",
+          "kind": "mc",
+          "choices": [
+            { "id": "A", "label": "1,600 milliliters" },
+            { "id": "B", "label": "2,250 milliliters" },
+            { "id": "C", "label": "1,850 milliliters" },
+            { "id": "D", "label": "350 milliliters" }
+          ],
+          "correct_choice_id": "A",
+          "teks": "4.8C",
+          "hint": "Two steps after the start: 2,250 − 400 − 250 = 1,600. Do not stop at 2,250."
+        }
+      ]
+    },
+    {
+      "id": "room-gratitude-gate",
+      "name": "Gratitude Gate",
+      "theme_key": "gate",
+      "unlock_rule": "majority",
+      "puzzles": [
+        {
+          "id": "B-1",
+          "prompt": "Commander Mia has 11/12 of an apple pie. She gives 4/12 of the pie to Cadet Avery’s family table. How much of the pie does she have left?",
+          "kind": "mc",
+          "choices": [
+            { "id": "A", "label": "15/12 of the pie" },
+            { "id": "B", "label": "11/12 + 4/12 = 7/12" },
+            { "id": "C", "label": "11/12 − 4/12 = 7/24" },
+            { "id": "D", "label": "7/12 of the pie" }
+          ],
+          "correct_choice_id": "D",
+          "teks": "4.3E",
+          "hint": "Giving pie away means subtract. Keep twelfths: 11 − 4 = 7, so 7/12 remain."
+        }
+      ]
+    }
+  ]
+}

@@ -9,6 +9,7 @@ export const GameTypeSchema = z.enum([
   "category_sort",
   "odd_one_out",
   "true_false_dash",
+  "escape_vault",
 ]);
 export type GameType = z.infer<typeof GameTypeSchema>;
 
@@ -186,6 +187,72 @@ export const TrueFalseDashItemSchema = z.object({
 
 export type TrueFalseDashItem = z.infer<typeof TrueFalseDashItemSchema>;
 
+/** MC or numeric puzzle for Escape Vault rooms. `teks` is optional. */
+export const EscapeVaultChoiceSchema = z.object({
+  id: z.string().min(1),
+  label: z.string().min(1).max(80),
+});
+
+export const EscapeVaultPuzzleSchema = z
+  .object({
+    id: z.string().min(1),
+    prompt: z.string().min(1).max(400),
+    kind: z.enum(["mc", "numeric"]),
+    choices: z.array(EscapeVaultChoiceSchema).max(4).optional(),
+    correct_choice_id: z.string().min(1).optional(),
+    correct_numeric: z.string().min(1).max(40).optional(),
+    teks: z.string().max(32).optional(),
+    hint: z.string().max(240).optional(),
+  })
+  .superRefine((puzzle, ctx) => {
+    if (puzzle.kind === "mc") {
+      const choices = puzzle.choices ?? [];
+      if (choices.length !== 4) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "mc puzzles need exactly 4 choices",
+        });
+      }
+      const ids = choices.map((c) => c.id);
+      if (new Set(ids).size !== ids.length) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "choice ids must be unique",
+        });
+      }
+      if (
+        !puzzle.correct_choice_id ||
+        !choices.some((c) => c.id === puzzle.correct_choice_id)
+      ) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "correct_choice_id must match a choice id",
+        });
+      }
+    }
+    if (puzzle.kind === "numeric") {
+      if (!puzzle.correct_numeric || !puzzle.correct_numeric.trim()) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "numeric puzzles need correct_numeric",
+        });
+      }
+    }
+  });
+
+export const EscapeVaultRoomSchema = z.object({
+  id: z.string().min(1),
+  name: z.string().min(1).max(80),
+  chip: z.string().max(8).optional(),
+  theme_key: z.string().max(32).optional(),
+  unlock_rule: z.enum(["majority", "host"]).default("majority"),
+  puzzles: z.array(EscapeVaultPuzzleSchema).min(1).max(4),
+});
+
+export type EscapeVaultChoice = z.infer<typeof EscapeVaultChoiceSchema>;
+export type EscapeVaultPuzzle = z.infer<typeof EscapeVaultPuzzleSchema>;
+export type EscapeVaultRoom = z.infer<typeof EscapeVaultRoomSchema>;
+
 /** Live MC cell — distinct from offline free-response TPT JSON. */
 export const QuestionCellSchema = z.object({
   id: z.string().min(1),
@@ -246,6 +313,8 @@ export const GameBoardSchema = z
     odd_items: z.array(OddOneOutItemSchema).max(12).optional(),
     /** True or False Dash claims. Ignored unless host picks true_false_dash. */
     dash_items: z.array(TrueFalseDashItemSchema).max(12).optional(),
+    /** Escape Vault rooms + puzzles. Ignored unless host picks escape_vault. */
+    vault_rooms: z.array(EscapeVaultRoomSchema).max(8).optional(),
     created_at: z.string(),
     updated_at: z.string(),
   })
@@ -404,6 +473,29 @@ export const GameBoardSchema = z
       return;
     }
 
+    if (type === "escape_vault") {
+      const vaultCount =
+        board.vault_rooms && board.vault_rooms.length >= 2
+          ? board.vault_rooms.length
+          : board.race_items && board.race_items.length >= 2
+            ? board.race_items.length
+            : board.cells.length;
+      if (vaultCount < 2) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message:
+            "Escape vault needs at least 2 rooms (vault_rooms JSON, race_items, or board cells)",
+        });
+      }
+      if (board.vault_rooms && board.vault_rooms.length > 8) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Escape vault supports at most 8 rooms",
+        });
+      }
+      return;
+    }
+
     if (type === "true_false_dash") {
       const dashCount =
         board.dash_items && board.dash_items.length >= 4
@@ -473,6 +565,7 @@ export type HostBoardView = {
   category_item_count: number;
   odd_item_count: number;
   dash_item_count: number;
+  vault_room_count: number;
   supports_board: boolean;
   supports_memory_match: boolean;
   supports_timed_race: boolean;
@@ -481,6 +574,7 @@ export type HostBoardView = {
   supports_category_sort: boolean;
   supports_odd_one_out: boolean;
   supports_true_false_dash: boolean;
+  supports_escape_vault: boolean;
 };
 
 export function boardGameType(board: { game_type?: GameType }): GameType {
@@ -583,10 +677,25 @@ export function supportsTrueFalseDash(board: {
   );
 }
 
+export function supportsEscapeVault(board: {
+  vault_rooms?: EscapeVaultRoom[];
+  race_items?: TimedRaceItem[];
+  cells?: { id: string }[];
+}): boolean {
+  return (
+    (board.vault_rooms?.length ?? 0) >= 2 ||
+    (board.race_items?.length ?? 0) >= 2 ||
+    (board.cells?.length ?? 0) >= 2
+  );
+}
+
 export function resolvePlayableGameType(
   board: GameBoard,
   requested?: string | null,
 ): GameType {
+  if (requested === "escape_vault" && supportsEscapeVault(board)) {
+    return "escape_vault";
+  }
   if (requested === "true_false_dash" && supportsTrueFalseDash(board)) {
     return "true_false_dash";
   }
@@ -612,6 +721,9 @@ export function resolvePlayableGameType(
     return "board";
   }
   const native = boardGameType(board);
+  if (native === "escape_vault" && supportsEscapeVault(board)) {
+    return "escape_vault";
+  }
   if (native === "true_false_dash" && supportsTrueFalseDash(board)) {
     return "true_false_dash";
   }
@@ -641,5 +753,6 @@ export function resolvePlayableGameType(
   if (supportsCategorySort(board)) return "category_sort";
   if (supportsOddOneOut(board)) return "odd_one_out";
   if (supportsTrueFalseDash(board)) return "true_false_dash";
+  if (supportsEscapeVault(board)) return "escape_vault";
   return "board";
 }

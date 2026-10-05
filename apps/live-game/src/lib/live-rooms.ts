@@ -48,6 +48,15 @@ import {
   dashItemsFromBoard,
 } from "@/lib/domain/true-false-dash";
 import {
+  applyVaultAnswer,
+  canUnlockVault,
+  createPlayerVaultState,
+  currentVaultRoom,
+  studentMajorityCorrect,
+  vaultRoomsFromBoard,
+  type VaultAnswerPayload,
+} from "@/lib/domain/escape-vault";
+import {
   generateId,
   generateOpaqueToken,
   sha256Hex,
@@ -175,6 +184,11 @@ function resetRoomToLobby(room: LiveRoom) {
   room.category_index = 0;
   room.odd_index = 0;
   room.dash_index = 0;
+  room.vault_room_index = 0;
+  room.vault_puzzle_index = 0;
+  room.vault_revealed = false;
+  room.vault_unlocked_rooms = [];
+  room.vault_started_at = null;
   room.match_states = {};
   room.race_states = {};
   room.scavenger_states = {};
@@ -182,6 +196,7 @@ function resetRoomToLobby(room: LiveRoom) {
   room.category_states = {};
   room.odd_states = {};
   room.dash_states = {};
+  room.vault_states = {};
   for (const p of Object.values(room.players)) {
     p.score = 0;
     p.connected = true;
@@ -193,6 +208,12 @@ function ensurePlayerDashState(room: LiveRoom, playerId: string) {
   if (room.game_type !== "true_false_dash") return;
   if (room.dash_states[playerId]) return;
   room.dash_states[playerId] = createPlayerDashState();
+}
+
+function ensurePlayerVaultState(room: LiveRoom, playerId: string) {
+  if (room.game_type !== "escape_vault") return;
+  if (room.vault_states[playerId]) return;
+  room.vault_states[playerId] = createPlayerVaultState();
 }
 
 export function createLiveRoom(opts: {
@@ -236,6 +257,12 @@ export function createLiveRoom(opts: {
     odd_index: 0,
     dash_states: {},
     dash_index: 0,
+    vault_states: {},
+    vault_room_index: 0,
+    vault_puzzle_index: 0,
+    vault_revealed: false,
+    vault_unlocked_rooms: [],
+    vault_started_at: null,
     open_until: null,
     answer_seconds:
       opts.answerSeconds ??
@@ -286,6 +313,12 @@ export function hostView(room: LiveRoom) {
   if (room.game_type === "odd_one_out" && room.phase === "odding") {
     ensurePlayerOddState(room, HOST_PLAYER_ID);
   }
+  if (room.game_type === "true_false_dash" && room.phase === "dashing") {
+    ensurePlayerDashState(room, HOST_PLAYER_ID);
+  }
+  if (room.game_type === "escape_vault" && room.phase === "escaping") {
+    ensurePlayerVaultState(room, HOST_PLAYER_ID);
+  }
   return sanitizeForHost(room);
 }
 
@@ -306,6 +339,9 @@ export function playerView(room: LiveRoom, playerId: string) {
   }
   if (room.game_type === "true_false_dash" && room.phase === "dashing") {
     ensurePlayerDashState(room, playerId);
+  }
+  if (room.game_type === "escape_vault" && room.phase === "escaping") {
+    ensurePlayerVaultState(room, playerId);
   }
   return sanitizeForPlayer(room, playerId);
 }
@@ -356,6 +392,9 @@ export function joinRoom(
       }
       if (room.game_type === "true_false_dash" && room.phase === "dashing") {
         ensurePlayerDashState(room, existing.player_id);
+      }
+      if (room.game_type === "escape_vault" && room.phase === "escaping") {
+        ensurePlayerVaultState(room, existing.player_id);
       }
       const view = sanitizeForPlayer(room, existing.player_id);
       if (!view) return { ok: false, error: "JOIN_FAILED" };
@@ -421,6 +460,9 @@ export function joinRoom(
   if (room.game_type === "true_false_dash" && room.phase === "dashing") {
     ensurePlayerDashState(room, player_id);
   }
+  if (room.game_type === "escape_vault" && room.phase === "escaping") {
+    ensurePlayerVaultState(room, player_id);
+  }
 
   const view = sanitizeForPlayer(room, player_id);
   if (!view) return { ok: false, error: "JOIN_FAILED" };
@@ -444,6 +486,9 @@ export type HostAction =
   | { type: "next_item" }
   | { type: "next_round" }
   | { type: "next_claim" }
+  | { type: "reveal_vault" }
+  | { type: "unlock_advance" }
+  | { type: "next_puzzle" }
   | { type: "host_answer"; choice_index: number }
   | { type: "host_flip"; card_index: number }
   | { type: "host_race"; choice_index: number }
@@ -451,7 +496,8 @@ export type HostAction =
   | { type: "host_sort"; order: string[] }
   | { type: "host_bin"; category_id: string }
   | { type: "host_odd"; option_id: string }
-  | { type: "host_claim"; answer: boolean };
+  | { type: "host_claim"; answer: boolean }
+  | { type: "host_vault"; choice_id?: string; numeric?: string };
 
 export function applyHostAction(
   room: LiveRoom,
@@ -508,6 +554,16 @@ export function applyHostAction(
           ensurePlayerDashState(room, pid);
         }
         room.phase = "dashing";
+      } else if (room.game_type === "escape_vault") {
+        room.vault_room_index = 0;
+        room.vault_puzzle_index = 0;
+        room.vault_revealed = false;
+        room.vault_unlocked_rooms = [];
+        room.vault_started_at = new Date().toISOString();
+        for (const pid of Object.keys(room.players)) {
+          ensurePlayerVaultState(room, pid);
+        }
+        room.phase = "escaping";
       } else {
         room.phase = "board";
       }
@@ -581,6 +637,80 @@ export function applyHostAction(
         return { ok: false, error: "NO_MORE_CLAIMS" };
       }
       room.dash_index += 1;
+      return { ok: true };
+    }
+    case "reveal_vault": {
+      if (room.game_type !== "escape_vault") {
+        return { ok: false, error: "NOT_ESCAPE_VAULT" };
+      }
+      if (room.phase !== "escaping") {
+        return { ok: false, error: "ILLEGAL_TRANSITION" };
+      }
+      if (room.vault_revealed) {
+        return { ok: false, error: "ALREADY_REVEALED" };
+      }
+      room.vault_revealed = true;
+      return { ok: true };
+    }
+    case "next_puzzle": {
+      if (room.game_type !== "escape_vault") {
+        return { ok: false, error: "NOT_ESCAPE_VAULT" };
+      }
+      if (room.phase !== "escaping") {
+        return { ok: false, error: "ILLEGAL_TRANSITION" };
+      }
+      const rooms = vaultRoomsFromBoard(room.board);
+      const current = currentVaultRoom(rooms, room.vault_room_index);
+      if (!current) return { ok: false, error: "NO_ROOM" };
+      if (room.vault_puzzle_index >= current.puzzles.length - 1) {
+        return { ok: false, error: "NO_MORE_PUZZLES" };
+      }
+      room.vault_puzzle_index += 1;
+      room.vault_revealed = false;
+      return { ok: true };
+    }
+    case "unlock_advance": {
+      if (room.game_type !== "escape_vault") {
+        return { ok: false, error: "NOT_ESCAPE_VAULT" };
+      }
+      if (room.phase !== "escaping") {
+        return { ok: false, error: "ILLEGAL_TRANSITION" };
+      }
+      const rooms = vaultRoomsFromBoard(room.board);
+      const current = currentVaultRoom(rooms, room.vault_room_index);
+      if (!current) return { ok: false, error: "NO_ROOM" };
+      const majority = studentMajorityCorrect({
+        players: Object.values(room.players),
+        hostId: HOST_PLAYER_ID,
+        states: room.vault_states,
+        rooms,
+        roomIndex: room.vault_room_index,
+        puzzleIndex: room.vault_puzzle_index,
+      });
+      if (
+        !canUnlockVault({
+          unlockRule: current.unlock_rule,
+          majority,
+          revealed: room.vault_revealed,
+        })
+      ) {
+        return { ok: false, error: "LOCKED" };
+      }
+      if (!room.vault_unlocked_rooms.includes(current.id)) {
+        room.vault_unlocked_rooms.push(current.id);
+      }
+      room.vault_revealed = false;
+      if (room.vault_puzzle_index < current.puzzles.length - 1) {
+        room.vault_puzzle_index += 1;
+        return { ok: true };
+      }
+      if (room.vault_room_index < rooms.length - 1) {
+        room.vault_room_index += 1;
+        room.vault_puzzle_index = 0;
+        return { ok: true };
+      }
+      room.phase = "final";
+      room.ended_at = new Date().toISOString();
       return { ok: true };
     }
     case "select_cell": {
@@ -694,6 +824,7 @@ export function applyHostAction(
       delete room.category_states[action.player_id];
       delete room.odd_states[action.player_id];
       delete room.dash_states[action.player_id];
+      delete room.vault_states[action.player_id];
       return { ok: true };
     }
     case "host_answer": {
@@ -727,6 +858,13 @@ export function applyHostAction(
     case "host_claim": {
       ensureHostPlayer(room);
       return submitDashTap(room, HOST_PLAYER_ID, action.answer);
+    }
+    case "host_vault": {
+      ensureHostPlayer(room);
+      return submitVaultAnswer(room, HOST_PLAYER_ID, {
+        choice_id: action.choice_id,
+        numeric: action.numeric,
+      });
     }
     default:
       return { ok: false, error: "UNKNOWN_ACTION" };
@@ -903,6 +1041,35 @@ export function submitOddTap(
   return { ok: true };
 }
 
+export function submitVaultAnswer(
+  room: LiveRoom,
+  playerId: string,
+  payload: VaultAnswerPayload,
+): { ok: true } | { ok: false; error: string } {
+  if (room.game_type !== "escape_vault") {
+    return { ok: false, error: "NOT_ESCAPE_VAULT" };
+  }
+  if (room.phase !== "escaping") {
+    return { ok: false, error: "NOT_ACCEPTING_ANSWERS" };
+  }
+  if (!room.players[playerId]) return { ok: false, error: "NOT_A_PLAYER" };
+  ensurePlayerVaultState(room, playerId);
+  const state = room.vault_states[playerId];
+  if (!state) return { ok: false, error: "NO_VAULT_STATE" };
+  const result = applyVaultAnswer(
+    state,
+    room.vault_room_index,
+    room.vault_puzzle_index,
+    payload,
+    vaultRoomsFromBoard(room.board),
+  );
+  if (!result.ok) return result;
+  if (result.points > 0) {
+    room.players[playerId]!.score += result.points;
+  }
+  return { ok: true };
+}
+
 export function submitDashTap(
   room: LiveRoom,
   playerId: string,
@@ -945,7 +1112,8 @@ export function submitAnswer(
     room.game_type === "sequence_sort" ||
     room.game_type === "category_sort" ||
     room.game_type === "odd_one_out" ||
-    room.game_type === "true_false_dash"
+    room.game_type === "true_false_dash" ||
+    room.game_type === "escape_vault"
   ) {
     return { ok: false, error: "NOT_ACCEPTING_ANSWERS" };
   }

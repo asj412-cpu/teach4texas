@@ -11,6 +11,7 @@ import {
   supportsOddOneOut,
   supportsScavengerTap,
   supportsTrueFalseDash,
+  supportsEscapeVault,
   supportsSequenceSort,
   supportsTimedRace,
 } from "@/lib/domain/board";
@@ -19,6 +20,7 @@ import { CategorySortHost } from "@/components/category-sort-host";
 import { MemoryMatchHost } from "@/components/memory-match-host";
 import { OddOneOutHost } from "@/components/odd-one-out-host";
 import { TrueFalseDashHost } from "@/components/true-false-dash-host";
+import { EscapeVaultHost } from "@/components/escape-vault-host";
 import { ScavengerTapHost } from "@/components/scavenger-tap-host";
 import { SequenceSortHost } from "@/components/sequence-sort-host";
 import { TimedRaceHost } from "@/components/timed-race-host";
@@ -333,12 +335,30 @@ export default function HostPage() {
                   : "Start as True or False Dash"}
             </button>
           )}
+          {supportsEscapeVault(board) && (
+            <button
+              type="button"
+              disabled={starting}
+              onClick={() => startLive("escape_vault")}
+              className="rounded-xl border-2 border-amber-500 bg-amber-700 px-4 py-3 text-sm font-semibold text-white disabled:opacity-50"
+            >
+              {starting
+                ? "Starting…"
+                : boardGameType(board) === "escape_vault"
+                  ? "Start Escape Vault"
+                  : "Start as Escape Vault"}
+            </button>
+          )}
         </div>
         <p className="mt-3 text-xs text-t4t-darkText/50">
           Students will join with a short room code (not your TPT access code).
         </p>
       </div>
     );
+  }
+
+  if (view.game_type === "escape_vault" && (view.phase === "escaping" || view.phase === "final" || view.phase === "lobby")) {
+    return <EscapeVaultHost view={view} onAction={hostAction} />;
   }
 
   if (view.phase === "final") {
@@ -393,6 +413,7 @@ export default function HostPage() {
   if (view.game_type === "true_false_dash") {
     return <TrueFalseDashHost view={view} onAction={hostAction} />;
   }
+
 
   const used = new Set(view.used_cell_ids);
   const activeCell: QuestionCell | undefined = view.active_cell_id

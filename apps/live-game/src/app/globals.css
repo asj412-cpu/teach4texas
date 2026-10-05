@@ -18,3 +18,64 @@ body {
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
     sans-serif;
 }
+
+/* escape_vault WOW — CSS/SVG only; respects prefers-reduced-motion via class toggles */
+@keyframes ev-spin { to { transform: rotate(360deg); } }
+@keyframes ev-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+@keyframes ev-open-pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); opacity: 0.9; }
+}
+@keyframes ev-swing {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-50deg); }
+}
+@keyframes ev-door {
+  0% { opacity: 1; transform: scale(1.05); }
+  100% { opacity: 0; transform: scale(1); }
+}
+@keyframes ev-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+@keyframes ev-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes ev-wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  30% { transform: rotate(-8deg); }
+  70% { transform: rotate(8deg); }
+}
+@keyframes ev-confetti-fall {
+  0% { transform: translateY(-10%) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110%) rotate(240deg); opacity: 0; }
+}
+.ev-dial-spin { animation: ev-spin 1.2s linear infinite; transform-origin: 60px 60px; }
+.ev-lock-shake { animation: ev-shake 0.4s ease; }
+.ev-lock-ready { animation: ev-bob 1.2s ease-in-out infinite; }
+.ev-lock-open { animation: ev-open-pop 0.7s ease-out forwards; }
+.ev-shackle-swing { animation: ev-swing 0.7s ease-out forwards; transform-origin: 60px 28px; }
+.ev-door-open { animation: ev-door 0.9s ease-out forwards; }
+.ev-fade { animation: ev-fade-out 0.35s ease-out forwards; }
+.ev-mascot-cheer { animation: ev-bob 0.5s ease-in-out 3; }
+.ev-mascot-oops { animation: ev-wiggle 0.45s ease; }
+.ev-mascot-hint { animation: ev-bob 1s ease-in-out infinite; }
+.ev-confetti-piece {
+  position: absolute;
+  top: -8%;
+  width: 8px;
+  height: 12px;
+  border-radius: 2px;
+  animation: ev-confetti-fall 1.8s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ev-dial-spin, .ev-lock-shake, .ev-lock-ready, .ev-lock-open,
+  .ev-shackle-swing, .ev-door-open, .ev-mascot-cheer, .ev-mascot-oops,
+  .ev-mascot-hint, .ev-confetti-piece { animation: none !important; }
+}

@@ -8,6 +8,7 @@ import { CategorySortPlay } from "@/components/category-sort-play";
 import { MemoryMatchPlay } from "@/components/memory-match-play";
 import { OddOneOutPlay } from "@/components/odd-one-out-play";
 import { TrueFalseDashPlay } from "@/components/true-false-dash-play";
+import { EscapeVaultPlay } from "@/components/escape-vault-play";
 import { ScavengerTapPlay } from "@/components/scavenger-tap-play";
 import { SequenceSortPlay } from "@/components/sequence-sort-play";
 import { TimedRacePlay } from "@/components/timed-race-play";
@@ -149,6 +150,23 @@ export default function PlayPage() {
     }
   }
 
+  async function vaultAnswer(payload: { choice_id?: string; numeric?: string }) {
+    if (!playerId || !view || view.game_type !== "escape_vault") return;
+    if (view.phase !== "escaping" || !view.vault?.can_answer) return;
+    setSubmitting(true);
+    try {
+      const res = await fetch(`/api/rooms/${code}/vault`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ player_id: playerId, ...payload }),
+      });
+      const data = await res.json();
+      if (res.ok && data.ok) setView(data.view);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
   async function scavengerTap(target_id: string) {
     if (!playerId || !view || view.game_type !== "scavenger_tap") return;
     if (view.phase !== "scavenging" || !view.scavenger?.can_tap) return;
@@ -241,7 +259,9 @@ export default function PlayPage() {
                       ? "Find the Odd One — waiting for your teacher to start"
                       : view.game_type === "true_false_dash"
                         ? "True or False Dash — waiting for your teacher to start"
-                        : "Waiting for your teacher to start"}{" "}
+                        : view.game_type === "escape_vault"
+                          ? "Escape Vault — waiting for your teacher to start"
+                          : "Waiting for your teacher to start"}{" "}
           ({view.players.length} players)
         </p>
         <p className="mt-6 text-lg font-semibold text-t4t-navy">
@@ -307,6 +327,17 @@ export default function PlayPage() {
   if (view.game_type === "true_false_dash" && view.phase !== "final") {
     return (
       <TrueFalseDashPlay view={view} submitting={submitting} onTap={dashTap} />
+    );
+  }
+
+  if (view.game_type === "escape_vault" && view.phase !== "final") {
+    return (
+      <div className="mx-auto min-h-screen max-w-lg bg-amber-50 px-4 py-6">
+        <p className="mb-2 text-center text-xs font-semibold uppercase tracking-wide text-t4t-burnt">
+          {kidPlainText(view.title, 60)} · {view.my_display_name} · {view.my_score} pts
+        </p>
+        <EscapeVaultPlay view={view} onAnswer={vaultAnswer} />
+      </div>
     );
   }
 

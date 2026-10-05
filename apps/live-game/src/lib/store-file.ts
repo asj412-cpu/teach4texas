@@ -34,6 +34,7 @@ import {
   generateProductAccessCode,
   sha256Hex,
 } from "@/lib/crypto";
+import { redemptionKindFromNormalizedCode } from "@/lib/redemption-kind";
 import { buildSampleMathGrade3Board } from "@/lib/fixtures/sample-math-grade3";
 import {
   buildSampleMemoryMatchBoard,
@@ -75,10 +76,19 @@ import {
   ENTITLEMENT_TTL_HOURS,
 } from "@/lib/domain/access-code";
 
+type RedemptionEventRecord = {
+  id: string;
+  board_id: string;
+  product_code_id: string;
+  kind: "demo" | "paid";
+  created_at: string;
+};
+
 type StoreShape = {
   boards: GameBoard[];
   product_codes: ProductCodeRecord[];
   entitlements: HostEntitlement[];
+  redemption_events: RedemptionEventRecord[];
 };
 
 const DATA_DIR = path.join(
@@ -100,6 +110,7 @@ async function ensureStore(): Promise<StoreShape> {
       boards: parsed.boards ?? [],
       product_codes: parsed.product_codes ?? [],
       entitlements: parsed.entitlements ?? [],
+      redemption_events: parsed.redemption_events ?? [],
     };
     const seededMath = seedMathGrade3Sample(store);
     const seededMatch = seedMemoryMatchSample(store);
@@ -144,6 +155,7 @@ async function ensureStore(): Promise<StoreShape> {
       ],
       product_codes: [],
       entitlements: [],
+      redemption_events: [],
     };
     seedMathGrade3Sample(initial);
     seedMemoryMatchSample(initial);
@@ -507,6 +519,21 @@ export async function redeemAccessCode(rawCode: string): Promise<RedeemResult> {
   });
 
   store.entitlements.push(entitlement);
+
+  // Money-pulse telemetry: do not fail redeem if telemetry write fails.
+  try {
+    if (!store.redemption_events) store.redemption_events = [];
+    store.redemption_events.push({
+      id: generateId("rde"),
+      board_id: pc.board_id,
+      product_code_id: pc.id,
+      kind: redemptionKindFromNormalizedCode(normalized),
+      created_at: new Date().toISOString(),
+    });
+  } catch (err) {
+    console.error("redeemAccessCode.telemetry:", err);
+  }
+
   await writeStore(store);
 
   return {
@@ -1052,4 +1079,36 @@ export async function getBoardForOperator(
   boardId: string,
 ): Promise<GameBoard | null> {
   return getBoard(boardId);
+}
+
+export async function getConversionStats(opts: {
+  since?: string;
+  until?: string;
+}): Promise<{
+  demo: number;
+  paid: number;
+  total: number;
+  since: string | null;
+  until: string | null;
+}> {
+  const store = await ensureStore();
+  const events = store.redemption_events ?? [];
+  const sinceMs = opts.since ? new Date(opts.since).getTime() : null;
+  const untilMs = opts.until ? new Date(opts.until).getTime() : null;
+  let demo = 0;
+  let paid = 0;
+  for (const ev of events) {
+    const t = new Date(ev.created_at).getTime();
+    if (sinceMs != null && t < sinceMs) continue;
+    if (untilMs != null && t > untilMs) continue;
+    if (ev.kind === "demo") demo += 1;
+    else if (ev.kind === "paid") paid += 1;
+  }
+  return {
+    demo,
+    paid,
+    total: demo + paid,
+    since: opts.since ?? null,
+    until: opts.until ?? null,
+  };
 }

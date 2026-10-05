@@ -121,3 +121,10 @@ export async function setBoardStatus(
 export async function getBoardForOperator(boardId: string) {
   return backend().getBoardForOperator(boardId);
 }
+
+export async function getConversionStats(opts: {
+  since?: string;
+  until?: string;
+}) {
+  return backend().getConversionStats(opts);
+}

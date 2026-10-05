@@ -42,6 +42,7 @@ import {
   generateProductAccessCode,
   sha256Hex,
 } from "@/lib/crypto";
+import { redemptionKindFromNormalizedCode } from "@/lib/redemption-kind";
 import { buildSampleMathGrade3Board } from "@/lib/fixtures/sample-math-grade3";
 import {
   buildSampleMemoryMatchBoard,
@@ -454,6 +455,23 @@ export async function redeemAccessCode(rawCode: string): Promise<RedeemResult> {
     created_at: entitlement.created_at,
   });
   throwIfError(ins.error, "redeemAccessCode.insert");
+
+  // Money-pulse telemetry: do not fail redeem if insert fails.
+  try {
+    const kind = redemptionKindFromNormalizedCode(normalized);
+    const tel = await sb.from("redemption_events").insert({
+      id: generateId("rde"),
+      board_id: pc.board_id,
+      product_code_id: pc.id,
+      kind,
+      created_at: new Date().toISOString(),
+    });
+    if (tel.error) {
+      console.error("redeemAccessCode.telemetry:", tel.error.message);
+    }
+  } catch (err) {
+    console.error("redeemAccessCode.telemetry:", err);
+  }
 
   return {
     ok: true,
@@ -1111,4 +1129,36 @@ export async function getBoardForOperator(
   boardId: string,
 ): Promise<GameBoard | null> {
   return getBoard(boardId);
+}
+
+export async function getConversionStats(opts: {
+  since?: string;
+  until?: string;
+}): Promise<{
+  demo: number;
+  paid: number;
+  total: number;
+  since: string | null;
+  until: string | null;
+}> {
+  const sb = getServiceSupabase();
+  let q = sb.from("redemption_events").select("kind");
+  if (opts.since) q = q.gte("created_at", opts.since);
+  if (opts.until) q = q.lte("created_at", opts.until);
+  const res = await q;
+  throwIfError(res.error, "getConversionStats");
+  const rows = (res.data ?? []) as { kind: string }[];
+  let demo = 0;
+  let paid = 0;
+  for (const row of rows) {
+    if (row.kind === "demo") demo += 1;
+    else if (row.kind === "paid") paid += 1;
+  }
+  return {
+    demo,
+    paid,
+    total: demo + paid,
+    since: opts.since ?? null,
+    until: opts.until ?? null,
+  };
 }

@@ -103,6 +103,16 @@ export const TPT_LISTINGS: TptListing[] = [
     featured: true,
   },
   {
+    id: '17850252',
+    href: `${TPT}/Thanksgiving-Escape-Room-Grade-4-STAAR-Math-TEKS-43E-44H-48C-17850252`,
+    title: 'Thanksgiving Escape Room | Grade 4 STAAR Math | TEKS 4.3E 4.4H 4.8C',
+    description:
+      'Grade 4 STAAR math Thanksgiving escape room. 20 STAAR 2.0-style word problems for TEKS 4.3E, 4.4H, 4.8C (add/subtract fractions with equal denominators, divide and interpret remainders, measurement problems with time, liquid volume, mass, and money). 4 feast scenes + Gratitude Gate boss. Self-checking Cadet Corps Google Slides + printable missions. Not a bare-facts worksheet.',
+    price: '$4.99',
+    category: 'vault',
+    featured: true,
+  },
+  {
     id: '17547396',
     href: `${TPT}/Hispanic-Heritage-Month-Scavenger-Hunt-Grade-3-STAAR-Math-TEKS-34A-34F-35E-17547396`,
     title: 'Hispanic Heritage Month Scavenger Hunt | Grade 3 STAAR Math | TEKS 3.4A 3.4F 3.5E',

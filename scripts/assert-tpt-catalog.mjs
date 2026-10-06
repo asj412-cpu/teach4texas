@@ -65,6 +65,7 @@ const requiredIds = [
   '15602263', // TIA Portfolio Guide & Evidence Kit (LIVE; replaces unpublished 17493754)
   '17696158', // Texas Grade 3 Morning Work 4 Weeks TEKS Warmups Print + Easel
   '17812227', // Halloween Escape Room Grade 4 STAAR Math TEKS 4.4D 4.4E 4.5A
+  '17850252', // Thanksgiving Escape Room Grade 4 STAAR Math TEKS 4.3E 4.4H 4.8C
   '17547396', // Hispanic Heritage Month Scavenger Hunt Grade 3 STAAR Math
   '17538014', // Crack the Code Math Mystery Grade 3 STAAR Math
   '17517520', // Labor Day Escape Room Grade 3 STAAR Math

@@ -74,6 +74,10 @@ export const TPT_PRODUCTS = {
     href: 'https://www.teacherspayteachers.com/Product/Halloween-Escape-Room-Grade-4-STAAR-Math-TEKS-44D-44E-45A-17812227',
     label: 'Halloween Escape Room Grade 4 STAAR Math',
   },
+  thanksgivingEscapeG4: {
+    href: 'https://www.teacherspayteachers.com/Product/Thanksgiving-Escape-Room-Grade-4-STAAR-Math-TEKS-43E-44H-48C-17850252',
+    label: 'Thanksgiving Escape Room Grade 4 STAAR Math',
+  },
 } as const satisfies Record<string, TptPack>;
 
 export const SCORE_DESK_PACKS: TptPack[] = [
@@ -109,6 +113,9 @@ export function tptPacksForSlug(slug: string): TptPack[] {
   }
   if (slug === 'halloween-grade-4-staar-math-escape-room') {
     return [TPT_PRODUCTS.halloweenEscapeG4];
+  }
+  if (slug === 'thanksgiving-grade-4-staar-math-escape-room') {
+    return [TPT_PRODUCTS.thanksgivingEscapeG4];
   }
   return [];
 }

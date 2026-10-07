@@ -43,8 +43,26 @@ export type PlayerVaultView = {
   chips: string[];
   lock_state: VaultLockState;
   revealed: boolean;
+  /** Only set after the host taps Reveal: the keyed MC choice id. */
+  revealed_choice_id: string | null;
+  /** Only set after the host taps Reveal: the keyed answer label. */
+  revealed_answer: string | null;
+  /** True only when every vault room was unlocked (not on End game early). */
+  escaped: boolean;
+  /** Board theme string (resolved client-side; Thanksgiving is the default). */
+  theme: string | null;
   hint: string | null;
 };
+
+/** Every room unlocked → the class truly escaped. */
+export function isVaultEscaped(
+  rooms: EscapeVaultRoom[],
+  unlockedRoomIds: string[],
+): boolean {
+  return (
+    rooms.length > 0 && rooms.every((r) => unlockedRoomIds.includes(r.id))
+  );
+}
 
 const LETTERS = ["A", "B", "C", "D"] as const;
 
@@ -247,6 +265,7 @@ export function toPlayerVaultView(
     unlockedRoomIds: string[];
     revealed: boolean;
     lockState: VaultLockState;
+    theme?: string | null;
   },
 ): PlayerVaultView {
   const room = currentVaultRoom(rooms, roomIndex);
@@ -288,6 +307,13 @@ export function toPlayerVaultView(
     chips: chipsFromUnlocked(rooms, extra.unlockedRoomIds),
     lock_state: extra.lockState,
     revealed: extra.revealed,
+    revealed_choice_id:
+      extra.revealed && puzzle?.kind === "mc"
+        ? (puzzle.correct_choice_id ?? null)
+        : null,
+    revealed_answer: extra.revealed && puzzle ? vaultAnswerLabel(puzzle) : null,
+    escaped: isVaultEscaped(rooms, extra.unlockedRoomIds),
+    theme: extra.theme ?? null,
     hint:
       puzzle?.hint && answered && puzzle
         ? kidPlainText(puzzle.hint, 240)

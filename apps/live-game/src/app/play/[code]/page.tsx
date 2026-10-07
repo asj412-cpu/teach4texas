@@ -8,7 +8,7 @@ import { CategorySortPlay } from "@/components/category-sort-play";
 import { MemoryMatchPlay } from "@/components/memory-match-play";
 import { OddOneOutPlay } from "@/components/odd-one-out-play";
 import { TrueFalseDashPlay } from "@/components/true-false-dash-play";
-import { EscapeVaultPlay } from "@/components/escape-vault-play";
+import { EscapeVaultFinal, EscapeVaultPlay } from "@/components/escape-vault-play";
 import { ScavengerTapPlay } from "@/components/scavenger-tap-play";
 import { SequenceSortPlay } from "@/components/sequence-sort-play";
 import { TimedRacePlay } from "@/components/timed-race-play";
@@ -339,6 +339,10 @@ export default function PlayPage() {
         <EscapeVaultPlay view={view} onAnswer={vaultAnswer} />
       </div>
     );
+  }
+
+  if (view.phase === "final" && view.game_type === "escape_vault") {
+    return <EscapeVaultFinal view={view} />;
   }
 
   if (view.phase === "final") {

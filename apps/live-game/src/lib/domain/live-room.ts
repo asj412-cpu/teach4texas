@@ -55,6 +55,7 @@ import {
   vaultAnswerLabel,
   vaultPuzzleKey,
   vaultRoomsFromBoard,
+  isVaultEscaped,
   type PlayerVaultState,
   type PlayerVaultView,
   type VaultLockState,
@@ -307,6 +308,13 @@ export type HostRoomView = {
     revealed: boolean;
     chips: string[];
     elapsed_ms: number;
+    /** True only when every room was unlocked; false after End game early. */
+    escaped: boolean;
+    /** Set only after Reveal: keyed MC choice id / answer label. */
+    revealed_choice_id: string | null;
+    revealed_answer: string | null;
+    /** Board theme string; client resolves (Thanksgiving default). */
+    theme: string | null;
     players: {
       player_id: string;
       display_name: string;
@@ -660,6 +668,7 @@ function vaultViewExtra(room: LiveRoom) {
   return {
     unlockedRoomIds: room.vault_unlocked_rooms,
     revealed: room.vault_revealed,
+    theme: room.board.theme ?? null,
     lockState: resolveVaultLockState({
       unlocked,
       majority,
@@ -710,11 +719,14 @@ function hostVaultView(room: LiveRoom): HostRoomView["vault"] {
     teks: puzzle?.teks ?? null,
     has_next_room: idx < rooms.length - 1,
     has_next_puzzle: Boolean(roomRow && pIdx < roomRow.puzzles.length - 1),
+    // Counts are students only; the host seat is shown separately (AC-H02).
     answer_count: Object.values(room.players).filter((p) => {
+      if (p.player_id === HOST_PLAYER_ID) return false;
       const st = room.vault_states[p.player_id];
       return st?.answers[key] !== undefined;
     }).length,
     correct_count: Object.values(room.players).filter((p) => {
+      if (p.player_id === HOST_PLAYER_ID) return false;
       const st = room.vault_states[p.player_id];
       const ans = st?.answers[key];
       return puzzle && ans ? isVaultAnswerCorrect(puzzle, ans) : false;
@@ -729,7 +741,20 @@ function hostVaultView(room: LiveRoom): HostRoomView["vault"] {
     lock_state: extra.lockState,
     revealed: room.vault_revealed,
     chips: chipsFromUnlocked(rooms, room.vault_unlocked_rooms),
-    elapsed_ms: Math.max(0, Date.now() - started),
+    // Freeze class time when the game ends (finale must not keep ticking).
+    elapsed_ms: Math.max(
+      0,
+      (room.ended_at ? new Date(room.ended_at).getTime() : Date.now()) -
+        started,
+    ),
+    escaped: isVaultEscaped(rooms, room.vault_unlocked_rooms),
+    revealed_choice_id:
+      room.vault_revealed && puzzle?.kind === "mc"
+        ? (puzzle.correct_choice_id ?? null)
+        : null,
+    revealed_answer:
+      room.vault_revealed && puzzle ? vaultAnswerLabel(puzzle) : null,
+    theme: room.board.theme ?? null,
     players: Object.values(room.players).map((p) => {
       const st = room.vault_states[p.player_id];
       const ans = st?.answers[key];

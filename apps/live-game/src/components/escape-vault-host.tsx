@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import type { HostRoomView } from "@/lib/domain/live-room";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { HOST_PLAYER_ID, type HostRoomView } from "@/lib/domain/live-room";
 import { HostFinalActions, HostSeatPanel } from "@/components/host-seat-panel";
 import { kidPlainText } from "@/lib/plain-text";
 import { VaultLock } from "@/components/escape-vault/vault-lock";
@@ -9,8 +9,8 @@ import { TurkeyMascot, type MascotMood } from "@/components/escape-vault/turkey-
 import { RoomTransition } from "@/components/escape-vault/room-transition";
 import { EscapeFinale } from "@/components/escape-vault/finale";
 import {
-  THANKSGIVING_THEME,
   pickLine,
+  resolveEscapeVaultTheme,
 } from "@/components/escape-vault/theme";
 import {
   ensureVaultAudio,
@@ -47,8 +47,8 @@ export function EscapeVaultHost({
   view: HostRoomView;
   onAction: (body: Record<string, unknown>) => void;
 }) {
-  const theme = THANKSGIVING_THEME;
   const vault = view.vault;
+  const theme = resolveEscapeVaultTheme(vault?.theme ?? view.board.theme);
   const reduced = usePrefersReducedMotion();
   const [muted, setMuted] = useState(false);
   const [showKey, setShowKey] = useState(false);
@@ -56,38 +56,88 @@ export function EscapeVaultHost({
   const [lineSalt, setLineSalt] = useState(0);
   const [prevRoom, setPrevRoom] = useState(vault?.room_index ?? 0);
   const [showTransition, setShowTransition] = useState(false);
+  /** Local "lock swings open" beat before the room advances (P2 unlock anim). */
+  const [opening, setOpening] = useState(false);
+  const moodTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const openTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const escaped = Boolean(vault?.escaped);
+
+  /** Oops first (wrong), then settle on the hint. */
+  const oopsThenHint = () => {
+    if (moodTimer.current) clearTimeout(moodTimer.current);
+    setMood("oops");
+    setLineSalt((n) => n + 1);
+    moodTimer.current = setTimeout(() => {
+      setMood("hint");
+      setLineSalt((n) => n + 1);
+    }, 1600);
+  };
 
   useEffect(() => {
     setMuted(isVaultMuted());
   }, []);
 
+  // Room change → door transition + cheer. The chime is played once on the
+  // Unlock click (not here), so it never doubles and never fires on Play again.
   useEffect(() => {
     if (!vault) return;
+    if (view.phase !== "escaping") {
+      if (vault.room_index !== prevRoom) setPrevRoom(vault.room_index);
+      return;
+    }
     if (vault.room_index !== prevRoom) {
       setShowTransition(true);
       setPrevRoom(vault.room_index);
-      playVaultSfx("unlock");
       setMood("cheer");
       setLineSalt((n) => n + 1);
     }
-  }, [vault?.room_index, prevRoom, vault]);
+  }, [vault?.room_index, prevRoom, vault, view.phase]);
+
+  // Host-seat miss → wrong buzz + oops, then hint.
+  const seatVault = view.host_seat?.vault;
+  const seatMissKey =
+    seatVault && seatVault.answered && !seatVault.last_correct
+      ? `${seatVault.room_index}:${seatVault.puzzle_index}`
+      : null;
+  useEffect(() => {
+    if (!seatMissKey) return;
+    playVaultSfx("wrong");
+    oopsThenHint();
+  }, [seatMissKey]);
 
   useEffect(() => {
     if (view.phase === "final") {
-      playVaultSfx("fanfare");
-      setMood("cheer");
+      if (escaped) {
+        playVaultSfx("fanfare");
+        setMood("cheer");
+      } else {
+        setMood("oops");
+      }
       stopAmbient();
     }
-  }, [view.phase]);
+    if (view.phase === "lobby") {
+      // Play again / Return: clear stale vault reactions.
+      if (moodTimer.current) clearTimeout(moodTimer.current);
+      setMood("idle");
+      setShowTransition(false);
+      setOpening(false);
+    }
+  }, [view.phase, escaped]);
 
   useEffect(() => {
-    return () => stopAmbient();
+    return () => {
+      stopAmbient();
+      if (moodTimer.current) clearTimeout(moodTimer.current);
+      if (openTimer.current) clearTimeout(openTimer.current);
+    };
   }, []);
 
   const line = useMemo(() => {
     const bag =
       view.phase === "final"
-        ? theme.lines.finale
+        ? escaped
+          ? theme.lines.finale
+          : theme.lines.oops
         : mood === "cheer"
           ? theme.lines.cheer
           : mood === "oops"
@@ -96,7 +146,7 @@ export function EscapeVaultHost({
               ? theme.lines.hint
               : theme.lines.idle;
     return pickLine(bag, lineSalt + (vault?.room_index ?? 0));
-  }, [mood, lineSalt, theme, vault?.room_index, view.phase]);
+  }, [mood, lineSalt, theme, vault?.room_index, view.phase, escaped]);
 
   const accent =
     theme.roomAccent[vault?.theme_key ?? ""] ?? theme.palette.accent;
@@ -116,6 +166,9 @@ export function EscapeVaultHost({
   };
 
   const ranked = [...view.players].sort((a, b) => b.score - a.score);
+  const studentsJoined = view.players.filter(
+    (p) => p.player_id !== HOST_PLAYER_ID,
+  ).length;
 
   return (
     <div
@@ -150,7 +203,7 @@ export function EscapeVaultHost({
                 {view.code}
               </p>
               <p className="text-xs text-white/70">
-                {view.players.length} joined · students go to /join
+                {studentsJoined} joined · students go to /join
               </p>
             </div>
           </div>
@@ -191,8 +244,12 @@ export function EscapeVaultHost({
                 armAudio();
                 playVaultSfx("tick");
                 onAction({ type: "reveal_vault" });
-                setMood("hint");
-                setLineSalt((n) => n + 1);
+                if (vault?.majority_met) {
+                  setMood("hint");
+                  setLineSalt((n) => n + 1);
+                } else {
+                  oopsThenHint();
+                }
               }}
               className="rounded-xl border border-amber-300 px-5 py-3 text-sm font-semibold text-amber-100"
               disabled={vault?.revealed}
@@ -202,14 +259,23 @@ export function EscapeVaultHost({
             <button
               type="button"
               onClick={() => {
+                if (opening) return;
                 armAudio();
                 playVaultSfx("unlock");
-                onAction({ type: "unlock_advance" });
+                setOpening(true);
                 setMood("cheer");
                 setLineSalt((n) => n + 1);
+                // Let the shackle swing (~0.7s) before the room changes.
+                openTimer.current = setTimeout(
+                  () => {
+                    onAction({ type: "unlock_advance" });
+                    setOpening(false);
+                  },
+                  reduced ? 0 : 750,
+                );
               }}
               className="rounded-xl bg-t4t-gold px-5 py-3 text-sm font-semibold text-t4t-navy disabled:opacity-40"
-              disabled={!vault?.can_unlock}
+              disabled={!vault?.can_unlock || opening}
             >
               Unlock & advance
             </button>
@@ -250,9 +316,19 @@ export function EscapeVaultHost({
 
           {view.phase === "final" ? (
             <EscapeFinale
-              title="Gratitude Gate is open!"
-              chips={vault?.chips ?? ["G", "I", "V", "E"]}
+              title={theme.finaleTitle}
+              notEscapedTitle={theme.notEscapedTitle}
+              escaped={escaped}
+              chips={vault?.chips ?? []}
+              codeWord={theme.codeWord}
               elapsedLabel={formatElapsed(vault?.elapsed_ms ?? 0)}
+              line={line}
+              players={ranked.map((p) => ({
+                player_id: p.player_id,
+                display_name: kidPlainText(p.display_name, 16),
+                score: p.score,
+                is_host: p.player_id === HOST_PLAYER_ID,
+              }))}
               reducedMotion={reduced}
             />
           ) : (
@@ -263,8 +339,12 @@ export function EscapeVaultHost({
                     {view.phase === "lobby"
                       ? "Waiting in lobby"
                       : `Room ${(vault?.room_index ?? 0) + 1}/${vault?.room_total ?? 0}`}
-                    {vault?.room_chip ? ` · Chip ${vault.room_chip}` : ""}
-                    {vault?.teks ? ` · TEKS ${vault.teks}` : ""}
+                    {view.phase === "escaping" && vault?.room_chip
+                      ? ` · Chip ${vault.room_chip}`
+                      : ""}
+                    {view.phase === "escaping" && vault?.teks
+                      ? ` · TEKS ${vault.teks}`
+                      : ""}
                   </p>
                   <p className="mt-1 text-2xl font-extrabold sm:text-3xl">
                     {view.phase === "escaping" && vault?.room_name
@@ -273,7 +353,7 @@ export function EscapeVaultHost({
                   </p>
                 </div>
                 <VaultLock
-                  state={vault?.lock_state ?? "locked"}
+                  state={opening ? "open" : (vault?.lock_state ?? "locked")}
                   accent={theme.palette.lock}
                   reducedMotion={reduced}
                 />
@@ -285,17 +365,38 @@ export function EscapeVaultHost({
                   : "Students join with display name only — no accounts."}
               </p>
 
+              {view.phase === "escaping" &&
+                vault?.revealed_answer &&
+                vault.kind !== "mc" && (
+                  <p className="mx-auto mt-3 w-fit rounded-xl border-4 border-t4t-green bg-emerald-100 px-4 py-2 text-lg font-bold">
+                    ✓ Answer: {vault.revealed_answer}
+                  </p>
+                )}
+
               {view.phase === "escaping" && vault?.choices && (
                 <div className="mx-auto mt-4 grid max-w-3xl grid-cols-1 gap-2 sm:grid-cols-2">
-                  {vault.choices.map((c) => (
-                    <div
-                      key={c.id}
-                      className="rounded-xl bg-white/90 px-3 py-2 text-sm font-semibold shadow-sm"
-                    >
-                      <span className="mr-2 font-mono text-t4t-burnt">{c.id}.</span>
-                      {c.label}
-                    </div>
-                  ))}
+                  {vault.choices.map((c) => {
+                    const isKey = vault.revealed_choice_id === c.id;
+                    return (
+                      <div
+                        key={c.id}
+                        data-revealed-correct={isKey ? "true" : undefined}
+                        className={`rounded-xl px-3 py-2 text-sm font-semibold shadow-sm ${
+                          isKey
+                            ? "border-4 border-t4t-green bg-emerald-100 ring-2 ring-t4t-green/40"
+                            : vault.revealed_choice_id
+                              ? "bg-white/60 opacity-70"
+                              : "bg-white/90"
+                        }`}
+                      >
+                        <span className="mr-2 font-mono text-t4t-burnt">{c.id}.</span>
+                        {c.label}
+                        {isKey ? (
+                          <span className="ml-2 font-bold text-t4t-green">✓ Answer</span>
+                        ) : null}
+                      </div>
+                    );
+                  })}
                 </div>
               )}
 
@@ -303,7 +404,7 @@ export function EscapeVaultHost({
                 <TurkeyMascot mood={mood} line={line} reducedMotion={reduced} />
                 <div className="text-right text-xs text-t4t-darkText/70">
                   {vault
-                    ? `${vault.answer_count}/${view.players.length} answered · ${vault.correct_count} correct`
+                    ? `${vault.answer_count}/${vault.student_count} answered · ${vault.correct_count} correct`
                     : ""}
                   {vault?.majority_met ? " · majority ready" : ""}
                   {vault ? ` · ${formatElapsed(vault.elapsed_ms)}` : ""}

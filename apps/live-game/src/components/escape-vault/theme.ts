@@ -19,6 +19,14 @@ export type EscapeVaultLines = {
 export type EscapeVaultTheme = {
   id: string;
   label: string;
+  /** Finale headline when every room is unlocked. */
+  finaleTitle: string;
+  /** Fallback code word when chips are missing. */
+  codeWord: string;
+  /** Finale headline when the host ends before the last room opens. */
+  notEscapedTitle: string;
+  /** What students are called on screen. */
+  playerNoun: string;
   palette: EscapeVaultPalette;
   roomAccent: Record<string, string>;
   lines: EscapeVaultLines;
@@ -27,6 +35,10 @@ export type EscapeVaultTheme = {
 export const THANKSGIVING_THEME: EscapeVaultTheme = {
   id: "thanksgiving",
   label: "Thanksgiving Escape",
+  finaleTitle: "Gratitude Gate is open!",
+  codeWord: "GIVE",
+  notEscapedTitle: "The Gratitude Gate is still locked",
+  playerNoun: "Cadet",
   palette: {
     bg: "#1a3a2a",
     panel: "#f4e8d0",
@@ -78,4 +90,23 @@ export const THANKSGIVING_THEME: EscapeVaultTheme = {
 export function pickLine(lines: string[], salt = 0): string {
   if (!lines.length) return "";
   return lines[Math.abs(salt) % lines.length]!;
+}
+
+/**
+ * Theme registry. Add SKU 2+ themes here; boards pick one via `board.theme`
+ * (matched by id or label). Thanksgiving stays the default so SKU 1 is unchanged.
+ */
+export const ESCAPE_VAULT_THEMES: EscapeVaultTheme[] = [THANKSGIVING_THEME];
+
+export function resolveEscapeVaultTheme(
+  boardTheme?: string | null,
+): EscapeVaultTheme {
+  const want = (boardTheme ?? "").trim().toLowerCase();
+  if (want) {
+    const hit = ESCAPE_VAULT_THEMES.find(
+      (t) => t.id === want || t.label.toLowerCase() === want,
+    );
+    if (hit) return hit;
+  }
+  return THANKSGIVING_THEME;
 }

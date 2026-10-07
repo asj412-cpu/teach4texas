@@ -677,15 +677,21 @@ export function supportsTrueFalseDash(board: {
   );
 }
 
+/**
+ * Escape Vault is opt-in per product: only boards that ship authored
+ * `vault_rooms`, or boards whose native type is `escape_vault`. Other
+ * products (Jeopardy boards, Timed Race, …) never get the Escape option.
+ */
 export function supportsEscapeVault(board: {
+  game_type?: string | null;
   vault_rooms?: EscapeVaultRoom[];
   race_items?: TimedRaceItem[];
   cells?: { id: string }[];
 }): boolean {
+  if ((board.vault_rooms?.length ?? 0) >= 2) return true;
+  if (board.game_type !== "escape_vault") return false;
   return (
-    (board.vault_rooms?.length ?? 0) >= 2 ||
-    (board.race_items?.length ?? 0) >= 2 ||
-    (board.cells?.length ?? 0) >= 2
+    (board.race_items?.length ?? 0) >= 2 || (board.cells?.length ?? 0) >= 2
   );
 }
 

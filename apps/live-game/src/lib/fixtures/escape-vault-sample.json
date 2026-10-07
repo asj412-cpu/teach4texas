@@ -112,8 +112,8 @@
           "kind": "mc",
           "choices": [
             { "id": "A", "label": "15/12 of the pie" },
-            { "id": "B", "label": "11/12 + 4/12 = 7/12" },
-            { "id": "C", "label": "11/12 − 4/12 = 7/24" },
+            { "id": "B", "label": "4/12 of the pie" },
+            { "id": "C", "label": "7/24 of the pie" },
             { "id": "D", "label": "7/12 of the pie" }
           ],
           "correct_choice_id": "D",

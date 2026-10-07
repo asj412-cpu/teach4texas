@@ -75,7 +75,8 @@ export function VaultLock({
           <circle cx="60" cy="60" r="4" fill="#1a1a1a" />
         </g>
       </svg>
-      <p className="mt-1 text-center text-[10px] font-bold uppercase tracking-wide text-white/80">
+      {/* Dark pill so the label reads on cream panels (WCAG AA, ~15:1). */}
+      <p className="mx-auto mt-1 w-fit rounded-full bg-[#1a1a1a] px-2 py-0.5 text-center text-[11px] font-bold uppercase tracking-wide text-white">
         {open ? "Unlocked" : ready ? "Ready" : state === "revealed" ? "Revealed" : "Locked"}
       </p>
     </div>

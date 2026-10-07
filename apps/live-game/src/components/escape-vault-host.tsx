@@ -403,11 +403,13 @@ export function EscapeVaultHost({
               <div className="mt-4 flex flex-wrap items-end justify-between gap-3">
                 <TurkeyMascot mood={mood} line={line} reducedMotion={reduced} />
                 <div className="text-right text-xs text-t4t-darkText/70">
-                  {vault
+                  {vault && view.phase === "escaping"
                     ? `${vault.answer_count}/${vault.student_count} answered · ${vault.correct_count} correct`
                     : ""}
                   {vault?.majority_met ? " · majority ready" : ""}
-                  {vault ? ` · ${formatElapsed(vault.elapsed_ms)}` : ""}
+                  {vault && view.phase === "escaping"
+                    ? ` · ${formatElapsed(vault.elapsed_ms)}`
+                    : ""}
                   <div className="mt-1 font-mono text-sm font-bold tracking-widest text-t4t-green">
                     {(vault?.chips ?? []).join(" ") || "— — — —"}
                   </div>

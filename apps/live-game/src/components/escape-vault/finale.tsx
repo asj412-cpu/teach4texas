@@ -97,7 +97,7 @@ export function EscapeFinale({
                 >
                   <span className="truncate">
                     {i + 1}. {p.display_name}
-                    {p.is_host ? " (host)" : ""}
+                    {p.is_host && p.display_name.toLowerCase() !== "host" ? " (host)" : ""}
                   </span>
                   <span className="ml-2 font-mono font-bold">{p.score}</span>
                 </li>

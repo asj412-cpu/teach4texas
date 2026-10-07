@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const { room, hostToken } = createLiveRoom({
+    const { room, hostToken } = await createLiveRoom({
       board: resolved.board,
       gameType: requestedType,
     });
@@ -47,7 +47,8 @@ export async function POST(req: NextRequest) {
       isolation: { mode: "single_game", board_id: resolved.board.id },
       view: hostView(room),
     });
-  } catch {
+  } catch (err) {
+    console.error("sessions.create:", err);
     return NextResponse.json({ ok: false, error: "SESSION_CREATE_FAILED" }, { status: 500 });
   }
 }

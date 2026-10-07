@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { ConnectionBanner, type ConnState } from "@/components/connection-banner";
+import { outcomeForStatus, startResilientPoll, type PollOutcome } from "@/lib/poll-backoff";
 import type { GameBoard, GameType, QuestionCell } from "@/lib/domain/board";
 import {
   boardGameType,
@@ -32,6 +34,19 @@ const HOST_TOKEN_KEY = "t4t_host_token";
 const ROOM_CODE_KEY = "t4t_room_code";
 
 export default function HostPage() {
+  const [conn, setConn] = useState<ConnState>("ok");
+  return (
+    <>
+      <HostPageBody onConnection={setConn} />
+      <ConnectionBanner
+        state={conn}
+        endedText="Room ended or not found. Start a new room from your game."
+      />
+    </>
+  );
+}
+
+function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }) {
   const [error, setError] = useState<string | null>(null);
   const [board, setBoard] = useState<GameBoard | null>(null);
   const [loading, setLoading] = useState(true);
@@ -87,21 +102,31 @@ export default function HostPage() {
     };
   }, []);
 
-  const poll = useCallback(async () => {
-    if (!hostToken || !roomCode) return;
+  const poll = useCallback(async (): Promise<PollOutcome> => {
+    if (!hostToken || !roomCode) return "ok";
     const res = await fetch(`/api/rooms/${roomCode}`, {
       headers: { Authorization: `Bearer ${hostToken}` },
+      cache: "no-store",
     });
-    const data = await res.json();
-    if (res.ok && data.ok) setView(data.view as HostRoomView);
+    const data = await res.json().catch(() => null);
+    const outcome = outcomeForStatus(res.status, res.ok && Boolean(data?.ok));
+    if (outcome === "ok" && res.ok && data?.ok) setView(data.view as HostRoomView);
+    return outcome;
   }, [hostToken, roomCode]);
 
   useEffect(() => {
     if (!hostToken || !roomCode) return;
-    poll();
-    const id = setInterval(poll, 1000);
-    return () => clearInterval(id);
-  }, [hostToken, roomCode, poll]);
+    onConnection("ok");
+    const stop = startResilientPoll({
+      poll,
+      onEnded: () => onConnection("ended"),
+      onReconnecting: (r) => onConnection(r ? "reconnecting" : "ok"),
+    });
+    return () => {
+      stop();
+      onConnection("ok");
+    };
+  }, [hostToken, roomCode, poll, onConnection]);
 
   async function startLive(gameType?: GameType) {
     if (!board) return;

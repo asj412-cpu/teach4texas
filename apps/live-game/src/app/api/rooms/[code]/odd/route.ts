@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getRoom, playerView, submitOddTap } from "@/lib/live-rooms";
+import { submitOddTap } from "@/lib/live-rooms";
+import { playerAction } from "@/lib/room-route";
 
 export const dynamic = "force-dynamic";
 
@@ -8,10 +9,6 @@ export async function POST(
   ctx: { params: Promise<{ code: string }> },
 ) {
   const { code } = await ctx.params;
-  const room = getRoom(code);
-  if (!room) {
-    return NextResponse.json({ ok: false, error: "ROOM_NOT_FOUND" }, { status: 404 });
-  }
 
   let body: { player_id?: string; option_id?: string };
   try {
@@ -24,11 +21,9 @@ export async function POST(
     return NextResponse.json({ ok: false, error: "INVALID_BODY" }, { status: 400 });
   }
 
-  const result = submitOddTap(room, body.player_id, body.option_id);
-  if (!result.ok) {
-    return NextResponse.json({ ok: false, error: result.error }, { status: 400 });
-  }
-
-  const view = playerView(room, body.player_id);
-  return NextResponse.json({ ok: true, view });
+  const playerId = body.player_id;
+  const option_id = body.option_id;
+  return playerAction(code, playerId, (room) =>
+    submitOddTap(room, playerId, option_id),
+  );
 }

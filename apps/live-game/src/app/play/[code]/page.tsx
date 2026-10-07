@@ -12,6 +12,8 @@ import { ScavengerTapPlay } from "@/components/scavenger-tap-play";
 import { SequenceSortPlay } from "@/components/sequence-sort-play";
 import { TimedRacePlay } from "@/components/timed-race-play";
 import { kidPlainText } from "@/lib/plain-text";
+import { ConnectionBanner, type ConnState } from "@/components/connection-banner";
+import { outcomeForStatus, startResilientPoll, type PollOutcome } from "@/lib/poll-backoff";
 
 const PLAYER_KEY = "t4t_player";
 
@@ -22,6 +24,16 @@ type StoredPlayer = {
 };
 
 export default function PlayPage() {
+  const [conn, setConn] = useState<ConnState>("ok");
+  return (
+    <>
+      <PlayPageBody onConnection={setConn} />
+      <ConnectionBanner state={conn === "ended" ? "ok" : conn} />
+    </>
+  );
+}
+
+function PlayPageBody({ onConnection }: { onConnection: (s: ConnState) => void }) {
   const params = useParams();
   const code = String(params.code ?? "").toUpperCase();
   const [view, setView] = useState<PlayerRoomView | null>(null);
@@ -29,14 +41,17 @@ export default function PlayPage() {
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
-  const poll = useCallback(async () => {
-    if (!playerId) return;
+  // A single 404/5xx/network error is never fatal: see lib/poll-backoff.ts.
+  const poll = useCallback(async (): Promise<PollOutcome> => {
+    if (!playerId) return "ok";
     const res = await fetch(
       `/api/rooms/${code}?player_id=${encodeURIComponent(playerId)}`,
+      { cache: "no-store" },
     );
-    const data = await res.json();
-    if (res.ok && data.ok) setView(data.view);
-    else if (res.status === 404) setError("Room ended or not found.");
+    const data = await res.json().catch(() => null);
+    const outcome = outcomeForStatus(res.status, res.ok && Boolean(data?.ok));
+    if (outcome === "ok" && res.ok && data?.ok) setView(data.view);
+    return outcome;
   }, [code, playerId]);
 
   useEffect(() => {
@@ -59,10 +74,19 @@ export default function PlayPage() {
 
   useEffect(() => {
     if (!playerId) return;
-    poll();
-    const id = setInterval(poll, 1000);
-    return () => clearInterval(id);
-  }, [playerId, poll]);
+    const stop = startResilientPoll({
+      poll,
+      onEnded: () => {
+        onConnection("ended");
+        setError("Room ended or not found.");
+      },
+      onReconnecting: (r) => onConnection(r ? "reconnecting" : "ok"),
+    });
+    return () => {
+      stop();
+      onConnection("ok");
+    };
+  }, [playerId, poll, onConnection]);
 
   async function flip(card_index: number) {
     if (!playerId || !view || view.game_type !== "memory_match") return;

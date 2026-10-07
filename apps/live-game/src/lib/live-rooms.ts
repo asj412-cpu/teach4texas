@@ -52,24 +52,22 @@ import {
   generateOpaqueToken,
   sha256Hex,
 } from "@/lib/crypto";
+import {
+  insertRoomRecord,
+  loadRoomRecord,
+  purgeIdleRooms,
+  ROOM_IDLE_TTL_MS,
+  saveRoomRecord,
+} from "@/lib/room-store";
 
 const ROOM_TTL_MS = 4 * 60 * 60 * 1000;
 const DEFAULT_ANSWER_SECONDS = 45;
 const MAX_PLAYERS = 40;
 const CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // no I/O/0/1
 
-type GlobalRooms = {
-  rooms: Map<string, LiveRoom>;
-};
-
-function g(): GlobalRooms {
-  const key = "__t4t_live_rooms__";
-  const root = globalThis as unknown as Record<string, GlobalRooms>;
-  if (!root[key]) {
-    root[key] = { rooms: new Map() };
-  }
-  return root[key];
-}
+const ENDED_ROOM_GRACE_MS = 10 * 60 * 1000;
+const MAX_WRITE_ATTEMPTS = 8;
+const ROOM_CODE_RE = /^[A-Z0-9]{6}$/;
 
 function randomRoomCode(): string {
   let code = "";
@@ -79,18 +77,16 @@ function randomRoomCode(): string {
   return code;
 }
 
-function purgeExpired() {
-  const now = Date.now();
-  for (const [code, room] of g().rooms) {
-    const created = new Date(room.created_at).getTime();
-    if (now - created > ROOM_TTL_MS || room.ended_at) {
-      if (room.ended_at && now - new Date(room.ended_at).getTime() > 10 * 60 * 1000) {
-        g().rooms.delete(code);
-      } else if (!room.ended_at && now - created > ROOM_TTL_MS) {
-        g().rooms.delete(code);
-      }
-    }
+/** Same lifetime rules as the old in-memory purge: 4h live, 10 min after end. */
+function isRoomExpired(room: LiveRoom, now: number): boolean {
+  if (room.ended_at) {
+    return now - new Date(room.ended_at).getTime() > ENDED_ROOM_GRACE_MS;
   }
+  return now - new Date(room.created_at).getTime() > ROOM_TTL_MS;
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((r) => setTimeout(r, ms));
 }
 
 function maybeAutoLock(room: LiveRoom) {
@@ -195,19 +191,13 @@ function ensurePlayerDashState(room: LiveRoom, playerId: string) {
   room.dash_states[playerId] = createPlayerDashState();
 }
 
-export function createLiveRoom(opts: {
+export async function createLiveRoom(opts: {
   board: GameBoard;
   answerSeconds?: number;
   gameType?: string | null;
-}): { room: LiveRoom; hostToken: string } {
-  purgeExpired();
-  let code = randomRoomCode();
-  for (let i = 0; i < 20 && g().rooms.has(code); i++) {
-    code = randomRoomCode();
-  }
-  if (g().rooms.has(code)) {
-    throw new Error("CODE_COLLISION");
-  }
+}): Promise<{ room: LiveRoom; hostToken: string }> {
+  void purgeIdleRooms();
+  const code = randomRoomCode();
 
   const hostToken = generateOpaqueToken();
   const gameType: GameType = resolvePlayableGameType(opts.board, opts.gameType);
@@ -245,18 +235,53 @@ export function createLiveRoom(opts: {
     ended_at: null,
   };
   ensureHostPlayer(room);
-  g().rooms.set(code, room);
-  return { room, hostToken };
+  for (let i = 0; i < 20; i++) {
+    if (await insertRoomRecord(room)) return { room, hostToken };
+    room.code = randomRoomCode();
+    room.players = {};
+    ensureHostPlayer(room);
+  }
+  throw new Error("CODE_COLLISION");
 }
 
-export function getRoom(code: string): LiveRoom | null {
-  purgeExpired();
-  const room = g().rooms.get(code.toUpperCase()) ?? null;
-  if (room) {
-    maybeAutoLock(room);
-    maybeClearMismatches(room);
+export type RoomOutcome<T> =
+  | { kind: "ok"; value: T }
+  | { kind: "missing" }
+  | { kind: "ended" }
+  | { kind: "busy" };
+
+/**
+ * Load a room from the shared store, run `fn` against it, and persist any
+ * change with an optimistic version check (re-running `fn` on conflict).
+ * `fn` must only touch the room it is given.
+ */
+export async function withRoom<T>(
+  rawCode: string,
+  fn: (room: LiveRoom) => T,
+): Promise<RoomOutcome<T>> {
+  const code = rawCode.trim().toUpperCase();
+  if (!ROOM_CODE_RE.test(code)) return { kind: "missing" };
+  try {
+    for (let attempt = 0; attempt < MAX_WRITE_ATTEMPTS; attempt++) {
+      const rec = await loadRoomRecord(code);
+      if (!rec) return { kind: "missing" };
+      const now = Date.now();
+      if (now - rec.updatedAtMs > ROOM_IDLE_TTL_MS || isRoomExpired(rec.room, now)) {
+        return { kind: "ended" };
+      }
+      const room = rec.room;
+      const before = JSON.stringify(room);
+      maybeAutoLock(room);
+      maybeClearMismatches(room);
+      const value = fn(room);
+      if (JSON.stringify(room) === before) return { kind: "ok", value };
+      if (await saveRoomRecord(room, rec.version)) return { kind: "ok", value };
+      await sleep(10 + Math.random() * 40 * (attempt + 1));
+    }
+  } catch (err) {
+    console.error("withRoom:", err);
   }
-  return room;
+  return { kind: "busy" };
 }
 
 export function verifyHost(room: LiveRoom, hostToken: string | undefined): boolean {
@@ -320,12 +345,10 @@ export type JoinResult =
   | { ok: false; error: string };
 
 export function joinRoom(
-  code: string,
+  room: LiveRoom,
   displayName: string,
   resume?: { player_id: string; resume_secret: string },
 ): JoinResult {
-  const room = getRoom(code);
-  if (!room) return { ok: false, error: "ROOM_NOT_FOUND" };
   if (room.phase === "final") return { ok: false, error: "ROOM_ENDED" };
 
   // Resume existing player

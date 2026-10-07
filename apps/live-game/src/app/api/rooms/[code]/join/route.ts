@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { joinRoom } from "@/lib/live-rooms";
+import { joinRoom, withRoom } from "@/lib/live-rooms";
+import { roomUnavailable } from "@/lib/room-route";
 
 export const dynamic = "force-dynamic";
 
@@ -19,10 +20,14 @@ export async function POST(
     return NextResponse.json({ ok: false, error: "INVALID_BODY" }, { status: 400 });
   }
 
-  const result = joinRoom(code, body.display_name ?? "", {
-    player_id: body.player_id ?? "",
-    resume_secret: body.resume_secret ?? "",
-  });
+  const out = await withRoom(code, (room) =>
+    joinRoom(room, body.display_name ?? "", {
+      player_id: body.player_id ?? "",
+      resume_secret: body.resume_secret ?? "",
+    }),
+  );
+  if (out.kind !== "ok") return roomUnavailable(out);
+  const result = out.value;
 
   if (!result.ok) {
     const status =

@@ -235,7 +235,7 @@ export function EscapeVaultHost({
         )}
 
         <div
-          className="relative aspect-video w-full overflow-hidden rounded-2xl p-4 sm:p-6"
+          className="relative w-full min-h-[16rem] overflow-visible rounded-2xl p-4 pb-5 sm:min-h-[24rem] sm:p-6 lg:min-h-[32rem]"
           style={{ background: theme.palette.panel, color: theme.palette.text }}
         >
           {showTransition && vault && (
@@ -313,7 +313,7 @@ export function EscapeVaultHost({
                 </div>
               </div>
 
-              <div className="mt-3 grid max-h-36 grid-cols-2 gap-2 overflow-y-auto sm:grid-cols-3 lg:grid-cols-4">
+              <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
                 {ranked.length === 0 && (
                   <p className="col-span-full text-center text-t4t-darkText/50">
                     Waiting for students…

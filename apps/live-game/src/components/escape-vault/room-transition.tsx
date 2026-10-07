@@ -31,7 +31,7 @@ export function RoomTransition({
 
   return (
     <div
-      className={`pointer-events-none absolute inset-0 z-20 flex items-center justify-center ${
+      className={`pointer-events-none absolute inset-0 z-20 flex rounded-2xl items-center justify-center ${
         reducedMotion ? "ev-fade" : "ev-door-open"
       }`}
       style={{ background: `linear-gradient(135deg, ${accent}ee, #1a2e1acc)` }}

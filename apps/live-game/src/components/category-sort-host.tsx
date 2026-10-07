@@ -87,7 +87,7 @@ export function CategorySortHost({
           </div>
         )}
 
-        <div className="aspect-video w-full overflow-hidden rounded-2xl bg-t4t-lightBlue p-4 text-t4t-navy sm:p-6">
+        <div className="w-full min-h-[16rem] overflow-visible rounded-2xl bg-t4t-lightBlue p-4 pb-5 text-t4t-navy sm:aspect-video sm:min-h-0 sm:overflow-hidden sm:p-6 sm:pb-6">
           <p className="text-center text-xs font-semibold uppercase tracking-wide text-t4t-burnt">
             {view.phase === "lobby"
               ? "Waiting in lobby"
@@ -134,7 +134,7 @@ export function CategorySortHost({
               ? ` · ${category?.answer_count ?? 0}/${view.players.length} sorted`
               : ""}
           </p>
-          <div className="mt-3 grid h-[calc(100%-11rem)] grid-cols-2 gap-2 overflow-y-auto sm:grid-cols-3 lg:grid-cols-4">
+          <div className="mt-3 grid grid-cols-2 gap-2 sm:h-[calc(100%-11rem)] sm:grid-cols-3 sm:overflow-y-auto lg:grid-cols-4">
             {ranked.filter((p) => p.player_id !== "host").length === 0 && (
               <p className="col-span-full self-center text-center text-t4t-darkText/50">
                 Waiting for students…

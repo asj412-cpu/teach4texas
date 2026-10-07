@@ -301,7 +301,11 @@ export function EscapeVaultHost({
         )}
 
         <div
-          className="relative w-full min-h-[16rem] overflow-visible rounded-2xl p-4 pb-5 sm:min-h-[24rem] sm:p-6 lg:min-h-[32rem]"
+          className={`relative w-full overflow-visible rounded-2xl p-4 pb-5 sm:p-6 ${
+            view.phase === "final"
+              ? ""
+              : "min-h-[16rem] sm:min-h-[24rem] lg:min-h-[32rem]"
+          }`}
           style={{ background: theme.palette.panel, color: theme.palette.text }}
         >
           {showTransition && vault && (

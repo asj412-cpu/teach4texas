@@ -23,6 +23,8 @@ export function EscapeVaultPlay({
   /** Student-side "lock opened" beat when the host advances rooms. */
   const [openedInto, setOpenedInto] = useState<string | null>(null);
   const prevRoom = useRef<number | null>(null);
+  /** Banner timer lives in a ref so the 1s poll never clears/restarts it (N1). */
+  const openTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const theme = resolveEscapeVaultTheme(vault?.theme);
 
   const puzzleKey = vault ? `${vault.room_index}:${vault.puzzle_index}` : null;
@@ -38,16 +40,36 @@ export function EscapeVaultPlay({
   }, [missKey]);
 
   // Room advanced → show the open lock + "Entering …" for a beat.
+  // Keyed on room_index only: the 1s poll hands us a new `vault` object each
+  // tick, so `vault` must not be a dep and same-room re-runs must not touch
+  // the timer (N1 / EV03).
+  const roomIndex = vault?.room_index ?? null;
+  const roomName = vault?.room_name ?? null;
   useEffect(() => {
-    if (!vault) return;
+    if (roomIndex === null) return;
     const prev = prevRoom.current;
-    prevRoom.current = vault.room_index;
-    if (prev === null || prev === vault.room_index) return;
-    if (vault.room_index < prev) return; // replay reset
-    setOpenedInto(vault.room_name ?? "the next room");
-    const t = setTimeout(() => setOpenedInto(null), 1400);
-    return () => clearTimeout(t);
-  }, [vault?.room_index, vault?.room_name, vault]);
+    prevRoom.current = roomIndex;
+    if (prev === null || prev === roomIndex) return;
+    if (openTimer.current) clearTimeout(openTimer.current);
+    openTimer.current = null;
+    if (roomIndex < prev) {
+      setOpenedInto(null); // replay reset
+      return;
+    }
+    setOpenedInto(roomName ?? "the next room");
+    openTimer.current = setTimeout(() => {
+      openTimer.current = null;
+      setOpenedInto(null);
+    }, 1400);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roomIndex]);
+
+  useEffect(
+    () => () => {
+      if (openTimer.current) clearTimeout(openTimer.current);
+    },
+    [],
+  );
 
   if (!vault) {
     return (
@@ -191,7 +213,7 @@ export function EscapeVaultFinal({ view }: { view: PlayerRoomView }) {
         chips={vault?.chips ?? []}
         codeWord={theme.codeWord}
         elapsedLabel={escaped ? "escaped together" : "ended by host"}
-        line={pickLine(escaped ? theme.lines.finale : theme.lines.oops, view.my_score)}
+        line={pickLine(escaped ? theme.lines.finale : theme.lines.notEscaped, view.my_score)}
         players={view.players.map((p, i) => ({
           player_id: `${p.display_name}-${i}`,
           display_name: kidPlainText(p.display_name, 16),

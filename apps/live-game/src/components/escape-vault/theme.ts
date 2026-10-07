@@ -14,6 +14,8 @@ export type EscapeVaultLines = {
   oops: string[];
   unlock: string[];
   finale: string[];
+  /** Game-over lines when the host ends before the gate opens (no mistake copy). */
+  notEscaped: string[];
 };
 
 export type EscapeVaultTheme = {
@@ -71,7 +73,7 @@ export const THANKSGIVING_THEME: EscapeVaultTheme = {
       "Multi-step? Don't stop after step one.",
     ],
     oops: [
-      "Protocol miss. Try again.",
+      "Protocol miss — hint coming up.",
       "Shake it off — check your work.",
       "Almost! Hint in the bubble.",
     ],
@@ -83,6 +85,11 @@ export const THANKSGIVING_THEME: EscapeVaultTheme = {
       "Gratitude Gate is OPEN!",
       "You escaped with G-I-V-E!",
       "Certificate time, Cadets!",
+    ],
+    notEscaped: [
+      "Great teamwork, Cadets! Every chip counts.",
+      "Proud of this crew. The gate opens next time!",
+      "Nice effort, Cadet Corps! Ready for another run?",
     ],
   },
 };

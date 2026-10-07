@@ -75,7 +75,7 @@ export function EscapeFinale({
       <div className="mt-6 grid gap-6 lg:grid-cols-[auto,1fr] lg:items-start">
         <div className="flex justify-center">
           <TurkeyMascot
-            mood={escaped ? "cheer" : "oops"}
+            mood={escaped ? "cheer" : "idle"}
             line={line}
             reducedMotion={reducedMotion}
           />

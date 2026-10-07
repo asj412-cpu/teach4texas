@@ -137,7 +137,7 @@ export function EscapeVaultHost({
       view.phase === "final"
         ? escaped
           ? theme.lines.finale
-          : theme.lines.oops
+          : theme.lines.notEscaped
         : mood === "cheer"
           ? theme.lines.cheer
           : mood === "oops"

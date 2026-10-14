@@ -22,7 +22,7 @@ export function CategorySortPlay({
           {kidPlainText(view.title, 80)}
         </h1>
         <p className="mt-2 text-white/90">
-          Sort into Bins — wait for your teacher to start. ({view.players.length}{" "}
+          Sort into Bins — wait for your teacher to start. ({view.players.filter((p) => !p.is_host).length}{" "}
           players)
         </p>
         <p className="mt-6 text-lg font-semibold text-white">

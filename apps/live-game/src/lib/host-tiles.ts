@@ -1,17 +1,11 @@
-import type { HostRoomView } from "@/lib/domain/live-room";
+import { hostSeatPlayed, type HostRoomView } from "@/lib/domain/live-room";
 
 /**
  * AC-H08 P2-4: host tile is hidden until the teacher actually plays, then labeled "Teacher".
  * Ties sort students first so the teacher never takes the top slot on a tie.
  */
 export function hostPlayed(view: HostRoomView): boolean {
-  const seat = view.host_seat;
-  if (!seat) return false;
-  if (seat.score > 0 || seat.answered) return true;
-  const sub = seat.match ?? seat.race ?? seat.scavenger ?? seat.sequence ?? seat.category ?? seat.odd ?? seat.dash;
-  if (!sub) return false;
-  const j = JSON.stringify(sub);
-  return /"(answered|moves|correct_count|found_count|answered_count|pairs_found|taps)":[1-9]|"(submitted|locked|my_answered)":true/.test(j);
+  return hostSeatPlayed(view.host_seat);
 }
 
 export function rankedTiles(view: HostRoomView) {

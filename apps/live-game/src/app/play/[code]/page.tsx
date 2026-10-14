@@ -268,7 +268,7 @@ function PlayPageBody({
           </p>
           <h1 className="ev-title mt-3 text-3xl font-black">{kidPlainText(view.title, 80)}</h1>
           <p className="ev-glass mt-4 rounded-2xl px-4 py-3 text-lg font-semibold text-white">
-            Escape Vault — waiting for your teacher to start ({view.players.length} players)
+            Escape Vault — waiting for your teacher to start ({view.players.filter((p) => !p.is_host).length} players)
           </p>
           <p className="mt-6 text-xl font-black text-white">You: {view.my_display_name}</p>
         </div>
@@ -302,7 +302,7 @@ function PlayPageBody({
                         : view.game_type === "escape_vault"
                           ? "Escape Vault — waiting for your teacher to start"
                           : "Waiting for your teacher to start"}{" "}
-          ({view.players.length} players)
+          ({view.players.filter((p) => !p.is_host).length} players)
         </p>
         <p className="mt-6 text-xl font-black text-white">
           You: {view.my_display_name}
@@ -388,13 +388,13 @@ function PlayPageBody({
   if (view.phase === "final") {
     return (
       <Finale
-        players={view.players.map((p, i) => ({ player_id: `${i}-${p.display_name}`, display_name: p.display_name, score: p.score }))}
+        players={view.players.map((p, i) => ({ player_id: p.is_host ? "host" : `${i}-${p.display_name}`, display_name: p.display_name, score: p.score }))}
         footer={
           <>
             <p className="gs-glass mx-auto mt-8 max-w-xs rounded-2xl px-4 py-3 text-center text-lg font-black">
               Your score: <span className="text-t4t-gold">{view.my_score}</span>
             </p>
-            <p className="mt-6 text-center text-sm text-white/70">Waiting for host to play again…</p>
+            <p className="mx-auto mt-6 w-fit rounded-full bg-black/55 px-4 py-1 text-center text-base font-semibold text-white">Waiting for host to play again…</p>
           </>
         }
       />

@@ -346,7 +346,8 @@ export type PlayerRoomView = {
   title: string;
   grade: number;
   subject: string;
-  players: { display_name: string; score: number }[];
+  /** Host seat (if it played) is labeled "Teacher" with is_host; unplayed host is omitted. */
+  players: { display_name: string; score: number; is_host?: boolean }[];
   my_player_id: string;
   my_display_name: string;
   my_score: number;
@@ -916,11 +917,7 @@ export function sanitizeForPlayer(
     title: room.board.title,
     grade: room.board.grade,
     subject: room.board.subject,
-    players: Object.values(room.players)
-      // escape_vault: the host seat can't answer, so it isn't ranked or counted.
-      .filter((p) => room.game_type !== "escape_vault" || p.player_id !== HOST_PLAYER_ID)
-      .map((p) => ({ display_name: p.display_name, score: p.score }))
-      .sort((a, b) => b.score - a.score),
+    players: studentFacingPlayers(room),
     my_player_id: playerId,
     my_display_name: me.display_name,
     my_score: me.score,
@@ -1017,4 +1014,35 @@ export function maxBoardPoints(board: GameBoard): number {
 export function maxWagerFor(room: LiveRoom, playerId: string): number {
   const score = room.players[playerId]?.score ?? 0;
   return Math.max(score, maxBoardPoints(room.board));
+}
+
+
+/** AC-H08: has the teacher actually played from the host seat this game? */
+export function hostSeatPlayed(seat: HostSeatView | null | undefined): boolean {
+  if (!seat) return false;
+  if (seat.score > 0 || seat.answered) return true;
+  const sub =
+    seat.match ?? seat.race ?? seat.scavenger ?? seat.sequence ?? seat.category ?? seat.odd ?? seat.dash;
+  if (!sub) return false;
+  return /"(answered|moves|correct_count|found_count|answered_count|pairs_found|taps)":[1-9]|"(submitted|locked|my_answered)":true/.test(
+    JSON.stringify(sub),
+  );
+}
+
+/**
+ * AC-H08b R2 P2-A: student-side player list follows the host-tile rules — host hidden when unplayed
+ * (always in escape_vault), otherwise labeled "Teacher" (is_host) and sorted after tied students.
+ */
+function studentFacingPlayers(room: LiveRoom): { display_name: string; score: number; is_host?: boolean }[] {
+  const hostIn = Boolean(room.players[HOST_PLAYER_ID]);
+  const showHost =
+    hostIn && room.game_type !== "escape_vault" && hostSeatPlayed(hostSeatView(room));
+  return Object.values(room.players)
+    .filter((p) => p.player_id !== HOST_PLAYER_ID || showHost)
+    .map((p) =>
+      p.player_id === HOST_PLAYER_ID
+        ? { display_name: "Teacher", score: p.score, is_host: true }
+        : { display_name: p.display_name, score: p.score },
+    )
+    .sort((a, b) => b.score - a.score || Number(Boolean(a.is_host)) - Number(Boolean(b.is_host)));
 }

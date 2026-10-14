@@ -22,7 +22,7 @@ export function ScavengerTapPlay({
           {kidPlainText(view.title, 80)}
         </h1>
         <p className="mt-2 text-t4t-darkText/70">
-          Scavenger Hunt — wait for your teacher to start. ({view.players.length}{" "}
+          Scavenger Hunt — wait for your teacher to start. ({view.players.filter((p) => !p.is_host).length}{" "}
           players)
         </p>
         <p className="mt-6 text-lg font-semibold text-t4t-navy">

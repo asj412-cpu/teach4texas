@@ -22,7 +22,7 @@ export function MemoryMatchPlay({
           {kidPlainText(view.title, 80)}
         </h1>
         <p className="mt-2 text-white/90">
-          Memory Match — wait for your teacher to start. ({view.players.length}{" "}
+          Memory Match — wait for your teacher to start. ({view.players.filter((p) => !p.is_host).length}{" "}
           players)
         </p>
         <p className="mt-6 text-lg font-semibold text-white">

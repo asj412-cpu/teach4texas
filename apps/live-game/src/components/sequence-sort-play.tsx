@@ -31,7 +31,7 @@ export function SequenceSortPlay({
         </h1>
         <p className="mt-2 text-t4t-darkText/70">
           Order the Steps — wait for your teacher to start. (
-          {view.players.length} players)
+          {view.players.filter((p) => !p.is_host).length} players)
         </p>
         <p className="mt-6 text-lg font-semibold text-t4t-navy">
           You: {kidPlainText(view.my_display_name, 20)}

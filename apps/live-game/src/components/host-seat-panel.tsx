@@ -37,7 +37,7 @@ export function HostSeatPanel({
   }
 
   const scoreLine = (
-    <p className="mb-2 text-base font-semibold uppercase tracking-wide text-t4t-gold">
+    <p className="mb-2 text-base font-semibold uppercase tracking-wide text-amber-200">
       Your seat · host · score {seat.score}
     </p>
   );

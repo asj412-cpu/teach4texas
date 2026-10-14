@@ -2,7 +2,7 @@ import type { GameBoard, MemoryMatchItem } from "@/lib/domain/board";
 import { kidPlainText } from "@/lib/plain-text";
 
 export const MEMORY_MATCH_POINTS_PER_PAIR = 100;
-export const MEMORY_MISMATCH_MS = 900;
+export const MEMORY_MISMATCH_MS = 1800;
 export const MEMORY_MATCH_MAX_PAIRS = 8;
 
 export type MatchCard = {

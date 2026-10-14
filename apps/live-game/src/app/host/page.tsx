@@ -30,6 +30,7 @@ import {
 } from "@/components/host-seat-panel";
 import { kidPlainText } from "@/lib/plain-text";
 import { DailyDoubleHost } from "@/components/daily-double";
+import { CueOn, Finale, GameShowStage } from "@/components/game-show";
 
 const HOST_TOKEN_KEY = "t4t_host_token";
 const ROOM_CODE_KEY = "t4t_room_code";
@@ -368,28 +369,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
   }
 
   if (view.phase === "final") {
-    const ranked = [...view.players].sort((a, b) => b.score - a.score);
-    return (
-      <div className="min-h-screen bg-t4t-navy px-6 py-12 text-white">
-        <h1 className="text-center text-3xl font-extrabold text-t4t-gold">
-          Final scores
-        </h1>
-        <ol className="mx-auto mt-10 max-w-md space-y-3">
-          {ranked.map((p, i) => (
-            <li
-              key={p.player_id}
-              className="flex justify-between rounded-xl bg-white/10 px-4 py-3"
-            >
-              <span>
-                {i + 1}. {p.display_name}
-              </span>
-              <span className="font-bold text-t4t-gold">{p.score}</span>
-            </li>
-          ))}
-        </ol>
-        <HostFinalActions onAction={hostAction} />
-      </div>
-    );
+    return <Finale players={view.players} footer={<HostFinalActions onAction={hostAction} />} />;
   }
 
   if (view.game_type === "memory_match") {
@@ -452,9 +432,10 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
       view.phase === "reveal")
   ) {
     return (
-      <div className="min-h-screen bg-t4t-navy px-4 py-6 text-white">
+      <GameShowStage className="px-4 py-6">
+        <CueOn k={`${activeCell.id}-${view.phase}`} kind={view.phase === "reveal" ? "reveal" : "open"} />
         <div className="mx-auto flex max-w-5xl flex-col gap-6 lg:flex-row">
-          <div className="flex-1">
+          <div key={`${activeCell.id}-${view.phase}`} className="gs-glass gs-rise flex-1 rounded-3xl p-5 sm:p-7">
             <p className="text-sm font-semibold uppercase text-t4t-gold">
               Room {view.code} · {activeCell.category} · {activeCell.points}
               {activeCell.daily_double ? " · DD" : ""}
@@ -464,7 +445,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
                 Daily Double · playing for wagers
               </p>
             )}
-            <p className="mt-4 text-2xl font-bold leading-snug sm:text-3xl">
+            <p className="mt-4 text-2xl font-black leading-snug drop-shadow sm:text-4xl">
               {kidPlainText(activeCell.question, 240)}
             </p>
             <ul className="mt-6 space-y-2">
@@ -482,13 +463,13 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
                       onClick={() =>
                         hostAction({ type: "host_answer", choice_index: i })
                       }
-                      className={`w-full rounded-xl border px-4 py-3 text-left ${
+                      className={`gs-choice gs-glass w-full rounded-2xl border-2 px-4 py-4 text-left text-lg font-semibold ${
                         view.phase === "reveal" && i === activeCell.correct_index
-                          ? "border-t4t-gold bg-t4t-gold/20"
+                          ? "gs-correct"
                           : picked
-                            ? "border-t4t-gold bg-white/10"
+                            ? "border-t4t-gold"
                             : "border-white/20"
-                      } ${canPick ? "hover:bg-white/10" : ""} disabled:cursor-default`}
+                      } ${canPick ? "hover:bg-white/20" : ""} disabled:cursor-default`}
                     >
                       <span className="font-bold text-t4t-gold">
                         {String.fromCharCode(65 + i)}.
@@ -508,7 +489,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
               </p>
             )}
           </div>
-          <aside className="w-full rounded-2xl bg-black/20 p-4 lg:w-72">
+          <aside className="gs-glass w-full rounded-3xl p-4 lg:w-72">
             <p className="text-xs uppercase text-white/60">Control dock</p>
             <p className="mt-2 text-sm">
               Answers: {view.answer_count} / {view.players.length}
@@ -556,7 +537,6 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
                   <span>{p.display_name}</span>
                   <span className="text-t4t-gold">
                     {view.phase === "reveal" &&
-                    activeCell.daily_double &&
                     view.points_awarded[p.player_id] !== undefined
                       ? `${view.points_awarded[p.player_id]! >= 0 ? "+" : ""}${view.points_awarded[p.player_id]} → `
                       : ""}
@@ -567,22 +547,23 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
             </ul>
           </aside>
         </div>
-      </div>
+      </GameShowStage>
     );
   }
 
   // Lobby or board
   return (
-    <div className="min-h-screen bg-t4t-lightGray">
-      <header className="border-b border-t4t-navy/10 bg-white">
+    <GameShowStage sparks={false}>
+      <CueOn k={view.active_cell_id ? `sel-${view.active_cell_id}` : null} kind="select" />
+      <header className="gs-glass border-x-0 border-t-0">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-4">
           <div>
-            <p className="text-xs font-semibold uppercase text-t4t-burnt">
+            <p className="text-xs font-semibold uppercase text-t4t-gold">
               Live host · paid game only
             </p>
-            <h1 className="text-xl font-bold text-t4t-navy">{view.board.title}</h1>
+            <h1 className="dd-title text-2xl font-black uppercase sm:text-3xl">{view.board.title}</h1>
           </div>
-          <div className="rounded-xl bg-t4t-navy px-5 py-3 text-center text-white">
+          <div className="gs-glass rounded-2xl px-5 py-3 text-center text-white">
             <p className="text-[10px] uppercase tracking-wide text-white/70">
               Student room code
             </p>
@@ -611,7 +592,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
               onClick={() =>
                 hostAction({ type: "lock_lobby", locked: !view.lobby_locked })
               }
-              className="rounded-xl border border-t4t-navy px-5 py-3 text-sm font-semibold text-t4t-navy"
+              className="rounded-xl border border-white/60 px-5 py-3 text-sm font-semibold text-white"
             >
               {view.lobby_locked ? "Unlock lobby" : "Lock lobby"}
             </button>
@@ -639,7 +620,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
           {categories.map((cat) => (
             <div
               key={cat}
-              className="rounded-lg bg-t4t-navy px-1 py-3 text-center text-[10px] font-bold uppercase leading-tight text-white sm:text-xs"
+              className="gs-cat rounded-lg px-1 py-3 text-center text-[10px] font-black uppercase leading-tight sm:text-xs"
             >
               {cat}
             </div>
@@ -659,12 +640,9 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
                   onClick={() =>
                     hostAction({ type: "select_cell", cell_id: cell.id })
                   }
-                  className={`rounded-lg py-5 text-xl font-extrabold sm:py-7 sm:text-2xl ${
-                    isUsed
-                      ? "bg-t4t-navy/15 text-t4t-navy/30"
-                      : isActive
-                        ? "bg-t4t-gold text-t4t-navy ring-2 ring-t4t-navy"
-                        : "bg-t4t-burnt text-white hover:bg-t4t-burnt/90"
+                  style={{ animationDelay: `${(pts / 100) * 0.06}s` }}
+                  className={`gs-tile rounded-xl py-5 text-2xl font-black sm:py-7 sm:text-4xl ${
+                    isUsed ? "gs-tile-used" : isActive ? "gs-tile-active" : ""
                   }`}
                 >
                   {isUsed ? "—" : pts}
@@ -675,25 +653,25 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
         </div>
 
         <div className="mt-8 flex flex-wrap items-start justify-between gap-4">
-          <ul className="text-sm text-t4t-darkText/80">
-            {view.players.map((p) => (
-              <li key={p.player_id}>
-                {p.display_name} — {p.score} pts
+          <ul className="flex flex-wrap gap-2 text-sm">
+            {[...view.players].sort((a, b) => b.score - a.score).map((p) => (
+              <li key={p.player_id} className="gs-glass gs-rise rounded-full px-3 py-1">
+                {p.display_name} <span className="font-black text-t4t-gold">{p.score}</span>
               </li>
             ))}
             {view.players.filter((p) => p.player_id !== "host").length === 0 && (
-              <li className="text-t4t-darkText/50">Waiting for students…</li>
+              <li className="text-white/60">Waiting for students…</li>
             )}
           </ul>
           <button
             type="button"
             onClick={() => hostAction({ type: "end_game" })}
-            className="rounded-lg border border-red-600 px-4 py-2 text-sm font-semibold text-red-700"
+            className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-200"
           >
             End game
           </button>
         </div>
       </main>
-    </div>
+    </GameShowStage>
   );
 }

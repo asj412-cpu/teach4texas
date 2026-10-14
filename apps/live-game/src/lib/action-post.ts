@@ -4,7 +4,7 @@
  * "Didn't send. Tap again." if every retry fails. The server queues each tap as
  * its own row, so a 2xx means it is never lost (202 = queued, applied on next poll).
  */
-export type TapStatus = "idle" | "sending" | "retrying" | "failed";
+export type TapStatus = "idle" | "sending" | "retrying" | "failed" | "rejected";
 
 const RETRY_DELAYS_MS = [300, 700, 1500, 3000];
 
@@ -31,7 +31,8 @@ export async function postAction(
     }
     const retryable = status === 0 || status === 429 || status >= 500;
     if (!retryable) {
-      onStatus("idle");
+      // P2-1: a queued action the game rejected (e.g. answer during the wager) comes back 4xx.
+      onStatus(status >= 400 && status < 500 && data?.ok === false && status !== 404 ? "rejected" : "idle");
       return { status, data };
     }
     if (attempt >= RETRY_DELAYS_MS.length) {

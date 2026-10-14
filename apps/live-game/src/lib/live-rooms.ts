@@ -54,7 +54,8 @@ import {
   sha256Hex,
 } from "@/lib/crypto";
 import {
-  enqueueRoomAction,
+  enqueueAndLoad,
+  type RoomRecord,
   insertRoomRecord,
   loadRoomRecord,
   purgeIdleRooms,
@@ -263,17 +264,35 @@ export type ActionResult = { ok: true } | { ok: false; error: string };
  *   request already applied it: return the view without writing.
  * - poll: one attempt only; on a write conflict still return the computed view.
  */
+const ACTION_ERRORS_KEEP = 300;
+
+/** P2-1: remember rejected queued actions so the request that queued them still gets the error. */
+function recordActionErrors(room: LiveRoom, results: Map<number, ActionResult>) {
+  const errs: Record<string, string> = { ...(room.action_errors ?? {}) };
+  let changed = false;
+  for (const [id, r] of results) {
+    if (!r.ok) {
+      errs[String(id)] = r.error;
+      changed = true;
+    }
+  }
+  if (!changed) return;
+  const keys = Object.keys(errs).sort((a, b) => Number(a) - Number(b));
+  for (const k of keys.slice(0, Math.max(0, keys.length - ACTION_ERRORS_KEEP))) delete errs[k];
+  room.action_errors = errs;
+}
+
 export async function withRoom<T>(
   rawCode: string,
   fn: (room: LiveRoom, results: Map<number, ActionResult>) => T,
-  opts: { ownId?: number; poll?: boolean } = {},
+  opts: { ownId?: number; poll?: boolean; preloaded?: RoomRecord } = {},
 ): Promise<RoomOutcome<T>> {
   const code = rawCode.trim().toUpperCase();
   if (!ROOM_CODE_RE.test(code)) return { kind: "missing" };
   const attempts = opts.poll ? 1 : MAX_WRITE_ATTEMPTS;
   try {
     for (let attempt = 0; attempt < attempts; attempt++) {
-      const rec = await loadRoomRecord(code);
+      const rec = attempt === 0 && opts.preloaded ? opts.preloaded : await loadRoomRecord(code);
       if (!rec) return { kind: "missing" };
       const now = Date.now();
       if (now - rec.updatedAtMs > ROOM_IDLE_TTL_MS || isRoomExpired(rec.room, now)) {
@@ -282,23 +301,34 @@ export async function withRoom<T>(
       const room = rec.room;
       const results = new Map<number, ActionResult>();
       if (opts.ownId != null && !rec.pending.some((p) => p.id === opts.ownId)) {
+        // Someone else folded our action; report its stored outcome.
+        const err = room.action_errors?.[String(opts.ownId)];
+        results.set(opts.ownId, err ? { ok: false, error: err } : { ok: true });
         maybeAutoLock(room);
         maybeClearMismatches(room);
         return { kind: "ok", value: fn(room, results) };
       }
-      const before = JSON.stringify(room);
+      const before = opts.poll && rec.pending.length === 0 ? JSON.stringify(room) : "";
       maybeAutoLock(room);
       maybeClearMismatches(room);
       for (const p of rec.pending) {
         results.set(p.id, applyQueuedAction(room, p.action as QueuedAction));
       }
+      recordActionErrors(room, results);
       const value = fn(room, results);
-      if (rec.pending.length === 0 && JSON.stringify(room) === before) {
+      if (opts.poll) {
+        // P2-L1: polls fold in memory for an accurate view but rarely write, so they
+        // don't fight tap requests for the version. Writers drain the queue.
+        if (rec.pending.length === 0) {
+          if (JSON.stringify(room) !== before) await saveRoomRecord(room, rec.version, []);
+        } else if (Math.random() < 0.15) {
+          await saveRoomRecord(room, rec.version, rec.pending.map((p) => p.id));
+        }
         return { kind: "ok", value };
       }
+      if (rec.pending.length === 0) return { kind: "ok", value };
       const ids = rec.pending.map((p) => p.id);
       if (await saveRoomRecord(room, rec.version, ids)) return { kind: "ok", value };
-      if (opts.poll) return { kind: "ok", value };
       await sleep(5 + Math.random() * 25 * (attempt + 1));
     }
   } catch (err) {
@@ -374,16 +404,19 @@ export async function runRoomAction<T>(
 ): Promise<RoomOutcome<T> | { kind: "queued" }> {
   const code = rawCode.trim().toUpperCase();
   if (!ROOM_CODE_RE.test(code)) return { kind: "missing" };
-  let id: number | null;
+  let q: Awaited<ReturnType<typeof enqueueAndLoad>>;
   try {
-    id = await enqueueRoomAction(code, action);
+    q = await enqueueAndLoad(code, action);
   } catch (err) {
     console.error("runRoomAction.enqueue:", err);
     return { kind: "busy" };
   }
-  if (id == null) return { kind: "missing" };
-  const ownId = id;
-  const out = await withRoom(code, (room, results) => view(room, results.get(ownId)), { ownId });
+  if (q == null) return { kind: "missing" };
+  const ownId = q.id;
+  const out = await withRoom(code, (room, results) => view(room, results.get(ownId)), {
+    ownId,
+    preloaded: q.rec,
+  });
   if (out.kind === "busy") return { kind: "queued" };
   return out;
 }

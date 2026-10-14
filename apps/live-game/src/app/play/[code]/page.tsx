@@ -16,6 +16,7 @@ import { ConnectionBanner, type ConnState } from "@/components/connection-banner
 import { postAction, type TapStatus } from "@/lib/action-post";
 import { outcomeForStatus, startResilientPoll, type PollOutcome } from "@/lib/poll-backoff";
 import { DailyDoublePlayer } from "@/components/daily-double";
+import { CueOn, Finale, GameShowStage, playCue } from "@/components/game-show";
 
 const PLAYER_KEY = "t4t_player";
 
@@ -29,21 +30,25 @@ export default function PlayPage() {
   const [conn, setConn] = useState<ConnState>("ok");
   const [tap, setTap] = useState<TapStatus>("idle");
   useEffect(() => {
-    if (tap !== "failed") return;
+    if (tap !== "failed" && tap !== "rejected") return;
     const t = setTimeout(() => setTap("idle"), 4000);
     return () => clearTimeout(t);
   }, [tap]);
   return (
     <>
       <PlayPageBody onConnection={setConn} onTap={setTap} />
-      {tap === "retrying" || tap === "failed" ? (
+      {tap === "retrying" || tap === "failed" || tap === "rejected" ? (
         <div
           role="status"
           aria-live="polite"
           className="pointer-events-none fixed inset-x-0 top-3 z-50 flex justify-center px-3"
         >
           <p className="max-w-[90vw] rounded-full bg-t4t-burnt px-4 py-2 text-sm font-semibold text-white shadow-lg">
-            {tap === "retrying" ? "Sending…" : "Didn’t send. Tap again."}
+            {tap === "retrying"
+              ? "Sending…"
+              : tap === "rejected"
+                ? "That didn’t count right now."
+                : "Didn’t send. Tap again."}
           </p>
         </div>
       ) : null}
@@ -332,28 +337,17 @@ function PlayPageBody({
 
   if (view.phase === "final") {
     return (
-      <div className="min-h-screen bg-t4t-navy px-6 py-12 text-white">
-        <h1 className="text-center text-3xl font-extrabold text-t4t-gold">
-          Game over!
-        </h1>
-        <p className="mt-2 text-center">Your score: {view.my_score}</p>
-        <ol className="mx-auto mt-8 max-w-sm space-y-2">
-          {view.players.map((p, i) => (
-            <li
-              key={`${p.display_name}-${i}`}
-              className="flex justify-between rounded-lg bg-white/10 px-3 py-2"
-            >
-              <span>
-                {i + 1}. {p.display_name}
-              </span>
-              <span className="text-t4t-gold">{p.score}</span>
-            </li>
-          ))}
-        </ol>
-        <p className="mt-8 text-center text-sm text-white/70">
-          Waiting for host to play again…
-        </p>
-      </div>
+      <Finale
+        players={view.players.map((p, i) => ({ player_id: `${i}-${p.display_name}`, display_name: p.display_name, score: p.score }))}
+        footer={
+          <>
+            <p className="gs-glass mx-auto mt-8 max-w-xs rounded-2xl px-4 py-3 text-center text-lg font-black">
+              Your score: <span className="text-t4t-gold">{view.my_score}</span>
+            </p>
+            <p className="mt-6 text-center text-sm text-white/70">Waiting for host to play again…</p>
+          </>
+        }
+      />
     );
   }
 
@@ -373,37 +367,51 @@ function PlayPageBody({
 
   if (view.active_question) {
     const q = view.active_question;
+    const reveal = view.phase === "reveal";
+    const mine = view.my_choice;
+    const gotIt = reveal && mine != null && mine === q.correct_index;
     return (
-      <div className="min-h-screen bg-t4t-lightBlue px-4 py-8">
-        <p className="text-center text-xs font-semibold uppercase text-t4t-navy">
-          {q.category} · {q.points}
-          {q.daily_double ? " · Daily Double" : ""}
-        </p>
-        <p className="mx-auto mt-4 max-w-lg text-center text-xl font-bold text-t4t-navy">
-          {kidPlainText(q.question, 240)}
-        </p>
-        <div className="mx-auto mt-8 flex max-w-md flex-col gap-3">
+      <GameShowStage className="px-4 py-8">
+        <CueOn
+          k={`${q.category}-${q.points}-${view.phase}`}
+          kind={reveal ? (mine == null ? "reveal" : gotIt ? "correct" : "wrong") : "open"}
+        />
+        <div key={`${q.category}-${q.points}`} className="gs-glass gs-rise mx-auto max-w-lg rounded-3xl p-5">
+          <p className="text-center text-xs font-black uppercase tracking-wider text-t4t-gold">
+            {q.category} · {q.points}
+            {q.daily_double ? " · Daily Double" : ""}
+          </p>
+          <p className="mt-3 text-center text-2xl font-black leading-snug drop-shadow">
+            {kidPlainText(q.question, 240)}
+          </p>
+        </div>
+        <div className="mx-auto mt-6 flex max-w-md flex-col gap-3">
           {q.choices.map((choice, i) => {
-            const showCorrect =
-              view.phase === "reveal" && q.correct_index === i;
+            const showCorrect = reveal && q.correct_index === i;
+            const showWrong = reveal && mine === i && q.correct_index !== i;
+            const picked = mine === i;
             return (
               <button
                 key={i}
                 type="button"
-                disabled={
-                  submitting ||
-                  view.my_answered ||
-                  view.phase !== "question_open"
-                }
-                onClick={() => answer(i)}
-                className={`rounded-xl border-2 px-4 py-4 text-left text-base font-medium ${
+                disabled={submitting || view.my_answered || view.phase !== "question_open"}
+                onClick={() => {
+                  playCue("tap");
+                  void answer(i);
+                }}
+                style={{ animationDelay: `${0.1 + i * 0.07}s` }}
+                className={`gs-choice gs-glass gs-rise rounded-2xl border-2 px-4 py-4 text-left text-lg font-bold ${
                   showCorrect
-                    ? "border-t4t-green bg-t4t-green/15 text-t4t-navy"
-                    : "border-t4t-navy/20 bg-white text-t4t-navy active:bg-t4t-navy active:text-white disabled:opacity-70"
+                    ? "gs-correct"
+                    : showWrong
+                      ? "gs-wrong"
+                      : picked
+                        ? "border-t4t-gold ring-2 ring-t4t-gold"
+                        : "border-white/25 disabled:opacity-70"
                 }`}
               >
-                <span className="mr-2 font-bold text-t4t-burnt">
-                  {String.fromCharCode(65 + i)}.
+                <span className="mr-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-t4t-gold font-black text-t4t-navy">
+                  {String.fromCharCode(65 + i)}
                 </span>
                 {kidPlainText(choice, 120)}
               </button>
@@ -411,48 +419,49 @@ function PlayPageBody({
           })}
         </div>
         {view.my_answered && view.phase === "question_open" && (
-          <p className="mt-6 text-center text-sm text-t4t-navy">
-            Answer locked in — wait for reveal.
-          </p>
+          <p className="mt-6 text-center text-base font-bold text-t4t-gold">Locked in! Wait for the reveal…</p>
         )}
         {view.phase === "question_locked" && (
-          <p className="mt-6 text-center text-sm text-t4t-navy">
-            Answers locked…
+          <p className="mt-6 text-center text-base font-bold text-t4t-gold">Answers locked…</p>
+        )}
+        {reveal && mine != null && (
+          <p className={`dd-pop mt-6 text-center text-4xl font-black ${gotIt ? "text-green-300" : "text-red-300"}`}>
+            {gotIt ? "Correct!" : "Not this time"}
           </p>
         )}
-        {view.phase === "reveal" && q.daily_double && view.my_points_delta !== null && (
+        {reveal && view.my_points_delta !== null && view.my_points_delta !== 0 && (
           <p
-            className={`dd-pop mt-6 text-center text-3xl font-black ${
-              view.my_points_delta >= 0 ? "text-t4t-green" : "text-t4t-burnt"
+            className={`dd-pop mt-2 text-center text-3xl font-black ${
+              view.my_points_delta >= 0 ? "text-green-300" : "text-red-300"
             }`}
           >
             {view.my_points_delta >= 0 ? "+" : ""}
             {view.my_points_delta}
           </p>
         )}
-        {view.phase === "reveal" && q.answer && (
-          <p className="mt-6 text-center text-sm font-semibold text-t4t-green">
+        {reveal && q.answer && (
+          <p className="gs-glass mx-auto mt-6 max-w-md rounded-xl px-3 py-2 text-center text-sm font-semibold">
             Correct: {kidPlainText(q.answer, 120)}
             {q.teks ? ` (${q.teks})` : ""}
           </p>
         )}
-        <p className="mt-8 text-center text-sm text-t4t-darkText/60">
-          Score: {view.my_score}
+        <p className="mt-8 text-center text-lg font-black">
+          Score: <span className="text-t4t-gold">{view.my_score}</span>
         </p>
-      </div>
+      </GameShowStage>
     );
   }
 
   // Board waiting
   return (
-    <div className="min-h-screen bg-t4t-lightGray px-4 py-8">
-      <h1 className="text-center text-lg font-bold text-t4t-navy">
+    <GameShowStage sparks={false} className="px-4 py-8">
+      <h1 className="dd-title text-center text-2xl font-black uppercase">
         {kidPlainText(view.title, 80)}
       </h1>
-      <p className="mt-1 text-center text-sm text-t4t-darkText/70">
-        Your score: {view.my_score} · Wait for teacher to pick a question
+      <p className="mt-2 text-center text-sm font-semibold text-white/80">
+        Score <span className="font-black text-t4t-gold">{view.my_score}</span> · Watch the board!
       </p>
-      <div className="mx-auto mt-8 max-w-lg opacity-80">
+      <div className="mx-auto mt-8 max-w-lg">
         <div
           className="grid gap-1"
           style={{
@@ -462,7 +471,7 @@ function PlayPageBody({
           {view.board_grid.categories.map((cat) => (
             <div
               key={cat}
-              className="rounded bg-t4t-navy px-0.5 py-2 text-center text-[8px] font-bold uppercase text-white"
+              className="gs-cat rounded px-0.5 py-2 text-center text-[8px] font-black uppercase"
             >
               {cat.split(" ")[0]}
             </div>
@@ -475,12 +484,8 @@ function PlayPageBody({
               return (
                 <div
                   key={cell.id}
-                  className={`rounded py-3 text-center text-sm font-bold ${
-                    cell.used
-                      ? "bg-t4t-navy/10 text-t4t-navy/30"
-                      : cell.active
-                        ? "bg-t4t-gold text-t4t-navy"
-                        : "bg-t4t-burnt/80 text-white"
+                  className={`gs-tile rounded-lg py-3 text-center text-base font-black ${
+                    cell.used ? "gs-tile-used" : cell.active ? "gs-tile-active" : ""
                   }`}
                 >
                   {cell.used ? "—" : pts}
@@ -490,6 +495,6 @@ function PlayPageBody({
           )}
         </div>
       </div>
-    </div>
+    </GameShowStage>
   );
 }

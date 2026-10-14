@@ -66,6 +66,44 @@ export async function loadRoomRecord(code: string): Promise<RoomRecord | null> {
   };
 }
 
+/** Append one action and load the room in one round trip (P2-L1). Null if the room is gone. */
+export async function enqueueAndLoad(
+  code: string,
+  action: unknown,
+): Promise<{ id: number; rec: RoomRecord } | null> {
+  if (!isSupabaseConfigured()) {
+    const id = await enqueueRoomAction(code, action);
+    if (id == null) return null;
+    const rec = await loadRoomRecord(code);
+    return rec ? { id, rec } : null;
+  }
+  const res = await getServiceSupabase().rpc("live_room_enqueue_load", {
+    p_code: code,
+    p_action: action,
+  });
+  if (res.error) {
+    if (res.error.code === "23503") return null;
+    throw new Error(`enqueueAndLoad: ${res.error.message}`);
+  }
+  const data = res.data as {
+    state: LiveRoom;
+    version: number;
+    updated_at: string;
+    own_id: number | string;
+    pending: { id: number | string; action: unknown }[];
+  } | null;
+  if (!data) return null;
+  return {
+    id: Number(data.own_id),
+    rec: {
+      room: data.state,
+      version: data.version,
+      updatedAtMs: new Date(data.updated_at).getTime(),
+      pending: (data.pending ?? []).map((p) => ({ id: Number(p.id), action: p.action })),
+    },
+  };
+}
+
 /** Append one action to the room's queue. Returns its id, or null if the room is gone. */
 export async function enqueueRoomAction(code: string, action: unknown): Promise<number | null> {
   if (!isSupabaseConfigured()) {

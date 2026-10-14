@@ -94,6 +94,8 @@ export type HostSeatView = {
 export type LiveRoom = {
   code: string;
   board_id: string;
+  /** P2-1: errors for queued actions folded by another request (id → error). Server-only. */
+  action_errors?: Record<string, string>;
   /** Full board — host only; never send raw to students. */
   board: GameBoard;
   /** Mechanic for this live session (packet default or host pick). */
@@ -283,6 +285,8 @@ export type PlayerRoomView = {
   my_display_name: string;
   my_score: number;
   my_answered: boolean;
+  /** R2: my own locked choice (only ever my own). */
+  my_choice: number | null;
   /** Daily Double: my locked wager (null until set), and the most I may bet. */
   my_wager: number | null;
   max_wager: number;
@@ -709,6 +713,7 @@ export function sanitizeForPlayer(
     my_display_name: me.display_name,
     my_score: me.score,
     my_answered: room.answers[playerId] !== undefined,
+    my_choice: room.answers[playerId] ?? null,
     my_wager: room.wagers?.[playerId] ?? null,
     max_wager: maxWagerFor(room, playerId),
     my_points_delta:

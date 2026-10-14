@@ -17,15 +17,15 @@ export function MemoryMatchPlay({
   if (view.phase === "lobby") {
     return (
       <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6 text-center">
-        <p className="text-sm uppercase text-t4t-burnt">You&apos;re in!</p>
-        <h1 className="mt-2 text-2xl font-bold text-t4t-navy">
+        <p className="text-base uppercase text-amber-200">You&apos;re in!</p>
+        <h1 className="mt-2 text-2xl font-bold text-white">
           {kidPlainText(view.title, 80)}
         </h1>
-        <p className="mt-2 text-t4t-darkText/70">
+        <p className="mt-2 text-white/90">
           Memory Match — wait for your teacher to start. ({view.players.length}{" "}
           players)
         </p>
-        <p className="mt-6 text-lg font-semibold text-t4t-navy">
+        <p className="mt-6 text-lg font-semibold text-white">
           You: {kidPlainText(view.my_display_name, 20)}
         </p>
       </div>
@@ -34,21 +34,21 @@ export function MemoryMatchPlay({
 
   if (!match || view.phase !== "matching") {
     return (
-      <div className="flex min-h-screen items-center justify-center px-6 text-center text-t4t-navy">
+      <div className="flex min-h-screen items-center justify-center px-6 text-center text-white">
         Waiting for Memory Match to start…
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-t4t-lightBlue px-3 py-4 sm:px-6">
-      <p className="text-center text-xs font-semibold uppercase text-t4t-burnt">
+    <div className="min-h-screen px-3 py-4 sm:px-6">
+      <p className="text-center text-base font-semibold uppercase text-amber-200">
         Memory Match
       </p>
-      <h1 className="mt-1 text-center text-lg font-bold text-t4t-navy">
+      <h1 className="dd-title mt-1 text-center text-2xl font-black uppercase">
         {kidPlainText(view.title, 80)}
       </h1>
-      <p className="mt-1 text-center text-sm text-t4t-darkText/70">
+      <p className="mt-1 text-center text-base text-white/90">
         Pairs {match.pairs_found}/{match.pair_total} · Moves {match.moves} ·
         Score {view.my_score}
       </p>
@@ -69,12 +69,12 @@ export function MemoryMatchPlay({
               type="button"
               disabled={disabled}
               onClick={() => onFlip(i)}
-              className={`flex aspect-square items-center justify-center rounded-xl border-2 p-1.5 text-center text-[11px] font-semibold leading-tight sm:text-sm ${
+              className={`flex aspect-square items-center justify-center rounded-xl border-2 p-1.5 text-center text-base font-semibold leading-tight sm:text-base ${
                 card.matched
-                  ? "border-t4t-green bg-t4t-green/15 text-t4t-navy"
+                  ? "border-t4t-green bg-emerald-900/80 text-white"
                   : card.up
                     ? "border-t4t-gold bg-white text-t4t-navy"
-                    : "border-t4t-navy/20 bg-t4t-navy text-t4t-gold"
+                    : "border-amber-200/40 bg-black/55 text-amber-200"
               }`}
             >
               {card.up ? (card.text ?? "") : "?"}
@@ -84,7 +84,7 @@ export function MemoryMatchPlay({
       </div>
 
       {match.completed && (
-        <p className="mt-6 text-center text-base font-semibold text-t4t-green">
+        <p className="mt-6 text-center text-base font-semibold text-green-300">
           You found every pair!
         </p>
       )}

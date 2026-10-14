@@ -278,12 +278,13 @@ function PlayPageBody({
 
   if (view.phase === "lobby") {
     return (
+      <GameShowStage>
       <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6 text-center">
-        <p className="text-sm uppercase text-t4t-burnt">You&apos;re in!</p>
-        <h1 className="mt-2 text-2xl font-bold text-t4t-navy">
+        <p className="mx-auto w-fit rounded-full bg-black/55 px-4 py-1 text-base font-black uppercase tracking-widest text-amber-200">You&apos;re in!</p>
+        <h1 className="dd-title mt-3 text-3xl font-black uppercase">
           {kidPlainText(view.title, 80)}
         </h1>
-        <p className="mt-2 text-t4t-darkText/70">
+        <p className="mt-4 rounded-2xl border border-white/25 bg-black/50 px-4 py-3 text-lg font-semibold text-white">
           {view.game_type === "memory_match"
             ? "Memory Match — waiting for your teacher to start"
             : view.game_type === "timed_race"
@@ -303,27 +304,26 @@ function PlayPageBody({
                           : "Waiting for your teacher to start"}{" "}
           ({view.players.length} players)
         </p>
-        <p className="mt-6 text-lg font-semibold text-t4t-navy">
+        <p className="mt-6 text-xl font-black text-white">
           You: {view.my_display_name}
         </p>
-        <p className="mt-1 text-sm">Your score: {view.my_score}</p>
+        <p className="mt-1 text-base text-white">Your score: {view.my_score}</p>
       </div>
+      </GameShowStage>
     );
   }
 
   if (view.game_type === "memory_match" && view.phase !== "final") {
     return (
-      <MemoryMatchPlay view={view} submitting={submitting} onFlip={flip} />
+      <GameShowStage sparks={false}><MemoryMatchPlay view={view} submitting={submitting} onFlip={flip} /></GameShowStage>
     );
   }
 
   if (view.game_type === "timed_race" && view.phase !== "final") {
     return (
-      <TimedRacePlay
-        view={view}
-        submitting={submitting}
-        onAnswer={raceAnswer}
-      />
+      <GameShowStage sparks={false}>
+        <TimedRacePlay view={view} submitting={submitting} onAnswer={raceAnswer} />
+      </GameShowStage>
     );
   }
 
@@ -349,11 +349,9 @@ function PlayPageBody({
 
   if (view.game_type === "category_sort" && view.phase !== "final") {
     return (
-      <CategorySortPlay
-        view={view}
-        submitting={submitting}
-        onTap={categoryTap}
-      />
+      <GameShowStage sparks={false}>
+        <CategorySortPlay view={view} submitting={submitting} onTap={categoryTap} />
+      </GameShowStage>
     );
   }
 

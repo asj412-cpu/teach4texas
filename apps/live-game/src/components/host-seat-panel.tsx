@@ -17,6 +17,8 @@ export function HostSeatPanel({
 }) {
   const seat = view.host_seat;
   const [busy, setBusy] = useState(false);
+  // AC-H08 P3: host memory cards stay hidden on the projector until the teacher opts in.
+  const [showMine, setShowMine] = useState(false);
   const seq = seat.sequence;
   const [order, setOrder] = useState<{ id: string; label: string }[]>(
     seq?.steps ?? [],
@@ -82,10 +84,18 @@ export function HostSeatPanel({
     return (
       <div className="mt-4 rounded-xl border border-t4t-gold/40 bg-black/25 p-3">
         {scoreLine}
-        <p className="mb-2 text-base text-white/70">
+        <p className="mb-2 text-base text-white/90">
           Tap cards · {match.pairs_found}/{match.pair_total} pairs · moves{" "}
           {match.moves}
         </p>
+        <button
+          type="button"
+          onClick={() => setShowMine((v) => !v)}
+          className="mb-2 rounded-lg border border-white/40 px-3 py-1 text-base font-semibold text-white"
+        >
+          {showMine ? "Hide my cards" : "Show my cards (students can see the projector)"}
+        </button>
+        {showMine && (
         <div
           className="mx-auto grid max-w-md gap-1.5"
           style={{
@@ -114,6 +124,7 @@ export function HostSeatPanel({
             );
           })}
         </div>
+        )}
       </div>
     );
   }
@@ -382,7 +393,7 @@ export function HostSeatPanel({
             ))}
           </div>
         ) : (
-          <p className="text-base text-white/70">Waiting for puzzle…</p>
+          <p className="text-base text-white/90">Waiting for puzzle…</p>
         )}
       </div>
     );

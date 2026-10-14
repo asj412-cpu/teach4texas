@@ -124,11 +124,22 @@ export function Finale({
   footer?: ReactNode;
 }) {
   useCueOn("finale", "fanfare");
-  const ranked = [...players].sort((a, b) => b.score - a.score);
+  // AC-H08 P2: host seat hidden unless it scored; shown as "Teacher"; ties share a rank and the
+  // teacher always sorts after tied students so a tie never puts the teacher in the gold slot.
+  const isHost = (p: { player_id: string }) => p.player_id === "host";
+  const ranked = players
+    .filter((p) => !isHost(p) || p.score > 0)
+    .map((p) => (isHost(p) ? { ...p, display_name: "Teacher" } : p))
+    .sort((a, b) => b.score - a.score || Number(isHost(a)) - Number(isHost(b)));
+  const rankOf = (p: { score: number }) => 1 + ranked.filter((o) => o.score > p.score).length;
+  const tied = (p: { player_id: string; score: number }) =>
+    ranked.some((o) => o.player_id !== p.player_id && o.score === p.score);
   const top = ranked.slice(0, 3);
   const order = [top[1], top[0], top[2]];
   const heights = ["h-28", "h-40", "h-20"];
-  const medals = ["🥈", "🥇", "🥉"];
+  const MEDAL: Record<number, string> = { 1: "🥇", 2: "🥈", 3: "🥉" };
+  const medalFor = (p: { player_id: string; score: number }) =>
+    isHost(p) && tied(p) ? "🎓" : (MEDAL[rankOf(p)] ?? "🏅");
   return (
     <GameShowStage>
       <Confetti />
@@ -139,10 +150,12 @@ export function Finale({
         <div className="mt-10 flex items-end justify-center gap-3">
           {order.map((p, i) =>
             p ? (
-              <div key={p.player_id} className="flex w-28 flex-col items-center gs-rise" style={{ animationDelay: `${0.2 + i * 0.15}s` }}>
-                <span className="text-4xl">{medals[i]}</span>
-                <span className="mt-1 max-w-full truncate text-sm font-bold">{p.display_name}</span>
-                <span className="text-lg font-black text-t4t-gold">{p.score}</span>
+              <div key={p.player_id} className="flex w-32 flex-col items-center gs-rise" style={{ animationDelay: `${0.2 + i * 0.15}s` }}>
+                <span className="text-4xl">{medalFor(p)}</span>
+                <span className="mt-1 max-w-full truncate rounded-md bg-black/60 px-2 text-base font-bold text-white">
+                  {rankOf(p)}. {p.display_name}
+                </span>
+                <span className="mt-1 rounded-md bg-black/60 px-2 text-lg font-black text-amber-200">{p.score}</span>
                 <div
                   className={`gs-glass gs-podium mt-2 w-full rounded-t-xl ${heights[i]} ${
                     p.player_id === highlightId ? "ring-4 ring-t4t-gold" : ""
@@ -158,15 +171,15 @@ export function Finale({
             {ranked.slice(3).map((p, i) => (
               <li
                 key={p.player_id}
-                className={`gs-glass gs-rise flex justify-between rounded-xl px-4 py-2 ${
+                className={`gs-rise flex justify-between rounded-xl bg-black/55 px-4 py-2 text-base text-white ${
                   p.player_id === highlightId ? "ring-2 ring-t4t-gold" : ""
                 }`}
                 style={{ animationDelay: `${0.6 + i * 0.05}s` }}
               >
                 <span>
-                  {i + 4}. {p.display_name}
+                  {rankOf(p)}. {p.display_name}
                 </span>
-                <span className="font-bold text-t4t-gold">{p.score}</span>
+                <span className="font-bold text-amber-200">{p.score}</span>
               </li>
             ))}
           </ol>

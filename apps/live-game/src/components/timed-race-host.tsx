@@ -1,8 +1,10 @@
 "use client";
 
+import { rankedTiles } from "@/lib/host-tiles";
 import { useEffect, useState } from "react";
 import type { HostRoomView } from "@/lib/domain/live-room";
 import { HostSeatPanel } from "@/components/host-seat-panel";
+import { ClassProgress } from "@/components/class-progress";
 import { GameShowStage } from "@/components/game-show";
 import { kidPlainText } from "@/lib/plain-text";
 
@@ -22,7 +24,7 @@ export function TimedRaceHost({
 }) {
   const [showKey, setShowKey] = useState(false);
   const race = view.race;
-  const ranked = [...view.players].sort((a, b) => b.score - a.score);
+  const ranked = rankedTiles(view);
   const [remaining, setRemaining] = useState(race?.time_remaining_ms ?? 0);
 
   useEffect(() => {
@@ -87,7 +89,7 @@ export function TimedRaceHost({
           </div>
         )}
 
-        <div className="w-full min-h-[16rem] overflow-visible gs-rise rounded-3xl border border-white/20 bg-black/40 p-4 pb-5 text-white backdrop-blur sm:aspect-video sm:min-h-0 sm:overflow-hidden sm:p-6 sm:pb-6">
+        <div className="w-full min-h-[16rem] overflow-visible gs-rise rounded-3xl border border-white/20 bg-black/40 p-4 pb-5 text-white backdrop-blur sm:p-6 sm:pb-6">
           <p className="mx-auto w-fit rounded-full bg-black/55 px-4 py-0.5 text-center text-base font-black uppercase tracking-wide text-amber-200">
             {view.phase === "lobby"
               ? "Waiting in lobby"
@@ -105,7 +107,8 @@ export function TimedRaceHost({
               : `${race?.seconds ?? 90}s clock`}{" "}
             · tap answers on student devices
           </p>
-          <div className="mt-4 grid auto-rows-min content-start grid-cols-2 gap-3 sm:h-[calc(100%-5.5rem)] sm:grid-cols-3 sm:overflow-y-auto lg:grid-cols-4">
+          <ClassProgress big={view.phase === "racing" ? formatMs(remaining) : null} label="Class answers" value={(race?.players ?? []).filter((m) => m.player_id !== "host").reduce((n, m) => n + m.answered, 0)} total={(race?.item_total ?? 0) * view.players.filter((p) => p.player_id !== "host").length} />
+          <div className="mt-4 grid auto-rows-min content-start grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
             {ranked.filter((p) => p.player_id !== "host").length === 0 && (
               <p className="col-span-full self-center text-center text-white/90">
                 Waiting for students…

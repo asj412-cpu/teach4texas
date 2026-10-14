@@ -1,8 +1,10 @@
 "use client";
 
+import { rankedTiles } from "@/lib/host-tiles";
 import { useState } from "react";
 import type { HostRoomView } from "@/lib/domain/live-room";
 import { HostSeatPanel } from "@/components/host-seat-panel";
+import { ClassProgress } from "@/components/class-progress";
 import { GameShowStage } from "@/components/game-show";
 import { kidPlainText } from "@/lib/plain-text";
 
@@ -15,7 +17,7 @@ export function CategorySortHost({
 }) {
   const [showKey, setShowKey] = useState(false);
   const category = view.category;
-  const ranked = [...view.players].sort((a, b) => b.score - a.score);
+  const ranked = rankedTiles(view);
 
   return (
     <GameShowStage>
@@ -88,7 +90,7 @@ export function CategorySortHost({
           </div>
         )}
 
-        <div className="w-full min-h-[16rem] overflow-visible gs-rise rounded-3xl border border-white/20 bg-black/40 p-4 pb-5 text-white backdrop-blur sm:aspect-video sm:min-h-0 sm:overflow-hidden sm:p-6 sm:pb-6">
+        <div className="w-full min-h-[16rem] overflow-visible gs-rise rounded-3xl border border-white/20 bg-black/40 p-4 pb-5 text-white backdrop-blur sm:p-6 sm:pb-6">
           <p className="mx-auto w-fit rounded-full bg-black/55 px-4 py-0.5 text-center text-base font-black uppercase tracking-wide text-amber-200">
             {view.phase === "lobby"
               ? "Waiting in lobby"
@@ -101,7 +103,7 @@ export function CategorySortHost({
               {category.prompt}
             </p>
           )}
-          <p className="mt-2 text-center text-2xl font-extrabold sm:text-4xl">
+          <p className="mt-2 text-center text-3xl font-black text-white drop-shadow sm:text-4xl">
             {view.phase === "binning" && category?.item_label
               ? category.item_label
               : kidPlainText(view.board.title, 60)}
@@ -135,7 +137,8 @@ export function CategorySortHost({
               ? ` · ${category?.answer_count ?? 0}/${view.players.length} sorted`
               : ""}
           </p>
-          <div className="mt-3 grid auto-rows-min content-start grid-cols-2 gap-3 sm:h-[calc(100%-11rem)] sm:grid-cols-3 sm:overflow-y-auto lg:grid-cols-4">
+          {category ? <ClassProgress label={`Item ${Math.min(category.item_index + 1, category.item_total)}/${category.item_total} · answers in`} value={category.answer_count} total={view.players.filter((p) => p.player_id !== "host").length} /> : null}
+          <div className="mt-3 grid auto-rows-min content-start grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
             {ranked.filter((p) => p.player_id !== "host").length === 0 && (
               <p className="col-span-full self-center text-center text-white/90">
                 Waiting for students…

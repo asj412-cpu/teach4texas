@@ -40,15 +40,15 @@ export function TimedRacePlay({
   if (view.phase === "lobby") {
     return (
       <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6 text-center">
-        <p className="text-sm uppercase text-t4t-burnt">You&apos;re in!</p>
-        <h1 className="mt-2 text-2xl font-bold text-t4t-navy">
+        <p className="text-base uppercase text-amber-200">You&apos;re in!</p>
+        <h1 className="mt-2 text-2xl font-bold text-white">
           {kidPlainText(view.title, 80)}
         </h1>
-        <p className="mt-2 text-t4t-darkText/70">
+        <p className="mt-2 text-white/90">
           Timed Race — wait for your teacher to start. ({view.players.length}{" "}
           players)
         </p>
-        <p className="mt-6 text-lg font-semibold text-t4t-navy">
+        <p className="mt-6 text-lg font-semibold text-white">
           You: {kidPlainText(view.my_display_name, 20)}
         </p>
       </div>
@@ -57,7 +57,7 @@ export function TimedRacePlay({
 
   if (!race || view.phase !== "racing") {
     return (
-      <div className="flex min-h-screen items-center justify-center px-6 text-center text-t4t-navy">
+      <div className="flex min-h-screen items-center justify-center px-6 text-center text-white">
         Waiting for Timed Race to start…
       </div>
     );
@@ -69,18 +69,18 @@ export function TimedRacePlay({
     : 0;
 
   return (
-    <div className="min-h-screen bg-t4t-lightBlue px-4 py-6">
-      <p className="text-center text-xs font-semibold uppercase text-t4t-burnt">
+    <div className="min-h-screen px-4 py-6">
+      <p className="text-center text-base font-semibold uppercase text-amber-200">
         Timed Race
       </p>
-      <h1 className="mt-1 text-center text-lg font-bold text-t4t-navy">
+      <h1 className="dd-title mt-1 text-center text-2xl font-black uppercase">
         {kidPlainText(view.title, 80)}
       </h1>
-      <p className="mt-1 text-center text-sm text-t4t-darkText/70">
+      <p className="mt-1 text-center text-base text-white/90">
         {formatMs(remaining)} · {race.item_index}/{race.item_total} · Score{" "}
         {view.my_score}
       </p>
-      <div className="mx-auto mt-3 h-2 max-w-md overflow-hidden rounded-full bg-white">
+      <div className="mx-auto mt-3 h-2 max-w-md overflow-hidden rounded-full bg-white/20">
         <div
           className="h-full bg-t4t-green"
           style={{ width: `${Math.round(progress * 100)}%` }}
@@ -88,20 +88,20 @@ export function TimedRacePlay({
       </div>
 
       {race.completed && (
-        <p className="mt-10 text-center text-xl font-bold text-t4t-green">
+        <p className="mt-10 text-center text-xl font-bold text-green-300">
           You finished! Score {view.my_score}
         </p>
       )}
 
       {timedOut && (
-        <p className="mt-10 text-center text-xl font-bold text-t4t-navy">
+        <p className="mt-10 text-center text-xl font-bold text-white">
           Time&apos;s up! Score {view.my_score}
         </p>
       )}
 
       {race.can_answer && race.prompt && race.choices && (
         <>
-          <p className="mx-auto mt-8 max-w-lg text-center text-xl font-bold text-t4t-navy">
+          <p className="mx-auto mt-8 max-w-lg text-center text-xl font-bold text-white">
             {race.prompt}
           </p>
           <div className="mx-auto mt-8 flex max-w-md flex-col gap-3">
@@ -111,9 +111,9 @@ export function TimedRacePlay({
                 type="button"
                 disabled={submitting || !race.can_answer}
                 onClick={() => onAnswer(i)}
-                className="rounded-xl border-2 border-t4t-navy/20 bg-white px-4 py-4 text-left text-base font-medium text-t4t-navy active:bg-t4t-navy active:text-white disabled:opacity-70"
+                className="rounded-xl border-2 border-white/30 bg-black/50 backdrop-blur px-4 py-4 text-left text-base font-medium text-white active:bg-amber-300 active:text-white disabled:opacity-70"
               >
-                <span className="mr-2 font-bold text-t4t-burnt">
+                <span className="mr-2 font-bold text-amber-200">
                   {String.fromCharCode(65 + i)}.
                 </span>
                 {choice}

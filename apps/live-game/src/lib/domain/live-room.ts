@@ -55,6 +55,7 @@ export const RoomPhaseSchema = z.enum([
   "binning",
   "odding",
   "dashing",
+  "dd_wager",
   "question_open",
   "question_locked",
   "reveal",
@@ -106,6 +107,8 @@ export type LiveRoom = {
   answers: Record<string, number>;
   /** player_id → points for active cell (after reveal) */
   points_awarded: Record<string, number>;
+  /** Daily Double: player_id → wager for the active cell (dd_wager phase onward). */
+  wagers?: Record<string, number>;
   /** Memory Match per-student decks. Host never sends other students' cards. */
   match_states: Record<string, PlayerMatchState>;
   /** Timed Race per-student item order. Host never sends other students' prompts. */
@@ -151,6 +154,9 @@ export type HostRoomView = {
   answers: Record<string, number>;
   answer_count: number;
   points_awarded: Record<string, number>;
+  /** Daily Double wagers for the active cell (host sees all). */
+  wagers: Record<string, number>;
+  wager_count: number;
   match: null | {
     pair_total: number;
     players: {
@@ -277,6 +283,11 @@ export type PlayerRoomView = {
   my_display_name: string;
   my_score: number;
   my_answered: boolean;
+  /** Daily Double: my locked wager (null until set), and the most I may bet. */
+  my_wager: number | null;
+  max_wager: number;
+  /** Points I gained/lost on the last revealed cell (null if none). */
+  my_points_delta: number | null;
   board_grid: {
     categories: string[];
     cells: {
@@ -623,6 +634,8 @@ export function sanitizeForHost(room: LiveRoom): HostRoomView {
     answers: { ...room.answers },
     answer_count: Object.keys(room.answers).length,
     points_awarded: { ...room.points_awarded },
+    wagers: { ...(room.wagers ?? {}) },
+    wager_count: Object.keys(room.wagers ?? {}).length,
     match: hostMatchView(room),
     race: hostRaceView(room),
     scavenger: hostScavengerView(room),
@@ -666,6 +679,13 @@ export function sanitizeForPlayer(
           answer: cell.answer,
           teks: cell.teks,
         };
+      } else if (room.phase === "dd_wager") {
+        // Wager step: show the category + DD flag but never the question.
+        active_question = {
+          ...base,
+          question: "",
+          choices: ["", "", "", ""],
+        };
       } else if (
         room.phase === "question_open" ||
         room.phase === "question_locked"
@@ -689,6 +709,10 @@ export function sanitizeForPlayer(
     my_display_name: me.display_name,
     my_score: me.score,
     my_answered: room.answers[playerId] !== undefined,
+    my_wager: room.wagers?.[playerId] ?? null,
+    max_wager: maxWagerFor(room, playerId),
+    my_points_delta:
+      room.phase === "reveal" ? (room.points_awarded[playerId] ?? 0) : null,
     board_grid: {
       categories,
       cells: (room.board.cells ?? []).map((c) => ({
@@ -753,4 +777,17 @@ export function sanitizeForPlayer(
     answer_seconds: room.answer_seconds,
     server_now: new Date().toISOString(),
   };
+}
+
+/** Highest board value on this board (Daily Double floor for the wager cap). */
+export function maxBoardPoints(board: GameBoard): number {
+  let max = 0;
+  for (const c of board.cells ?? []) max = Math.max(max, c.points);
+  return max || 500;
+}
+
+/** Classic rule: you may bet up to your score or the top board value, whichever is larger. */
+export function maxWagerFor(room: LiveRoom, playerId: string): number {
+  const score = room.players[playerId]?.score ?? 0;
+  return Math.max(score, maxBoardPoints(room.board));
 }

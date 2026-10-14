@@ -2,6 +2,7 @@ import type { GameBoard, GameType } from "@/lib/domain/board";
 import { resolvePlayableGameType } from "@/lib/domain/board";
 import {
   getCell,
+  maxWagerFor,
   HOST_DISPLAY_NAME,
   HOST_PLAYER_ID,
   type LivePlayer,
@@ -165,6 +166,7 @@ function resetRoomToLobby(room: LiveRoom) {
   room.used_cell_ids = [];
   room.answers = {};
   room.points_awarded = {};
+  room.wagers = {};
   room.open_until = null;
   room.race_ends_at = null;
   room.scavenger_index = 0;
@@ -308,6 +310,8 @@ export async function withRoom<T>(
 const PLAYER_ACTIONS = {
   submitAnswer: (room: LiveRoom, pid: string, a: unknown[]) =>
     submitAnswer(room, pid, a[0] as number),
+  submitWager: (room: LiveRoom, pid: string, a: unknown[]) =>
+    submitWager(room, pid, a[0] as number),
   submitRaceAnswer: (room: LiveRoom, pid: string, a: unknown[]) =>
     submitRaceAnswer(room, pid, a[0] as number),
   flipMatchCard: (room: LiveRoom, pid: string, a: unknown[]) =>
@@ -569,6 +573,7 @@ export type HostAction =
   | { type: "next_round" }
   | { type: "next_claim" }
   | { type: "host_answer"; choice_index: number }
+  | { type: "host_wager"; amount: number }
   | { type: "host_flip"; card_index: number }
   | { type: "host_race"; choice_index: number }
   | { type: "host_scavenge"; target_id: string }
@@ -721,7 +726,28 @@ export function applyHostAction(
       return { ok: true };
     }
     case "open_question": {
-      if (room.phase !== "board" || !room.active_cell_id) {
+      const ddCell = room.active_cell_id
+        ? getCell(room.board, room.active_cell_id)
+        : undefined;
+      // Daily Double: board → dd_wager (wager step) → question_open.
+      if (room.phase === "board" && room.active_cell_id && ddCell?.daily_double) {
+        room.phase = "dd_wager";
+        room.wagers = {};
+        room.answers = {};
+        room.points_awarded = {};
+        room.open_until = null;
+        return { ok: true };
+      }
+      if (room.phase === "dd_wager" && ddCell) {
+        // Anyone who didn't lock a wager plays for the cell's face value.
+        const wagers = room.wagers ?? {};
+        for (const pid of Object.keys(room.players)) {
+          if (wagers[pid] === undefined) {
+            wagers[pid] = Math.min(ddCell.points, maxWagerFor(room, pid));
+          }
+        }
+        room.wagers = wagers;
+      } else if (room.phase !== "board" || !room.active_cell_id) {
         return { ok: false, error: "ILLEGAL_TRANSITION" };
       }
       room.phase = "question_open";
@@ -759,14 +785,24 @@ export function applyHostAction(
 
       // Idempotent scoring once
       if (Object.keys(room.points_awarded).length === 0) {
-        const base = cell.points;
-        const mult = cell.daily_double ? 2 : 1;
-        const award = base * mult;
-        for (const [pid, choice] of Object.entries(room.answers)) {
-          if (choice === cell.correct_index) {
-            room.points_awarded[pid] = award;
+        if (cell.daily_double) {
+          // DD: right answer adds the wager, wrong answer subtracts it.
+          // Players who never answered keep their score.
+          for (const [pid, choice] of Object.entries(room.answers)) {
+            const wager = room.wagers?.[pid] ?? cell.points;
+            const delta = choice === cell.correct_index ? wager : -wager;
+            room.points_awarded[pid] = delta;
             const p = room.players[pid];
-            if (p) p.score += award;
+            if (p) p.score += delta;
+          }
+        } else {
+          const award = cell.points;
+          for (const [pid, choice] of Object.entries(room.answers)) {
+            if (choice === cell.correct_index) {
+              room.points_awarded[pid] = award;
+              const p = room.players[pid];
+              if (p) p.score += award;
+            }
           }
         }
       }
@@ -783,6 +819,7 @@ export function applyHostAction(
       room.active_cell_id = null;
       room.answers = {};
       room.points_awarded = {};
+      room.wagers = {};
       room.open_until = null;
       room.phase = "board";
       return { ok: true };
@@ -811,6 +848,7 @@ export function applyHostAction(
       }
       delete room.players[action.player_id];
       delete room.answers[action.player_id];
+      if (room.wagers) delete room.wagers[action.player_id];
       delete room.match_states[action.player_id];
       delete room.race_states[action.player_id];
       delete room.scavenger_states[action.player_id];
@@ -819,6 +857,10 @@ export function applyHostAction(
       delete room.odd_states[action.player_id];
       delete room.dash_states[action.player_id];
       return { ok: true };
+    }
+    case "host_wager": {
+      ensureHostPlayer(room);
+      return submitWager(room, HOST_PLAYER_ID, action.amount);
     }
     case "host_answer": {
       ensureHostPlayer(room);
@@ -1089,5 +1131,23 @@ export function submitAnswer(
   if (room.answers[playerId] === undefined) {
     room.answers[playerId] = choiceIndex;
   }
+  return { ok: true };
+}
+
+/** Daily Double wager step. Whole points, 0..max(score, top board value). Re-bets allowed until the host opens the question. */
+export function submitWager(
+  room: LiveRoom,
+  playerId: string,
+  amount: number,
+): { ok: true } | { ok: false; error: string } {
+  if (room.phase !== "dd_wager") return { ok: false, error: "NOT_ACCEPTING_WAGERS" };
+  if (!room.players[playerId]) return { ok: false, error: "NOT_A_PLAYER" };
+  if (typeof amount !== "number" || !Number.isFinite(amount)) {
+    return { ok: false, error: "INVALID_WAGER" };
+  }
+  const max = maxWagerFor(room, playerId);
+  const wager = Math.round(amount);
+  if (wager < 0 || wager > max) return { ok: false, error: "WAGER_OUT_OF_RANGE" };
+  room.wagers = { ...(room.wagers ?? {}), [playerId]: wager };
   return { ok: true };
 }

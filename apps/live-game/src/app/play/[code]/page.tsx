@@ -9,6 +9,7 @@ import { MemoryMatchPlay } from "@/components/memory-match-play";
 import { OddOneOutPlay } from "@/components/odd-one-out-play";
 import { TrueFalseDashPlay } from "@/components/true-false-dash-play";
 import { EscapeVaultFinal, EscapeVaultPlay } from "@/components/escape-vault-play";
+import { VaultScene } from "@/components/escape-vault/scene";
 import { ScavengerTapPlay } from "@/components/scavenger-tap-play";
 import { SequenceSortPlay } from "@/components/sequence-sort-play";
 import { TimedRacePlay } from "@/components/timed-race-play";
@@ -352,12 +353,15 @@ function PlayPageBody({
 
   if (view.game_type === "escape_vault" && view.phase !== "final") {
     return (
-      <div className="mx-auto min-h-screen max-w-lg bg-amber-50 px-4 py-6">
-        <p className="mb-2 text-center text-xs font-semibold uppercase tracking-wide text-t4t-burnt">
-          {kidPlainText(view.title, 60)} · {view.my_display_name} · {view.my_score} pts
-        </p>
-        <EscapeVaultPlay view={view} onAnswer={vaultAnswer} />
-      </div>
+      <VaultScene>
+        <div className="mx-auto max-w-lg px-4 py-6">
+          <p className="mb-3 text-center text-xs font-black uppercase tracking-wider text-amber-200">
+            {kidPlainText(view.title, 60)} · {view.my_display_name} ·{" "}
+            <span className="text-amber-300">{view.my_score} pts</span>
+          </p>
+          <EscapeVaultPlay view={view} onAnswer={vaultAnswer} />
+        </div>
+      </VaultScene>
     );
   }
 

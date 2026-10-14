@@ -8,6 +8,8 @@ import { TurkeyMascot, type MascotMood } from "@/components/escape-vault/turkey-
 import { ensureVaultAudio, playVaultSfx } from "@/components/escape-vault/audio";
 import { pickLine, resolveEscapeVaultTheme } from "@/components/escape-vault/theme";
 import { EscapeFinale } from "@/components/escape-vault/finale";
+import { UnlockCelebration, VaultScene } from "@/components/escape-vault/scene";
+import { Confetti } from "@/components/game-show";
 
 export function EscapeVaultPlay({
   view,
@@ -73,8 +75,8 @@ export function EscapeVaultPlay({
 
   if (!vault) {
     return (
-      <div className="rounded-2xl bg-white p-6 text-center text-t4t-navy shadow">
-        Waiting for host to start the escape…
+      <div className="ev-glass rounded-3xl p-6 text-center text-lg font-bold text-amber-50">
+        🔒 Waiting for host to start the escape…
       </div>
     );
   }
@@ -101,14 +103,18 @@ export function EscapeVaultPlay({
 
   return (
     <div className="space-y-4">
-      <div className="flex items-start justify-between gap-3">
+      <UnlockCelebration
+        trigger={openedInto ? `${vault.room_index}` : null}
+        label={openedInto ? `Entering ${kidPlainText(openedInto, 40)}` : ""}
+      />
+      <div key={puzzleKey ?? "x"} className="ev-glass gs-rise flex items-start justify-between gap-3 rounded-3xl p-4">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-t4t-burnt">
+          <p className="text-xs font-black uppercase tracking-wider text-amber-300">
             {vault.room_name ?? "Escape"} · Room {vault.room_index + 1}/
             {vault.room_total}
             {vault.room_chip ? ` · ${vault.room_chip}` : ""}
           </p>
-          <p className="mt-1 text-lg font-bold text-t4t-navy">
+          <p className="mt-1 text-2xl font-black leading-snug text-white drop-shadow">
             {vault.prompt ?? "Get ready…"}
           </p>
         </div>
@@ -117,7 +123,7 @@ export function EscapeVaultPlay({
 
       {openedInto && (
         <p
-          className="rounded-xl bg-t4t-green px-3 py-2 text-center text-sm font-bold text-white"
+          className="gs-rise rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-700 px-3 py-2 text-center text-base font-black text-white shadow-lg"
           role="status"
         >
           Unlocked! Entering {kidPlainText(openedInto, 60)}…
@@ -125,7 +131,7 @@ export function EscapeVaultPlay({
       )}
 
       {vault.kind === "mc" && vault.choices && (
-        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {vault.choices.map((c) => {
             const picked = vault.picked === c.id;
             const isKey = vault.revealed_choice_id === c.id;
@@ -136,19 +142,19 @@ export function EscapeVaultPlay({
                 disabled={!vault.can_answer || busy}
                 onClick={() => submit({ choice_id: c.id })}
                 data-revealed-correct={isKey ? "true" : undefined}
-                className={`rounded-xl border-2 px-4 py-3 text-left text-sm font-semibold transition ${
+                className={`ev-glass ev-choice gs-rise rounded-2xl border-2 px-4 py-4 text-left text-lg font-bold text-white ${
                   isKey
-                    ? "border-4 border-t4t-green bg-emerald-100 text-t4t-navy"
+                    ? "gs-correct"
                     : picked
                     ? vault.last_correct
-                      ? "border-t4t-green bg-emerald-50 text-t4t-navy"
-                      : "border-red-400 bg-red-50 text-t4t-navy"
-                    : "border-t4t-navy/20 bg-white text-t4t-navy hover:border-t4t-gold"
-                } disabled:opacity-60`}
+                      ? "gs-correct"
+                      : "gs-wrong"
+                    : "border-amber-200/30"
+                } disabled:opacity-70`}
               >
-                <span className="mr-2 font-mono text-t4t-burnt">{c.id}.</span>
+                <span className="mr-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-amber-300 font-black text-t4t-navy">{c.id}</span>
                 {kidPlainText(c.label, 80)}
-                {isKey ? <span className="ml-2 text-t4t-green">✓ Answer</span> : null}
+                {isKey ? <span className="ml-2 font-black">✓ Answer</span> : null}
               </button>
             );
           })}
@@ -157,8 +163,8 @@ export function EscapeVaultPlay({
 
       {vault.answered && (
         <p
-          className={`text-center text-sm font-bold ${
-            vault.last_correct ? "text-t4t-green" : "text-red-600"
+          className={`dd-pop text-center text-3xl font-black drop-shadow ${
+            vault.last_correct ? "text-green-300" : "text-red-300"
           }`}
         >
           {vault.last_correct ? "Correct!" : "Miss — check the hint"}
@@ -166,7 +172,7 @@ export function EscapeVaultPlay({
       )}
 
       {vault.revealed && vault.revealed_answer && vault.kind !== "mc" && (
-        <p className="rounded-xl border-4 border-t4t-green bg-emerald-100 px-3 py-2 text-center text-sm font-bold text-t4t-navy">
+        <p className="gs-correct rounded-2xl border-2 px-3 py-3 text-center text-lg font-black">
           ✓ Answer: {vault.revealed_answer}
         </p>
       )}
@@ -184,7 +190,7 @@ export function EscapeVaultPlay({
                   : (vault.hint ?? "Host may reveal the answer.")
           }
         />
-        <p className="font-mono text-sm font-bold tracking-widest text-t4t-green">
+        <p className="ev-glass rounded-xl px-3 py-2 font-mono text-2xl font-black tracking-[0.35em] text-amber-300">
           {vault.chips.join(" ") || "····"}
         </p>
       </div>
@@ -202,8 +208,10 @@ export function EscapeVaultFinal({ view }: { view: PlayerRoomView }) {
     setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   }, []);
   return (
-    <div className="mx-auto min-h-screen max-w-lg px-4 py-6" style={{ background: theme.palette.bg }}>
-      <p className="mb-3 text-center text-sm font-semibold text-white">
+    <VaultScene>
+    {escaped ? <Confetti n={44} /> : null}
+    <div className="mx-auto max-w-lg px-4 py-6">
+      <p className="ev-glass mx-auto mb-3 w-fit rounded-full px-4 py-1 text-center text-sm font-bold text-white">
         {kidPlainText(view.my_display_name ?? "", 24)} · Your score: {view.my_score}
       </p>
       <EscapeFinale
@@ -225,5 +233,6 @@ export function EscapeVaultFinal({ view }: { view: PlayerRoomView }) {
         Waiting for host to play again…
       </p>
     </div>
+    </VaultScene>
   );
 }

@@ -170,3 +170,61 @@ body {
   .ev-shackle-swing, .ev-door-open, .ev-mascot-cheer, .ev-mascot-oops,
   .ev-mascot-hint, .ev-confetti-piece { animation: none !important; }
 }
+
+/* ── escape_vault visual pass (10-14): Thanksgiving vault scene ───────── */
+@keyframes ev-leaf-fall {
+  0% { transform: translate3d(0, -12vh, 0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.95; }
+  100% { transform: translate3d(14vw, 112vh, 0) rotate(540deg); opacity: 0.85; }
+}
+@keyframes ev-door-turn { to { transform: translate(-50%, -50%) rotate(360deg); } }
+@keyframes ev-glow-pulse { 0%, 100% { opacity: 0.55; } 50% { opacity: 0.95; } }
+@keyframes ev-ring-burst { 0% { transform: translate(-50%, -50%) scale(0.2); opacity: 0.95; } 100% { transform: translate(-50%, -50%) scale(3.2); opacity: 0; } }
+@keyframes ev-celebrate-out { 0%, 80% { opacity: 1; } 100% { opacity: 0; } }
+.ev-scene {
+  position: relative; overflow: hidden; color: #fff;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255, 170, 60, 0.35) 0%, transparent 55%),
+    radial-gradient(circle at 50% 45%, #5a2d1a 0%, #3a1c14 40%, #1d0e0b 75%, #0d0605 100%);
+}
+.ev-scene::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, 0.65) 100%);
+}
+.ev-rays {
+  position: absolute; left: 50%; top: 40%; width: 180vmax; height: 180vmax;
+  transform: translate(-50%, -50%);
+  background: repeating-conic-gradient(from 0deg, rgba(255, 176, 70, 0.10) 0deg 7deg, transparent 7deg 20deg);
+  animation: dd-rays 40s linear infinite; pointer-events: none;
+}
+.ev-door-bg {
+  position: absolute; left: 50%; top: 42%; width: min(110vmin, 900px); height: min(110vmin, 900px);
+  transform: translate(-50%, -50%); opacity: 0.16; pointer-events: none;
+  animation: ev-door-turn 120s linear infinite;
+}
+.ev-glow { position: absolute; left: 50%; top: 42%; width: 60vmin; height: 60vmin; transform: translate(-50%, -50%);
+  border-radius: 9999px; background: radial-gradient(circle, rgba(255, 190, 80, 0.35), transparent 70%);
+  animation: ev-glow-pulse 4s ease-in-out infinite; pointer-events: none; }
+.ev-leaf { position: absolute; top: 0; font-size: 22px; pointer-events: none; animation: ev-leaf-fall linear infinite; filter: drop-shadow(0 2px 2px rgba(0,0,0,.4)); }
+.ev-glass {
+  background: linear-gradient(160deg, rgba(255, 236, 205, 0.16), rgba(255, 236, 205, 0.04));
+  border: 1px solid rgba(255, 214, 150, 0.30);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+.ev-choice { transition: transform .12s ease, box-shadow .2s ease, border-color .2s ease; }
+.ev-choice:not(:disabled):hover { transform: translateY(-2px); border-color: rgba(255, 200, 90, .8); box-shadow: 0 10px 26px rgba(0,0,0,.4), 0 0 18px rgba(255, 190, 80, .35); }
+.ev-choice:not(:disabled):active { transform: scale(.97); }
+.ev-title {
+  background: linear-gradient(90deg, #ffcf7a 0%, #fff3d6 25%, #ff9f43 50%, #fff3d6 75%, #ffcf7a 100%);
+  background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 4px 0 #6b2f00); animation: dd-shimmer 4s linear infinite;
+}
+.ev-celebrate { position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center; pointer-events: none;
+  animation: ev-celebrate-out 2.4s ease-out forwards; background: radial-gradient(circle, rgba(255, 190, 80, 0.25), rgba(0,0,0,0.35) 70%); }
+.ev-ring { position: absolute; left: 50%; top: 50%; width: 40vmin; height: 40vmin; border-radius: 9999px;
+  border: 6px solid rgba(255, 214, 107, 0.9); box-shadow: 0 0 40px rgba(255, 214, 107, .8); animation: ev-ring-burst 1.2s ease-out forwards; }
+@media (prefers-reduced-motion: reduce) {
+  .ev-rays, .ev-door-bg, .ev-glow, .ev-leaf, .ev-title, .ev-ring { animation: none !important; }
+  .ev-leaf { display: none; }
+}

@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { VaultScene, UnlockCelebration } from "@/components/escape-vault/scene";
+import { Confetti } from "@/components/game-show";
 import { HOST_PLAYER_ID, type HostRoomView } from "@/lib/domain/live-room";
 import { HostFinalActions, HostSeatPanel } from "@/components/host-seat-panel";
 import { kidPlainText } from "@/lib/plain-text";
@@ -171,18 +173,19 @@ export function EscapeVaultHost({
   ).length;
 
   return (
-    <div
-      className="min-h-screen text-white"
-      style={{ background: theme.palette.bg }}
-      onPointerDown={armAudio}
-    >
-      <header className="border-b border-white/10">
+    <div onPointerDown={armAudio}>
+    <VaultScene>
+      <UnlockCelebration
+        trigger={showTransition && vault ? `${vault.room_index}-${vault.room_name}` : null}
+        label={vault?.room_name ? `Entering ${kidPlainText(vault.room_name, 40)}` : "Next room"}
+      />
+      <header className="ev-glass border-x-0 border-t-0">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-amber-300">
               Live host · Escape Vault
             </p>
-            <h1 className="text-xl font-bold">
+            <h1 className="ev-title text-2xl font-black uppercase sm:text-3xl">
               {kidPlainText(view.board.title, 80)}
             </h1>
           </div>
@@ -195,7 +198,7 @@ export function EscapeVaultHost({
             >
               {muted ? "Unmute" : "Mute"}
             </button>
-            <div className="rounded-xl bg-black/30 px-5 py-3 text-center">
+            <div className="ev-glass rounded-2xl px-5 py-3 text-center">
               <p className="text-[10px] uppercase tracking-wide text-white/70">
                 Student room code
               </p>
@@ -220,7 +223,7 @@ export function EscapeVaultHost({
                 playVaultSfx("tick");
                 onAction({ type: "start_game" });
               }}
-              className="rounded-xl bg-t4t-green px-5 py-3 text-sm font-semibold text-white"
+              className="rounded-xl bg-gradient-to-b from-emerald-400 to-emerald-700 px-6 py-3 text-base font-black text-white shadow-lg shadow-emerald-900/50"
             >
               Start Escape Vault
             </button>
@@ -274,7 +277,7 @@ export function EscapeVaultHost({
                   reduced ? 0 : 750,
                 );
               }}
-              className="rounded-xl bg-t4t-gold px-5 py-3 text-sm font-semibold text-t4t-navy disabled:opacity-40"
+              className="rounded-xl bg-gradient-to-b from-amber-300 to-amber-500 px-6 py-3 text-base font-black text-t4t-navy shadow-lg shadow-amber-900/50 disabled:opacity-40"
               disabled={!vault?.can_unlock || opening}
             >
               Unlock & advance
@@ -301,13 +304,13 @@ export function EscapeVaultHost({
         )}
 
         <div
-          className={`relative w-full overflow-visible rounded-2xl p-4 pb-5 sm:p-6 ${
+          className={`ev-glass relative w-full overflow-visible rounded-3xl p-4 pb-5 sm:p-6 ${
             view.phase === "final"
               ? ""
               : "min-h-[16rem] sm:min-h-[24rem] lg:min-h-[32rem]"
           }`}
-          style={{ background: theme.palette.panel, color: theme.palette.text }}
         >
+          {view.phase === "final" && escaped ? <Confetti n={44} /> : null}
           {showTransition && vault && (
             <RoomTransition
               roomKey={`${vault.room_index}-${vault.room_name}`}
@@ -339,7 +342,7 @@ export function EscapeVaultHost({
             <>
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-wide text-t4t-burnt">
+                  <p className="text-xs font-black uppercase tracking-wider text-amber-300">
                     {view.phase === "lobby"
                       ? "Waiting in lobby"
                       : `Room ${(vault?.room_index ?? 0) + 1}/${vault?.room_total ?? 0}`}
@@ -350,7 +353,7 @@ export function EscapeVaultHost({
                       ? ` · TEKS ${vault.teks}`
                       : ""}
                   </p>
-                  <p className="mt-1 text-2xl font-extrabold sm:text-3xl">
+                  <p className="ev-title mt-1 text-3xl font-black sm:text-4xl">
                     {view.phase === "escaping" && vault?.room_name
                       ? vault.room_name
                       : kidPlainText(view.board.title, 60)}
@@ -363,7 +366,7 @@ export function EscapeVaultHost({
                 />
               </div>
 
-              <p className="mx-auto mt-4 max-w-4xl text-center text-xl font-bold leading-snug sm:text-2xl">
+              <p key={vault ? `${vault.room_index}:${vault.puzzle_index}` : "lobby"} className="gs-rise mx-auto mt-4 max-w-4xl text-center text-2xl font-black leading-snug drop-shadow sm:text-3xl">
                 {view.phase === "escaping" && vault?.prompt
                   ? vault.prompt
                   : "Students join with display name only — no accounts."}
@@ -385,18 +388,18 @@ export function EscapeVaultHost({
                       <div
                         key={c.id}
                         data-revealed-correct={isKey ? "true" : undefined}
-                        className={`rounded-xl px-3 py-2 text-sm font-semibold shadow-sm ${
+                        className={`ev-glass gs-rise rounded-2xl px-4 py-3 text-lg font-bold ${
                           isKey
-                            ? "border-4 border-t4t-green bg-emerald-100 ring-2 ring-t4t-green/40"
+                            ? "gs-correct"
                             : vault.revealed_choice_id
-                              ? "bg-white/60 opacity-70"
-                              : "bg-white/90"
+                              ? "opacity-50"
+                              : ""
                         }`}
                       >
-                        <span className="mr-2 font-mono text-t4t-burnt">{c.id}.</span>
+                        <span className="mr-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-amber-300 font-black text-t4t-navy">{c.id}</span>
                         {c.label}
                         {isKey ? (
-                          <span className="ml-2 font-bold text-t4t-green">✓ Answer</span>
+                          <span className="ml-2 font-black text-white">✓ Answer</span>
                         ) : null}
                       </div>
                     );
@@ -406,7 +409,7 @@ export function EscapeVaultHost({
 
               <div className="mt-4 flex flex-wrap items-end justify-between gap-3">
                 <TurkeyMascot mood={mood} line={line} reducedMotion={reduced} />
-                <div className="text-right text-xs text-t4t-darkText/70">
+                <div className="text-right text-xs text-amber-100/80">
                   {vault && view.phase === "escaping"
                     ? `${vault.answer_count}/${vault.student_count} answered · ${vault.correct_count} correct`
                     : ""}
@@ -414,7 +417,7 @@ export function EscapeVaultHost({
                   {vault && view.phase === "escaping"
                     ? ` · ${formatElapsed(vault.elapsed_ms)}`
                     : ""}
-                  <div className="mt-1 font-mono text-sm font-bold tracking-widest text-t4t-green">
+                  <div className="mt-1 font-mono text-2xl font-black tracking-[0.35em] text-amber-300 drop-shadow">
                     {(vault?.chips ?? []).join(" ") || "— — — —"}
                   </div>
                 </div>
@@ -422,7 +425,7 @@ export function EscapeVaultHost({
 
               <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
                 {ranked.length === 0 && (
-                  <p className="col-span-full text-center text-t4t-darkText/50">
+                  <p className="col-span-full text-center text-amber-100/60">
                     Waiting for students…
                   </p>
                 )}
@@ -433,13 +436,13 @@ export function EscapeVaultHost({
                   return (
                     <div
                       key={p.player_id}
-                      className="rounded-xl bg-white p-2 text-center shadow-sm"
+                      className="ev-glass gs-rise rounded-2xl p-2 text-center"
                     >
                       <p className="truncate text-sm font-bold">
                         {kidPlainText(p.display_name, 16)}
                       </p>
-                      <p className="text-xl font-extrabold">{p.score}</p>
-                      <p className="text-[10px] text-t4t-darkText/60">
+                      <p className="text-2xl font-black text-amber-300">{p.score}</p>
+                      <p className="text-[10px] text-amber-100/70">
                         {row
                           ? `${row.correct_count} correct${row.answered ? " · locked" : " · picking"}`
                           : "ready"}
@@ -486,6 +489,7 @@ export function EscapeVaultHost({
           </button>
         </div>
       </main>
+    </VaultScene>
     </div>
   );
 }

@@ -680,10 +680,15 @@ function vaultViewExtra(room: LiveRoom) {
   const unlocked = current
     ? room.vault_unlocked_rooms.includes(current.id)
     : false;
+  const startedMs = room.vault_started_at ? new Date(room.vault_started_at).getTime() : null;
   return {
     unlockedRoomIds: room.vault_unlocked_rooms,
     revealed: room.vault_revealed,
     theme: room.board.theme ?? null,
+    elapsedMs:
+      startedMs == null
+        ? null
+        : Math.max(0, (room.ended_at ? new Date(room.ended_at).getTime() : Date.now()) - startedMs),
     lockState: resolveVaultLockState({
       unlocked,
       majority,
@@ -912,6 +917,8 @@ export function sanitizeForPlayer(
     grade: room.board.grade,
     subject: room.board.subject,
     players: Object.values(room.players)
+      // escape_vault: the host seat can't answer, so it isn't ranked or counted.
+      .filter((p) => room.game_type !== "escape_vault" || p.player_id !== HOST_PLAYER_ID)
       .map((p) => ({ display_name: p.display_name, score: p.score }))
       .sort((a, b) => b.score - a.score),
     my_player_id: playerId,

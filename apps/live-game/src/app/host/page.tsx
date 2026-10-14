@@ -191,8 +191,10 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center text-t4t-navy">
-        Loading your purchased game…
+      <div className="ev-scene flex min-h-screen items-center justify-center">
+        <p className="ev-glass rounded-2xl px-6 py-4 text-xl font-bold text-white">
+          Loading your purchased game…
+        </p>
       </div>
     );
   }

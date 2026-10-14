@@ -38,7 +38,7 @@ export function RoomTransition({
       aria-live="polite"
     >
       <div className="rounded-2xl bg-black/40 px-8 py-6 text-center text-white backdrop-blur-sm">
-        <p className="text-xs font-semibold uppercase tracking-widest text-white/80">
+        <p className="text-base font-semibold uppercase tracking-widest text-white/80">
           Entering
         </p>
         <p className="mt-2 text-3xl font-extrabold">{roomName}</p>

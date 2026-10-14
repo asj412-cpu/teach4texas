@@ -167,7 +167,9 @@ export function EscapeVaultHost({
     else startAmbient();
   };
 
-  const ranked = [...view.players].sort((a, b) => b.score - a.score);
+  const ranked = view.players
+    .filter((p) => p.player_id !== HOST_PLAYER_ID) // R2 P2-1: host seat never ranked
+    .sort((a, b) => b.score - a.score);
   const studentsJoined = view.players.filter(
     (p) => p.player_id !== HOST_PLAYER_ID,
   ).length;
@@ -182,7 +184,7 @@ export function EscapeVaultHost({
       <header className="ev-glass border-x-0 border-t-0">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-amber-300">
+            <p className="text-base font-semibold uppercase tracking-wide text-amber-300">
               Live host · Escape Vault
             </p>
             <h1 className="ev-title text-2xl font-black uppercase sm:text-3xl">
@@ -193,19 +195,19 @@ export function EscapeVaultHost({
             <button
               type="button"
               onClick={toggleMute}
-              className="rounded-lg border border-white/40 px-3 py-2 text-xs font-semibold"
+              className="rounded-lg border border-white/40 px-3 py-2 text-base font-semibold"
               aria-pressed={muted}
             >
               {muted ? "Unmute" : "Mute"}
             </button>
             <div className="ev-glass rounded-2xl px-5 py-3 text-center">
-              <p className="text-[10px] uppercase tracking-wide text-white/70">
+              <p className="text-base uppercase tracking-wide text-white/70">
                 Student room code
               </p>
               <p className="font-mono text-3xl font-extrabold tracking-widest">
                 {view.code}
               </p>
-              <p className="text-xs text-white/70">
+              <p className="text-base text-white/70">
                 {studentsJoined} joined · students go to /join
               </p>
             </div>
@@ -223,7 +225,7 @@ export function EscapeVaultHost({
                 playVaultSfx("tick");
                 onAction({ type: "start_game" });
               }}
-              className="rounded-xl bg-gradient-to-b from-emerald-400 to-emerald-700 px-6 py-3 text-base font-black text-white shadow-lg shadow-emerald-900/50"
+              className="rounded-xl bg-emerald-800 px-6 py-3 text-lg font-black text-white shadow-lg shadow-emerald-900/50"
             >
               Start Escape Vault
             </button>
@@ -232,7 +234,7 @@ export function EscapeVaultHost({
               onClick={() =>
                 onAction({ type: "lock_lobby", locked: !view.lobby_locked })
               }
-              className="rounded-xl border border-white/40 px-5 py-3 text-sm font-semibold"
+              className="rounded-xl border border-white/40 px-5 py-3 text-base font-semibold"
             >
               {view.lobby_locked ? "Unlock lobby" : "Lock lobby"}
             </button>
@@ -254,7 +256,7 @@ export function EscapeVaultHost({
                   oopsThenHint();
                 }
               }}
-              className="rounded-xl border border-amber-300 px-5 py-3 text-sm font-semibold text-amber-100"
+              className="rounded-xl border border-amber-300 px-5 py-3 text-base font-semibold text-amber-100"
               disabled={vault?.revealed}
             >
               Reveal answer
@@ -286,7 +288,7 @@ export function EscapeVaultHost({
               <button
                 type="button"
                 onClick={() => onAction({ type: "next_puzzle" })}
-                className="rounded-xl border border-white/40 px-5 py-3 text-sm font-semibold"
+                className="rounded-xl border border-white/40 px-5 py-3 text-base font-semibold"
               >
                 Next puzzle
               </button>
@@ -296,7 +298,7 @@ export function EscapeVaultHost({
               onClick={() =>
                 onAction({ type: "lock_lobby", locked: !view.lobby_locked })
               }
-              className="rounded-xl border border-white/40 px-5 py-3 text-sm font-semibold"
+              className="rounded-xl border border-white/40 px-5 py-3 text-base font-semibold"
             >
               {view.lobby_locked ? "Unlock lobby" : "Lock lobby"}
             </button>
@@ -342,10 +344,13 @@ export function EscapeVaultHost({
             <>
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
-                  <p className="text-xs font-black uppercase tracking-wider text-amber-300">
+                  <p className="w-fit rounded-full bg-black/55 px-3 py-0.5 text-base font-black uppercase tracking-wider text-amber-200">
                     {view.phase === "lobby"
                       ? "Waiting in lobby"
                       : `Room ${(vault?.room_index ?? 0) + 1}/${vault?.room_total ?? 0}`}
+                    {view.phase === "escaping" && vault && vault.puzzle_total > 1
+                      ? ` · Lock ${vault.puzzle_index + 1}/${vault.puzzle_total}`
+                      : ""}
                     {view.phase === "escaping" && vault?.room_chip
                       ? ` · Chip ${vault.room_chip}`
                       : ""}
@@ -409,7 +414,7 @@ export function EscapeVaultHost({
 
               <div className="mt-4 flex flex-wrap items-end justify-between gap-3">
                 <TurkeyMascot mood={mood} line={line} reducedMotion={reduced} />
-                <div className="text-right text-xs text-amber-100/80">
+                <div className="text-right text-base text-amber-100/80">
                   {vault && view.phase === "escaping"
                     ? `${vault.answer_count}/${vault.student_count} answered · ${vault.correct_count} correct`
                     : ""}
@@ -438,11 +443,11 @@ export function EscapeVaultHost({
                       key={p.player_id}
                       className="ev-glass gs-rise rounded-2xl p-2 text-center"
                     >
-                      <p className="truncate text-sm font-bold">
+                      <p className="truncate text-base font-bold">
                         {kidPlainText(p.display_name, 16)}
                       </p>
                       <p className="text-2xl font-black text-amber-300">{p.score}</p>
-                      <p className="text-[10px] text-amber-100/70">
+                      <p className="text-base text-amber-100/70">
                         {row
                           ? `${row.correct_count} correct${row.answered ? " · locked" : " · picking"}`
                           : "ready"}
@@ -465,13 +470,17 @@ export function EscapeVaultHost({
           <div>
             <button
               type="button"
-              onClick={() => setShowKey((v) => !v)}
-              className="text-sm text-white/70 underline"
+              onClick={() => {
+                if (showKey) return setShowKey(false);
+                // R2 P2-7: key never appears on the projector by a stray click.
+                if (window.confirm("Show the answer key? Make sure your screen is NOT projected.")) setShowKey(true);
+              }}
+              className="text-base text-white/70 underline"
             >
-              {showKey ? "Hide answer key" : "Show answer key (teacher only)"}
+              {showKey ? "Hide answer key" : "Answer key (private — confirm first)"}
             </button>
             {showKey && vault && (
-              <ul className="mt-2 max-h-40 overflow-y-auto text-sm text-white/85">
+              <ul className="mt-2 max-h-40 overflow-y-auto text-base text-white/85">
                 {vault.item_key.map((item) => (
                   <li key={`${item.room}-${item.prompt}`}>
                     {item.room}: {item.prompt} → {item.answer}
@@ -483,7 +492,7 @@ export function EscapeVaultHost({
           <button
             type="button"
             onClick={() => onAction({ type: "end_game" })}
-            className="rounded-lg border border-red-400 px-4 py-2 text-sm font-semibold text-red-200"
+            className="rounded-lg border border-red-400 px-4 py-2 text-base font-semibold text-red-200"
           >
             End game
           </button>

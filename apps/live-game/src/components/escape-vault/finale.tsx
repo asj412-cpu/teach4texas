@@ -54,7 +54,7 @@ export function EscapeFinale({
           ))}
         </div>
       )}
-      <p className="text-center text-xs font-black uppercase tracking-widest text-amber-300">
+      <p className="mx-auto w-fit rounded-full bg-black/60 px-4 py-1 text-center text-base font-black uppercase tracking-widest text-amber-200">
         {escaped ? "Escaped!" : "Time's up"}
       </p>
       <h2 className="ev-title mt-2 text-center text-4xl font-black sm:text-5xl">
@@ -66,7 +66,7 @@ export function EscapeFinale({
           {chips.join("") || (escaped ? codeWord : "—")}
         </span>
       </p>
-      <p className="mt-1 text-center text-sm text-amber-100/70">
+      <p className="mt-1 text-center text-base font-semibold text-amber-100">
         Class time · {elapsedLabel}
       </p>
 
@@ -79,22 +79,22 @@ export function EscapeFinale({
           />
         </div>
         <div className="rounded-2xl bg-black/25 p-4">
-          <p className="text-xs font-black uppercase tracking-wide text-amber-300">
+          <p className="text-base font-black uppercase tracking-wide text-amber-300">
             Class scoreboard
           </p>
           {ranked.length === 0 ? (
-            <p className="mt-2 text-sm text-white/60">No players joined.</p>
+            <p className="mt-2 text-base text-white/85">No players joined.</p>
           ) : (
             <ol className="mt-2 grid gap-1 sm:grid-cols-2">
               {ranked.slice(0, 12).map((p, i) => (
                 <li
                   key={p.player_id}
-                  className={`flex items-center justify-between rounded-lg px-3 py-1.5 text-sm font-semibold ${
+                  className={`flex items-center justify-between rounded-lg px-3 py-1.5 text-base font-semibold ${
                     i === 0 ? "bg-gradient-to-r from-amber-300 to-amber-500 text-t4t-navy" : "bg-white/10"
                   }`}
                 >
                   <span className="truncate">
-                    {i + 1}. {p.display_name}
+                    {1 + ranked.filter((o) => o.score > p.score).length}. {p.display_name}
                     {p.is_host && p.display_name.toLowerCase() !== "host" ? " (host)" : ""}
                   </span>
                   <span className="ml-2 font-mono font-bold">{p.score}</span>

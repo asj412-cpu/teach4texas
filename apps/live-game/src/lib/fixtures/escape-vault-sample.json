@@ -20,14 +20,104 @@
           "prompt": "Cadet Jake has 5/8 of a pumpkin pie left on the cooling rack. Cadet Avery adds 2/8 of a pie from the second rack. How much pie do they have together?",
           "kind": "mc",
           "choices": [
-            { "id": "A", "label": "3/8 of a pie" },
-            { "id": "B", "label": "7/8 of a pie" },
-            { "id": "C", "label": "7/16 of a pie" },
-            { "id": "D", "label": "10/8 of a pie" }
+            {
+              "id": "A",
+              "label": "3/8 of a pie"
+            },
+            {
+              "id": "B",
+              "label": "7/8 of a pie"
+            },
+            {
+              "id": "C",
+              "label": "7/16 of a pie"
+            },
+            {
+              "id": "D",
+              "label": "10/8 of a pie"
+            }
           ],
           "correct_choice_id": "B",
           "teks": "4.3E",
-          "hint": "Same-size pie pieces mean keep the denominator 8. Add the pieces: 5 + 2 = 7."
+          "hint": "Same-size pie pieces mean keep the denominator 8. Add the pieces: 5 + 2 = 7. The sum is 7/8, not 3/8 and not 7/16."
+        },
+        {
+          "id": "S1-2",
+          "prompt": "Commander Mia has 7/10 of a pumpkin pie. She serves 3/10 of the pie to Cadet Jake’s table. How much of the pie does she have left?",
+          "kind": "mc",
+          "choices": [
+            {
+              "id": "A",
+              "label": "10/10 of the pie"
+            },
+            {
+              "id": "B",
+              "label": "4/20 of the pie"
+            },
+            {
+              "id": "C",
+              "label": "4/10 of the pie"
+            },
+            {
+              "id": "D",
+              "label": "3/10 of the pie"
+            }
+          ],
+          "correct_choice_id": "C",
+          "teks": "4.3E",
+          "hint": "Serving pie takes pieces away, so subtract. Keep tenths: 7 − 3 = 4, so 4/10 remain."
+        },
+        {
+          "id": "S1-3",
+          "prompt": "Cadet Avery mixes cranberry glaze. She pours 3/12 cup from one measuring cup and 5/12 cup from another. How much cranberry glaze does she have in all?",
+          "kind": "mc",
+          "choices": [
+            {
+              "id": "A",
+              "label": "8/24 cup"
+            },
+            {
+              "id": "B",
+              "label": "2/12 cup"
+            },
+            {
+              "id": "C",
+              "label": "8/12 cup"
+            },
+            {
+              "id": "D",
+              "label": "15/12 cup"
+            }
+          ],
+          "correct_choice_id": "C",
+          "teks": "4.3E",
+          "hint": "Same-size twelfths stay twelfths. Add the cups: 3 + 5 = 8. The total is 8/12 cup, not 8/24."
+        },
+        {
+          "id": "S1-4",
+          "prompt": "Cadet Jake measures 9/6 cups of flour for pie crust. He spills 2/6 cup and sweeps it away. How much flour does he still have for the crust?",
+          "kind": "mc",
+          "choices": [
+            {
+              "id": "A",
+              "label": "11/6 cups"
+            },
+            {
+              "id": "B",
+              "label": "7/12 cups"
+            },
+            {
+              "id": "C",
+              "label": "9/6 cups"
+            },
+            {
+              "id": "D",
+              "label": "7/6 cups"
+            }
+          ],
+          "correct_choice_id": "D",
+          "teks": "4.3E",
+          "hint": "Spilled flour is subtracted. Keep sixths: 9 − 2 = 7, so 7/6 cups remain. Do not add the spill back on."
         }
       ]
     },
@@ -43,14 +133,104 @@
           "prompt": "Cadet Jake seats 53 Thanksgiving guests. Each table holds 6 guests. How many tables does he need so every guest has a seat?",
           "kind": "mc",
           "choices": [
-            { "id": "A", "label": "9 tables" },
-            { "id": "B", "label": "8 tables" },
-            { "id": "C", "label": "47 tables" },
-            { "id": "D", "label": "5 tables" }
+            {
+              "id": "A",
+              "label": "9 tables"
+            },
+            {
+              "id": "B",
+              "label": "8 tables"
+            },
+            {
+              "id": "C",
+              "label": "47 tables"
+            },
+            {
+              "id": "D",
+              "label": "5 tables"
+            }
           ],
           "correct_choice_id": "A",
           "teks": "4.4H",
-          "hint": "6 × 8 = 48, remainder 5. Those 5 guests still need a table, so round up to 9."
+          "hint": "Divide first: 6 × 8 = 48, remainder 5. Those 5 guests still need a table, so round up to 9. Stopping at 8 leaves guests without seats."
+        },
+        {
+          "id": "S2-2",
+          "prompt": "Cadet Avery packs 74 dinner rolls into baskets. Each basket holds 8 rolls. How many full baskets can she fill, and how many rolls are left over?",
+          "kind": "mc",
+          "choices": [
+            {
+              "id": "A",
+              "label": "10 full baskets with no rolls left over"
+            },
+            {
+              "id": "B",
+              "label": "9 full baskets with 2 rolls left over"
+            },
+            {
+              "id": "C",
+              "label": "8 full baskets with remainder 2"
+            },
+            {
+              "id": "D",
+              "label": "8 full baskets with 10 rolls left over"
+            }
+          ],
+          "correct_choice_id": "B",
+          "teks": "4.4H",
+          "hint": "8 × 9 = 72, so 9 full baskets and 2 left over."
+        },
+        {
+          "id": "S2-3",
+          "prompt": "Commander Mia has 125 napkin rings. Each centerpiece needs 9 napkin rings. After she makes as many complete centerpieces as possible, how many napkin rings are left over?",
+          "kind": "mc",
+          "choices": [
+            {
+              "id": "A",
+              "label": "13 napkin rings"
+            },
+            {
+              "id": "B",
+              "label": "14 napkin rings"
+            },
+            {
+              "id": "C",
+              "label": "8 napkin rings"
+            },
+            {
+              "id": "D",
+              "label": "0 napkin rings"
+            }
+          ],
+          "correct_choice_id": "C",
+          "teks": "4.4H",
+          "hint": "The question asks for leftover rings, not complete centerpieces. 9 × 13 = 117; 125 − 117 = 8 left over."
+        },
+        {
+          "id": "S2-4",
+          "prompt": "A tray holds 47 gravy boats. Cadets pack them 5 per shipping box. Every gravy boat must be shipped. How many boxes do they need?",
+          "kind": "mc",
+          "choices": [
+            {
+              "id": "A",
+              "label": "9 boxes"
+            },
+            {
+              "id": "B",
+              "label": "10 boxes"
+            },
+            {
+              "id": "C",
+              "label": "2 boxes"
+            },
+            {
+              "id": "D",
+              "label": "42 boxes"
+            }
+          ],
+          "correct_choice_id": "B",
+          "teks": "4.4H",
+          "hint": "Every boat must ship. 5 × 9 = 45 leaves 2 boats out, so add one more box. Answer 10, not 9."
         }
       ]
     },
@@ -66,14 +246,104 @@
           "prompt": "A cider jug holds 2 liters. Cadet Jake buys 3 jugs and pours 500 milliliters for a tasting cup. (1 liter = 1,000 milliliters) How many milliliters of cider remain?",
           "kind": "mc",
           "choices": [
-            { "id": "A", "label": "5,500 liters" },
-            { "id": "B", "label": "1,500 milliliters" },
-            { "id": "C", "label": "6,000 milliliters" },
-            { "id": "D", "label": "5,500 milliliters" }
+            {
+              "id": "A",
+              "label": "5,500 liters"
+            },
+            {
+              "id": "B",
+              "label": "1,500 milliliters"
+            },
+            {
+              "id": "C",
+              "label": "6,000 milliliters"
+            },
+            {
+              "id": "D",
+              "label": "5,500 milliliters"
+            }
           ],
           "correct_choice_id": "D",
           "teks": "4.8C",
-          "hint": "Convert liters first (6 L = 6,000 mL), then subtract the 500 mL tasting."
+          "hint": "Convert liters to milliliters first (6 L = 6,000 mL), then subtract the 500 mL tasting. Watch the unit in the answer."
+        },
+        {
+          "id": "S3-2",
+          "prompt": "The harvest market opens at 9:15 A.M. and closes at 11:45 A.M. How long is the market open?",
+          "kind": "mc",
+          "choices": [
+            {
+              "id": "A",
+              "label": "2 hours 30 minutes"
+            },
+            {
+              "id": "B",
+              "label": "3 hours 30 minutes"
+            },
+            {
+              "id": "C",
+              "label": "2 hours 15 minutes"
+            },
+            {
+              "id": "D",
+              "label": "150 hours"
+            }
+          ],
+          "correct_choice_id": "A",
+          "teks": "4.8C",
+          "hint": "Two full hours land on 11:15; thirty more minutes reach 11:45."
+        },
+        {
+          "id": "S3-3",
+          "prompt": "Cadet Avery buys 4 bags of potatoes at $2.75 each. She pays with a $20.00 bill. How much change should she receive?",
+          "kind": "mc",
+          "choices": [
+            {
+              "id": "A",
+              "label": "$11.00"
+            },
+            {
+              "id": "B",
+              "label": "$9.00"
+            },
+            {
+              "id": "C",
+              "label": "$17.25"
+            },
+            {
+              "id": "D",
+              "label": "$8.00"
+            }
+          ],
+          "correct_choice_id": "B",
+          "teks": "4.8C",
+          "hint": "Multiply first for the total cost, then subtract from $20.00. $11.00 spent means $9.00 comes back — do not report the cost as the change."
+        },
+        {
+          "id": "S3-4",
+          "prompt": "A turkey roast weighs 4 kilograms. Cadet Jake cuts 850 grams for leftover sandwiches. (1 kilogram = 1,000 grams) How many grams of turkey remain on the roast?",
+          "kind": "mc",
+          "choices": [
+            {
+              "id": "A",
+              "label": "3,150 kilograms"
+            },
+            {
+              "id": "B",
+              "label": "850 grams"
+            },
+            {
+              "id": "C",
+              "label": "3,150 grams"
+            },
+            {
+              "id": "D",
+              "label": "4,850 grams"
+            }
+          ],
+          "correct_choice_id": "C",
+          "teks": "4.8C",
+          "hint": "Convert kilograms to grams first (4 × 1,000 = 4,000), then subtract the 850 grams cut for sandwiches. Watch the unit."
         }
       ]
     },
@@ -89,14 +359,104 @@
           "prompt": "The leftover lab starts with 3 gravy containers of 750 milliliters each. Cadets use 400 milliliters for sandwiches, then pour 250 milliliters into a guest jar. How many milliliters of gravy remain?",
           "kind": "mc",
           "choices": [
-            { "id": "A", "label": "1,600 milliliters" },
-            { "id": "B", "label": "2,250 milliliters" },
-            { "id": "C", "label": "1,850 milliliters" },
-            { "id": "D", "label": "350 milliliters" }
+            {
+              "id": "A",
+              "label": "1,600 milliliters"
+            },
+            {
+              "id": "B",
+              "label": "2,250 milliliters"
+            },
+            {
+              "id": "C",
+              "label": "1,850 milliliters"
+            },
+            {
+              "id": "D",
+              "label": "350 milliliters"
+            }
           ],
           "correct_choice_id": "A",
           "teks": "4.8C",
-          "hint": "Two steps after the start: 2,250 − 400 − 250 = 1,600. Do not stop at 2,250."
+          "hint": "Two steps after the start: subtract both pours. 2,250 − 400 − 250 = 1,600. Do not stop at 2,250."
+        },
+        {
+          "id": "S4-2",
+          "prompt": "Commander Mia leaves for the harvest market at 1:20 P.M. She shops for 45 minutes, then drives 25 minutes home. What time does she arrive home?",
+          "kind": "mc",
+          "choices": [
+            {
+              "id": "A",
+              "label": "2:05 P.M."
+            },
+            {
+              "id": "B",
+              "label": "1:90 P.M."
+            },
+            {
+              "id": "C",
+              "label": "2:45 P.M."
+            },
+            {
+              "id": "D",
+              "label": "2:30 P.M."
+            }
+          ],
+          "correct_choice_id": "D",
+          "teks": "4.8C",
+          "hint": "Add both time intervals. Shopping ends at 2:05; the 25-minute drive lands at 2:30. Do not stop after the first interval."
+        },
+        {
+          "id": "S4-3",
+          "prompt": "Cadet Jake has $15.00. He buys 3 jars of cranberry sauce at $2.40 each and one pie for $4.50. How much money does he have left?",
+          "kind": "mc",
+          "choices": [
+            {
+              "id": "A",
+              "label": "$15.00"
+            },
+            {
+              "id": "B",
+              "label": "$11.70"
+            },
+            {
+              "id": "C",
+              "label": "$3.30"
+            },
+            {
+              "id": "D",
+              "label": "$7.20"
+            }
+          ],
+          "correct_choice_id": "C",
+          "teks": "4.8C",
+          "hint": "Jars $7.20 + pie $4.50 = $11.70 spent; $15.00 − $11.70 = $3.30 left. Do not report spent as leftover."
+        },
+        {
+          "id": "S4-4",
+          "prompt": "A leftover tray holds 2.5 kilograms of mashed potatoes. Cadets pack 6 containers with 300 grams each, then add 150 grams of gravy on top. (1 kilogram = 1,000 grams) How many grams are on the tray now?",
+          "kind": "mc",
+          "choices": [
+            {
+              "id": "A",
+              "label": "700 grams"
+            },
+            {
+              "id": "B",
+              "label": "850 grams"
+            },
+            {
+              "id": "C",
+              "label": "1,850 grams"
+            },
+            {
+              "id": "D",
+              "label": "2,500 grams"
+            }
+          ],
+          "correct_choice_id": "B",
+          "teks": "4.8C",
+          "hint": "Convert to grams, subtract the packed containers, then add the gravy. 2,500 − 1,800 + 150 = 850. Do not stop at 2,500."
         }
       ]
     },
@@ -111,14 +471,104 @@
           "prompt": "Commander Mia has 11/12 of an apple pie. She gives 4/12 of the pie to Cadet Avery’s family table. How much of the pie does she have left?",
           "kind": "mc",
           "choices": [
-            { "id": "A", "label": "15/12 of the pie" },
-            { "id": "B", "label": "4/12 of the pie" },
-            { "id": "C", "label": "7/24 of the pie" },
-            { "id": "D", "label": "7/12 of the pie" }
+            {
+              "id": "A",
+              "label": "15/12 of the pie"
+            },
+            {
+              "id": "B",
+              "label": "4/12 of the pie"
+            },
+            {
+              "id": "C",
+              "label": "7/24 of the pie"
+            },
+            {
+              "id": "D",
+              "label": "7/12 of the pie"
+            }
           ],
           "correct_choice_id": "D",
           "teks": "4.3E",
           "hint": "Giving pie away means subtract. Keep twelfths: 11 − 4 = 7, so 7/12 remain."
+        },
+        {
+          "id": "B-2",
+          "prompt": "Cadet Avery has 85 place cards. Each dinner table needs 6 place cards. Every place card must be set out. How many tables does she need so every place card is used at a table?",
+          "kind": "mc",
+          "choices": [
+            {
+              "id": "A",
+              "label": "14 tables"
+            },
+            {
+              "id": "B",
+              "label": "1 table"
+            },
+            {
+              "id": "C",
+              "label": "15 tables"
+            },
+            {
+              "id": "D",
+              "label": "79 tables"
+            }
+          ],
+          "correct_choice_id": "C",
+          "teks": "4.4H",
+          "hint": "Every card must be set. 6 × 14 = 84 leaves 1 card out, so add one more table. Answer 15, not 14."
+        },
+        {
+          "id": "B-3",
+          "prompt": "A bag of sweet potatoes costs $3.60. Cadet Avery buys 2 bags and a $1.25 bunch of herbs. How much does she spend in all?",
+          "kind": "mc",
+          "choices": [
+            {
+              "id": "A",
+              "label": "$8.45"
+            },
+            {
+              "id": "B",
+              "label": "$7.20"
+            },
+            {
+              "id": "C",
+              "label": "$4.85"
+            },
+            {
+              "id": "D",
+              "label": "$9.45"
+            }
+          ],
+          "correct_choice_id": "A",
+          "teks": "4.8C",
+          "hint": "Multiply the bags, then add the herbs. Do not stop at $7.20."
+        },
+        {
+          "id": "B-4",
+          "prompt": "Gratitude Gate starts with 4 bottles of cider, 1 liter each. Cadets pour 3 tasting cups of 250 milliliters each, then a parent brings 500 milliliters more. (1 liter = 1,000 milliliters) How many milliliters of cider are at the gate now?",
+          "kind": "mc",
+          "choices": [
+            {
+              "id": "A",
+              "label": "3,250 milliliters"
+            },
+            {
+              "id": "B",
+              "label": "4,750 milliliters"
+            },
+            {
+              "id": "C",
+              "label": "3,750 milliliters"
+            },
+            {
+              "id": "D",
+              "label": "4,000 milliliters"
+            }
+          ],
+          "correct_choice_id": "C",
+          "teks": "4.8C",
+          "hint": "4,000 − 750 + 500 = 3,750. Subtract poured cups, then add the parent’s 500 mL."
         }
       ]
     }

@@ -52,6 +52,8 @@ export type PlayerVaultView = {
   /** Board theme string (resolved client-side; Thanksgiving is the default). */
   theme: string | null;
   hint: string | null;
+  /** Class time so far (frozen at game end); shown on the student finale. */
+  elapsed_ms: number | null;
 };
 
 /** Every room unlocked → the class truly escaped. */
@@ -266,6 +268,7 @@ export function toPlayerVaultView(
     revealed: boolean;
     lockState: VaultLockState;
     theme?: string | null;
+    elapsedMs?: number | null;
   },
 ): PlayerVaultView {
   const room = currentVaultRoom(rooms, roomIndex);
@@ -298,7 +301,7 @@ export function toPlayerVaultView(
           label: kidPlainText(c.label, 80),
         }))
       : null,
-    can_answer: Boolean(puzzle) && !answered,
+    can_answer: Boolean(puzzle) && !answered && !extra.revealed,
     answered,
     picked,
     last_correct: Boolean(puzzle && answered && isVaultAnswerCorrect(puzzle, raw!)),
@@ -314,6 +317,7 @@ export function toPlayerVaultView(
     revealed_answer: extra.revealed && puzzle ? vaultAnswerLabel(puzzle) : null,
     escaped: isVaultEscaped(rooms, extra.unlockedRoomIds),
     theme: extra.theme ?? null,
+    elapsed_ms: extra.elapsedMs ?? null,
     hint:
       puzzle?.hint && answered && puzzle
         ? kidPlainText(puzzle.hint, 240)

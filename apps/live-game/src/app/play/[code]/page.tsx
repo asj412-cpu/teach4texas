@@ -258,6 +258,24 @@ function PlayPageBody({
     );
   }
 
+  if (view.phase === "lobby" && view.game_type === "escape_vault") {
+    // R2 P2-3: themed vault lobby (was the plain white page).
+    return (
+      <VaultScene>
+        <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6 text-center">
+          <p className="mx-auto w-fit rounded-full bg-black/55 px-4 py-1 text-base font-black uppercase tracking-widest text-amber-200">
+            You&apos;re in!
+          </p>
+          <h1 className="ev-title mt-3 text-3xl font-black">{kidPlainText(view.title, 80)}</h1>
+          <p className="ev-glass mt-4 rounded-2xl px-4 py-3 text-lg font-semibold text-white">
+            Escape Vault — waiting for your teacher to start ({view.players.length} players)
+          </p>
+          <p className="mt-6 text-xl font-black text-white">You: {view.my_display_name}</p>
+        </div>
+      </VaultScene>
+    );
+  }
+
   if (view.phase === "lobby") {
     return (
       <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6 text-center">

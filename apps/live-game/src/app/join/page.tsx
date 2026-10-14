@@ -56,9 +56,12 @@ export default function JoinPage() {
         purchase code. Display name only; no account.
       </p>
       <form className="mt-8 space-y-4" onSubmit={onSubmit}>
-        <label className="block text-sm font-medium text-t4t-navy">
+        <label htmlFor="join-room-code" className="block text-sm font-medium text-t4t-navy">
           Room code
           <input
+            id="join-room-code"
+            name="room_code"
+            aria-label="Room code"
             type="text"
             value={code}
             onChange={(e) => setCode(e.target.value.toUpperCase())}
@@ -69,9 +72,12 @@ export default function JoinPage() {
             required
           />
         </label>
-        <label className="block text-sm font-medium text-t4t-navy">
+        <label htmlFor="join-display-name" className="block text-sm font-medium text-t4t-navy">
           Display name
           <input
+            id="join-display-name"
+            name="display_name"
+            aria-label="Display name"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}

@@ -21,7 +21,7 @@ export function TurkeyMascot({
           : "ev-mascot-hint";
 
   return (
-    <div className="flex items-end gap-3">
+    <div className="flex items-end gap-3" data-testid="turkey-mascot">
       <div className={`relative h-24 w-24 shrink-0 ${bob}`} aria-hidden>
         <svg viewBox="0 0 120 120" className="h-full w-full">
           <ellipse cx="60" cy="72" rx="34" ry="28" fill="#8B4513" />
@@ -60,7 +60,7 @@ export function TurkeyMascot({
         </svg>
       </div>
       {line && (
-        <div className="relative mb-4 max-w-xs rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-t4t-navy shadow">
+        <div className="relative mb-4 max-w-xs rounded-2xl bg-white px-3 py-2 text-base font-semibold text-t4t-navy shadow">
           <span className="absolute -left-2 bottom-3 h-0 w-0 border-y-8 border-r-8 border-y-transparent border-r-white" />
           {line}
         </div>

@@ -221,7 +221,7 @@ body {
   filter: drop-shadow(0 4px 0 #6b2f00); animation: dd-shimmer 4s linear infinite;
 }
 .ev-celebrate { position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center; pointer-events: none;
-  animation: ev-celebrate-out 2.4s ease-out forwards; background: radial-gradient(circle, rgba(120, 60, 10, 0.75), rgba(10, 4, 2, 0.88) 70%); }
+  animation: ev-celebrate-out 2.4s ease-out forwards; background: radial-gradient(circle, #5a2c08, #0a0402 70%); /* R2: fully opaque */ }
 .ev-ring { position: absolute; left: 50%; top: 50%; width: 40vmin; height: 40vmin; border-radius: 9999px;
   border: 6px solid rgba(255, 214, 107, 0.9); box-shadow: 0 0 40px rgba(255, 214, 107, .8); animation: ev-ring-burst 1.2s ease-out forwards; }
 @media (prefers-reduced-motion: reduce) {

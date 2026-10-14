@@ -882,13 +882,15 @@ export function applyHostAction(
       ) {
         return { ok: false, error: "LOCKED" };
       }
-      if (!room.vault_unlocked_rooms.includes(current.id)) {
-        room.vault_unlocked_rooms.push(current.id);
-      }
       room.vault_revealed = false;
+      // Multi-puzzle rooms: each lock opens the next puzzle; the room's chip is
+      // earned only when its last puzzle is cleared.
       if (room.vault_puzzle_index < current.puzzles.length - 1) {
         room.vault_puzzle_index += 1;
         return { ok: true };
+      }
+      if (!room.vault_unlocked_rooms.includes(current.id)) {
+        room.vault_unlocked_rooms.push(current.id);
       }
       if (room.vault_room_index < rooms.length - 1) {
         room.vault_room_index += 1;
@@ -1273,6 +1275,10 @@ export function submitVaultAnswer(
     return { ok: false, error: "NOT_ESCAPE_VAULT" };
   }
   if (room.phase !== "escaping") {
+    return { ok: false, error: "NOT_ACCEPTING_ANSWERS" };
+  }
+  // R2 P1-1: once the host reveals the answer, answering is closed (no free points).
+  if (room.vault_revealed) {
     return { ok: false, error: "NOT_ACCEPTING_ANSWERS" };
   }
   if (!room.players[playerId]) return { ok: false, error: "NOT_A_PLAYER" };

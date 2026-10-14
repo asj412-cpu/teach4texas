@@ -102,17 +102,18 @@ export function EscapeVaultPlay({
         : "oops";
 
   return (
-    <div className="space-y-4">
+    <div className="flex flex-col gap-4">
       <UnlockCelebration
         trigger={openedInto ? `${vault.room_index}` : null}
         label={openedInto ? `Entering ${kidPlainText(openedInto, 40)}` : ""}
       />
       <div key={puzzleKey ?? "x"} className="ev-glass gs-rise flex flex-col-reverse items-center gap-2 rounded-3xl p-4 text-center sm:flex-row sm:items-start sm:justify-between sm:text-left">
         <div>
-          <p className="text-xs font-black uppercase tracking-wider text-amber-300">
+          <p className="text-sm font-black uppercase tracking-wider text-amber-200">
             {vault.room_name ?? "Escape"} · Room {vault.room_index + 1}/
             {vault.room_total}
             {vault.room_chip ? ` · ${vault.room_chip}` : ""}
+            {vault.puzzle_total > 1 ? ` · Lock ${vault.puzzle_index + 1}/${vault.puzzle_total}` : ""}
           </p>
           <p className="mt-1 text-xl font-black leading-snug text-white drop-shadow sm:text-2xl">
             {vault.prompt ?? "Get ready…"}
@@ -131,7 +132,10 @@ export function EscapeVaultPlay({
       )}
 
       {vault.kind === "mc" && vault.choices && (
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div
+          // R2 P3: after answering, choices drop below the hint so it fits a 390×844 phone.
+          className={`grid grid-cols-1 gap-3 sm:grid-cols-2 ${vault.answered ? "order-last" : ""}`}
+        >
           {vault.choices.map((c) => {
             const picked = vault.picked === c.id;
             const isKey = vault.revealed_choice_id === c.id;
@@ -142,7 +146,7 @@ export function EscapeVaultPlay({
                 disabled={!vault.can_answer || busy}
                 onClick={() => submit({ choice_id: c.id })}
                 data-revealed-correct={isKey ? "true" : undefined}
-                className={`ev-glass ev-choice gs-rise rounded-2xl border-2 px-4 py-4 text-left text-lg font-bold text-white ${
+                className={`ev-glass ev-choice gs-rise rounded-2xl border-2 px-4 ${vault.answered ? "py-2 text-base" : "py-4 text-lg"} text-left font-bold text-white ${
                   isKey
                     ? "gs-correct"
                     : picked
@@ -198,6 +202,12 @@ export function EscapeVaultPlay({
   );
 }
 
+function formatClassTime(ms: number | null, escaped: boolean): string {
+  if (ms == null) return escaped ? "escaped together" : "ended by host";
+  const t = Math.round(ms / 1000);
+  return `${Math.floor(t / 60)}:${String(t % 60).padStart(2, "0")}${escaped ? " · escaped together" : ""}`;
+}
+
 /** Escape-themed student final (replaces the generic "Game over!"). */
 export function EscapeVaultFinal({ view }: { view: PlayerRoomView }) {
   const vault = view.vault;
@@ -220,7 +230,7 @@ export function EscapeVaultFinal({ view }: { view: PlayerRoomView }) {
         escaped={escaped}
         chips={vault?.chips ?? []}
         codeWord={theme.codeWord}
-        elapsedLabel={escaped ? "escaped together" : "ended by host"}
+        elapsedLabel={formatClassTime(vault?.elapsed_ms ?? null, escaped)}
         line={pickLine(escaped ? theme.lines.finale : theme.lines.notEscaped, view.my_score)}
         players={view.players.map((p, i) => ({
           player_id: `${p.display_name}-${i}`,

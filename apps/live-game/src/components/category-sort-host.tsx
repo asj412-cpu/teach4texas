@@ -134,7 +134,7 @@ export function CategorySortHost({
               : ""}{" "}
             · tap a bin on student devices
             {view.phase === "binning"
-              ? ` · ${category?.answer_count ?? 0}/${view.players.length} sorted`
+              ? ` · ${category?.answer_count ?? 0}/${view.players.filter((p) => p.player_id !== "host").length} sorted`
               : ""}
           </p>
           {category ? <ClassProgress label={`Item ${Math.min(category.item_index + 1, category.item_total)}/${category.item_total} · answers in`} value={category.answer_count} total={view.players.filter((p) => p.player_id !== "host").length} /> : null}

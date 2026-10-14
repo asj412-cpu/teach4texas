@@ -228,3 +228,7 @@ body {
   .ev-rays, .ev-door-bg, .ev-glow, .ev-leaf, .ev-title, .ev-ring { animation: none !important; }
   .ev-leaf { display: none; }
 }
+/* P3-D answer feedback with text on it: AA-contrast variants of gs-correct / gs-wrong (white text ≥4.5). */
+.fb-correct { background: #047857 !important; border-color: #b6ffd3 !important; animation: dd-pop 0.45s ease-out; color: #fff !important; }
+.fb-wrong { background: #b91c1c !important; border-color: #ffc2c2 !important; animation: gs-shake 0.45s ease-out; color: #fff !important; }
+@media (prefers-reduced-motion: reduce) { .fb-correct, .fb-wrong { animation: none !important; } }

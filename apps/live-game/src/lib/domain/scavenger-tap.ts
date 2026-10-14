@@ -19,6 +19,9 @@ export type PlayerScavengerView = {
   tapped: boolean;
   completed: boolean;
   correct_count: number;
+  /** P3-D: true only after a correct answer on the current item (TF-dash style feedback). */
+  last_correct: boolean;
+  picked: string | null;
 };
 
 export function scavengerItemsFromBoard(board: GameBoard): ScavengerTapItem[] {
@@ -105,5 +108,7 @@ export function toPlayerScavengerView(
     tapped,
     completed,
     correct_count: state.correct_count,
+    picked: tapped ? (state.answers[itemIndex] ?? null) : null,
+    last_correct: Boolean(item && tapped && state.answers[itemIndex] === item.correct_target_id),
   };
 }

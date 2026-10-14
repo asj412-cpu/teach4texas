@@ -39,7 +39,7 @@ export function TrueFalseDashHost({
               {view.code}
             </p>
             <p className="text-base text-white/90">
-              {view.players.length} joined · students go to /join
+              {view.players.filter((p) => p.player_id !== "host").length} joined · students go to /join
             </p>
           </div>
         </div>
@@ -109,7 +109,7 @@ export function TrueFalseDashHost({
               : ""}{" "}
             · students tap True or False
             {view.phase === "dashing"
-              ? ` · ${dash?.answer_count ?? 0}/${view.players.length} locked`
+              ? ` · ${dash?.answer_count ?? 0}/${view.players.filter((p) => p.player_id !== "host").length} locked`
               : ""}
           </p>
           {dash ? <ClassProgress label={`Item ${Math.min(dash.item_index + 1, dash.item_total)}/${dash.item_total} · answers in`} value={dash.answer_count} total={view.players.filter((p) => p.player_id !== "host").length} /> : null}

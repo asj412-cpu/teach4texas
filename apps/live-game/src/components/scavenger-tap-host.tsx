@@ -4,6 +4,7 @@ import { rankedTiles } from "@/lib/host-tiles";
 import { useState } from "react";
 import type { HostRoomView } from "@/lib/domain/live-room";
 import { HostSeatPanel } from "@/components/host-seat-panel";
+import { AnswerReveal } from "@/components/answer-reveal";
 import { ClassProgress } from "@/components/class-progress";
 import { GameShowStage } from "@/components/game-show";
 import { kidPlainText } from "@/lib/plain-text";
@@ -109,9 +110,12 @@ export function ScavengerTapHost({
               : ""}{" "}
             · tap the matching hotspot on student devices
             {view.phase === "scavenging"
-              ? ` · ${scavenger?.answer_count ?? 0}/${view.players.length} tapped`
+              ? ` · ${scavenger?.answer_count ?? 0}/${view.players.filter((p) => p.player_id !== "host").length} tapped`
               : ""}
           </p>
+          {view.phase === "scavenging" && scavenger ? (
+            <AnswerReveal itemKey={`${scavenger.item_index}`} answer={scavenger.item_key[scavenger.item_index]?.answer ?? null} allIn={scavenger.answer_count > 0 && scavenger.answer_count >= view.players.filter((p) => p.player_id !== "host").length} />
+          ) : null}
           {scavenger ? <ClassProgress label={`Item ${Math.min(scavenger.item_index + 1, scavenger.item_total)}/${scavenger.item_total} · answers in`} value={scavenger.answer_count} total={view.players.filter((p) => p.player_id !== "host").length} /> : null}
           <div className="mt-4 grid auto-rows-min content-start grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
             {ranked.filter((p) => p.player_id !== "host").length === 0 && (

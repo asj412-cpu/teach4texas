@@ -25,15 +25,15 @@ export function SequenceSortPlay({
   if (view.phase === "lobby") {
     return (
       <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6 text-center">
-        <p className="text-sm uppercase text-t4t-burnt">You&apos;re in!</p>
-        <h1 className="mt-2 text-2xl font-bold text-t4t-navy">
+        <p className="text-base uppercase text-amber-200">You&apos;re in!</p>
+        <h1 className="mt-2 text-2xl font-bold text-white">
           {kidPlainText(view.title, 80)}
         </h1>
-        <p className="mt-2 text-t4t-darkText/70">
+        <p className="mt-2 text-white/90">
           Order the Steps — wait for your teacher to start. (
           {view.players.filter((p) => !p.is_host).length} players)
         </p>
-        <p className="mt-6 text-lg font-semibold text-t4t-navy">
+        <p className="mt-6 text-lg font-semibold text-white">
           You: {kidPlainText(view.my_display_name, 20)}
         </p>
       </div>
@@ -42,7 +42,7 @@ export function SequenceSortPlay({
 
   if (!sequence || view.phase !== "sorting") {
     return (
-      <div className="flex min-h-screen items-center justify-center px-6 text-center text-t4t-navy">
+      <div className="flex min-h-screen items-center justify-center px-6 text-center text-white">
         Waiting for Order the Steps to start…
       </div>
     );
@@ -64,18 +64,18 @@ export function SequenceSortPlay({
   }
 
   return (
-    <div className="min-h-screen bg-t4t-lightBlue px-4 py-6">
-      <p className="text-center text-xs font-semibold uppercase text-t4t-burnt">
+    <div className="min-h-screen px-4 py-6">
+      <p className="text-center text-base font-semibold uppercase text-amber-200">
         Order the Steps
       </p>
-      <h1 className="mt-1 text-center text-lg font-bold text-t4t-navy">
+      <h1 className="dd-title mt-1 text-center text-2xl font-black uppercase">
         {kidPlainText(view.title, 80)}
       </h1>
-      <p className="mt-1 text-center text-sm text-t4t-darkText/70">
+      <p className="mt-1 text-center text-base text-white/90">
         Prompt {Math.min(sequence.item_index + 1, sequence.item_total)}/
         {sequence.item_total} · Score {view.my_score}
       </p>
-      <div className="mx-auto mt-3 h-2 max-w-md overflow-hidden rounded-full bg-white">
+      <div className="mx-auto mt-3 h-2 max-w-md overflow-hidden rounded-full bg-white/20">
         <div
           className="h-full bg-t4t-green"
           style={{ width: `${Math.round(progress * 100)}%` }}
@@ -83,23 +83,27 @@ export function SequenceSortPlay({
       </div>
 
       {sequence.completed && (
-        <p className="mt-10 text-center text-xl font-bold text-t4t-green">
+        <p className="mt-10 text-center text-xl font-bold text-green-300">
           You finished! Score {view.my_score}
         </p>
       )}
 
       {sequence.prompt && order.length > 0 && (
         <>
-          <p className="mx-auto mt-8 max-w-lg text-center text-xl font-bold text-t4t-navy">
+          <p className="mx-auto mt-8 max-w-lg text-center text-xl font-bold text-white">
             {sequence.prompt}
           </p>
-          <ol className="mx-auto mt-6 flex max-w-md flex-col gap-2">
+          <ol
+            className={`mx-auto mt-6 flex max-w-md flex-col gap-2 rounded-2xl p-1 ${
+              sequence.submitted ? (sequence.last_correct ? "fb-correct" : "fb-wrong") : ""
+            }`}
+          >
             {order.map((step, i) => (
               <li
                 key={step.id}
-                className="flex items-center gap-2 rounded-xl border-2 border-t4t-navy/20 bg-white px-3 py-3 text-t4t-navy"
+                className="flex items-center gap-2 rounded-xl border-2 border-white/30 bg-black/55 px-3 py-3 text-white"
               >
-                <span className="w-6 text-center text-sm font-extrabold text-t4t-burnt">
+                <span className="w-6 text-center text-base font-extrabold text-amber-200">
                   {i + 1}
                 </span>
                 <span className="flex-1 text-left text-base font-semibold">
@@ -112,7 +116,7 @@ export function SequenceSortPlay({
                       submitting || !sequence.can_submit || i === 0
                     }
                     onClick={() => move(i, -1)}
-                    className="rounded-md bg-t4t-navy px-2 py-1 text-[10px] font-bold uppercase text-white disabled:opacity-40"
+                    className="rounded-md bg-amber-300 px-3 py-1 text-base font-bold uppercase text-t4t-navy disabled:bg-white/15 disabled:text-white"
                   >
                     Up
                   </button>
@@ -124,7 +128,7 @@ export function SequenceSortPlay({
                       i === order.length - 1
                     }
                     onClick={() => move(i, 1)}
-                    className="rounded-md bg-t4t-navy px-2 py-1 text-[10px] font-bold uppercase text-white disabled:opacity-40"
+                    className="rounded-md bg-amber-300 px-3 py-1 text-base font-bold uppercase text-t4t-navy disabled:bg-white/15 disabled:text-white"
                   >
                     Down
                   </button>
@@ -137,7 +141,7 @@ export function SequenceSortPlay({
               type="button"
               disabled={submitting || order.length === 0}
               onClick={() => onSubmit(order.map((s) => s.id))}
-              className="mx-auto mt-6 block w-full max-w-md rounded-xl bg-t4t-green px-4 py-3 text-sm font-semibold text-white disabled:opacity-70"
+              className="mx-auto mt-6 block w-full max-w-md rounded-xl bg-emerald-800 px-4 py-3 text-lg font-black text-white disabled:opacity-70"
             >
               Lock in this order
             </button>
@@ -146,8 +150,14 @@ export function SequenceSortPlay({
       )}
 
       {sequence.submitted && !sequence.completed && (
-        <p className="mt-6 text-center text-sm text-t4t-navy">
-          Locked in — wait for the next prompt.
+        <p
+          role="status"
+          data-testid="answer-feedback"
+          className={`mx-auto mt-6 w-fit rounded-full px-5 py-2 text-center text-xl font-black text-white ${
+            sequence.last_correct ? "fb-correct" : "fb-wrong"
+          }`}
+        >
+          {sequence.last_correct ? "Correct! +points" : "Miss — wait for the next prompt."}
         </p>
       )}
     </div>

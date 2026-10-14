@@ -329,21 +329,13 @@ function PlayPageBody({
 
   if (view.game_type === "scavenger_tap" && view.phase !== "final") {
     return (
-      <ScavengerTapPlay
-        view={view}
-        submitting={submitting}
-        onTap={scavengerTap}
-      />
+<GameShowStage sparks={false}><ScavengerTapPlay view={view} submitting={submitting} onTap={scavengerTap} /></GameShowStage>
     );
   }
 
   if (view.game_type === "sequence_sort" && view.phase !== "final") {
     return (
-      <SequenceSortPlay
-        view={view}
-        submitting={submitting}
-        onSubmit={sequenceSubmit}
-      />
+<GameShowStage sparks={false}><SequenceSortPlay view={view} submitting={submitting} onSubmit={sequenceSubmit} /></GameShowStage>
     );
   }
 
@@ -357,7 +349,7 @@ function PlayPageBody({
 
   if (view.game_type === "odd_one_out" && view.phase !== "final") {
     return (
-      <OddOneOutPlay view={view} submitting={submitting} onTap={oddTap} />
+      <GameShowStage sparks={false}><OddOneOutPlay view={view} submitting={submitting} onTap={oddTap} /></GameShowStage>
     );
   }
 

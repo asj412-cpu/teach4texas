@@ -21,6 +21,9 @@ export type PlayerSequenceView = {
   submitted: boolean;
   completed: boolean;
   correct_count: number;
+  /** P3-D: true only after a correct answer on the current item (TF-dash style feedback). */
+  last_correct: boolean;
+  picked: string | null;
 };
 
 function shuffle<T>(list: T[]): T[] {
@@ -174,5 +177,7 @@ export function toPlayerSequenceView(
     submitted,
     completed,
     correct_count: state.correct_count,
+    picked: null,
+    last_correct: Boolean(item && submitted && sameStepOrder(state.answers[itemIndex] ?? [], item.correct_order)),
   };
 }

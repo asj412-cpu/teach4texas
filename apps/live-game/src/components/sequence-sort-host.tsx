@@ -4,6 +4,7 @@ import { rankedTiles } from "@/lib/host-tiles";
 import { useState } from "react";
 import type { HostRoomView } from "@/lib/domain/live-room";
 import { HostSeatPanel } from "@/components/host-seat-panel";
+import { AnswerReveal } from "@/components/answer-reveal";
 import { ClassProgress } from "@/components/class-progress";
 import { GameShowStage } from "@/components/game-show";
 import { kidPlainText } from "@/lib/plain-text";
@@ -109,9 +110,12 @@ export function SequenceSortHost({
               : ""}{" "}
             · arrange the steps on student devices
             {view.phase === "sorting"
-              ? ` · ${sequence?.answer_count ?? 0}/${view.players.length} locked in`
+              ? ` · ${sequence?.answer_count ?? 0}/${view.players.filter((p) => p.player_id !== "host").length} locked in`
               : ""}
           </p>
+          {view.phase === "sorting" && sequence ? (
+            <AnswerReveal itemKey={`${sequence.item_index}`} answer={sequence.item_key[sequence.item_index]?.answer ?? null} allIn={sequence.answer_count > 0 && sequence.answer_count >= view.players.filter((p) => p.player_id !== "host").length} />
+          ) : null}
           {sequence ? <ClassProgress label={`Item ${Math.min(sequence.item_index + 1, sequence.item_total)}/${sequence.item_total} · answers in`} value={sequence.answer_count} total={view.players.filter((p) => p.player_id !== "host").length} /> : null}
           <div className="mt-4 grid auto-rows-min content-start grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
             {ranked.filter((p) => p.player_id !== "host").length === 0 && (

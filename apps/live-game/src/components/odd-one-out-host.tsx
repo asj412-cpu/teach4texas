@@ -4,6 +4,7 @@ import { rankedTiles } from "@/lib/host-tiles";
 import { useState } from "react";
 import type { HostRoomView } from "@/lib/domain/live-room";
 import { HostSeatPanel } from "@/components/host-seat-panel";
+import { AnswerReveal } from "@/components/answer-reveal";
 import { ClassProgress } from "@/components/class-progress";
 import { GameShowStage } from "@/components/game-show";
 import { kidPlainText } from "@/lib/plain-text";
@@ -126,9 +127,12 @@ export function OddOneOutHost({
               : ""}{" "}
             · tap the odd one on student devices
             {view.phase === "odding"
-              ? ` · ${odd?.answer_count ?? 0}/${view.players.length} locked`
+              ? ` · ${odd?.answer_count ?? 0}/${view.players.filter((p) => p.player_id !== "host").length} locked`
               : ""}
           </p>
+          {view.phase === "odding" && odd ? (
+            <AnswerReveal itemKey={`${odd.item_index}`} answer={odd.item_key[odd.item_index]?.answer ?? null} allIn={odd.answer_count > 0 && odd.answer_count >= view.players.filter((p) => p.player_id !== "host").length} />
+          ) : null}
           {odd ? <ClassProgress label={`Item ${Math.min(odd.item_index + 1, odd.item_total)}/${odd.item_total} · answers in`} value={odd.answer_count} total={view.players.filter((p) => p.player_id !== "host").length} /> : null}
           <div className="mt-3 grid auto-rows-min content-start grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
             {ranked.filter((p) => p.player_id !== "host").length === 0 && (

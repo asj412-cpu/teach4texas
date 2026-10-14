@@ -309,11 +309,13 @@ export async function withRoom<T>(
         return { kind: "ok", value: fn(room, results) };
       }
       const before = opts.poll && rec.pending.length === 0 ? JSON.stringify(room) : "";
-      maybeAutoLock(room);
-      maybeClearMismatches(room);
+      // Fold queued actions first, each at the time it was queued (deterministic replay),
+      // then apply wall-clock transitions (auto-lock, mismatch flip-back).
       for (const p of rec.pending) {
         results.set(p.id, applyQueuedAction(room, p.action as QueuedAction));
       }
+      maybeAutoLock(room);
+      maybeClearMismatches(room);
       recordActionErrors(room, results);
       const value = fn(room, results);
       if (opts.poll) {
@@ -329,6 +331,10 @@ export async function withRoom<T>(
       if (rec.pending.length === 0) return { kind: "ok", value };
       const ids = rec.pending.map((p) => p.id);
       if (await saveRoomRecord(room, rec.version, ids)) return { kind: "ok", value };
+      // P2-L1: our action is in the queue and replay is deterministic (ordered by id,
+      // each at its queued time), so the in-memory result is the result. Whoever wins
+      // the version race folds it identically; don't spin on the version.
+      if (opts.ownId != null) return { kind: "ok", value };
       await sleep(5 + Math.random() * 25 * (attempt + 1));
     }
   } catch (err) {
@@ -361,7 +367,7 @@ const PLAYER_ACTIONS = {
 export type PlayerActionName = keyof typeof PLAYER_ACTIONS;
 
 /** One queued action (D1). Stored as JSON in live_room_actions.action. */
-export type QueuedAction =
+export type QueuedAction = (
   | { t: "host"; a: HostAction }
   | {
       t: "join";
@@ -370,9 +376,21 @@ export type QueuedAction =
       secret: string;
       resume?: { player_id: string; resume_secret: string };
     }
-  | { t: "player"; fn: PlayerActionName; pid: string; args: unknown[] };
+  | { t: "player"; fn: PlayerActionName; pid: string; args: unknown[] }
+) & { at?: number };
 
 function applyQueuedAction(room: LiveRoom, q: QueuedAction): ActionResult {
+  // Evaluate the action at the moment it was queued, not when it is folded.
+  const realNow = Date.now;
+  if (typeof q.at === "number" && q.at > 0) Date.now = () => q.at as number;
+  try {
+    return applyQueuedActionNow(room, q);
+  } finally {
+    Date.now = realNow;
+  }
+}
+
+function applyQueuedActionNow(room: LiveRoom, q: QueuedAction): ActionResult {
   try {
     if (q.t === "host") return applyHostAction(room, q.a);
     if (q.t === "join") {
@@ -406,7 +424,7 @@ export async function runRoomAction<T>(
   if (!ROOM_CODE_RE.test(code)) return { kind: "missing" };
   let q: Awaited<ReturnType<typeof enqueueAndLoad>>;
   try {
-    q = await enqueueAndLoad(code, action);
+    q = await enqueueAndLoad(code, { ...action, at: Date.now() });
   } catch (err) {
     console.error("runRoomAction.enqueue:", err);
     return { kind: "busy" };

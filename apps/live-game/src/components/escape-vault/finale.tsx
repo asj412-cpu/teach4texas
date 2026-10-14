@@ -33,10 +33,8 @@ export function EscapeFinale({
   const ranked = [...players].sort((a, b) => b.score - a.score);
   return (
     <div
-      className={`relative overflow-hidden rounded-2xl p-6 text-t4t-navy ${
-        escaped
-          ? "bg-gradient-to-br from-amber-200 via-orange-100 to-emerald-100"
-          : "bg-gradient-to-br from-slate-200 via-amber-50 to-slate-100"
+      className={`ev-glass gs-rise relative overflow-hidden rounded-3xl p-6 text-white ${
+        escaped ? "ring-2 ring-amber-300/60" : ""
       }`}
       data-testid="ev-finale"
       data-escaped={escaped ? "true" : "false"}
@@ -56,19 +54,19 @@ export function EscapeFinale({
           ))}
         </div>
       )}
-      <p className="text-center text-xs font-bold uppercase tracking-widest text-t4t-burnt">
+      <p className="text-center text-xs font-black uppercase tracking-widest text-amber-300">
         {escaped ? "Escaped!" : "Time's up"}
       </p>
-      <h2 className="mt-2 text-center text-3xl font-extrabold sm:text-4xl">
+      <h2 className="ev-title mt-2 text-center text-4xl font-black sm:text-5xl">
         {escaped ? title : notEscapedTitle}
       </h2>
       <p className="mt-3 text-center text-lg font-semibold">
         {escaped ? "Code unlocked: " : "Chips found: "}
-        <span className="font-mono tracking-widest text-t4t-green">
+        <span className="font-mono text-2xl font-black tracking-[0.35em] text-amber-300">
           {chips.join("") || (escaped ? codeWord : "—")}
         </span>
       </p>
-      <p className="mt-1 text-center text-sm text-t4t-darkText/70">
+      <p className="mt-1 text-center text-sm text-amber-100/70">
         Class time · {elapsedLabel}
       </p>
 
@@ -80,19 +78,19 @@ export function EscapeFinale({
             reducedMotion={reducedMotion}
           />
         </div>
-        <div className="rounded-xl bg-white/80 p-4 shadow-sm">
-          <p className="text-xs font-bold uppercase tracking-wide text-t4t-burnt">
+        <div className="rounded-2xl bg-black/25 p-4">
+          <p className="text-xs font-black uppercase tracking-wide text-amber-300">
             Class scoreboard
           </p>
           {ranked.length === 0 ? (
-            <p className="mt-2 text-sm text-t4t-darkText/60">No players joined.</p>
+            <p className="mt-2 text-sm text-white/60">No players joined.</p>
           ) : (
             <ol className="mt-2 grid gap-1 sm:grid-cols-2">
               {ranked.slice(0, 12).map((p, i) => (
                 <li
                   key={p.player_id}
                   className={`flex items-center justify-between rounded-lg px-3 py-1.5 text-sm font-semibold ${
-                    i === 0 ? "bg-amber-100" : "bg-white"
+                    i === 0 ? "bg-gradient-to-r from-amber-300 to-amber-500 text-t4t-navy" : "bg-white/10"
                   }`}
                 >
                   <span className="truncate">

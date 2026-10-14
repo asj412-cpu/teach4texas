@@ -107,14 +107,14 @@ export function EscapeVaultPlay({
         trigger={openedInto ? `${vault.room_index}` : null}
         label={openedInto ? `Entering ${kidPlainText(openedInto, 40)}` : ""}
       />
-      <div key={puzzleKey ?? "x"} className="ev-glass gs-rise flex items-start justify-between gap-3 rounded-3xl p-4">
+      <div key={puzzleKey ?? "x"} className="ev-glass gs-rise flex flex-col-reverse items-center gap-2 rounded-3xl p-4 text-center sm:flex-row sm:items-start sm:justify-between sm:text-left">
         <div>
           <p className="text-xs font-black uppercase tracking-wider text-amber-300">
             {vault.room_name ?? "Escape"} · Room {vault.room_index + 1}/
             {vault.room_total}
             {vault.room_chip ? ` · ${vault.room_chip}` : ""}
           </p>
-          <p className="mt-1 text-2xl font-black leading-snug text-white drop-shadow">
+          <p className="mt-1 text-xl font-black leading-snug text-white drop-shadow sm:text-2xl">
             {vault.prompt ?? "Get ready…"}
           </p>
         </div>

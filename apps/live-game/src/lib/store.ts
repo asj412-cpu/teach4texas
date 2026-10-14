@@ -13,6 +13,7 @@ export const DEMO_SEQUENCE_SORT_CODE = fileStore.DEMO_SEQUENCE_SORT_CODE;
 export const DEMO_CATEGORY_SORT_CODE = fileStore.DEMO_CATEGORY_SORT_CODE;
 export const DEMO_ODD_ONE_OUT_CODE = fileStore.DEMO_ODD_ONE_OUT_CODE;
 export const DEMO_TRUE_FALSE_DASH_CODE = fileStore.DEMO_TRUE_FALSE_DASH_CODE;
+export const DEMO_ESCAPE_VAULT_CODE = fileStore.DEMO_ESCAPE_VAULT_CODE;
 
 export const toHostBoardView = fileStore.toHostBoardView;
 
@@ -88,6 +89,12 @@ export async function ensureTrueFalseDashSample(
   plaintext = DEMO_TRUE_FALSE_DASH_CODE,
 ) {
   return backend().ensureTrueFalseDashSample(plaintext);
+}
+
+export async function ensureEscapeVaultSample(
+  plaintext = DEMO_ESCAPE_VAULT_CODE,
+) {
+  return backend().ensureEscapeVaultSample(plaintext);
 }
 
 export async function assertBoardAllowedForEntitlement(

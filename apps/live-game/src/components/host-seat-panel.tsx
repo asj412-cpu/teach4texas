@@ -358,6 +358,36 @@ export function HostSeatPanel({
     );
   }
 
+  if (view.game_type === "escape_vault" && view.phase === "escaping" && seat.vault) {
+    const vault = seat.vault;
+    return (
+      <div className="mt-4 rounded-xl border border-amber-400/40 bg-black/25 p-3">
+        {scoreLine}
+        {vault.answered ? (
+          <p className="text-sm text-white/80">
+            Locked in — {vault.last_correct ? "correct" : "miss"}.
+          </p>
+        ) : vault.kind === "mc" && vault.choices ? (
+          <div className="grid grid-cols-2 gap-2">
+            {vault.choices.map((c) => (
+              <button
+                key={c.id}
+                type="button"
+                disabled={busy || !vault.can_answer}
+                onClick={() => act({ type: "host_vault", choice_id: c.id })}
+                className="min-h-12 rounded-lg border border-white/30 bg-white/10 px-2 py-2 text-left text-xs font-semibold text-white hover:bg-t4t-gold hover:text-t4t-navy disabled:opacity-60"
+              >
+                <span className="font-mono">{c.id}.</span> {c.label}
+              </button>
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm text-white/70">Waiting for puzzle…</p>
+        )}
+      </div>
+    );
+  }
+
   // Lobby / inactive: still show host score chip when seated
   if (view.phase === "lobby" || view.phase === "board") {
     return (

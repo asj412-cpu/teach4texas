@@ -170,7 +170,7 @@ export function toPlayerMatchView(
       const isMatched = matched.has(card.item_id);
       const isUp = isMatched || up.has(i);
       return {
-        id: card.id,
+        id: `c${i}`, // opaque: never leak pair ids (D3)
         up: isUp,
         matched: isMatched,
         text: isUp ? card.text : null,

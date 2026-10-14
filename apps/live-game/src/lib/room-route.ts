@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
-import type { LiveRoom } from "@/lib/domain/live-room";
-import { playerView, withRoom, type RoomOutcome } from "@/lib/live-rooms";
+import {
+  playerView,
+  runRoomAction,
+  type PlayerActionName,
+  type RoomOutcome,
+} from "@/lib/live-rooms";
 
 /** Missing → 404 (clients retry before giving up), ended → 410, busy/store error → 503. */
 export function roomUnavailable(
@@ -15,20 +19,24 @@ export function roomUnavailable(
   return NextResponse.json({ ok: false, error: "ROOM_NOT_FOUND" }, { status: 404 });
 }
 
-/** Shared shape for student action routes: mutate room, return the player's view. */
+/** Student action routes (D1): queue the tap, fold, return the player's view. */
 export async function playerAction(
   code: string,
   playerId: string,
-  act: (room: LiveRoom) => { ok: true } | { ok: false; error: string },
+  fn: PlayerActionName,
+  args: unknown[],
 ): Promise<NextResponse> {
-  const out = await withRoom(code, (room) => {
-    const result = act(room);
-    if (!result.ok) return { ok: false as const, error: result.error };
-    return { ok: true as const, view: playerView(room, playerId) };
-  });
+  const out = await runRoomAction(code, { t: "player", fn, pid: playerId, args }, (room, result) => ({
+    result,
+    view: playerView(room, playerId),
+  }));
+  if (out.kind === "queued") {
+    // Accepted and safe in the queue; the next poll applies it.
+    return NextResponse.json({ ok: true, queued: true }, { status: 202 });
+  }
   if (out.kind !== "ok") return roomUnavailable(out);
-  if (!out.value.ok) {
-    return NextResponse.json({ ok: false, error: out.value.error }, { status: 400 });
+  if (out.value.result && !out.value.result.ok) {
+    return NextResponse.json({ ok: false, error: out.value.result.error }, { status: 400 });
   }
   return NextResponse.json({ ok: true, view: out.value.view });
 }

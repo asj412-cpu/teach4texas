@@ -53,6 +53,7 @@ import {
   sha256Hex,
 } from "@/lib/crypto";
 import {
+  enqueueRoomAction,
   insertRoomRecord,
   loadRoomRecord,
   purgeIdleRooms,
@@ -66,7 +67,7 @@ const MAX_PLAYERS = 40;
 const CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // no I/O/0/1
 
 const ENDED_ROOM_GRACE_MS = 10 * 60 * 1000;
-const MAX_WRITE_ATTEMPTS = 8;
+const MAX_WRITE_ATTEMPTS = 12;
 const ROOM_CODE_RE = /^[A-Z0-9]{6}$/;
 
 function randomRoomCode(): string {
@@ -250,19 +251,26 @@ export type RoomOutcome<T> =
   | { kind: "ended" }
   | { kind: "busy" };
 
+export type ActionResult = { ok: true } | { ok: false; error: string };
+
 /**
- * Load a room from the shared store, run `fn` against it, and persist any
- * change with an optimistic version check (re-running `fn` on conflict).
- * `fn` must only touch the room it is given.
+ * Load a room from the shared store, fold in any queued actions (D1), run `fn`,
+ * and persist with an optimistic version check (deleting the folded actions in
+ * the same transaction). `fn` must only touch the room it is given.
+ * - ownId: the caller's queued action. If it is no longer pending, another
+ *   request already applied it: return the view without writing.
+ * - poll: one attempt only; on a write conflict still return the computed view.
  */
 export async function withRoom<T>(
   rawCode: string,
-  fn: (room: LiveRoom) => T,
+  fn: (room: LiveRoom, results: Map<number, ActionResult>) => T,
+  opts: { ownId?: number; poll?: boolean } = {},
 ): Promise<RoomOutcome<T>> {
   const code = rawCode.trim().toUpperCase();
   if (!ROOM_CODE_RE.test(code)) return { kind: "missing" };
+  const attempts = opts.poll ? 1 : MAX_WRITE_ATTEMPTS;
   try {
-    for (let attempt = 0; attempt < MAX_WRITE_ATTEMPTS; attempt++) {
+    for (let attempt = 0; attempt < attempts; attempt++) {
       const rec = await loadRoomRecord(code);
       if (!rec) return { kind: "missing" };
       const now = Date.now();
@@ -270,18 +278,110 @@ export async function withRoom<T>(
         return { kind: "ended" };
       }
       const room = rec.room;
+      const results = new Map<number, ActionResult>();
+      if (opts.ownId != null && !rec.pending.some((p) => p.id === opts.ownId)) {
+        maybeAutoLock(room);
+        maybeClearMismatches(room);
+        return { kind: "ok", value: fn(room, results) };
+      }
       const before = JSON.stringify(room);
       maybeAutoLock(room);
       maybeClearMismatches(room);
-      const value = fn(room);
-      if (JSON.stringify(room) === before) return { kind: "ok", value };
-      if (await saveRoomRecord(room, rec.version)) return { kind: "ok", value };
-      await sleep(10 + Math.random() * 40 * (attempt + 1));
+      for (const p of rec.pending) {
+        results.set(p.id, applyQueuedAction(room, p.action as QueuedAction));
+      }
+      const value = fn(room, results);
+      if (rec.pending.length === 0 && JSON.stringify(room) === before) {
+        return { kind: "ok", value };
+      }
+      const ids = rec.pending.map((p) => p.id);
+      if (await saveRoomRecord(room, rec.version, ids)) return { kind: "ok", value };
+      if (opts.poll) return { kind: "ok", value };
+      await sleep(5 + Math.random() * 25 * (attempt + 1));
     }
   } catch (err) {
     console.error("withRoom:", err);
   }
   return { kind: "busy" };
+}
+
+const PLAYER_ACTIONS = {
+  submitAnswer: (room: LiveRoom, pid: string, a: unknown[]) =>
+    submitAnswer(room, pid, a[0] as number),
+  submitRaceAnswer: (room: LiveRoom, pid: string, a: unknown[]) =>
+    submitRaceAnswer(room, pid, a[0] as number),
+  flipMatchCard: (room: LiveRoom, pid: string, a: unknown[]) =>
+    flipMatchCard(room, pid, a[0] as number),
+  submitScavengerTap: (room: LiveRoom, pid: string, a: unknown[]) =>
+    submitScavengerTap(room, pid, a[0] as string),
+  submitSequenceOrder: (room: LiveRoom, pid: string, a: unknown[]) =>
+    submitSequenceOrder(room, pid, a[0] as string[]),
+  submitCategoryTap: (room: LiveRoom, pid: string, a: unknown[]) =>
+    submitCategoryTap(room, pid, a[0] as string),
+  submitOddTap: (room: LiveRoom, pid: string, a: unknown[]) =>
+    submitOddTap(room, pid, a[0] as string),
+  submitDashTap: (room: LiveRoom, pid: string, a: unknown[]) =>
+    submitDashTap(room, pid, a[0] as boolean),
+} as const;
+
+export type PlayerActionName = keyof typeof PLAYER_ACTIONS;
+
+/** One queued action (D1). Stored as JSON in live_room_actions.action. */
+export type QueuedAction =
+  | { t: "host"; a: HostAction }
+  | {
+      t: "join";
+      name: string;
+      pid: string;
+      secret: string;
+      resume?: { player_id: string; resume_secret: string };
+    }
+  | { t: "player"; fn: PlayerActionName; pid: string; args: unknown[] };
+
+function applyQueuedAction(room: LiveRoom, q: QueuedAction): ActionResult {
+  try {
+    if (q.t === "host") return applyHostAction(room, q.a);
+    if (q.t === "join") {
+      const r = joinRoom(room, q.name, q.resume, { player_id: q.pid, resume_secret: q.secret });
+      return r.ok ? { ok: true } : { ok: false, error: r.error };
+    }
+    if (q.t === "player") {
+      const f = PLAYER_ACTIONS[q.fn];
+      if (!f) return { ok: false, error: "UNKNOWN_ACTION" };
+      return f(room, q.pid, q.args ?? []);
+    }
+  } catch (err) {
+    console.error("applyQueuedAction:", err);
+    return { ok: false, error: "ACTION_FAILED" };
+  }
+  return { ok: false, error: "UNKNOWN_ACTION" };
+}
+
+/**
+ * Append an action to the room's queue (never lost once this returns), then fold.
+ * `view` gets the action's own result when this request applied it, else undefined
+ * (another request applied it). "queued" = accepted but not folded yet (contention);
+ * the next poll folds it.
+ */
+export async function runRoomAction<T>(
+  rawCode: string,
+  action: QueuedAction,
+  view: (room: LiveRoom, result: ActionResult | undefined) => T,
+): Promise<RoomOutcome<T> | { kind: "queued" }> {
+  const code = rawCode.trim().toUpperCase();
+  if (!ROOM_CODE_RE.test(code)) return { kind: "missing" };
+  let id: number | null;
+  try {
+    id = await enqueueRoomAction(code, action);
+  } catch (err) {
+    console.error("runRoomAction.enqueue:", err);
+    return { kind: "busy" };
+  }
+  if (id == null) return { kind: "missing" };
+  const ownId = id;
+  const out = await withRoom(code, (room, results) => view(room, results.get(ownId)), { ownId });
+  if (out.kind === "busy") return { kind: "queued" };
+  return out;
 }
 
 export function verifyHost(room: LiveRoom, hostToken: string | undefined): boolean {
@@ -348,6 +448,7 @@ export function joinRoom(
   room: LiveRoom,
   displayName: string,
   resume?: { player_id: string; resume_secret: string },
+  preset?: { player_id: string; resume_secret: string },
 ): JoinResult {
   if (room.phase === "final") return { ok: false, error: "ROOM_ENDED" };
 
@@ -413,8 +514,8 @@ export function joinRoom(
     finalName = `${name}${n}`.slice(0, 16);
   }
 
-  const player_id = generateId("pl");
-  const resume_secret = generateOpaqueToken();
+  const player_id = preset?.player_id ?? generateId("pl");
+  const resume_secret = preset?.resume_secret ?? generateOpaqueToken();
   const player: LivePlayer = {
     player_id,
     display_name: finalName,

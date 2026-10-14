@@ -38,7 +38,7 @@ export async function GET(
         },
       },
     };
-  });
+  }, { poll: true });
   if (out.kind !== "ok") return roomUnavailable(out);
   return NextResponse.json(out.value.body, {
     status: out.value.status,

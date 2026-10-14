@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { flipMatchCard } from "@/lib/live-rooms";
 import { playerAction } from "@/lib/room-route";
 
 export const dynamic = "force-dynamic";
@@ -23,7 +22,5 @@ export async function POST(
 
   const playerId = body.player_id;
   const card_index = body.card_index;
-  return playerAction(code, playerId, (room) =>
-    flipMatchCard(room, playerId, card_index),
-  );
+  return playerAction(code, playerId, "flipMatchCard", [card_index]);
 }

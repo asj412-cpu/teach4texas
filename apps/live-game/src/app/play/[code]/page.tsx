@@ -13,6 +13,7 @@ import { SequenceSortPlay } from "@/components/sequence-sort-play";
 import { TimedRacePlay } from "@/components/timed-race-play";
 import { kidPlainText } from "@/lib/plain-text";
 import { ConnectionBanner, type ConnState } from "@/components/connection-banner";
+import { postAction, type TapStatus } from "@/lib/action-post";
 import { outcomeForStatus, startResilientPoll, type PollOutcome } from "@/lib/poll-backoff";
 
 const PLAYER_KEY = "t4t_player";
@@ -25,15 +26,38 @@ type StoredPlayer = {
 
 export default function PlayPage() {
   const [conn, setConn] = useState<ConnState>("ok");
+  const [tap, setTap] = useState<TapStatus>("idle");
+  useEffect(() => {
+    if (tap !== "failed") return;
+    const t = setTimeout(() => setTap("idle"), 4000);
+    return () => clearTimeout(t);
+  }, [tap]);
   return (
     <>
-      <PlayPageBody onConnection={setConn} />
+      <PlayPageBody onConnection={setConn} onTap={setTap} />
+      {tap === "retrying" || tap === "failed" ? (
+        <div
+          role="status"
+          aria-live="polite"
+          className="pointer-events-none fixed inset-x-0 top-3 z-50 flex justify-center px-3"
+        >
+          <p className="max-w-[90vw] rounded-full bg-t4t-burnt px-4 py-2 text-sm font-semibold text-white shadow-lg">
+            {tap === "retrying" ? "Sending…" : "Didn’t send. Tap again."}
+          </p>
+        </div>
+      ) : null}
       <ConnectionBanner state={conn === "ended" ? "ok" : conn} />
     </>
   );
 }
 
-function PlayPageBody({ onConnection }: { onConnection: (s: ConnState) => void }) {
+function PlayPageBody({
+  onConnection,
+  onTap,
+}: {
+  onConnection: (s: ConnState) => void;
+  onTap: (s: TapStatus) => void;
+}) {
   const params = useParams();
   const code = String(params.code ?? "").toUpperCase();
   const [view, setView] = useState<PlayerRoomView | null>(null);
@@ -93,13 +117,8 @@ function PlayPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
     if (view.phase !== "matching" || !view.match?.can_flip) return;
     setSubmitting(true);
     try {
-      const res = await fetch(`/api/rooms/${code}/flip`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ player_id: playerId, card_index }),
-      });
-      const data = await res.json();
-      if (res.ok && data.ok) setView(data.view);
+      const r = await postAction(`/api/rooms/${code}/flip`, { player_id: playerId, card_index }, onTap);
+      if (r?.data?.ok && r.data.view) setView(r.data.view as PlayerRoomView);
     } finally {
       setSubmitting(false);
     }
@@ -110,13 +129,8 @@ function PlayPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
     if (view.phase !== "sorting" || !view.sequence?.can_submit) return;
     setSubmitting(true);
     try {
-      const res = await fetch(`/api/rooms/${code}/sort`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ player_id: playerId, order }),
-      });
-      const data = await res.json();
-      if (res.ok && data.ok) setView(data.view);
+      const r = await postAction(`/api/rooms/${code}/sort`, { player_id: playerId, order }, onTap);
+      if (r?.data?.ok && r.data.view) setView(r.data.view as PlayerRoomView);
     } finally {
       setSubmitting(false);
     }
@@ -127,13 +141,8 @@ function PlayPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
     if (view.phase !== "binning" || !view.category?.can_tap) return;
     setSubmitting(true);
     try {
-      const res = await fetch(`/api/rooms/${code}/bin`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ player_id: playerId, category_id }),
-      });
-      const data = await res.json();
-      if (res.ok && data.ok) setView(data.view);
+      const r = await postAction(`/api/rooms/${code}/bin`, { player_id: playerId, category_id }, onTap);
+      if (r?.data?.ok && r.data.view) setView(r.data.view as PlayerRoomView);
     } finally {
       setSubmitting(false);
     }
@@ -144,13 +153,8 @@ function PlayPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
     if (view.phase !== "odding" || !view.odd?.can_tap) return;
     setSubmitting(true);
     try {
-      const res = await fetch(`/api/rooms/${code}/odd`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ player_id: playerId, option_id }),
-      });
-      const data = await res.json();
-      if (res.ok && data.ok) setView(data.view);
+      const r = await postAction(`/api/rooms/${code}/odd`, { player_id: playerId, option_id }, onTap);
+      if (r?.data?.ok && r.data.view) setView(r.data.view as PlayerRoomView);
     } finally {
       setSubmitting(false);
     }
@@ -161,13 +165,8 @@ function PlayPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
     if (view.phase !== "dashing" || !view.dash?.can_tap) return;
     setSubmitting(true);
     try {
-      const res = await fetch(`/api/rooms/${code}/dash`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ player_id: playerId, answer }),
-      });
-      const data = await res.json();
-      if (res.ok && data.ok) setView(data.view);
+      const r = await postAction(`/api/rooms/${code}/dash`, { player_id: playerId, answer }, onTap);
+      if (r?.data?.ok && r.data.view) setView(r.data.view as PlayerRoomView);
     } finally {
       setSubmitting(false);
     }
@@ -178,13 +177,8 @@ function PlayPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
     if (view.phase !== "scavenging" || !view.scavenger?.can_tap) return;
     setSubmitting(true);
     try {
-      const res = await fetch(`/api/rooms/${code}/scavenge`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ player_id: playerId, target_id }),
-      });
-      const data = await res.json();
-      if (res.ok && data.ok) setView(data.view);
+      const r = await postAction(`/api/rooms/${code}/scavenge`, { player_id: playerId, target_id }, onTap);
+      if (r?.data?.ok && r.data.view) setView(r.data.view as PlayerRoomView);
     } finally {
       setSubmitting(false);
     }
@@ -195,13 +189,8 @@ function PlayPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
     if (view.phase !== "racing" || !view.race?.can_answer) return;
     setSubmitting(true);
     try {
-      const res = await fetch(`/api/rooms/${code}/race`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ player_id: playerId, choice_index }),
-      });
-      const data = await res.json();
-      if (res.ok && data.ok) setView(data.view);
+      const r = await postAction(`/api/rooms/${code}/race`, { player_id: playerId, choice_index }, onTap);
+      if (r?.data?.ok && r.data.view) setView(r.data.view as PlayerRoomView);
     } finally {
       setSubmitting(false);
     }
@@ -212,13 +201,8 @@ function PlayPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
       return;
     setSubmitting(true);
     try {
-      const res = await fetch(`/api/rooms/${code}/answer`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ player_id: playerId, choice_index }),
-      });
-      const data = await res.json();
-      if (res.ok && data.ok) setView(data.view);
+      const r = await postAction(`/api/rooms/${code}/answer`, { player_id: playerId, choice_index }, onTap);
+      if (r?.data?.ok && r.data.view) setView(r.data.view as PlayerRoomView);
     } finally {
       setSubmitting(false);
     }

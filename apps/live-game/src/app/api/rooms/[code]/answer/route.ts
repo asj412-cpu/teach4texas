@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { submitAnswer } from "@/lib/live-rooms";
 import { playerAction } from "@/lib/room-route";
 
 export const dynamic = "force-dynamic";
@@ -23,7 +22,5 @@ export async function POST(
 
   const playerId = body.player_id;
   const choice_index = body.choice_index;
-  return playerAction(code, playerId, (room) =>
-    submitAnswer(room, playerId, choice_index),
-  );
+  return playerAction(code, playerId, "submitAnswer", [choice_index]);
 }

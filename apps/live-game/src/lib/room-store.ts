@@ -12,9 +12,24 @@ import { getServiceSupabase, isSupabaseConfigured } from "@/lib/supabase-admin";
 /** Rooms untouched for this long are treated as ended and purged. */
 export const ROOM_IDLE_TTL_MS = 6 * 60 * 60 * 1000;
 
-export type RoomRecord = { room: LiveRoom; version: number; updatedAtMs: number };
+export type PendingAction = { id: number; action: unknown };
 
-type MemRow = { state: string; version: number; updatedAtMs: number };
+export type RoomRecord = {
+  room: LiveRoom;
+  version: number;
+  updatedAtMs: number;
+  /** Queued actions not yet folded into state, oldest first. */
+  pending: PendingAction[];
+};
+
+type MemRow = {
+  state: string;
+  version: number;
+  updatedAtMs: number;
+  pending: PendingAction[];
+};
+
+let memSeq = 0;
 
 function mem(): Map<string, MemRow> {
   const key = "__t4t_live_rooms_dev__";
@@ -31,20 +46,45 @@ export async function loadRoomRecord(code: string): Promise<RoomRecord | null> {
       room: JSON.parse(row.state) as LiveRoom,
       version: row.version,
       updatedAtMs: row.updatedAtMs,
+      pending: row.pending.map((p) => ({ id: p.id, action: JSON.parse(JSON.stringify(p.action)) })),
     };
   }
-  const res = await getServiceSupabase()
-    .from("live_rooms")
-    .select("state,version,updated_at")
-    .eq("code", code)
-    .maybeSingle();
+  const res = await getServiceSupabase().rpc("live_room_load", { p_code: code });
   if (res.error) throw new Error(`loadRoomRecord: ${res.error.message}`);
-  if (!res.data) return null;
+  const data = res.data as {
+    state: LiveRoom;
+    version: number;
+    updated_at: string;
+    pending: { id: number | string; action: unknown }[];
+  } | null;
+  if (!data) return null;
   return {
-    room: res.data.state as LiveRoom,
-    version: res.data.version as number,
-    updatedAtMs: new Date(res.data.updated_at as string).getTime(),
+    room: data.state,
+    version: data.version,
+    updatedAtMs: new Date(data.updated_at).getTime(),
+    pending: (data.pending ?? []).map((p) => ({ id: Number(p.id), action: p.action })),
   };
+}
+
+/** Append one action to the room's queue. Returns its id, or null if the room is gone. */
+export async function enqueueRoomAction(code: string, action: unknown): Promise<number | null> {
+  if (!isSupabaseConfigured()) {
+    const row = mem().get(code);
+    if (!row) return null;
+    memSeq += 1;
+    row.pending.push({ id: memSeq, action: JSON.parse(JSON.stringify(action)) });
+    return memSeq;
+  }
+  const res = await getServiceSupabase()
+    .from("live_room_actions")
+    .insert({ code, action })
+    .select("id")
+    .single();
+  if (res.error) {
+    if (res.error.code === "23503") return null; // room row gone
+    throw new Error(`enqueueRoomAction: ${res.error.message}`);
+  }
+  return Number((res.data as { id: number | string }).id);
 }
 
 /** Returns false when the code is already taken. */
@@ -52,7 +92,12 @@ export async function insertRoomRecord(room: LiveRoom): Promise<boolean> {
   const now = Date.now();
   if (!isSupabaseConfigured()) {
     if (mem().has(room.code)) return false;
-    mem().set(room.code, { state: JSON.stringify(room), version: 1, updatedAtMs: now });
+    mem().set(room.code, {
+      state: JSON.stringify(room),
+      version: 1,
+      updatedAtMs: now,
+      pending: [],
+    });
     return true;
   }
   const iso = new Date(now).toISOString();
@@ -70,34 +115,36 @@ export async function insertRoomRecord(room: LiveRoom): Promise<boolean> {
   return true;
 }
 
-/** Optimistic write. Returns false if another request saved first. */
+/**
+ * Optimistic write + delete of the queued actions that were folded in, in one
+ * transaction (live_room_commit). Returns false if another request saved first.
+ */
 export async function saveRoomRecord(
   room: LiveRoom,
   expectedVersion: number,
+  appliedIds: number[] = [],
 ): Promise<boolean> {
   const now = Date.now();
   if (!isSupabaseConfigured()) {
     const row = mem().get(room.code);
     if (!row || row.version !== expectedVersion) return false;
+    const applied = new Set(appliedIds);
     mem().set(room.code, {
       state: JSON.stringify(room),
       version: expectedVersion + 1,
       updatedAtMs: now,
+      pending: row.pending.filter((p) => !applied.has(p.id)),
     });
     return true;
   }
-  const res = await getServiceSupabase()
-    .from("live_rooms")
-    .update({
-      state: room,
-      version: expectedVersion + 1,
-      updated_at: new Date(now).toISOString(),
-    })
-    .eq("code", room.code)
-    .eq("version", expectedVersion)
-    .select("version");
+  const res = await getServiceSupabase().rpc("live_room_commit", {
+    p_code: room.code,
+    p_version: expectedVersion,
+    p_state: room,
+    p_applied: appliedIds,
+  });
   if (res.error) throw new Error(`saveRoomRecord: ${res.error.message}`);
-  return (res.data?.length ?? 0) === 1;
+  return res.data === true;
 }
 
 /** Best-effort cleanup of idle rooms. Never throws. */

@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { submitSequenceOrder } from "@/lib/live-rooms";
 import { playerAction } from "@/lib/room-route";
 
 export const dynamic = "force-dynamic";
@@ -26,7 +25,5 @@ export async function POST(
   }
 
   const playerId = body.player_id;
-  return playerAction(code, playerId, (room) =>
-    submitSequenceOrder(room, playerId, order),
-  );
+  return playerAction(code, playerId, "submitSequenceOrder", [order]);
 }

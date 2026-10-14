@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
-  applyHostAction,
   hostView,
   type HostAction,
+  runRoomAction,
   verifyHost,
   withRoom,
 } from "@/lib/live-rooms";
@@ -25,16 +25,23 @@ export async function POST(
     return NextResponse.json({ ok: false, error: "INVALID_BODY" }, { status: 400 });
   }
 
-  const out = await withRoom(code, (room) => {
-    if (!verifyHost(room, hostToken)) {
-      return { status: 401, body: { ok: false, error: "HOST_UNAUTHORIZED" } };
-    }
-    const result = applyHostAction(room, action);
-    if (!result.ok) {
-      return { status: 400, body: { ok: false, error: result.error } };
-    }
-    return { status: 200, body: { ok: true, view: hostView(room) } };
-  });
+  // Authorize against the stored room before queueing anything.
+  const auth0 = await withRoom(code, (room) => verifyHost(room, hostToken), { poll: true });
+  if (auth0.kind !== "ok") return roomUnavailable(auth0);
+  if (!auth0.value) {
+    return NextResponse.json({ ok: false, error: "HOST_UNAUTHORIZED" }, { status: 401 });
+  }
+
+  const out = await runRoomAction(code, { t: "host", a: action }, (room, result) => ({
+    result,
+    view: hostView(room),
+  }));
+  if (out.kind === "queued") {
+    return NextResponse.json({ ok: true, queued: true }, { status: 202 });
+  }
   if (out.kind !== "ok") return roomUnavailable(out);
-  return NextResponse.json(out.value.body, { status: out.value.status });
+  if (out.value.result && !out.value.result.ok) {
+    return NextResponse.json({ ok: false, error: out.value.result.error }, { status: 400 });
+  }
+  return NextResponse.json({ ok: true, view: out.value.view });
 }

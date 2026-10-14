@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { submitScavengerTap } from "@/lib/live-rooms";
 import { playerAction } from "@/lib/room-route";
 
 export const dynamic = "force-dynamic";
@@ -23,7 +22,5 @@ export async function POST(
 
   const playerId = body.player_id;
   const target_id = body.target_id;
-  return playerAction(code, playerId, (room) =>
-    submitScavengerTap(room, playerId, target_id),
-  );
+  return playerAction(code, playerId, "submitScavengerTap", [target_id]);
 }

@@ -1,12 +1,13 @@
 /**
  * Resilient polling for host + student screens (LG-ROOM-STORE).
  * A single 404 / 5xx / network error is never fatal: retry with backoff
- * 0.5s, 1s, 2s, 4s, 4s… and only give up on "missing" after ~15s of
+ * 0.5s, then every 1s, and only give up on "missing" after ~15s of
  * continuous failure. An explicit server "ended" (410) gives up at once.
  * Network/5xx errors never give up; the UI shows "Reconnecting…" instead.
  */
 export const POLL_INTERVAL_MS = 1000;
-export const RETRY_DELAYS_MS = [500, 1000, 2000, 4000] as const;
+// D2: cap at 1s so the "Reconnecting…" banner clears within ~1s of recovery.
+export const RETRY_DELAYS_MS = [500, 1000] as const;
 export const RETRY_WINDOW_MS = 15000;
 
 /** ok = got state; missing = 404; ended = 410; retry = 5xx/network/other. */

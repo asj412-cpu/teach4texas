@@ -27,6 +27,7 @@ import {
   HostSeatPanel,
 } from "@/components/host-seat-panel";
 import { kidPlainText } from "@/lib/plain-text";
+import { DailyDoubleHost } from "@/components/daily-double";
 
 const HOST_TOKEN_KEY = "t4t_host_token";
 const ROOM_CODE_KEY = "t4t_room_code";
@@ -399,6 +400,26 @@ export default function HostPage() {
     ? view.board.cells.find((c) => c.id === view.active_cell_id)
     : undefined;
 
+  if (activeCell && view.phase === "dd_wager") {
+    const topPoints = Math.max(500, ...view.board.cells.map((c) => c.points));
+    return (
+      <DailyDoubleHost
+        code={view.code}
+        category={activeCell.category}
+        points={activeCell.points}
+        hostScore={view.host_seat.score}
+        hostMaxWager={Math.max(view.host_seat.score, topPoints)}
+        hostWager={view.wagers.host ?? null}
+        wagerCount={view.wager_count}
+        playerCount={view.players.length}
+        players={view.players}
+        wagers={view.wagers}
+        onHostWager={(amount) => hostAction({ type: "host_wager", amount })}
+        onOpenQuestion={() => hostAction({ type: "open_question" })}
+      />
+    );
+  }
+
   if (
     activeCell &&
     (view.phase === "question_open" ||
@@ -413,6 +434,11 @@ export default function HostPage() {
               Room {view.code} · {activeCell.category} · {activeCell.points}
               {activeCell.daily_double ? " · DD" : ""}
             </p>
+            {activeCell.daily_double && (
+              <p className="mt-2 inline-block rounded-full bg-gradient-to-r from-yellow-300 to-amber-500 px-3 py-1 text-xs font-black uppercase text-t4t-navy">
+                Daily Double · playing for wagers
+              </p>
+            )}
             <p className="mt-4 text-2xl font-bold leading-snug sm:text-3xl">
               {kidPlainText(activeCell.question, 240)}
             </p>
@@ -503,7 +529,14 @@ export default function HostPage() {
               {view.players.map((p) => (
                 <li key={p.player_id} className="flex justify-between">
                   <span>{p.display_name}</span>
-                  <span className="text-t4t-gold">{p.score}</span>
+                  <span className="text-t4t-gold">
+                    {view.phase === "reveal" &&
+                    activeCell.daily_double &&
+                    view.points_awarded[p.player_id] !== undefined
+                      ? `${view.points_awarded[p.player_id]! >= 0 ? "+" : ""}${view.points_awarded[p.player_id]} → `
+                      : ""}
+                    {p.score}
+                  </span>
                 </li>
               ))}
             </ul>

@@ -12,6 +12,7 @@ import { ScavengerTapPlay } from "@/components/scavenger-tap-play";
 import { SequenceSortPlay } from "@/components/sequence-sort-play";
 import { TimedRacePlay } from "@/components/timed-race-play";
 import { kidPlainText } from "@/lib/plain-text";
+import { DailyDoublePlayer } from "@/components/daily-double";
 
 const PLAYER_KEY = "t4t_player";
 
@@ -200,6 +201,22 @@ export default function PlayPage() {
     }
   }
 
+  async function wager(amount: number) {
+    if (!playerId || !view || view.phase !== "dd_wager") return;
+    setSubmitting(true);
+    try {
+      const res = await fetch(`/api/rooms/${code}/wager`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ player_id: playerId, amount }),
+      });
+      const data = await res.json();
+      if (res.ok && data.ok) setView(data.view);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
   if (error) {
     return (
       <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6">
@@ -337,6 +354,20 @@ export default function PlayPage() {
     );
   }
 
+  if (view.phase === "dd_wager" && view.active_question) {
+    return (
+      <DailyDoublePlayer
+        category={view.active_question.category}
+        points={view.active_question.points}
+        score={view.my_score}
+        maxWager={view.max_wager}
+        myWager={view.my_wager}
+        submitting={submitting}
+        onWager={wager}
+      />
+    );
+  }
+
   if (view.active_question) {
     const q = view.active_question;
     return (
@@ -384,6 +415,16 @@ export default function PlayPage() {
         {view.phase === "question_locked" && (
           <p className="mt-6 text-center text-sm text-t4t-navy">
             Answers locked…
+          </p>
+        )}
+        {view.phase === "reveal" && q.daily_double && view.my_points_delta !== null && (
+          <p
+            className={`dd-pop mt-6 text-center text-3xl font-black ${
+              view.my_points_delta >= 0 ? "text-t4t-green" : "text-t4t-burnt"
+            }`}
+          >
+            {view.my_points_delta >= 0 ? "+" : ""}
+            {view.my_points_delta}
           </p>
         )}
         {view.phase === "reveal" && q.answer && (

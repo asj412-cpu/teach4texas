@@ -323,12 +323,16 @@ export async function withRoom<T>(
         // don't fight tap requests for the version. Writers drain the queue.
         if (rec.pending.length === 0) {
           if (JSON.stringify(room) !== before) await saveRoomRecord(room, rec.version, []);
-        } else if (Math.random() < 0.15) {
+        } else {
+          // Polls drain the queue (one try; losing the version race is harmless).
           await saveRoomRecord(room, rec.version, rec.pending.map((p) => p.id));
         }
         return { kind: "ok", value };
       }
       if (rec.pending.length === 0) return { kind: "ok", value };
+      // P2-L1: a queued tap answers from the deterministic in-memory fold and leaves the
+      // write to the 1 Hz polls, so a 25-student burst costs one round trip per tap.
+      if (opts.ownId != null && rec.pending.length > 1) return { kind: "ok", value };
       const ids = rec.pending.map((p) => p.id);
       if (await saveRoomRecord(room, rec.version, ids)) return { kind: "ok", value };
       // P2-L1: our action is in the queue and replay is deterministic (ordered by id,

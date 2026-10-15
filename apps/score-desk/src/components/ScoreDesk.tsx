@@ -46,8 +46,8 @@ export default function ScoreDesk() {
 
   return (
     <div data-testid="app-root" style={{ paddingBottom: (sample ? barH : 0) + 32 }} className="overflow-x-clip">
-      <header className="no-print sticky top-0 z-30 border-b-2 border-[#ffd66b]/40 bg-[#0b1a30]/95 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-3 px-4 py-3">
+      <header className="no-print relative z-30 md:sticky md:top-0 border-b-2 border-[#ffd66b]/40 bg-[#0b1a30]/95 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-3 gap-y-2 px-4 py-2 md:py-3">
           <button onClick={() => go("desk")} className="flex items-center gap-3 text-left">
             <span className="grid size-11 place-items-center rounded-xl bg-[#bf5700] text-lg font-black text-white shadow-[0_4px_0_#6b3000]">T4</span>
             <span><span className="block text-xl font-black gs-title">Score Desk</span><span className={`block text-base ${muted}`}>Teach4Texas</span></span>
@@ -55,7 +55,7 @@ export default function ScoreDesk() {
           <span className={`rounded-full px-3 py-1 text-base font-bold ${sample ? "bg-[#ffd66b] text-[#3d2700]" : "bg-[#237a48] text-white"}`} data-testid="mode-badge">
             {sample ? "SAMPLE MODE" : "YOUR DESK"}
           </span>
-          <nav className="flex w-full flex-wrap gap-1 md:ml-auto md:w-auto" aria-label="Main">
+          <nav className="-mx-1 flex w-full gap-1 overflow-x-auto whitespace-nowrap px-1 md:mx-0 md:ml-auto md:w-auto md:flex-wrap md:overflow-visible" aria-label="Main">
             {TABS.map((t) => (
               <button key={t.id} onClick={() => go(t.id)} aria-current={tab === t.id ? "page" : undefined}
                 className={`rounded-lg px-3 py-2 text-base font-bold ${tab === t.id ? "bg-[#ffd66b] text-[#3d2700]" : "text-white hover:bg-white/10"}`}>
@@ -67,7 +67,7 @@ export default function ScoreDesk() {
         </div>
         {sample && (
           <div className="bg-[#ffd66b] px-4 py-2 text-center text-base font-semibold text-[#3d2700]">
-            You&apos;re trying the sample. Changes reset when you close this tab.{" "}
+            <span className="hidden sm:inline">You&apos;re trying the sample. Changes reset when you close this tab.</span><span className="sm:hidden">Sample — resets when you close this tab.</span>{" "}
             <button className="underline" onClick={() => { api.reset(); setToast("Sample reset"); }}>Reset sample</button>
           </div>
         )}
@@ -87,11 +87,11 @@ export default function ScoreDesk() {
       </footer>
 
       {sample && (
-        <div ref={barRef} className="no-print cta-bar fixed inset-x-0 bottom-0 z-40 px-3 py-2 sm:py-3" data-testid="tpt-cta-bar">
+        <div ref={barRef} className="no-print cta-bar fixed inset-x-0 bottom-0 z-40 px-2 py-2 sm:px-3 sm:py-3" data-testid="tpt-cta-bar">
           <div className="mx-auto flex max-w-6xl flex-nowrap items-center justify-center gap-2 sm:gap-3">
             <span className="hidden text-base font-semibold text-white lg:inline">Keep your classes and scores on your own device.</span>
-            <a href={TPT_LISTING_URL} target="_blank" rel="noreferrer" className="gs-btn whitespace-nowrap px-3 py-2 text-base sm:px-5 sm:py-3 sm:text-lg" data-testid="tpt-cta"><span aria-hidden>🎁 </span>{TPT_CTA_TEXT}</a>
-            <button onClick={() => setUnlockOpen(true)} className="gs-btn2 whitespace-nowrap px-3 py-2 text-base sm:px-4 sm:py-3"><span aria-hidden>🔑 </span><span className="hidden sm:inline">Have a code? </span>Unlock</button>
+            <a href={TPT_LISTING_URL} target="_blank" rel="noreferrer" className="gs-btn min-w-0 whitespace-nowrap px-2.5 py-2 text-base sm:px-5 sm:py-3 sm:text-lg" data-testid="tpt-cta"><span aria-hidden className="hidden sm:inline">🎁 </span>{TPT_CTA_TEXT}</a>
+            <button onClick={() => setUnlockOpen(true)} className="gs-btn2 shrink-0 whitespace-nowrap px-2.5 py-2 text-base sm:px-4 sm:py-3"><span aria-hidden className="hidden sm:inline">🔑 </span><span className="hidden sm:inline">Have a code? </span>Unlock</button>
           </div>
         </div>
       )}

@@ -38,7 +38,7 @@ export const TPT_PRODUCTS = {
   },
   hispanicHeritageG3: {
     href: 'https://www.teacherspayteachers.com/Product/Hispanic-Heritage-Month-Scavenger-Hunt-Grade-3-STAAR-Math-TEKS-34A-34F-35E-17547396',
-    label: 'Hispanic Heritage Month Scavenger Hunt Grade 3 STAAR Math',
+    label: 'Hispanic Heritage Scavenger Hunt | Grade 3 STAAR Math',
   },
   crackCodeMysteryG3: {
     href: 'https://www.teacherspayteachers.com/Product/Crack-the-Code-Math-Mystery-Grade-3-STAAR-Math-TEKS-34E-34H-35B-17538014',
@@ -46,7 +46,7 @@ export const TPT_PRODUCTS = {
   },
   laborDayG3: {
     href: 'https://www.teacherspayteachers.com/Product/Labor-Day-Escape-Room-Grade-3-STAAR-Math-TEKS-34K-34G-35A-17517520',
-    label: 'Labor Day Escape Room Grade 3 STAAR Math',
+    label: 'Labor Day Math Escape Room | Grade 3 STAAR Review',
   },
   firstDayG4: {
     href: 'https://www.teacherspayteachers.com/Product/First-Day-of-School-Scavenger-Hunt-Grade-4-STAAR-Math-TEKS-42B-44A-44H-17516930',
@@ -54,7 +54,7 @@ export const TPT_PRODUCTS = {
   },
   backToSchoolG3: {
     href: 'https://www.teacherspayteachers.com/Product/Back-to-School-Escape-Room-Grade-3-STAAR-Math-TEKS-32A-32C-34A-17506345',
-    label: 'Back to School Grade 3 STAAR Math',
+    label: 'Back to School Escape Room Grade 3 Math',
   },
   numberVaultG7: {
     href: 'https://www.teacherspayteachers.com/Product/Number-Vault-G7-STAAR-Math-Escape-Room-TEKS-73B-74A-74D-711A-17500215',

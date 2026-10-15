@@ -120,7 +120,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '17547396',
     href: `${TPT}/Hispanic-Heritage-Month-Scavenger-Hunt-Grade-3-STAAR-Math-TEKS-34A-34F-35E-17547396`,
-    title: 'Hispanic Heritage Month Scavenger Hunt | Grade 3 STAAR Math | TEKS 3.4A 3.4F 3.5E',
+    title: 'Hispanic Heritage Scavenger Hunt | Grade 3 STAAR Math | TEKS 3.4A 3.4F 3.5E',
     description:
       'Grade 3 STAAR math scavenger hunt for Hispanic Heritage Month. Stations for TEKS 3.4A, 3.4F, 3.5E (addition/subtraction within 1,000, multiplication facts, number-pair tables). Self-checking Cadet Corps Google Slides + printable missions. Not a color-by-code worksheet pack.',
     price: '$4.99',
@@ -149,10 +149,10 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '17517520',
     href: `${TPT}/Labor-Day-Escape-Room-Grade-3-STAAR-Math-TEKS-34K-34G-35A-17517520`,
-    title: 'Labor Day Escape Room Grade 3 STAAR Math | TEKS 3.4K 3.4G 3.5A',
+    title: 'Labor Day Math Escape Room | Grade 3 STAAR Review | TEKS 3.4K 3.4G 3.5A',
     description:
       'Grade 3 STAAR math Labor Day escape room. Parade Depot, Helper Station, Weekend Market, Town Picnic. Self-checking Google Slides + printable missions. TEKS 3.4K, 3.4G, 3.5A.',
-    price: '$4.99',
+    price: '$3.99',
     category: 'vault',
     featured: true,
   },
@@ -169,9 +169,9 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '17506345',
     href: `${TPT}/Back-to-School-Escape-Room-Grade-3-STAAR-Math-TEKS-32A-32C-34A-17506345`,
-    title: 'Back to School Escape Room Grade 3 STAAR Math | TEKS 3.2A 3.2C 3.4A',
+    title: 'Back to School Escape Room Grade 3 Math Place Value Rounding TEKS 3.2A 3.2C 3.4A',
     description:
-      'Grade 3 STAAR math scavenger/escape for the first week of school. Word problems, expanded notation, rounding to 10 or 100, and STAAR 2.0 items.',
+      'Grade 3 STAAR math escape room for the first week of school. Word problems, expanded notation, rounding to 10 or 100, and STAAR 2.0 items.',
     price: '$4.99',
     category: 'vault',
     featured: true,

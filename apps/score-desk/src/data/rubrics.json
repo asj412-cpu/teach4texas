@@ -1,0 +1,308 @@
+{
+  "source": "https://t4t-score-desk.grok.me /assets/store-newythUT.js built-in rubrics, extracted verbatim 2026-10-15",
+  "rubrics": [
+    {
+      "id": "staar-ecr",
+      "name": "STAAR ECR — Extended Constructed Response",
+      "kind": "staar-ecr",
+      "subject": "RLA",
+      "gradeBand": "3–EOC",
+      "teks": "STAAR RLA ECR",
+      "blurb": "Official-style 5-point ECR: Organization & Development (0–3) plus Conventions (0–2). If development is 0, conventions must be 0.",
+      "studentTitle": "How I’ll score my extended response",
+      "builtIn": true,
+      "criteria": [
+        {
+          "id": "ecr-org",
+          "name": "Organization and Development of Ideas",
+          "shortName": "Org / Dev",
+          "levels": [
+            {
+              "score": 0,
+              "label": "0",
+              "teacher": "No response, too limited to score, or off the prompt. Controlling idea is missing.",
+              "student": "I did not answer the prompt, or my idea is not clear."
+            },
+            {
+              "score": 1,
+              "label": "1",
+              "teacher": "Weak development. Thin or unclear controlling idea, little relevant evidence, organization is hard to follow.",
+              "student": "I started an idea but did not explain it with enough text evidence."
+            },
+            {
+              "score": 2,
+              "label": "2",
+              "teacher": "Partial development. Controlling idea is present. Some relevant evidence and a basic structure.",
+              "student": "I stated an idea and used some evidence, but a reader still has questions."
+            },
+            {
+              "score": 3,
+              "label": "3",
+              "teacher": "Fully developed. Clear controlling idea, relevant text evidence, purposeful organization, and explanation that holds together.",
+              "student": "I stated a clear idea, used strong evidence from the text, and explained how it all fits."
+            }
+          ]
+        },
+        {
+          "id": "ecr-conv",
+          "name": "Conventions",
+          "shortName": "Conventions",
+          "levels": [
+            {
+              "score": 0,
+              "label": "0",
+              "teacher": "Little command of grade-level conventions, or auto-zero because development scored 0. Errors impede meaning.",
+              "student": "Mistakes make my writing hard to read — or I did not develop an idea, so conventions cannot count."
+            },
+            {
+              "score": 1,
+              "label": "1",
+              "teacher": "Partial command. Errors are noticeable and sometimes get in the way, but a reader can still follow.",
+              "student": "I have some spelling, capital, or sentence mistakes, but a reader can still follow me."
+            },
+            {
+              "score": 2,
+              "label": "2",
+              "teacher": "Consistent command of grade-level conventions. Errors are minor and do not impede meaning.",
+              "student": "My sentences, spelling, and punctuation are mostly correct so my ideas are easy to read."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staar-scr-reading",
+      "name": "STAAR SCR — Reading (2-point)",
+      "kind": "staar-scr-reading",
+      "subject": "RLA",
+      "gradeBand": "3–EOC",
+      "teks": "STAAR RLA Reading SCR",
+      "blurb": "Short constructed response to a reading question. Score 0–2 for completeness, accuracy, and text evidence.",
+      "studentTitle": "How I’ll score my short reading response",
+      "builtIn": true,
+      "criteria": [
+        {
+          "id": "scr-read",
+          "name": "Reading response",
+          "shortName": "Reading",
+          "levels": [
+            {
+              "score": 0,
+              "label": "0",
+              "teacher": "Incorrect, blank, or no meaningful connection to the text or question.",
+              "student": "I did not answer the question, or my answer does not match the text."
+            },
+            {
+              "score": 1,
+              "label": "1",
+              "teacher": "Partial. Some accuracy but missing evidence, incomplete explanation, or only part of the question addressed.",
+              "student": "I started to answer but missed evidence or only answered part of the question."
+            },
+            {
+              "score": 2,
+              "label": "2",
+              "teacher": "Complete and accurate. Addresses the question and uses relevant text evidence.",
+              "student": "I answered the question and backed it up with evidence from the text."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "staar-scr-writing",
+      "name": "STAAR SCR — Writing (1-point)",
+      "kind": "staar-scr-writing",
+      "subject": "RLA",
+      "gradeBand": "3–EOC",
+      "teks": "STAAR RLA Writing SCR",
+      "blurb": "Short writing revision or composition task. Score 0 or 1 for a complete, acceptable response.",
+      "studentTitle": "How I’ll score my short writing task",
+      "builtIn": true,
+      "criteria": [
+        {
+          "id": "scr-write",
+          "name": "Writing response",
+          "shortName": "Writing",
+          "levels": [
+            {
+              "score": 0,
+              "label": "0",
+              "teacher": "Incorrect, too limited, off-task, or blank.",
+              "student": "I did not complete the writing task."
+            },
+            {
+              "score": 1,
+              "label": "1",
+              "teacher": "Addresses the task with a sufficient, acceptable response.",
+              "student": "I completed the writing task and my answer makes sense."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "race-4th",
+      "name": "RACE constructed response",
+      "kind": "custom",
+      "subject": "RLA",
+      "gradeBand": "3–5",
+      "teks": "RLA constructed response",
+      "blurb": "Classroom RACE checklist (Restate, Answer, Cite, Explain). Use for daily practice before STAAR ECR/SCR.",
+      "studentTitle": "RACE checklist",
+      "builtIn": true,
+      "criteria": [
+        {
+          "id": "race-r",
+          "name": "Restate the question",
+          "shortName": "Restate",
+          "levels": [
+            {
+              "score": 0,
+              "label": "No",
+              "teacher": "Question is not restated.",
+              "student": "I did not restate the question."
+            },
+            {
+              "score": 1,
+              "label": "Yes",
+              "teacher": "Opening restates the question in the student’s own words.",
+              "student": "I restated the question in my first sentence."
+            }
+          ]
+        },
+        {
+          "id": "race-a",
+          "name": "Answer",
+          "shortName": "Answer",
+          "levels": [
+            {
+              "score": 0,
+              "label": "No",
+              "teacher": "No clear answer to the prompt.",
+              "student": "I did not give a clear answer."
+            },
+            {
+              "score": 1,
+              "label": "Yes",
+              "teacher": "A direct, on-prompt answer is stated.",
+              "student": "I answered the question clearly."
+            }
+          ]
+        },
+        {
+          "id": "race-c",
+          "name": "Cite text evidence",
+          "shortName": "Cite",
+          "levels": [
+            {
+              "score": 0,
+              "label": "No",
+              "teacher": "No relevant evidence.",
+              "student": "I did not use words from the text."
+            },
+            {
+              "score": 1,
+              "label": "Yes",
+              "teacher": "Relevant evidence is cited.",
+              "student": "I used evidence from the text."
+            }
+          ]
+        },
+        {
+          "id": "race-e",
+          "name": "Explain",
+          "shortName": "Explain",
+          "levels": [
+            {
+              "score": 0,
+              "label": "No",
+              "teacher": "Evidence is dropped in without explanation.",
+              "student": "I did not explain my evidence."
+            },
+            {
+              "score": 1,
+              "label": "Yes",
+              "teacher": "Student explains how the evidence supports the answer.",
+              "student": "I explained how the evidence proves my answer."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "classroom-4",
+      "name": "Classroom 4-level product rubric",
+      "kind": "custom",
+      "subject": "Any",
+      "gradeBand": "K–8",
+      "teks": "",
+      "blurb": "Blank 4-level skeleton you can duplicate and rename for any TEKS product: beginning, developing, proficient, distinguished.",
+      "studentTitle": "How this assignment is scored",
+      "builtIn": true,
+      "criteria": [
+        {
+          "id": "prod-content",
+          "name": "Content / TEKS",
+          "shortName": "Content",
+          "levels": [
+            {
+              "score": 1,
+              "label": "Beginning",
+              "teacher": "Little evidence of the skill.",
+              "student": "I am just getting started on this skill."
+            },
+            {
+              "score": 2,
+              "label": "Developing",
+              "teacher": "Partial evidence; important pieces missing.",
+              "student": "I showed some of the skill but not all of it."
+            },
+            {
+              "score": 3,
+              "label": "Proficient",
+              "teacher": "Meets the standard with solid evidence.",
+              "student": "I met the goal for this skill."
+            },
+            {
+              "score": 4,
+              "label": "Distinguished",
+              "teacher": "Exceeds with precise, thorough evidence.",
+              "student": "I went beyond the goal with clear, strong work."
+            }
+          ]
+        },
+        {
+          "id": "prod-craft",
+          "name": "Craft / presentation",
+          "shortName": "Craft",
+          "levels": [
+            {
+              "score": 1,
+              "label": "Beginning",
+              "teacher": "Hard to follow; unfinished.",
+              "student": "My work is unfinished or hard to follow."
+            },
+            {
+              "score": 2,
+              "label": "Developing",
+              "teacher": "Partly organized; some conventions issues.",
+              "student": "My work is partly organized."
+            },
+            {
+              "score": 3,
+              "label": "Proficient",
+              "teacher": "Clear, complete, readable.",
+              "student": "My work is clear and complete."
+            },
+            {
+              "score": 4,
+              "label": "Distinguished",
+              "teacher": "Polished and easy for an audience to use.",
+              "student": "My work is polished and easy for others to use."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

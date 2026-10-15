@@ -139,7 +139,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '17538014',
     href: `${TPT}/Crack-the-Code-Math-Mystery-Grade-3-STAAR-Math-TEKS-34E-34H-35B-17538014`,
-    title: 'Crack the Code Math Mystery | Grade 3 STAAR Math | TEKS 3.4E 3.4H 3.5B',
+    title: 'Crack the Code Math Mystery Grade 3 Multiplication Division TEKS 3.4E 3.4H 3.5B',
     description:
       'Grade 3 STAAR math crack-the-code mystery. Multiplication facts, arrays, and strip-diagram equations across Cipher Lab, Number Grid, Array Alley, Clue Desk, and Final Code. Not an escape room reprint. Not Jeopardy. Not a seasonal holiday pack.',
     price: '$4.99',
@@ -236,7 +236,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '17460089',
     href: `${TPT}/Number-Vault-Grade-3-STAAR-Math-Escape-Room-TEKS-34K-35B-34A-Google-Slides-17460089`,
-    title: 'Number Vault Grade 3 STAAR Math Escape Room | TEKS 3.4K 3.5B 3.4A',
+    title: 'Number Vault Grade 3 STAAR Math Escape Room | TEKS 3.4K 3.5B 3.4A |Google Slides',
     description:
       'Grade 3 STAAR math escape room. Word problems, multi-select, arrays, and strip diagrams. Self-checking Google Slides.',
     price: '$4.99',
@@ -245,7 +245,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '17455809',
     href: `${TPT}/Number-Vault-Grade-4-STAAR-Math-Escape-Room-TEKS-44H-45A-42B-Google-Slides-17455809`,
-    title: 'Number Vault Grade 4 STAAR Math Escape Room | TEKS 4.4H 4.5A 4.2B',
+    title: 'Number Vault Grade 4 STAAR Math Escape Room | TEKS 4.4H 4.5A 4.2B |Google Slides',
     description:
       'Grade 4 STAAR math escape room. Word problems, multi-select, equations with a letter for the unknown, and strip diagrams.',
     price: '$4.99',
@@ -254,7 +254,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '17460004',
     href: `${TPT}/Number-Vault-Grade-5-STAAR-Math-Escape-Room-TEKS-53E-54B-52A-Google-Slides-17460004`,
-    title: 'Number Vault Grade 5 STAAR Math Escape Room | TEKS 5.3E 5.4B 5.2A',
+    title: 'Number Vault Grade 5 STAAR Math Escape Room | TEKS 5.3E 5.4B 5.2A |Google Slides',
     description:
       'Grade 5 STAAR math escape room. Word problems, multi-select, equations with a letter, and decimal place value through thousandths.',
     price: '$4.99',
@@ -263,7 +263,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '17460207',
     href: `${TPT}/Number-Vault-Grade-6-STAAR-Math-Escape-Room-TEKS-63E-65B-610AGoogle-Slides-17460207`,
-    title: 'Number Vault Grade 6 STAAR Math Escape Room | TEKS 6.3E 6.5B 6.10A',
+    title: 'Number Vault Grade 6 STAAR Math Escape Room | TEKS 6.3E 6.5B 6.10A|Google Slides',
     description:
       'Grade 6 STAAR math escape room. Rationals, ratios, percents, and one-step equations. Self-checking Google Slides.',
     price: '$4.99',
@@ -290,7 +290,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '17467264',
     href: `${TPT}/Equation-Vault-Algebra-I-STAAR-EOC-TEKS-A5A-A8A-A9C-Google-Slides-17467264`,
-    title: 'Equation Vault Algebra I STAAR EOC | TEKS A.5A A.8A A.9C',
+    title: 'Equation Vault Algebra I STAAR EOC | TEKS A.5A A.8A A.9C | Google Slides',
     description:
       'Algebra I STAAR EOC escape room. Linear equations, exponential functions, and quadratics with real solutions.',
     price: '$4.99',
@@ -354,25 +354,25 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '15609299',
     href: `${TPT}/STAAR-Math-Task-Cards-Grade-3-32-TEKS-Aligned-Questions-with-Visuals-15609299`,
-    title: 'STAAR Math Task Cards Grade 3 | 32 TEKS-Aligned Questions',
+    title: 'STAAR Math Task Cards Grade 3 | 32 TEKS-Aligned Questions with Visuals',
     description:
       '32 Grade 3 math task cards covering major TEKS with STAAR 2.0-style items. About half include visual aids.',
-    price: '$8.99',
+    price: '$4.99',
     category: 'classroom',
   },
   {
     id: '15609323',
     href: `${TPT}/STAAR-Math-Task-Cards-Grade-4-32-TEKS-Aligned-Questions-with-Visuals-15609323`,
-    title: 'STAAR Math Task Cards Grade 4 | 32 TEKS-Aligned Questions',
+    title: 'STAAR Math Task Cards Grade 4 | 32 TEKS-Aligned Questions with Visuals',
     description:
       '32 Grade 4 math task cards covering TEKS 4.2–4.9 with STAAR 2.0-style items. About half include visual aids.',
-    price: '$8.99',
+    price: '$4.99',
     category: 'classroom',
   },
   {
     id: '17470369',
     href: `${TPT}/STAAR-Math-Game-Show-Grade-3-TEKS-Review-Live-Classroom-No-Prep-17470369`,
-    title: 'STAAR Math Game Show Grade 3 | Live Classroom | No Prep',
+    title: 'STAAR Math Game Show Grade 3 TEKS Review Live Classroom | No Prep',
     description:
       'Hosted live Grade 3 math game show. Redeem the access code, project the 5×5 board, students join with a room code. 25 original items.',
     price: '$4.99',

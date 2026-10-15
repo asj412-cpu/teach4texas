@@ -1,5 +1,6 @@
 ---
 title: "Halloween Math That Isn't Color-by-Number: Grade 4 STAAR Escape TEKS"
+seoTitle: "Grade 4 Halloween Math Escape Room for STAAR TEKS"
 description: "Texas Grade 4 teachers searching Halloween math keep landing mazes and color-by-number stacks. Here’s the TEKS 4.4D / 4.4E / 4.5A classroom problem — and one Cadet Corps escape room that actually practices STAAR math."
 keywords: ["Halloween math grade 4", "STAAR math escape room Halloween", "TEKS 4.4D", "TEKS 4.4E", "TEKS 4.5A", "Grade 4 Halloween escape room", "Texas STAAR math October"]
 date: 2026-10-03

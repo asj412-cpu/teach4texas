@@ -27,8 +27,9 @@ export const TPT_LISTINGS: TptListing[] = [
     id: '17493794',
     href: `${TPT}/FREE-Score-Desk-Companion-STAAR-Click-Score-One-Pager-17493794`,
     title: 'FREE Score Desk Companion | STAAR Click-Score One-Pager',
+    // Free download on TPT, not for sale.
     description:
-      'Free one-pager for click-scoring a STAAR-style stack with Score Desk. No login, no student accounts, nothing is uploaded.',
+      'Free download: a one-pager for click-scoring a STAAR-style stack with Score Desk. No login, no student accounts, nothing is uploaded.',
     price: 'FREE',
     category: 'free',
     featured: true,
@@ -121,6 +122,15 @@ export const TPT_LISTINGS: TptListing[] = [
     price: '$4.99',
     category: 'vault',
     featured: true,
+  },
+  {
+    id: '17547135',
+    href: `${TPT}/Brain-Teasers-Math-Logic-Lab-Grade-3-Money-Rounding-Compare-TEKS-34C-34B-32D-17547135`,
+    title: 'Brain Teasers Math Logic Lab | Grade 3 Money, Rounding, Compare | TEKS 3.4C 3.4B 3.2D',
+    description:
+      'Grade 3 math logic brain teasers covering money (TEKS 3.4C), rounding (3.4B), and comparing numbers (3.2D).',
+    price: '$4.99',
+    category: 'vault',
   },
   {
     id: '17538014',
@@ -428,51 +438,6 @@ export const TPT_LISTINGS: TptListing[] = [
     category: 'classroom',
   },
   {
-    id: '15601716',
-    href: `${TPT}/Black-History-Month-Texas-Trailblazers-Reading-Passages-Activities-Grades-3--15601716`,
-    title: 'Black History Month: Texas Trailblazers Reading Passages (Grades 3–5)',
-    description:
-      'Five original nonfiction passages about Black trailblazers from Texas, with STAAR-style questions and writing prompts.',
-    price: '$5.99',
-    category: 'classroom',
-  },
-  {
-    id: '15601750',
-    href: `${TPT}/Womens-History-Month-STEM-Challenge-Cards-Grades-3-5-15601750`,
-    title: "Women's History Month STEM Challenge Cards (Grades 3–5)",
-    description:
-      'Ten STEM challenge cards, each with a short biography of a woman in STEM and a hands-on mini-challenge.',
-    price: '$5.99',
-    category: 'classroom',
-  },
-  {
-    id: '15601786',
-    href: `${TPT}/St-Patricks-Day-Math-Mystery-The-Case-of-the-Missing-Gold-Grades-3-5-15601786`,
-    title: "St. Patrick's Day Math Mystery: The Case of the Missing Gold (Grades 3–5)",
-    description:
-      'Escape-room style math mystery with six stations and three difficulty levels for grades 3, 4, and 5.',
-    price: '$5.99',
-    category: 'classroom',
-  },
-  {
-    id: '15601876',
-    href: `${TPT}/Earth-Day-Science-Investigation-Hands-On-Ecosystem-Conservation-Activities-G-15601876`,
-    title: 'Earth Day Science Investigation: Ecosystems & Conservation (Grades 3–5)',
-    description:
-      'Five TEKS-aligned science investigations on ecosystems, recycling, water conservation, and human impact.',
-    price: '$5.99',
-    category: 'classroom',
-  },
-  {
-    id: '15601904',
-    href: `${TPT}/Cinco-de-Mayo-Cultural-Reading-Math-Fiesta-Grades-3-5-15601904`,
-    title: 'Cinco de Mayo Cultural Reading & Math Fiesta (Grades 3–5)',
-    description:
-      'Original reading passages about Mexican-American culture in Texas plus themed math word problems.',
-    price: '$5.99',
-    category: 'classroom',
-  },
-  {
     id: '15601830',
     href: `${TPT}/Spring-Writing-Prompts-Journal-20-Creative-Informational-Prompts-Grades-3--15601830`,
     title: 'Spring Writing Prompts & Journal: 20 Creative & Informational Prompts',
@@ -488,15 +453,6 @@ export const TPT_LISTINGS: TptListing[] = [
     description:
       'Memory book pages, academic reflection, writing prompts, and autograph pages for the end of the year.',
     price: '$4.99',
-    category: 'classroom',
-  },
-  {
-    id: '15601975',
-    href: `${TPT}/Teacher-Appreciation-Week-Cards-Activities-Grades-3-5-15601975`,
-    title: 'Teacher Appreciation Week Cards & Activities (Grades 3–5)',
-    description:
-      'Printable card templates, writing prompts, and a collaborative class-book activity for Teacher Appreciation Week.',
-    price: '$3.99',
     category: 'classroom',
   },
 ];

@@ -1,5 +1,6 @@
 ---
 title: "T-TESS Observation Tips: How to Score Distinguished for TIA Designation"
+seoTitle: "T-TESS Observation Tips: Score Distinguished for TIA"
 description: "A domain-by-domain breakdown of the T-TESS rubric with specific strategies for scoring Distinguished — the observation scores that earn TIA designation."
 keywords: ["T-TESS distinguished tips", "T-TESS observation prep", "TIA observation scores", "T-TESS rubric breakdown", "T-TESS domains"]
 date: 2026-02-18

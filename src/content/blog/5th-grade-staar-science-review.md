@@ -227,4 +227,4 @@ Your students have been learning science since kindergarten. Your job isn't to t
 
 ---
 
-**Looking for 5th grade STAAR science review materials, vocabulary resources, and practice assessments?** Visit our [resources page](/resources) for teacher-created materials aligned to current TEKS and the STAAR 2.0 format. [Join our email list](/subscribe) for weekly science review tips and free activity ideas.
+**Looking for 5th grade STAAR science review materials, vocabulary resources, and practice assessments?** Visit our [resources page](/resources) for teacher-created materials aligned to current TEKS and the STAAR 2.0 format. [Join our email list](#subscribe) for weekly science review tips and free activity ideas.

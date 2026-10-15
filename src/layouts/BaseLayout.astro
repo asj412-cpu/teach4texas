@@ -20,7 +20,15 @@ const {
   author,
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+// Self-referencing canonical on the served host, without a trailing slash (matches served URLs).
+const canonicalPath =
+  Astro.url.pathname !== '/' && Astro.url.pathname.endsWith('/')
+    ? Astro.url.pathname.slice(0, -1)
+    : Astro.url.pathname;
+// Keep <title> at 60 chars or under: append the brand suffix only when it fits.
+const BRAND_SUFFIX = ' | Teach4Texas';
+const fullTitle = title.length + BRAND_SUFFIX.length <= 60 ? `${title}${BRAND_SUFFIX}` : title;
+const canonicalURL = new URL(canonicalPath, Astro.site);
 const ogImage = new URL(image, Astro.site);
 ---
 
@@ -35,14 +43,14 @@ const ogImage = new URL(image, Astro.site);
     <meta name="p:domain_verify" content="f81d6c94f6880b9e18ae05a64959351a"/>
 
     <!-- Primary Meta Tags -->
-    <title>{title} | Teach4Texas</title>
-    <meta name="title" content={`${title} | Teach4Texas`} />
+    <title>{fullTitle}</title>
+    <meta name="title" content={fullTitle} />
     <meta name="description" content={description} />
 
     <!-- Open Graph -->
     <meta property="og:type" content={article ? 'article' : 'website'} />
     <meta property="og:url" content={canonicalURL} />
-    <meta property="og:title" content={`${title} | Teach4Texas`} />
+    <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:site_name" content="Teach4Texas" />
@@ -50,7 +58,7 @@ const ogImage = new URL(image, Astro.site);
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={canonicalURL} />
-    <meta property="twitter:title" content={`${title} | Teach4Texas`} />
+    <meta property="twitter:title" content={fullTitle} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={ogImage} />
 

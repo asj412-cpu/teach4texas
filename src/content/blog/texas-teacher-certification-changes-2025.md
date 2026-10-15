@@ -1,5 +1,6 @@
 ---
 title: "New Rules for Uncertified Teachers: Texas Certification Changes Explained"
+seoTitle: "Texas Teacher Certification Changes Explained"
 description: "HB 2 phases out District of Innovation exemptions for uncertified teachers in core subjects. Here's the timeline, the $1,000 incentive, and what certified and uncertified teachers need to know."
 date: 2026-02-21
 author: "Lone Star Educator"

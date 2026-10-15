@@ -1,5 +1,6 @@
 ---
 title: "When Grade 3 Multiplication Stalls: Arrays, Strip Diagrams, and a Crack-the-Code Fix"
+seoTitle: "Grade 3 STAAR Math Crack-the-Code: Arrays & Strip Diagrams"
 description: "Texas Grade 3 teachers keep searching for STAAR Math mysteries that actually practice fact fluency, arrays, and strip diagrams. Here’s the TEKS 3.4E / 3.4H / 3.5B teaching problem — and one Cadet Corps game that solves it."
 keywords: ["Grade 3 STAAR Math", "TEKS 3.4E", "TEKS 3.4H", "TEKS 3.5B", "multiplication arrays strip diagrams", "crack the code math mystery", "Texas 3rd grade math"]
 date: 2026-09-01

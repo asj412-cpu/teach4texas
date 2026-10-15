@@ -1,5 +1,6 @@
 ---
 title: "Thanksgiving Math That Still Practices STAAR: Grade 4 Escape Room for TEKS 4.3E, 4.4H, 4.8C"
+seoTitle: "Grade 4 Thanksgiving STAAR Math Escape Room"
 description: "Thanksgiving week in Grade 4 doesn't have to be turkey coloring pages. Here's how to keep fractions, remainders, and measurement word problems moving — and one Cadet Corps escape room built for TEKS 4.3E, 4.4H, and 4.8C."
 keywords: ["Thanksgiving math grade 4", "Thanksgiving escape room grade 4", "STAAR math Thanksgiving", "TEKS 4.3E", "TEKS 4.4H", "TEKS 4.8C", "Grade 4 interpret remainders", "Texas STAAR math November"]
 date: 2026-10-06

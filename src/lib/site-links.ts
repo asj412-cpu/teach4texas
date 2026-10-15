@@ -1,3 +1,5 @@
+export const PLAY_URL = 'https://play.teach4texas.com/';
+
 export const SCORE_DESK_URL = 'https://t4t-score-desk.grok.me';
 
 // Teach4 Texas (Spring TX). Never use /store/teach-4-texas — that is a different Katy seller.
@@ -24,7 +26,7 @@ export const TPT_PRODUCTS = {
   },
   freeCompanion: {
     href: 'https://www.teacherspayteachers.com/Product/FREE-Score-Desk-Companion-STAAR-Click-Score-One-Pager-17493794',
-    label: 'Free Score Desk companion',
+    label: 'Free Score Desk companion (free download)',
   },
   morningWorkG3: {
     href: 'https://www.teacherspayteachers.com/Product/Texas-Grade-3-Morning-Work-4-Weeks-TEKS-Warmups-Print-Easel-17696158',

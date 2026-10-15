@@ -4,6 +4,8 @@ const blog = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
+    // Shorter <title> with the search phrase first; the H1 keeps `title`.
+    seoTitle: z.string().optional(),
     description: z.string(),
     date: z.date(),
     author: z.string().default('Lone Star Educator'),

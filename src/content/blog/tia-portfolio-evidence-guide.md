@@ -1,5 +1,6 @@
 ---
 title: "TIA Portfolio Evidence: What to Collect and How to Organize It"
+seoTitle: "TIA Portfolio Evidence: What to Collect and How to Organize"
 description: "A comprehensive guide to collecting and organizing TIA portfolio evidence — covering what qualifies by domain, a month-by-month collection calendar, organization systems, and mistakes to avoid."
 keywords: ["TIA portfolio evidence", "TIA evidence collection", "teacher incentive allotment portfolio", "TIA portfolio tips", "TIA designation evidence"]
 date: 2026-02-20
@@ -245,4 +246,4 @@ That's what the best Texas teachers do. And TIA is simply the system that recogn
 
 ---
 
-**Need help organizing your TIA evidence?** Explore our [TIA resources and tools](/resources) built for Texas teachers navigating the designation process. [Join our email community](/subscribe) for monthly TIA tips, deadline reminders, and portfolio-building strategies from teachers who've been through it.
+**Need help organizing your TIA evidence?** Explore our [TIA resources and tools](/resources) built for Texas teachers navigating the designation process. [Join our email community](#subscribe) for monthly TIA tips, deadline reminders, and portfolio-building strategies from teachers who've been through it.

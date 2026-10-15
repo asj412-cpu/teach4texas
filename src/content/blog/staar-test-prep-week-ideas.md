@@ -209,4 +209,4 @@ And when your students sit down for the STAAR, they'll be ready — not because 
 
 ---
 
-**Want ready-to-print STAAR review activities, escape rooms, and boot camp station materials?** Browse our [STAAR prep resources](/resources) designed for Texas classrooms. Everything is TEKS-aligned, STAAR 2.0 formatted, and built to save you time. [Subscribe to our newsletter](/subscribe) for more activity ideas delivered weekly.
+**Want ready-to-print STAAR review activities, escape rooms, and boot camp station materials?** Browse our [STAAR prep resources](/resources) designed for Texas classrooms. Everything is TEKS-aligned, STAAR 2.0 formatted, and built to save you time. [Subscribe to our newsletter](#subscribe) for more activity ideas delivered weekly.

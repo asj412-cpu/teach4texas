@@ -1,5 +1,6 @@
 ---
 title: "When Grade 5 Escape Rooms Fail: Real 5.4B Equations, 5.3E Decimals & 5.2A Place Value"
+seoTitle: "Grade 5 STAAR Math Escape Room: 5.4B, 5.3E & 5.2A"
 description: "Texas Grade 5 teachers searching 5.4B escape rooms and math 5.3E keep landing padlock trivia. Here’s the real 5.4B / 5.3E / 5.2A classroom problem — and one Cadet Corps vault that practices STAAR math."
 keywords: ["5.4B escape room", "5.4B equations", "math 5.3E", "TEKS 5.2 escape room", "Grade 5 STAAR math escape room", "Grade 5 math escape room Texas", "Number Vault Teach4 Texas"]
 date: 2026-10-06

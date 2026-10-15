@@ -11,6 +11,7 @@ const MSG: Record<string, string> = {
   NOT_CONFIGURED: "Unlocking is not available right now. Please try again later.",
 };
 
+/** Expected rejections return 200 + {ok:false} so the browser console stays clean (QA R1 P3-4). */
 export async function POST(req: NextRequest) {
   let code = "";
   try { code = String((await req.json())?.access_code ?? ""); } catch {
@@ -19,10 +20,10 @@ export async function POST(req: NextRequest) {
   const r = await checkCode(code);
   if (!r.ok) {
     console.log(JSON.stringify({ evt: "score_desk_redeem", ok: false, error: r.error }));
-    return NextResponse.json({ ok: false, error: r.error, message: MSG[r.error] }, { status: r.error === "NOT_CONFIGURED" ? 503 : 403 });
+    return NextResponse.json({ ok: false, error: r.error, message: MSG[r.error] }, { status: 200 });
   }
   const c = mintFullCookie();
-  if (!c) return NextResponse.json({ ok: false, error: "NOT_CONFIGURED", message: MSG.NOT_CONFIGURED }, { status: 503 });
+  if (!c) return NextResponse.json({ ok: false, error: "NOT_CONFIGURED", message: MSG.NOT_CONFIGURED }, { status: 200 });
   console.log(JSON.stringify({ evt: "score_desk_redeem", ok: true, via: r.via }));
   const res = NextResponse.json({ ok: true, mode: "full" });
   res.cookies.set(FULL_COOKIE, c.value, { httpOnly: true, secure: true, sameSite: "lax", path: "/", maxAge: c.maxAge });

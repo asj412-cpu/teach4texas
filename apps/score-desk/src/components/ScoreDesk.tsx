@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { RUBRICS, TPT_CTA_TEXT, TPT_LISTING_URL, isComplete, maxPoints, rubricById, total } from "@/lib/rubrics";
 import { parseCsv, parsePaste } from "@/lib/roster";
 import { today, useDesk, type DeskApi, type Mode } from "@/lib/useDesk";
@@ -22,6 +22,14 @@ export default function ScoreDesk() {
   const [unlockOpen, setUnlockOpen] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const { s, api } = useDesk(mode);
+  const barRef = useRef<HTMLDivElement>(null);
+  const [barH, setBarH] = useState(0);
+  useLayoutEffect(() => {
+    const el = barRef.current; if (!el) { setBarH(0); document.documentElement.style.setProperty("--bar-h", "0px"); return; }
+    const upd = () => { setBarH(el.offsetHeight); document.documentElement.style.setProperty("--bar-h", `${el.offsetHeight}px`); };
+    const ro = new ResizeObserver(upd); ro.observe(el); upd();
+    return () => { ro.disconnect(); document.documentElement.style.setProperty("--bar-h", "0px"); };
+  }, [mode, !!s]);
 
   useEffect(() => {
     fetch("/api/entitlement", { cache: "no-store" }).then((r) => r.json()).then((j) => setMode(j.full ? "full" : "sample")).catch(() => setMode("sample"));
@@ -37,17 +45,17 @@ export default function ScoreDesk() {
   const sample = mode === "sample";
 
   return (
-    <div className={sample ? "pb-36" : "pb-24"}>
+    <div data-testid="app-root" style={{ paddingBottom: (sample ? barH : 0) + 32 }} className="overflow-x-clip">
       <header className="no-print sticky top-0 z-30 border-b-2 border-[#ffd66b]/40 bg-[#0b1a30]/95 backdrop-blur">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-3 px-4 py-3">
           <button onClick={() => go("desk")} className="flex items-center gap-3 text-left">
             <span className="grid size-11 place-items-center rounded-xl bg-[#bf5700] text-lg font-black text-white shadow-[0_4px_0_#6b3000]">T4</span>
             <span><span className="block text-xl font-black gs-title">Score Desk</span><span className={`block text-base ${muted}`}>Teach4Texas</span></span>
           </button>
-          <span className={`rounded-full px-3 py-1 text-base font-bold ${sample ? "bg-[#ffd66b] text-[#3d2700]" : "bg-[#2e8b57] text-white"}`} data-testid="mode-badge">
+          <span className={`rounded-full px-3 py-1 text-base font-bold ${sample ? "bg-[#ffd66b] text-[#3d2700]" : "bg-[#237a48] text-white"}`} data-testid="mode-badge">
             {sample ? "SAMPLE MODE" : "YOUR DESK"}
           </span>
-          <nav className="ml-auto flex flex-wrap gap-1" aria-label="Main">
+          <nav className="flex w-full flex-wrap gap-1 md:ml-auto md:w-auto" aria-label="Main">
             {TABS.map((t) => (
               <button key={t.id} onClick={() => go(t.id)} aria-current={tab === t.id ? "page" : undefined}
                 className={`rounded-lg px-3 py-2 text-base font-bold ${tab === t.id ? "bg-[#ffd66b] text-[#3d2700]" : "text-white hover:bg-white/10"}`}>
@@ -79,18 +87,18 @@ export default function ScoreDesk() {
       </footer>
 
       {sample && (
-        <div className="no-print fixed inset-x-0 bottom-0 z-40 border-t-2 border-[#ffd66b] bg-[#0b1a30]/97 px-4 py-3" data-testid="tpt-cta-bar">
-          <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-3">
-            <span className="text-base font-semibold text-white">Keep your classes and scores on your own device.</span>
-            <a href={TPT_LISTING_URL} target="_blank" rel="noreferrer" className="gs-btn px-5 py-3 text-lg" data-testid="tpt-cta">🎁 {TPT_CTA_TEXT}</a>
-            <button onClick={() => setUnlockOpen(true)} className="gs-btn2 px-4 py-3 text-base">🔑 Have a code? Unlock</button>
+        <div ref={barRef} className="no-print cta-bar fixed inset-x-0 bottom-0 z-40 px-3 py-2 sm:py-3" data-testid="tpt-cta-bar">
+          <div className="mx-auto flex max-w-6xl flex-nowrap items-center justify-center gap-2 sm:gap-3">
+            <span className="hidden text-base font-semibold text-white lg:inline">Keep your classes and scores on your own device.</span>
+            <a href={TPT_LISTING_URL} target="_blank" rel="noreferrer" className="gs-btn whitespace-nowrap px-3 py-2 text-base sm:px-5 sm:py-3 sm:text-lg" data-testid="tpt-cta"><span aria-hidden>🎁 </span>{TPT_CTA_TEXT}</a>
+            <button onClick={() => setUnlockOpen(true)} className="gs-btn2 whitespace-nowrap px-3 py-2 text-base sm:px-4 sm:py-3"><span aria-hidden>🔑 </span><span className="hidden sm:inline">Have a code? </span>Unlock</button>
           </div>
         </div>
       )}
 
       {guide && <Guide s={s} sample={sample} onClose={closeGuide} go={(t) => { closeGuide(); go(t); }} />}
       {unlockOpen && <Unlock onClose={() => { setUnlockOpen(false); history.replaceState(null, "", "#desk"); }} onDone={() => { setUnlockOpen(false); setMode("full"); setTab("desk"); setGuide(true); }} />}
-      {toast && <div role="status" className="fixed left-1/2 top-24 z-50 -translate-x-1/2 rounded-xl bg-[#2e8b57] px-5 py-3 text-lg font-bold text-white shadow-xl gs-rise">{toast}</div>}
+      {toast && <div role="status" className="fixed left-1/2 top-40 z-50 -translate-x-1/2 rounded-xl bg-[#237a48] px-5 py-3 text-lg font-bold text-white shadow-xl gs-rise">{toast}</div>}
     </div>
   );
 }
@@ -180,6 +188,8 @@ function ScoreTab({ s, api, go, sample }: { s: DeskState; api: DeskApi; go: (t: 
   const [creating, setCreating] = useState(false);
   const [view, setView] = useState<"teacher" | "student">("teacher");
   const [focus, setFocus] = useState<{ cid: string; v: number } | null>(null);
+  const legendRef = useRef<HTMLDetailsElement>(null);
+  useEffect(() => { if (legendRef.current && window.innerWidth >= 768) legendRef.current.open = true; }, [a?.id]);
 
   if (!cls) return <><H1 kicker="SCORING" title="Score a stack" /><EmptyRoster go={go} /></>;
   if (!cls.students.length) return <><H1 kicker="SCORING" title="Score a stack" /><EmptyRoster go={go} name={cls.name} /></>;
@@ -194,11 +204,11 @@ function ScoreTab({ s, api, go, sample }: { s: DeskState; api: DeskApi; go: (t: 
     <div>
       <H1 kicker="SCORING" title="Score a stack" />
       <div className="gs-panel mb-4 flex flex-wrap items-end gap-3 p-4">
-        <label className="text-base font-bold text-white">Class<br />
+        <label className="min-w-0 max-w-full text-base font-bold text-white">Class<br />
           <select value={classId ?? ""} onChange={(e) => api.setLast(e.target.value, s.assignments.find((x) => x.classId === e.target.value)?.id ?? null)}>
             {s.classes.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
           </select></label>
-        {asgs.length > 0 && !creating && <label className="text-base font-bold text-white">Assignment<br />
+        {asgs.length > 0 && !creating && <label className="min-w-0 max-w-full text-base font-bold text-white">Assignment<br />
           <select value={a?.id ?? ""} onChange={(e) => api.setLast(classId, e.target.value)}>
             {asgs.map((x) => <option key={x.id} value={x.id}>{x.title} ({x.window})</option>)}
           </select></label>}
@@ -210,9 +220,9 @@ function ScoreTab({ s, api, go, sample }: { s: DeskState; api: DeskApi; go: (t: 
 
       {showCreate ? <NewAssignment classId={cls.id} api={api} onDone={() => setCreating(false)} canCancel={!!a} /> : a && r && (
         <>
-          <div className="mb-4 grid grid-cols-3 gap-3">
+          <div className="mb-4 grid grid-cols-3 gap-2 sm:gap-3">
             {[["SCORED", `${done}/${cls.students.length}`], ["CLASS AVG", avg], ["MAX", String(maxPoints(r))]].map(([k, v]) => (
-              <div key={k} className="gs-card p-3 text-center"><p className={`text-base font-bold ${mutedInk}`}>{k}</p><p className="text-3xl font-black">{v}</p></div>
+              <div key={k} className="gs-card p-3 text-center"><p className={`text-base font-bold ${mutedInk}`}>{k}</p><p className="text-2xl font-black sm:text-3xl">{v}</p></div>
             ))}
           </div>
           <div className="gs-panel mb-3 flex flex-wrap items-center gap-3 p-3">
@@ -220,38 +230,55 @@ function ScoreTab({ s, api, go, sample }: { s: DeskState; api: DeskApi; go: (t: 
             <ViewToggle view={view} setView={setView} />
           </div>
           {r.kind === "staar-ecr" && <p className="mb-3 rounded-xl bg-[#ffd66b] px-4 py-2 text-base font-semibold text-[#3d2700]">STAAR ECR rule: if Organization &amp; Development is 0, Conventions is locked to 0.</p>}
-          <div className="gs-card overflow-x-auto p-2">
-            <table className="w-full text-left text-base">
-              <thead><tr className="border-b-2 border-[#1b365d]/20">
-                <th className="p-2">Student</th>
-                {r.criteria.map((c) => <th key={c.id} className="p-2">{c.shortName}</th>)}
-                <th className="p-2">Total</th><th className="p-2">Note</th>
-              </tr></thead>
-              <tbody>
-                {cls.students.map((st) => {
-                  const sc = scores.find((x) => x.studentId === st.id);
-                  const t = total(r, sc);
-                  const orgZero = r.kind === "staar-ecr" && sc?.criterionScores[r.criteria[0].id] === 0;
-                  return (
-                    <tr key={st.id} className="border-b border-[#1b365d]/10" data-testid={`row-${st.name}`}>
-                      <td className="p-2 text-lg font-bold">{st.name}{!isComplete(r, sc) && <span className={`ml-2 text-base font-normal ${mutedInk}`}>· open</span>}</td>
-                      {r.criteria.map((c, ci) => (
-                        <td key={c.id} className="p-2"><div className="flex flex-wrap gap-1">
-                          {[...c.levels].sort((x, y) => x.score - y.score).map((l) => (
-                            <button key={l.score} className="chip px-2" aria-pressed={sc?.criterionScores[c.id] === l.score}
-                              disabled={ci === 1 && orgZero && l.score !== 0}
-                              aria-label={`${st.name} ${c.name} ${l.label}`} title={view === "teacher" ? l.teacher : l.student}
-                              onClick={() => { api.setScore(a.id, st.id, c.id, l.score); setFocus({ cid: c.id, v: l.score }); }}>{l.label}</button>
-                          ))}</div></td>
-                      ))}
-                      <td className="p-2 text-2xl font-black" data-testid={`total-${st.name}`}>{t ?? "—"}</td>
-                      <td className="p-2"><input aria-label={`Note for ${st.name}`} className="w-40" value={sc?.comment ?? ""} onChange={(e) => api.setComment(a.id, st.id, e.target.value)} /></td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+          <details ref={legendRef} className="gs-card mb-3 p-4" data-testid="criteria-legend">
+            <summary className="cursor-pointer text-lg font-black">{view === "teacher" ? "What each score means (teacher language)" : r.studentTitle + " (student checklist)"}</summary>
+            <div className="mt-2 grid gap-3 md:grid-cols-2">
+              {r.criteria.map((c) => (
+                <div key={c.id}>
+                  <p className="text-base font-black">{c.name}</p>
+                  <ul className="mt-1 space-y-1">
+                    {[...c.levels].sort((x, y) => y.score - x.score).map((l) => (
+                      <li key={l.score} className="flex gap-2 text-base" data-testid={`legend-${c.id}-${l.score}`}>
+                        <span className="min-w-10 shrink-0 rounded-md bg-[#1b365d] px-2 text-center font-black text-white">{view === "student" ? "☐ " : ""}{l.label}</span>
+                        <span>{view === "teacher" ? l.teacher : l.student}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </details>
+          <ul className="gs-card divide-y divide-[#1b365d]/10 p-2" data-testid="score-list">
+            {cls.students.map((st) => {
+              const sc = scores.find((x) => x.studentId === st.id);
+              const t = total(r, sc);
+              const orgZero = r.kind === "staar-ecr" && sc?.criterionScores[r.criteria[0].id] === 0;
+              return (
+                <li key={st.id} className="flex flex-wrap items-center gap-x-4 gap-y-2 p-2" data-testid={`row-${st.name}`}>
+                  <div className="flex w-full min-w-0 items-center justify-between gap-2 md:w-44">
+                    <span className="truncate text-lg font-bold">{st.name}{!isComplete(r, sc) && <span className={`ml-2 text-base font-normal ${mutedInk}`}>· open</span>}</span>
+                    <span className="text-2xl font-black md:hidden" aria-hidden>{t ?? "—"}</span>
+                  </div>
+                  {r.criteria.map((c, ci) => (
+                    <div key={c.id} className="min-w-0">
+                      <p className={`text-base font-bold ${mutedInk}`}>{c.shortName}</p>
+                      <div className="flex flex-wrap gap-1">
+                        {[...c.levels].sort((x, y) => x.score - y.score).map((l) => (
+                          <button key={l.score} className="chip px-2" aria-pressed={sc?.criterionScores[c.id] === l.score}
+                            disabled={ci === 1 && orgZero && l.score !== 0}
+                            aria-label={`${st.name} ${c.name} ${l.label}`} title={view === "teacher" ? l.teacher : l.student}
+                            onClick={() => { api.setScore(a.id, st.id, c.id, l.score); setFocus({ cid: c.id, v: l.score }); }}>{l.label}</button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                  <div className="hidden text-center md:block"><p className={`text-base font-bold ${mutedInk}`}>Total</p><p className="text-2xl font-black" data-testid={`total-${st.name}`}>{t ?? "—"}</p></div>
+                  <label className="w-full min-w-0 md:ml-auto md:w-48"><span className="sr-only">Note for {st.name}</span>
+                    <input aria-label={`Note for ${st.name}`} className="w-full" placeholder="Note" value={sc?.comment ?? ""} onChange={(e) => api.setComment(a.id, st.id, e.target.value)} /></label>
+                </li>
+              );
+            })}
+          </ul>
           {focusLevel && <p className="gs-panel mt-3 p-3 text-lg text-white"><b className="text-[#ffd66b]">{focusLevel.label}:</b> {view === "teacher" ? focusLevel.teacher : focusLevel.student}</p>}
         </>
       )}
@@ -314,7 +341,7 @@ function RubricsTab() {
   return (
     <div>
       <H1 kicker="LIBRARY" title="Rubrics" />
-      <div className="grid gap-4 md:grid-cols-[18rem_1fr]">
+      <div className="grid gap-4 md:grid-cols-[18rem_minmax(0,1fr)]">
         <div className="no-print flex flex-col gap-2">
           {RUBRICS.map((x) => (
             <button key={x.id} onClick={() => setRid(x.id)} className={`gs-card p-3 text-left ${rid === x.id ? "ring-4 ring-[#ffd66b]" : ""}`}>
@@ -372,7 +399,7 @@ function RosterInput({ onNames, cta }: { onNames: (n: string[]) => void; cta: st
   return (
     <div>
       <label className="block text-base font-bold">Paste student names — one per line
-        <textarea data-testid="roster-paste" rows={6} className="mt-1 w-full" value={text} onChange={(e) => { setText(e.target.value); setErr(null); }} placeholder={"Mia\nJayden\nSofia"} />
+        <textarea data-testid="roster-paste" rows={6} className="mt-1 w-full" value={text} onChange={(e) => { setText(e.target.value); setErr(null); }} placeholder={"Example:\nFirst student\nSecond student"} />
       </label>
       <div className="mt-2 flex flex-wrap items-center gap-3">
         <button className="gs-btn2-dark px-4 py-2" onClick={() => fileRef.current?.click()}>📄 Import CSV</button>
@@ -398,7 +425,7 @@ function ClassesTab({ s, api, go, setToast }: { s: DeskState; api: DeskApi; go: 
   return (
     <div>
       <H1 kicker="ROSTER" title="Classes" />
-      <div className="grid gap-4 md:grid-cols-[18rem_1fr]">
+      <div className="grid gap-4 md:grid-cols-[18rem_minmax(0,1fr)]">
         <div className="flex flex-col gap-2">
           {s.classes.map((c) => (
             <button key={c.id} onClick={() => setSel(c.id)} className={`gs-card p-3 text-left ${sel === c.id ? "ring-4 ring-[#ffd66b]" : ""}`}>
@@ -421,7 +448,7 @@ function ClassesTab({ s, api, go, setToast }: { s: DeskState; api: DeskApi; go: 
           ) : (
             <section className="gs-card p-5">
               <div className="flex flex-wrap items-center gap-3">
-                <input aria-label="Class name" className="text-xl font-black" value={cls.name} onChange={(e) => api.renameClass(cls.id, e.target.value)} />
+                <input aria-label="Class name" className="w-full min-w-0 text-xl font-black sm:w-auto" value={cls.name} onChange={(e) => api.renameClass(cls.id, e.target.value)} />
                 <span className={`text-lg ${mutedInk}`}>{cls.students.length} students</span>
                 {cls.students.length > 0 && <button className="gs-btn ml-auto px-5 py-3 text-lg" data-testid="score-this-class" onClick={() => { api.setLast(cls.id, s.assignments.find((a) => a.classId === cls.id)?.id ?? null); go("score"); }}>Next: pick a rubric &amp; score →</button>}
               </div>
@@ -467,8 +494,8 @@ function GrowthTab({ s, sample }: { s: DeskState; sample: boolean }) {
       <H1 kicker="TIA EVIDENCE" title="Growth snapshot" />
       <p className={`mb-3 text-base ${muted}`}>Classroom work product only — not an official TIA calculator. Tag assignments BOY, MOY, or EOY when you create them.</p>
       <div className="no-print gs-panel mb-3 flex flex-wrap items-end gap-3 p-3">
-        <label className="text-base font-bold text-white">Class<br /><select value={cid} onChange={(e) => setCid(e.target.value)}>{s.classes.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}</select></label>
-        <label className="text-base font-bold text-white">Rubric<br /><select value={r.id} onChange={(e) => setRid(e.target.value)}>{(rubricIds.length ? rubricIds : [RUBRICS[0].id]).map((id) => <option key={id} value={id}>{rubricById(id)?.name}</option>)}</select></label>
+        <label className="min-w-0 max-w-full text-base font-bold text-white">Class<br /><select value={cid} onChange={(e) => setCid(e.target.value)}>{s.classes.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}</select></label>
+        <label className="min-w-0 max-w-full text-base font-bold text-white">Rubric<br /><select value={r.id} onChange={(e) => setRid(e.target.value)}>{(rubricIds.length ? rubricIds : [RUBRICS[0].id]).map((id) => <option key={id} value={id}>{rubricById(id)?.name}</option>)}</select></label>
         {!sample && <button className="gs-btn2 px-4 py-2" onClick={() => window.print()}>🖨 Print</button>}
       </div>
       <div className="gs-card overflow-x-auto p-3">
@@ -490,20 +517,20 @@ function Guide({ s, sample, onClose, go }: { s: DeskState; sample: boolean; onCl
   const hasAsg = s.assignments.length > 0;
   const hasScore = s.scores.some((x) => Object.keys(x.criterionScores).length > 0);
   const steps = [
-    { n: 1, t: "Make a class", b: "Paste your student names (or import a CSV) in Classes.", tab: "classes" as Tab, done: hasClass },
-    { n: 2, t: "Pick a rubric", b: "On Score, tap New assignment and choose STAAR ECR, SCR, RACE, or 4-level.", tab: "score" as Tab, done: hasAsg },
-    { n: 3, t: "Score", b: "Tap a chip for each student. Totals and averages update instantly.", tab: "score" as Tab, done: hasScore },
+    { n: 1, t: "Make a class", b: "Tap ＋ New class, name it, paste your student names (or import a CSV), and tap Save class.", tab: "classes" as Tab, done: hasClass },
+    { n: 2, t: "Pick a rubric", b: "Tap “Next: pick a rubric & score”, choose STAAR ECR, SCR, RACE, or 4-level, then tap Start scoring.", tab: "score" as Tab, done: hasAsg },
+    { n: 3, t: "Score", b: "Tap a score chip under each part of the rubric. The total updates instantly.", tab: "score" as Tab, done: hasScore },
   ];
   return (
-    <div role="dialog" aria-modal="true" aria-labelledby="guide-title" className="no-print fixed inset-0 z-50 grid place-items-center bg-black/70 p-4" data-testid="guide">
-      <div className="gs-panel w-full max-w-2xl p-6 gs-rise">
-        <h2 id="guide-title" className="text-3xl font-black gs-title">Score your first student in 3 steps</h2>
+    <div role="dialog" aria-modal="true" aria-labelledby="guide-title" className="no-print fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/70 p-3 sm:items-center sm:p-4" data-testid="guide">
+      <div className="gs-panel my-auto w-full max-w-2xl p-4 gs-rise sm:p-6">
+        <h2 id="guide-title" className="text-2xl font-black gs-title sm:text-3xl">Score your first student in 3 steps</h2>
         <p className={`mt-1 text-lg ${muted}`}>{sample ? "The sample already has a class — try it, or make your own." : "Takes about 2 minutes."}</p>
         <ol className="mt-4 space-y-3">
           {steps.map((x) => (
             <li key={x.n}>
-              <button onClick={() => go(x.tab)} className="gs-card flex w-full items-center gap-4 p-4 text-left">
-                <span className={`grid size-12 shrink-0 place-items-center rounded-full text-2xl font-black ${x.done ? "bg-[#2e8b57] text-white" : "bg-[#ffd66b] text-[#3d2700]"}`}>{x.done && !sample ? "✓" : x.n}</span>
+              <button onClick={() => go(x.tab)} className="gs-card flex w-full items-center gap-3 p-3 text-left sm:gap-4 sm:p-4">
+                <span className={`grid size-12 shrink-0 place-items-center rounded-full text-2xl font-black ${x.done ? "bg-[#237a48] text-white" : "bg-[#ffd66b] text-[#3d2700]"}`}>{x.done && !sample ? "✓" : x.n}</span>
                 <span><span className="block text-xl font-black">{x.t}</span><span className={`block text-base ${mutedInk}`}>{x.b}</span></span>
               </button>
             </li>
@@ -525,8 +552,8 @@ function Unlock({ onClose, onDone }: { onClose: () => void; onDone: () => void }
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   return (
-    <div role="dialog" aria-modal="true" aria-labelledby="unlock-title" className="no-print fixed inset-0 z-50 grid place-items-center bg-black/70 p-4" data-testid="unlock">
-      <form className="gs-panel w-full max-w-lg p-6 gs-rise" onSubmit={async (e) => {
+    <div role="dialog" aria-modal="true" aria-labelledby="unlock-title" className="no-print fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/70 p-3 sm:items-center sm:p-4" data-testid="unlock">
+      <form className="gs-panel my-auto w-full max-w-lg p-4 gs-rise sm:p-6" onSubmit={async (e) => {
         e.preventDefault(); setBusy(true); setErr(null);
         try {
           const r = await fetch("/api/redeem", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ access_code: code }) });

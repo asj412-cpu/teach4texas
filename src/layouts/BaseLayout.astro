@@ -20,7 +20,12 @@ const {
   author,
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+// Self-referencing canonical on the served host, without a trailing slash (matches served URLs).
+const canonicalPath =
+  Astro.url.pathname !== '/' && Astro.url.pathname.endsWith('/')
+    ? Astro.url.pathname.slice(0, -1)
+    : Astro.url.pathname;
+const canonicalURL = new URL(canonicalPath, Astro.site);
 const ogImage = new URL(image, Astro.site);
 ---
 

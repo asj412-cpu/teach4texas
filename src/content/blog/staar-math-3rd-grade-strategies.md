@@ -196,4 +196,4 @@ Your students are capable of more than you think. Give them the tools, the pract
 
 ---
 
-**Looking for ready-to-use 3rd grade STAAR math review materials?** Check out our [STAAR prep resources](/resources) designed specifically for Texas teachers — aligned to current TEKS standards and the STAAR 2.0 format. And if you want more strategies like these delivered to your inbox, [join our email list](/subscribe) for weekly tips from teachers who get it.
+**Looking for ready-to-use 3rd grade STAAR math review materials?** Check out our [STAAR prep resources](/resources) designed specifically for Texas teachers — aligned to current TEKS standards and the STAAR 2.0 format. And if you want more strategies like these delivered to your inbox, [join our email list](#subscribe) for weekly tips from teachers who get it.

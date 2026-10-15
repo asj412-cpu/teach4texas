@@ -1,5 +1,6 @@
 ---
 title: "School Safety Updates: The Uvalde Strong Act and Mental Health Changes for Texas Campuses"
+seoTitle: "Uvalde Strong Act: Texas School Safety and Mental Health"
 description: "HB 33 (Uvalde Strong Act) and SB 207 bring new school safety requirements and mental health absence policies to Texas campuses. Here's what teachers need to know."
 date: 2026-02-21
 author: "Lone Star Educator"

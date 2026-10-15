@@ -1,5 +1,6 @@
 ---
 title: "How STAAR Scores Can Help You Earn TIA Designation (And Up to $32,000)"
+seoTitle: "How STAAR Scores Help You Earn TIA Designation"
 description: "Learn how your students' STAAR growth data connects directly to TIA designation — and practical strategies to maximize student growth for both your students and your paycheck."
 keywords: ["STAAR TIA connection", "student growth TIA", "improve STAAR scores for TIA", "TIA student growth pillar", "STAAR progress measure TIA"]
 date: 2026-02-18

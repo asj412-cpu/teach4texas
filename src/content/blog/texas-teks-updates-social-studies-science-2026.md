@@ -1,5 +1,6 @@
 ---
 title: "Social Studies and Science Standards Are Changing: TEKS Updates Texas Teachers Need to Know"
+seoTitle: "TEKS Updates 2026: Social Studies and Science Standards"
 description: "Major TEKS revisions are coming for social studies (2026-27) and science assessments align this spring. Plus, a new financial literacy graduation requirement. Here's what teachers need to track."
 date: 2026-02-21
 author: "Lone Star Educator"
@@ -194,4 +195,4 @@ You are reading this. You are paying attention. That is step one.
 
 ---
 
-*Stay current on Texas curriculum changes, STAAR updates, and professional development strategies. Visit our [resources page](/resources) for teacher-created materials aligned to current TEKS, or [join our email list](/subscribe) for weekly updates.*
+*Stay current on Texas curriculum changes, STAAR updates, and professional development strategies. Visit our [resources page](/resources) for teacher-created materials aligned to current TEKS, or [join our email list](#subscribe) for weekly updates.*

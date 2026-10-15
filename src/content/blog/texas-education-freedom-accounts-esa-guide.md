@@ -1,5 +1,6 @@
 ---
 title: "Texas Education Freedom Accounts: What Public School Teachers Need to Know"
+seoTitle: "Texas Education Freedom Accounts: What Teachers Need to Know"
 description: "A factual overview of Texas SB 2 Education Savings Accounts — funding amounts, application timeline, projected enrollment impact, and what it means for public school classrooms."
 date: 2026-02-21
 author: "Lone Star Educator"

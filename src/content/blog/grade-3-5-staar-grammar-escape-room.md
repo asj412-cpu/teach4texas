@@ -1,5 +1,6 @@
 ---
 title: "When Grammar Drill Dies Mid-Period: Editing Escape Rooms That Match STAAR"
+seoTitle: "STAAR Grammar Escape Rooms for Editing, Grades 3–5"
 description: "Texas teachers keep searching for Grade 3–5 grammar escape rooms that practice real STAAR editing and revising — not worksheet cosplay. Here’s the TEKS 3.11D / 4.11D / 5.11D teaching problem and one Cadet Corps pack that solves it."
 keywords: ["grammar escape room third grade", "STAAR editing revising", "TEKS 3.11D", "TEKS 4.11D", "TEKS 5.11D", "Grade 3 4 5 grammar", "Texas RLA escape room"]
 date: 2026-09-08

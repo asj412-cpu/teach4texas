@@ -1,5 +1,6 @@
 ---
 title: "When Grade 3 Morning Work Dies: TEKS Warmups That Aren't Busywork"
+seoTitle: "Grade 3 TEKS Morning Work: Warmups That Aren't Busywork"
 description: "Texas Grade 3 morning work dies when the packet is unlabeled busywork. Here’s why TEKS-visible Math + RLA warmups matter in the first 15 minutes — and one Cadet Corps Print + Easel pack that actually names the standards."
 keywords: ["Grade 3 morning work Texas", "TEKS morning work", "Grade 3 TEKS warmups", "Print and Easel morning work", "Texas Grade 3 Math RLA", "Cadet Corps morning work"]
 date: 2026-09-19

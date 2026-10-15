@@ -1,5 +1,6 @@
 ---
 title: "How to Teach STAAR Constructed Response: A Step-by-Step Guide"
+seoTitle: "STAAR Constructed Response: A Step-by-Step Teaching Guide"
 description: "A practical, step-by-step guide to teaching STAAR constructed response — including the RACE framework, scoring rubric breakdown, student examples, and daily practice strategies for Texas teachers."
 keywords: ["STAAR constructed response", "how to teach constructed response", "STAAR writing tips", "STAAR RLA constructed response", "RACE strategy STAAR"]
 date: 2026-02-20
@@ -247,4 +248,4 @@ Start with one step at a time. Be patient with the rollout. And remember that th
 
 ---
 
-**Want constructed response practice passages and prompts ready to go?** Visit our [resources page](/resources) for STAAR RLA materials designed by Texas teachers for Texas classrooms. [Sign up for our newsletter](/subscribe) to get weekly writing tips and practice prompts delivered straight to your inbox.
+**Want constructed response practice passages and prompts ready to go?** Visit our [resources page](/resources) for STAAR RLA materials designed by Texas teachers for Texas classrooms. [Sign up for our newsletter](#subscribe) to get weekly writing tips and practice prompts delivered straight to your inbox.

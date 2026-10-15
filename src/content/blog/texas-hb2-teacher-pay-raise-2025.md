@@ -1,5 +1,6 @@
 ---
 title: "Understanding Your HB 2 Pay Raise: What Texas Teachers Actually Get"
+seoTitle: "HB 2 Teacher Pay Raise: What Texas Teachers Actually Get"
 description: "A clear breakdown of the Teacher Retention Allotment, Support Staff Retention Allotment, and other HB 2 funding changes impacting Texas educator paychecks in 2025-26."
 date: 2026-02-21
 author: "Lone Star Educator"

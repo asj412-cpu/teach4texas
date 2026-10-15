@@ -1,3 +1,5 @@
+export const PLAY_URL = 'https://play.teach4texas.com/';
+
 export const SCORE_DESK_URL = 'https://t4t-score-desk.grok.me';
 
 // Teach4 Texas (Spring TX). Never use /store/teach-4-texas — that is a different Katy seller.

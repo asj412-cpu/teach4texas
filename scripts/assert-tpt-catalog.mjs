@@ -75,6 +75,11 @@ const requiredIds = [
   '17468013', // Archive Vault
   '17468482', // Cycle Vault
 ];
+// Dead on TPT as of 2026-10-15 (404 or store-home redirect). Do not re-add without a LIVE check.
+const deadIds = ['15601716', '15601750', '15601786', '15601876', '15601904', '15601975'];
+for (const id of deadIds) {
+  if (srcText.includes(id)) failures.push(`Dead TPT id ${id} is linked in src/`);
+}
 for (const id of requiredIds) {
   if (!uniqueIds.has(id)) failures.push(`Missing required live SKU ${id}`);
 }

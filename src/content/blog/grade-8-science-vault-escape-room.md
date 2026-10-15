@@ -1,5 +1,6 @@
 ---
 title: "When Grade 8 Science Escape Rooms Fail: Newton + Mass That Match STAAR"
+seoTitle: "Grade 8 STAAR Science Escape Room: Newton + Mass"
 description: "Texas Grade 8 teachers searching science TEKS 8.7B and 8.6E keep landing lock-icon trivia decks. Here’s the real 8.6E / 8.7A / 8.7B classroom problem — and one Ops Lab vault that practices STAAR science."
 keywords: ["Grade 8 STAAR science escape room", "TEKS 8.6E", "TEKS 8.7A", "TEKS 8.7B", "Newton's laws Grade 8 Texas", "conservation of mass STAAR", "Science Vault Teach4 Texas"]
 date: 2026-09-22

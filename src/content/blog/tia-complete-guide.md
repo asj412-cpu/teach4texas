@@ -1,5 +1,6 @@
 ---
 title: "Texas Teacher Incentive Allotment (TIA): The Complete Guide for Teachers"
+seoTitle: "Teacher Incentive Allotment (TIA): Complete Guide for Texas"
 description: "Everything Texas teachers need to know about TIA — designation levels, pay increases, eligibility, and how to start pursuing your designation today."
 keywords: ["teacher incentive allotment texas", "TIA teacher texas", "how to get TIA designation", "TIA designation levels", "texas teacher pay increase"]
 date: 2026-02-18

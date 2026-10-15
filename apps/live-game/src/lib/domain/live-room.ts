@@ -456,7 +456,7 @@ function hostScavengerView(room: LiveRoom): HostRoomView["scavenger"] {
     item_index: idx,
     prompt: item ? kidPlainText(item.prompt, 200) : null,
     has_next: idx < items.length - 1,
-    answer_count: Object.values(room.players).filter((p) => {
+    answer_count: Object.values(room.players).filter((p) => p.player_id !== HOST_PLAYER_ID).filter((p) => {
       const st = room.scavenger_states[p.player_id];
       return st?.answers[idx] !== undefined;
     }).length,
@@ -489,7 +489,7 @@ function hostSequenceView(room: LiveRoom): HostRoomView["sequence"] {
     item_index: idx,
     prompt: item ? kidPlainText(item.prompt, 200) : null,
     has_next: idx < items.length - 1,
-    answer_count: Object.values(room.players).filter((p) => {
+    answer_count: Object.values(room.players).filter((p) => p.player_id !== HOST_PLAYER_ID).filter((p) => {
       const st = room.sequence_states[p.player_id];
       return st?.answers[idx] !== undefined;
     }).length,
@@ -532,7 +532,7 @@ function hostCategoryView(room: LiveRoom): HostRoomView["category"] {
         }))
       : [],
     has_next: idx < items.length - 1,
-    answer_count: Object.values(room.players).filter((p) => {
+    answer_count: Object.values(room.players).filter((p) => p.player_id !== HOST_PLAYER_ID).filter((p) => {
       const st = room.category_states[p.player_id];
       return st?.answers[idx] !== undefined;
     }).length,
@@ -574,7 +574,7 @@ function hostOddView(room: LiveRoom): HostRoomView["odd"] {
         }))
       : [],
     has_next: idx < items.length - 1,
-    answer_count: Object.values(room.players).filter((p) => {
+    answer_count: Object.values(room.players).filter((p) => p.player_id !== HOST_PLAYER_ID).filter((p) => {
       const st = room.odd_states[p.player_id];
       return st?.answers[idx] !== undefined;
     }).length,
@@ -741,7 +741,7 @@ function hostVaultView(room: LiveRoom): HostRoomView["vault"] {
     has_next_room: idx < rooms.length - 1,
     has_next_puzzle: Boolean(roomRow && pIdx < roomRow.puzzles.length - 1),
     // Counts are students only; the host seat is shown separately (AC-H02).
-    answer_count: Object.values(room.players).filter((p) => {
+    answer_count: Object.values(room.players).filter((p) => p.player_id !== HOST_PLAYER_ID).filter((p) => {
       if (p.player_id === HOST_PLAYER_ID) return false;
       const st = room.vault_states[p.player_id];
       return st?.answers[key] !== undefined;
@@ -809,7 +809,7 @@ function hostDashView(room: LiveRoom): HostRoomView["dash"] {
     item_index: idx,
     prompt: item ? kidPlainText(item.prompt, 200) : null,
     has_next: idx < items.length - 1,
-    answer_count: Object.values(room.players).filter((p) => {
+    answer_count: Object.values(room.players).filter((p) => p.player_id !== HOST_PLAYER_ID).filter((p) => {
       const st = room.dash_states[p.player_id];
       return st?.answers[idx] !== undefined;
     }).length,

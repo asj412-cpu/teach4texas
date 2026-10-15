@@ -355,7 +355,7 @@ function PlayPageBody({
 
   if (view.game_type === "true_false_dash" && view.phase !== "final") {
     return (
-      <TrueFalseDashPlay view={view} submitting={submitting} onTap={dashTap} />
+      <GameShowStage sparks={false}><TrueFalseDashPlay view={view} submitting={submitting} onTap={dashTap} /></GameShowStage>
     );
   }
 

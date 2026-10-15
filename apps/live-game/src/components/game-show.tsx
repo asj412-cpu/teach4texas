@@ -177,7 +177,7 @@ export function Finale({
                 style={{ animationDelay: `${0.6 + i * 0.05}s` }}
               >
                 <span>
-                  {rankOf(p)}. {p.display_name}
+                  {rankOf(p)}. {isHost(p) ? "🎓 " : ""}{p.display_name}
                 </span>
                 <span className="font-bold text-amber-200">{p.score}</span>
               </li>

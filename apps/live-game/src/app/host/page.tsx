@@ -191,43 +191,47 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
 
   if (loading) {
     return (
-      <div className="ev-scene flex min-h-screen items-center justify-center">
-        <p className="ev-glass rounded-2xl px-6 py-4 text-xl font-bold text-white">
-          Loading your purchased game…
-        </p>
-      </div>
+      <GameShowStage>
+        <div className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
+          <h1 className="dd-title dd-title-shimmer text-5xl font-black uppercase">Get ready!</h1>
+          <p className="gs-glass mt-6 rounded-2xl bg-black/55 px-6 py-4 text-xl font-bold text-white">
+            <span className="mr-2 inline-block animate-spin" aria-hidden>🎲</span>Loading your purchased game…
+          </p>
+        </div>
+      </GameShowStage>
     );
   }
 
   if (error === "not_entitled" || !board) {
     return (
-      <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6">
-        <h1 className="text-2xl font-bold text-t4t-navy">No purchase unlocked</h1>
-        <p className="mt-2 text-sm text-t4t-darkText/75">
-          Redeem the access code from your Teachers Pay Teachers download. Games
-          are sold individually — there is no free generator.
-        </p>
-        <Link
-          href="/redeem"
-          className="mt-6 inline-flex justify-center rounded-xl bg-t4t-burnt px-4 py-3 text-sm font-semibold text-white"
-        >
-          Redeem purchase
-        </Link>
-      </div>
+      <GameShowStage>
+        <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6 text-center">
+          <p className="mx-auto w-fit rounded-full bg-black/55 px-4 py-1 text-base font-black uppercase tracking-widest text-amber-200">🔒 Locked</p>
+          <h1 className="dd-title mt-3 text-4xl font-black uppercase">No game unlocked yet</h1>
+          <p className="mt-4 rounded-2xl border border-white/25 bg-black/55 px-5 py-4 text-base text-white">
+            Redeem the access code from your Teachers Pay Teachers download. Games
+            are sold individually — there is no free generator.
+          </p>
+          <Link href="/redeem" className="gs-cat mt-6 inline-flex justify-center rounded-2xl px-4 py-4 text-xl font-black uppercase tracking-wide">
+            Redeem purchase ▶
+          </Link>
+        </div>
+      </GameShowStage>
     );
   }
 
   // Not live yet
   if (!roomCode || !hostToken || !view) {
     return (
-      <div className="mx-auto flex min-h-screen max-w-lg flex-col justify-center px-6">
-        <p className="text-xs font-semibold uppercase tracking-wide text-t4t-burnt">
-          Paid game unlocked
+      <GameShowStage>
+      <div className="mx-auto flex min-h-screen max-w-xl flex-col justify-center px-6 py-10">
+        <p className="mx-auto w-fit rounded-full bg-[#047857] px-4 py-1 text-base font-black uppercase tracking-widest text-white">
+          ✓ Paid game unlocked
         </p>
-        <h1 className="mt-1 text-2xl font-bold text-t4t-navy">
+        <h1 className="dd-title dd-title-shimmer mt-3 text-center text-4xl font-black uppercase sm:text-5xl">
           {kidPlainText(board.title, 80)}
         </h1>
-        <p className="mt-2 text-sm text-t4t-darkText/75">
+        <p className="mt-4 rounded-2xl border border-white/25 bg-black/55 px-5 py-3 text-center text-base text-white">
           Grade {board.grade} · {board.subject.toUpperCase()}
           {supportsBoardPlay(board)
             ? ` · ${board.cells.length} questions`
@@ -255,13 +259,13 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
           {supportsTrueFalseDash(board) ? " · True or False Dash ready" : ""}. Only
           this game is available on this host session.
         </p>
-        <div className="mt-8 flex flex-col gap-3">
+        <div className="gs-glass gs-rise mt-6 flex flex-col gap-3 rounded-3xl bg-black/40 p-5">
           {supportsBoardPlay(board) && (
             <button
               type="button"
               disabled={starting}
               onClick={() => startLive("board")}
-              className="rounded-xl bg-t4t-navy px-4 py-3 text-sm font-semibold text-white disabled:opacity-50"
+              className="gs-cat rounded-2xl px-4 py-4 text-xl font-black uppercase tracking-wide transition hover:-translate-y-0.5 disabled:cursor-wait disabled:grayscale-[60%]"
             >
               {starting ? "Starting…" : "Start game show (Jeopardy board)"}
             </button>
@@ -271,7 +275,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
               type="button"
               disabled={starting}
               onClick={() => startLive("memory_match")}
-              className="rounded-xl bg-t4t-green px-4 py-3 text-sm font-semibold text-white disabled:opacity-50"
+              className="gs-cat rounded-2xl px-4 py-4 text-xl font-black uppercase tracking-wide transition hover:-translate-y-0.5 disabled:cursor-wait disabled:grayscale-[60%]"
             >
               {starting
                 ? "Starting…"
@@ -285,7 +289,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
               type="button"
               disabled={starting}
               onClick={() => startLive("timed_race")}
-              className="rounded-xl bg-t4t-burnt px-4 py-3 text-sm font-semibold text-white disabled:opacity-50"
+              className="gs-cat rounded-2xl px-4 py-4 text-xl font-black uppercase tracking-wide transition hover:-translate-y-0.5 disabled:cursor-wait disabled:grayscale-[60%]"
             >
               {starting
                 ? "Starting…"
@@ -299,7 +303,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
               type="button"
               disabled={starting}
               onClick={() => startLive("scavenger_tap")}
-              className="rounded-xl bg-t4t-gold px-4 py-3 text-sm font-semibold text-t4t-navy disabled:opacity-50"
+              className="gs-cat rounded-2xl px-4 py-4 text-xl font-black uppercase tracking-wide transition hover:-translate-y-0.5 disabled:cursor-wait disabled:grayscale-[60%]"
             >
               {starting
                 ? "Starting…"
@@ -313,7 +317,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
               type="button"
               disabled={starting}
               onClick={() => startLive("sequence_sort")}
-              className="rounded-xl border-2 border-t4t-gold bg-t4t-navy px-4 py-3 text-sm font-semibold text-t4t-gold disabled:opacity-50"
+              className="gs-cat rounded-2xl px-4 py-4 text-xl font-black uppercase tracking-wide transition hover:-translate-y-0.5 disabled:cursor-wait disabled:grayscale-[60%]"
             >
               {starting
                 ? "Starting…"
@@ -327,7 +331,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
               type="button"
               disabled={starting}
               onClick={() => startLive("category_sort")}
-              className="rounded-xl border-2 border-t4t-green bg-t4t-lightBlue px-4 py-3 text-sm font-semibold text-t4t-navy disabled:opacity-50"
+              className="gs-cat rounded-2xl px-4 py-4 text-xl font-black uppercase tracking-wide transition hover:-translate-y-0.5 disabled:cursor-wait disabled:grayscale-[60%]"
             >
               {starting
                 ? "Starting…"
@@ -341,7 +345,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
               type="button"
               disabled={starting}
               onClick={() => startLive("odd_one_out")}
-              className="rounded-xl border-2 border-t4t-burnt bg-white px-4 py-3 text-sm font-semibold text-t4t-navy disabled:opacity-50"
+              className="gs-cat rounded-2xl px-4 py-4 text-xl font-black uppercase tracking-wide transition hover:-translate-y-0.5 disabled:cursor-wait disabled:grayscale-[60%]"
             >
               {starting
                 ? "Starting…"
@@ -355,7 +359,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
               type="button"
               disabled={starting}
               onClick={() => startLive("true_false_dash")}
-              className="rounded-xl border-2 border-t4t-green bg-t4t-navy px-4 py-3 text-sm font-semibold text-white disabled:opacity-50"
+              className="gs-cat rounded-2xl px-4 py-4 text-xl font-black uppercase tracking-wide transition hover:-translate-y-0.5 disabled:cursor-wait disabled:grayscale-[60%]"
             >
               {starting
                 ? "Starting…"
@@ -369,7 +373,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
               type="button"
               disabled={starting}
               onClick={() => startLive("escape_vault")}
-              className="rounded-xl border-2 border-amber-500 bg-amber-700 px-4 py-3 text-sm font-semibold text-white disabled:opacity-50"
+              className="gs-cat rounded-2xl px-4 py-4 text-xl font-black uppercase tracking-wide transition hover:-translate-y-0.5 disabled:cursor-wait disabled:grayscale-[60%]"
             >
               {starting
                 ? "Starting…"
@@ -379,10 +383,11 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
             </button>
           )}
         </div>
-        <p className="mt-3 text-xs text-t4t-darkText/50">
+        <p className="mt-4 rounded-xl bg-black/55 px-4 py-3 text-center text-base text-white">
           Students will join with a short room code (not your TPT access code).
         </p>
       </div>
+      </GameShowStage>
     );
   }
 

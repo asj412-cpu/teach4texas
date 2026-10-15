@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { GameShowStage } from "@/components/game-show";
 
 type HostBoard = {
   id: string;
@@ -62,128 +63,131 @@ export default function RedeemPage() {
     }
   }
 
+  const modes: [boolean | undefined, string, string][] = [
+    [unlocked?.supports_memory_match, "memory_match", "Memory Match"],
+    [unlocked?.supports_timed_race, "timed_race", "Timed Race"],
+    [unlocked?.supports_scavenger_tap, "scavenger_tap", "Scavenger Hunt"],
+    [unlocked?.supports_sequence_sort, "sequence_sort", "Order the Steps"],
+    [unlocked?.supports_category_sort, "category_sort", "Sort into Bins"],
+    [unlocked?.supports_odd_one_out, "odd_one_out", "Find the Odd One"],
+    [unlocked?.supports_true_false_dash, "true_false_dash", "True or False Dash"],
+    [unlocked?.supports_escape_vault, "escape_vault", "Escape Vault"],
+  ];
+
   return (
-    <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6 py-12">
-      <Link href="/" className="mb-8 text-sm font-medium text-t4t-navy">
-        ← Teach4Texas
-      </Link>
-      <h1 className="text-2xl font-bold text-t4t-navy">Redeem your purchase</h1>
-      <p className="mt-2 text-sm text-t4t-darkText/75">
-        Enter the <strong>access code from your TPT download</strong>. That code
-        unlocks <strong>only the game you paid for</strong>. There is no free
-        game generator — new games are separate TPT products.
-      </p>
+    <GameShowStage>
+      <div className="mx-auto flex min-h-screen max-w-lg flex-col justify-center px-6 py-12">
+        <Link
+          href="/"
+          className="w-fit rounded-full bg-black/55 px-4 py-1 text-base font-semibold text-white hover:bg-black/70"
+        >
+          ← Teach4Texas
+        </Link>
+        <p className="mx-auto mt-8 w-fit rounded-full bg-black/55 px-4 py-1 text-base font-black uppercase tracking-widest text-amber-200">
+          🎟️ Teacher entrance
+        </p>
+        <h1 className="dd-title dd-title-shimmer mt-3 text-center text-5xl font-black uppercase tracking-tight">
+          Unlock your game
+        </h1>
+        <p className="mt-5 rounded-2xl border border-white/25 bg-black/55 px-5 py-4 text-center text-base text-white">
+          Enter the <strong className="text-amber-200">access code from your TPT download</strong>. It
+          unlocks <strong className="text-amber-200">only the game you paid for</strong>. New games
+          are separate TPT products.
+        </p>
 
-      {!unlocked ? (
-        <form className="mt-8 space-y-4" onSubmit={onSubmit}>
-          <label className="block text-sm font-medium text-t4t-navy">
-            Access code
-            <input
-              type="text"
-              name="access_code"
-              autoComplete="off"
-              spellCheck={false}
-              placeholder="T4T-XXXX-XXXX-XXXX"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              className="mt-1 w-full rounded-lg border border-t4t-navy/20 bg-white px-3 py-2.5 font-mono text-base tracking-wide uppercase"
-              required
-            />
-          </label>
-          {error && (
-            <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-800">
-              {error}
+        {!unlocked ? (
+          <form className="gs-glass gs-rise mt-6 space-y-4 rounded-3xl bg-black/45 p-6" onSubmit={onSubmit}>
+            <label className="block text-base font-bold uppercase tracking-wide text-amber-200">
+              Access code
+              <input
+                type="text"
+                name="access_code"
+                autoComplete="off"
+                spellCheck={false}
+                placeholder="T4T-XXXX-XXXX-XXXX"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                className="mt-2 w-full rounded-xl border-4 border-amber-300 bg-[#0b1a30] px-4 py-3 text-center font-mono text-xl tracking-widest text-white uppercase placeholder:text-white/70 focus:border-white focus:outline-none"
+                required
+              />
+            </label>
+            {error && (
+              <p role="alert" className="rounded-xl bg-[#b91c1c] px-4 py-3 text-base font-semibold text-white">
+                {error}
+              </p>
+            )}
+            <button
+              type="submit"
+              disabled={loading || !code.trim()}
+              className="gs-cat w-full rounded-2xl px-4 py-4 text-xl font-black uppercase tracking-wide transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:grayscale-[60%]"
+            >
+              {loading ? "Checking…" : "Unlock my game ▶"}
+            </button>
+          </form>
+        ) : (
+          <div className="gs-glass gs-rise mt-6 space-y-4 rounded-3xl bg-black/50 p-6 text-white">
+            <p className="w-fit rounded-full bg-[#047857] px-4 py-1 text-base font-black uppercase tracking-wide text-white">
+              ✓ Unlocked — single game only
             </p>
-          )}
-          <button
-            type="submit"
-            disabled={loading || !code.trim()}
-            className="w-full rounded-xl bg-t4t-burnt px-4 py-3 text-sm font-semibold text-white hover:bg-t4t-burnt/90 disabled:opacity-50"
-          >
-            {loading ? "Checking…" : "Unlock purchased game"}
-          </button>
-        </form>
-      ) : (
-        <div className="mt-8 space-y-4 rounded-2xl border border-t4t-green/30 bg-white p-6 shadow-sm">
-          <p className="text-xs font-semibold uppercase tracking-wide text-t4t-green">
-            Unlocked — single game only
-          </p>
-          <h2 className="text-xl font-bold text-t4t-navy">{unlocked.title}</h2>
-          <p className="text-sm text-t4t-darkText/75">
-            Grade {unlocked.grade} · {unlocked.subject.toUpperCase()}
-            {unlocked.game_type === "memory_match"
-              ? ` · Memory Match · ${unlocked.item_count ?? 0} pairs`
-              : unlocked.game_type === "timed_race"
-                ? ` · Timed Race · ${unlocked.race_item_count ?? 0} items`
-                : unlocked.game_type === "scavenger_tap"
-                  ? ` · Scavenger Hunt · ${unlocked.scavenger_item_count ?? 0} clues`
-                  : unlocked.game_type === "sequence_sort"
-                    ? ` · Order the Steps · ${unlocked.sequence_item_count ?? 0} prompts`
-                    : unlocked.game_type === "category_sort"
-                      ? ` · Sort into Bins · ${unlocked.category_item_count ?? 0} items`
-                      : unlocked.game_type === "odd_one_out"
-                        ? ` · Find the Odd One · ${unlocked.odd_item_count ?? 0} rounds`
-                        : unlocked.game_type === "true_false_dash"
-                          ? ` · True or False Dash · ${unlocked.dash_item_count ?? 0} claims`
-                          : unlocked.game_type === "escape_vault"
-                            ? ` · Escape Vault · ${unlocked.vault_room_count ?? 0} rooms`
-                            : ` · ${unlocked.cell_count} questions`}
-            {unlocked.supports_memory_match && unlocked.game_type !== "memory_match"
-              ? " · can host as Memory Match"
-              : ""}
-            {unlocked.supports_timed_race && unlocked.game_type !== "timed_race"
-              ? " · can host as Timed Race"
-              : ""}
-            {unlocked.supports_scavenger_tap &&
-            unlocked.game_type !== "scavenger_tap"
-              ? " · can host as Scavenger Hunt"
-              : ""}
-            {unlocked.supports_sequence_sort &&
-            unlocked.game_type !== "sequence_sort"
-              ? " · can host as Order the Steps"
-              : ""}
-            {unlocked.supports_category_sort &&
-            unlocked.game_type !== "category_sort"
-              ? " · can host as Sort into Bins"
-              : ""}
-            {unlocked.supports_odd_one_out &&
-            unlocked.game_type !== "odd_one_out"
-              ? " · can host as Find the Odd One"
-              : ""}
-            {unlocked.supports_true_false_dash &&
-            unlocked.game_type !== "true_false_dash"
-              ? " · can host as True or False Dash"
-              : ""}
-            {unlocked.supports_escape_vault &&
-            unlocked.game_type !== "escape_vault"
-              ? " · can host as Escape Vault"
-              : ""}
-          </p>
-          <ul className="list-inside list-disc text-sm text-t4t-darkText/70">
-            {unlocked.categories.map((c) => (
-              <li key={c}>{c}</li>
-            ))}
-          </ul>
-          <p className="text-xs text-t4t-darkText/50">
-            Your code does not open other Teach4Texas games. Buy each product
-            separately on TPT for its own code.
-          </p>
-          <button
-            type="button"
-            onClick={() => router.push("/host")}
-            className="w-full rounded-xl bg-t4t-navy px-4 py-3 text-sm font-semibold text-white hover:bg-t4t-navy/90"
-          >
-            Open host board
-          </button>
-        </div>
-      )}
+            <h2 className="text-3xl font-black text-white">{unlocked.title}</h2>
+            <p className="text-base text-white">
+              Grade {unlocked.grade} · {unlocked.subject.toUpperCase()} · {summaryFor(unlocked)}
+            </p>
+            {modes.some(([ok, t]) => ok && t !== unlocked.game_type) && (
+              <div className="flex flex-wrap gap-2">
+                {modes
+                  .filter(([ok, t]) => ok && t !== unlocked.game_type)
+                  .map(([, t, label]) => (
+                    <span key={t} className="rounded-full border border-amber-300/70 bg-black/60 px-3 py-1 text-base font-semibold text-amber-200">
+                      can host as {label}
+                    </span>
+                  ))}
+              </div>
+            )}
+            {unlocked.categories.length > 0 && (
+              <ul className="flex flex-wrap gap-2">
+                {unlocked.categories.map((c) => (
+                  <li key={c} className="rounded-lg bg-white/15 px-3 py-1 text-base text-white">
+                    {c}
+                  </li>
+                ))}
+              </ul>
+            )}
+            <p className="text-base text-white">
+              Your code does not open other Teach4Texas games. Buy each product
+              separately on TPT for its own code.
+            </p>
+            <button
+              type="button"
+              onClick={() => router.push("/host")}
+              className="gs-cat w-full rounded-2xl px-4 py-4 text-xl font-black uppercase tracking-wide transition hover:-translate-y-0.5"
+            >
+              Open host board ▶
+            </button>
+          </div>
+        )}
 
-      <p className="mt-8 text-xs text-t4t-darkText/50">
-        Students do not use this code. When you start a live session, they get a
-        short room code for their Chromebooks.
-      </p>
-    </div>
+        <p className="mt-6 rounded-xl bg-black/55 px-4 py-3 text-center text-base text-white">
+          Students don&apos;t use this code. When you start a live game, they join
+          with a short room code on their Chromebooks.
+        </p>
+      </div>
+    </GameShowStage>
   );
+}
+
+function summaryFor(b: HostBoard): string {
+  switch (b.game_type) {
+    case "memory_match": return `Memory Match · ${b.item_count ?? 0} pairs`;
+    case "timed_race": return `Timed Race · ${b.race_item_count ?? 0} items`;
+    case "scavenger_tap": return `Scavenger Hunt · ${b.scavenger_item_count ?? 0} clues`;
+    case "sequence_sort": return `Order the Steps · ${b.sequence_item_count ?? 0} prompts`;
+    case "category_sort": return `Sort into Bins · ${b.category_item_count ?? 0} items`;
+    case "odd_one_out": return `Find the Odd One · ${b.odd_item_count ?? 0} rounds`;
+    case "true_false_dash": return `True or False Dash · ${b.dash_item_count ?? 0} claims`;
+    case "escape_vault": return `Escape Vault · ${b.vault_room_count ?? 0} rooms`;
+    default: return `Game show board · ${b.cell_count} questions`;
+  }
 }
 
 function humanError(code: string | undefined): string {

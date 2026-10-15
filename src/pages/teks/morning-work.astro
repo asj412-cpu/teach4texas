@@ -1,0 +1,150 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { TPT_LISTINGS } from '../../lib/tpt-catalog';
+
+const SITE = 'https://www.teach4texas.com';
+const PAGE_URL = `${SITE}/teks/morning-work`;
+
+// Verified-LIVE catalog IDs. Titles/prices match the live TPT pages (checked 2026-10-15).
+// Card images: live TPT cover previews (ecdn.teacherspayteachers.com 750f-<id>-1.jpg).
+// No play link: neither listing includes a live game.
+const cards = [
+  {
+    id: '17696158',
+    grade: 'Grade 3',
+    post: '/blog/grade-3-teks-morning-work-warmups',
+    inside: [
+      'Start Here guide (5 pages): how to use, 4-week pacing table, TEKS by day, full TEKS text',
+      'Student pages (32 pages): 16 days, Math items 1–4 and Reading and Writing items 5–7',
+      'Answer key (7 pages), numbered to match the student pages, with the TEKS for each day',
+    ],
+    skills: 'Math: place value and expanded form to 100,000, compare and order, add and subtract within 1,000, rounding, multiplication facts and arrays, multiplication and division word problems, number pairs in a table. Reading and writing: context clues, prefixes, spelling, main idea, inferences, plot, author’s purpose, revising, and editing.',
+  },
+  {
+    id: '17751292',
+    grade: 'Grade 4',
+    post: '/blog/grade-4-teks-morning-work-warmups',
+    inside: [
+      'Start Here guide (7 pages): how to use, pacing table, TEKS by day, full TEKS text with Readiness and Supporting labels',
+      'Student pages (32 pages): 16 days, Math items 1–4 on the front and Reading and Writing items 5–7 on the back',
+      'Answer key (8 pages), numbered 1–7 to match the student pages',
+    ],
+    skills: 'Math TEKS include 4.2(B), 4.2(G), 4.3(D), 4.3(E), 4.4(A), 4.4(H), 4.5(A), 4.5(B), 4.6(D), and 4.8(C) (all Readiness), plus Supporting standards and the 4.1 process standards. Reading and writing TEKS run from 4.2(B) to 4.11(D).',
+  },
+];
+
+const byId = new Map(TPT_LISTINGS.map((l) => [l.id, l]));
+const resolved = cards.map((c) => {
+  const l = byId.get(c.id);
+  if (!l) throw new Error(`Morning work card ${c.id} is not in the verified catalog`);
+  const imagePath = `/images/morning-work/tpt-${c.id}-cover.jpg`;
+  const image = `${SITE}${imagePath}`;
+  const pinHref =
+    'https://www.pinterest.com/pin/create/button/?' +
+    new URLSearchParams({ url: PAGE_URL, media: image, description: `${l.title.replace(/\s+/g, ' ')} | TEKS morning work from Teach4 Texas` }).toString();
+  return { ...c, listing: l, image, imagePath, pinHref };
+});
+
+const faqs = [
+  {
+    q: 'What is in each TEKS morning work pack?',
+    a: 'Each pack has a Start Here teacher guide, 32 student pages covering 16 days (a Math page and a Reading and Writing page per day), and an answer key numbered to match the student pages. Every day is labeled with its TEKS.',
+  },
+  {
+    q: 'How long does morning work take each day?',
+    a: 'About 10–15 minutes a day. Print the two pages double-sided so each day is one sheet.',
+  },
+  {
+    q: 'Can morning work double as STAAR practice?',
+    a: 'Each day is labeled with its Texas TEKS, and the Start Here guide lists the full TEKS text with Readiness standards marked, so you can see which STAAR Readiness standards each day touches.',
+  },
+  {
+    q: 'Is it print or digital?',
+    a: 'Print and Easel. The packs are PDFs to print, and you can open the PDF in TPT Easel from your My Purchases page and add answer boxes for students to type in.',
+  },
+  {
+    q: 'Does it cover math and RLA?',
+    a: 'Yes. Every day has a Math page (items 1–4) and a Reading and Writing page (items 5–7).',
+  },
+  {
+    q: 'Are answer keys included?',
+    a: 'Yes. Grade 3 has a 7-page answer key and Grade 4 an 8-page answer key, numbered to match the student pages.',
+  },
+];
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+const itemListLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'TEKS Morning Work, Grades 3–4',
+  numberOfItems: resolved.length,
+  itemListElement: resolved.map((c, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: c.listing.title,
+    url: c.listing.href,
+    image: c.image,
+  })),
+};
+---
+
+<BaseLayout
+  title="3rd & 4th Grade TEKS Morning Work (Math + RLA)"
+  description="TEKS-labeled morning work for Texas 3rd and 4th grade: 4 weeks of 10–15 minute daily warmups, a Math page and a Reading and Writing page per day, with answer keys. Print or TPT Easel."
+  image="/images/morning-work/tpt-17751292-cover.jpg"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+  <script type="application/ld+json" set:html={JSON.stringify(itemListLd)} />
+
+  <div class="max-w-5xl mx-auto px-4 py-12">
+    <h1 class="text-4xl font-bold text-[#1B365D] mb-4">TEKS Morning Work for Texas 3rd and 4th Grade</h1>
+    <p class="text-xl text-gray-600 mb-6">
+      Morning work labeled with Texas TEKS, not Common Core. Each day is one double-sided sheet: math on the front, reading and writing on the back, about 10–15 minutes.
+    </p>
+    <p class="text-gray-600 mb-10">
+      Use it as morning work, a bell ringer, or a short intervention check. Each pack covers 4 weeks (16 days), and the Start Here guide shows the TEKS for every day.
+    </p>
+
+    <div class="grid md:grid-cols-2 gap-8">
+      {resolved.map((c) => (
+        <article class="border border-gray-200 rounded-lg overflow-hidden flex flex-col">
+          <a href={c.listing.href} target="_blank" rel="noopener">
+            <img src={c.imagePath} alt={`TPT cover preview: ${c.listing.title}`} width="600" height="750" loading="lazy" class="w-full h-auto" />
+          </a>
+          <div class="p-6 flex flex-col gap-3 flex-1">
+            <h2 class="text-xl font-bold text-[#1B365D]">{c.listing.title}</h2>
+            <ul class="list-disc ml-5 text-sm text-gray-700 space-y-1">
+              {c.inside.map((line) => <li>{line}</li>)}
+            </ul>
+            <p class="text-sm text-gray-600">{c.skills}</p>
+            <div class="mt-auto flex flex-wrap gap-3 text-sm font-semibold">
+              <a href={c.listing.href} target="_blank" rel="noopener" class="text-[#BF5700]">{c.listing.price} on TPT &rarr;</a>
+              <a href={c.pinHref} target="_blank" rel="noopener" data-pin-do="buttonPin" class="text-[#E60023]">Pin It</a>
+              <a href={c.post} class="text-gray-600 underline">{c.grade} teacher guide</a>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <p class="mt-10 text-gray-700">
+      Want something bigger for review day? See the <a href="/staar/math-escape-rooms" class="text-[#BF5700] underline font-semibold">STAAR math escape rooms for Grades 3–5</a>.
+    </p>
+
+    <section class="mt-16">
+      <h2 class="text-2xl font-bold text-[#1B365D] mb-6">TEKS morning work FAQ</h2>
+      <div class="space-y-6">
+        {faqs.map((f) => (
+          <div>
+            <h3 class="font-bold text-[#1B365D]">{f.q}</h3>
+            <p class="text-gray-700">{f.a}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  </div>
+</BaseLayout>

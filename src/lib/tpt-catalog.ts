@@ -12,6 +12,8 @@ export type TptListing = {
   /** Listed original price when TPT shows a sale strikethrough. */
   originalPrice?: string;
   category: TptCategory;
+  /** Real product preview screenshot (site path), when we have one. Never a mockup. */
+  image?: string;
   featured?: boolean;
 };
 
@@ -106,6 +108,8 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '17850252',
     href: `${TPT}/Thanksgiving-Escape-Room-Grade-4-STAAR-Math-TEKS-43E-44H-48C-17850252`,
+    // TPT hero preview page 1, restyle LIVE 2026-10-15 11:18 CT (preview-hero-2026-10-15d-r5), resized only.
+    image: '/images/seasonal/tpt-17850252-preview-2026-10-15.jpg',
     title: 'Thanksgiving Escape Room | Grade 4 STAAR Math | TEKS 4.3E 4.4H 4.8C',
     description:
       'Grade 4 STAAR math Thanksgiving escape room. 20 STAAR 2.0-style word problems for TEKS 4.3E, 4.4H, 4.8C (add/subtract fractions with equal denominators, divide and interpret remainders, measurement problems with time, liquid volume, mass, and money). 4 feast scenes + Gratitude Gate boss. Self-checking Cadet Corps Google Slides + printable missions. Not a bare-facts worksheet.',

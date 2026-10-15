@@ -7,9 +7,10 @@ interface Props {
   originalPrice?: string;
   cta?: string;
   highlight?: boolean;
+  image?: string;
 }
 
-const { href, title, description, price, originalPrice, cta, highlight = false } = Astro.props;
+const { href, title, description, price, originalPrice, cta, highlight = false, image } = Astro.props;
 const isFree = price === 'FREE';
 const onSale = Boolean(originalPrice && originalPrice !== price);
 const priceLabel = cta ?? (isFree ? 'Free download on TPT' : `${price} on TPT`);
@@ -24,6 +25,9 @@ const priceLabel = cta ?? (isFree ? 'Free download on TPT' : `${price} on TPT`);
     highlight ? 'border-2 border-green-200 bg-green-50' : 'border border-gray-200',
   ]}
 >
+  {image && (
+    <img src={image} alt={`Product preview: ${title}`} width="1200" height="1500" loading="lazy" class="w-full h-auto rounded mb-4" />
+  )}
   <div class="flex items-start justify-between gap-3 mb-2">
     <h3 class="text-lg font-bold text-[#1B365D]">{title}</h3>
     {isFree && (

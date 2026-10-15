@@ -40,6 +40,7 @@ const ogImage = new URL(image, Astro.site);
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalURL} />
     <meta name="generator" content={Astro.generator} />
+    <meta name="google-site-verification" content="_9taD9Xrgm4wKNodhRzMcOMNX3FXyKV0mb3jNAsWJu0" />
     <meta name="p:domain_verify" content="f81d6c94f6880b9e18ae05a64959351a"/>
 
     <!-- Primary Meta Tags -->
@@ -56,11 +57,11 @@ const ogImage = new URL(image, Astro.site);
     <meta property="og:site_name" content="Teach4Texas" />
 
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={canonicalURL} />
-    <meta property="twitter:title" content={fullTitle} />
-    <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
 
     {article && publishDate && (
       <meta property="article:published_time" content={publishDate} />

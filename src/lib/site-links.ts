@@ -26,7 +26,7 @@ export const TPT_PRODUCTS = {
   },
   freeCompanion: {
     href: 'https://www.teacherspayteachers.com/Product/FREE-Score-Desk-Companion-STAAR-Click-Score-One-Pager-17493794',
-    label: 'Free Score Desk companion (free download)',
+    label: 'Free Score Desk companion (Free download)',
   },
   morningWorkG3: {
     href: 'https://www.teacherspayteachers.com/Product/Texas-Grade-3-Morning-Work-4-Weeks-TEKS-Warmups-Print-Easel-17696158',

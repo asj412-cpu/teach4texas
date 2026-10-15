@@ -15,39 +15,39 @@ const classroom = listingsByCategory('classroom');
   description="Live STAAR prep, TIA, and classroom resources from the Teach4 Texas Teachers Pay Teachers store. Score Desk printables, Number Vault, Archive Vault, Cycle Vault, and more."
 >
   <div class="max-w-5xl mx-auto px-4 py-12">
-    <h1 class="text-4xl font-bold text-[#1B365D] mb-4">Resources</h1>
+    <h1 class="text-4xl font-bold text-[#14244B] mb-4">Resources</h1>
     <p class="text-xl text-gray-600 mb-6">
       Templates, trackers, and tools built by Texas educators, for Texas educators. Every paid card below goes to a live product page on Teachers Pay Teachers.
     </p>
     <p class="mb-6">
-      <a href="/staar/seasonal-math" class="text-[#BF5700] font-semibold underline">Seasonal STAAR Math: Back to School through Thanksgiving, Grades 3–4 &rarr;</a>
+      <a href="/staar/seasonal-math" class="text-[#B95321] font-semibold underline">Seasonal STAAR Math: Back to School through Thanksgiving, Grades 3–4 &rarr;</a>
       <br />
-      <a href="/staar/math-escape-rooms" class="text-[#BF5700] font-semibold underline">STAAR Math Escape Rooms, Grades 3–5 &rarr;</a>
+      <a href="/staar/math-escape-rooms" class="text-[#B95321] font-semibold underline">STAAR Math Escape Rooms, Grades 3–5 &rarr;</a>
       <br />
-      <a href="/teks/morning-work" class="text-[#BF5700] font-semibold underline">TEKS Morning Work, Grades 3–4 &rarr;</a>
+      <a href="/teks/morning-work" class="text-[#B95321] font-semibold underline">TEKS Morning Work, Grades 3–4 &rarr;</a>
     </p>
     <p class="mb-12">
       <a
         href={TPT_STORE_URL}
         target="_blank"
         rel="noopener"
-        class="inline-block bg-[#BF5700] hover:bg-[#a34900] text-white font-bold py-3 px-6 rounded-lg transition-colors"
+        class="inline-block btn-primary"
       >
         Browse the Teach4 Texas TPT store &rarr;
       </a>
     </p>
 
     <div class="mb-16">
-      <h2 class="text-2xl font-bold text-[#1B365D] mb-2">Free Resources</h2>
-      <p class="text-gray-500 mb-6">Start here — no cost, no catch.</p>
+      <h2 class="text-2xl font-bold text-[#14244B] mb-2">Free Resources</h2>
+      <p class="text-gray-600 mb-6">Start here — no cost, no catch.</p>
       <div class="grid md:grid-cols-2 gap-6">
-        <a href={SCORE_DESK_APP.href} class="block border-2 border-green-200 bg-green-50 rounded-lg p-6 hover:shadow-md transition-shadow">
+        <a href={SCORE_DESK_APP.href} class="block border-2 border-rq-gold bg-white rounded-lg p-6 hover:shadow-md transition-shadow">
           <div class="flex items-center gap-3 mb-3">
-            <span class="inline-block bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">FREE</span>
+            <span class="inline-block bg-rq-gold text-rq-navy text-base font-bold px-2 py-1 rounded">FREE</span>
           </div>
-          <h3 class="text-xl font-bold text-[#1B365D] mb-2">{SCORE_DESK_APP.title}</h3>
+          <h3 class="text-xl font-bold text-[#14244B] mb-2">{SCORE_DESK_APP.title}</h3>
           <p class="text-gray-600 mb-3">{SCORE_DESK_APP.description}</p>
-          <span class="text-[#BF5700] font-semibold text-sm">{SCORE_DESK_APP.cta} &rarr;</span>
+          <span class="text-[#B95321] font-semibold text-base">{SCORE_DESK_APP.cta} &rarr;</span>
         </a>
         {freeListings.map((item) => (
           <TptProductCard
@@ -63,8 +63,8 @@ const classroom = listingsByCategory('classroom');
     </div>
 
     <div id="products" class="mb-16">
-      <h2 class="text-2xl font-bold text-[#1B365D] mb-2">Score Desk printables</h2>
-      <p class="text-gray-500 mb-6">Rubrics, checklists, and TIA evidence pages that pair with the free Score Desk app.</p>
+      <h2 class="text-2xl font-bold text-[#14244B] mb-2">Score Desk printables</h2>
+      <p class="text-gray-600 mb-6">Rubrics, checklists, and TIA evidence pages that pair with the free Score Desk app.</p>
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {scoreDeskPacks.map((item) => (
           <TptProductCard
@@ -79,8 +79,8 @@ const classroom = listingsByCategory('classroom');
     </div>
 
     <div class="mb-16">
-      <h2 class="text-2xl font-bold text-[#1B365D] mb-2">STAAR Vault escape rooms</h2>
-      <p class="text-gray-500 mb-6">Self-checking Google Slides rooms, most at the current $4.99 listing price (Labor Day Grade 3 is $3.99). Hispanic Heritage Month Grade 3 scavenger hunt, Crack the Code Grade 3 math mystery, Labor Day Grade 3, First Day Grade 4 scavenger hunt, Back to School Grade 3, Number Vault G7, Archive Vault, and Cycle Vault are on this grid.</p>
+      <h2 class="text-2xl font-bold text-[#14244B] mb-2">STAAR Vault escape rooms</h2>
+      <p class="text-gray-600 mb-6">Self-checking Google Slides rooms, most at the current $4.99 listing price (Labor Day Grade 3 is $3.99). Hispanic Heritage Month Grade 3 scavenger hunt, Crack the Code Grade 3 math mystery, Labor Day Grade 3, First Day Grade 4 scavenger hunt, Back to School Grade 3, Number Vault G7, Archive Vault, and Cycle Vault are on this grid.</p>
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {vaults.map((item) => (
           <TptProductCard
@@ -95,8 +95,8 @@ const classroom = listingsByCategory('classroom');
     </div>
 
     <div class="mb-16">
-      <h2 class="text-2xl font-bold text-[#1B365D] mb-2">More from the TPT store</h2>
-      <p class="text-gray-500 mb-6">Grade 3 TEKS morning work (Print + Easel), lesson plans, grammar rooms, TIA kits, and seasonal resources currently listed on the Spring Teach4 Texas store.</p>
+      <h2 class="text-2xl font-bold text-[#14244B] mb-2">More from the TPT store</h2>
+      <p class="text-gray-600 mb-6">Grade 3 TEKS morning work (Print + Easel), lesson plans, grammar rooms, TIA kits, and seasonal resources currently listed on the Spring Teach4 Texas store.</p>
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {classroom.map((item) => (
           <TptProductCard
@@ -110,12 +110,12 @@ const classroom = listingsByCategory('classroom');
       </div>
     </div>
 
-    <div class="bg-gray-50 rounded-lg p-8 text-center">
-      <h2 class="text-2xl font-bold text-[#1B365D] mb-4">Get Free Resources &amp; Updates</h2>
+    <div class="bg-white rounded-lg p-8 text-center">
+      <h2 class="text-2xl font-bold text-[#14244B] mb-4">Get Free Resources &amp; Updates</h2>
       <p class="text-gray-600 mb-6">Join our email list for free STAAR prep materials, TIA tips, and first access to new resources.</p>
       <form action="https://app.convertkit.com/forms/9114260/subscriptions" method="post" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
         <input type="email" name="email_address" placeholder="Enter your email" required class="flex-1 px-4 py-3 rounded-lg border border-gray-300" />
-        <button type="submit" class="bg-[#BF5700] hover:bg-[#a34900] text-white font-bold py-3 px-6 rounded-lg transition-colors">Subscribe</button>
+        <button type="submit" class="btn-secondary">Subscribe</button>
       </form>
     </div>
   </div>

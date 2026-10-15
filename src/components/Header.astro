@@ -9,12 +9,15 @@ const navLinks = [
 ];
 ---
 
-<header class="bg-white border-b border-gray-100 sticky top-0 z-50">
+<header class="bg-rq-cream border-b-2 border-rq-gold sticky top-0 z-50">
   <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between h-16">
+    <div class="flex items-center justify-between h-20">
       <!-- Logo -->
       <a href="/" class="flex items-center gap-2">
-        <span class="text-xl font-extrabold text-navy-700">Teach<span class="text-burnt-500">4</span>Texas</span>
+        <picture>
+          <source srcset="/images/brand/logo-wordmark.webp" type="image/webp" />
+          <img src="/images/brand/logo-wordmark.png" alt="Teach4Texas" width="200" height="48" class="h-12 w-auto" />
+        </picture>
       </a>
 
       <!-- Desktop Nav -->
@@ -22,14 +25,14 @@ const navLinks = [
         {navLinks.map((link) => (
           <a
             href={link.href}
-            class="text-sm font-medium text-gray-600 hover:text-navy-700 transition-colors"
+            class="text-base font-extrabold text-rq-navy hover:text-burnt-500 transition-colors"
           >
             {link.label}
           </a>
         ))}
         <a
           href="#subscribe"
-          class="inline-flex items-center px-4 py-2 bg-burnt-500 text-white text-sm font-semibold rounded-lg hover:bg-burnt-600 transition-colors"
+          class="btn-secondary btn-sm"
         >
           Get Updates
         </a>
@@ -52,14 +55,14 @@ const navLinks = [
       {navLinks.map((link) => (
         <a
           href={link.href}
-          class="block py-2 text-sm font-medium text-gray-600 hover:text-navy-700"
+          class="block py-2 text-base font-extrabold text-rq-navy hover:text-burnt-500"
         >
           {link.label}
         </a>
       ))}
       <a
         href="#subscribe"
-        class="mt-2 block text-center px-4 py-2 bg-burnt-500 text-white text-sm font-semibold rounded-lg hover:bg-burnt-600 transition-colors"
+        class="mt-2 block btn-secondary btn-sm"
       >
         Get Updates
       </a>

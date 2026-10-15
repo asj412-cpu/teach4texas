@@ -1,0 +1,39 @@
+/* Ranger Quest brand (BRAND.md, 2026-10-15). Self-hosted fonts, font-display: swap (fontsource default). */
+@import '@fontsource/fredoka/700.css';
+@import '@fontsource/nunito/700.css';
+@import '@fontsource/nunito/800.css';
+@import '@fontsource/nunito/900.css';
+
+:root {
+  --rq-navy: #14244B;
+  --rq-orange: #E8682A;
+  --rq-orange-text: #B95321; /* darker orange for text on light bg (AA 4.5:1); brand orange fails for small text */
+  --rq-gold: #F2B01E;
+  --rq-sky: #4FC3F7;
+  --rq-cream: #FFF6E5;
+}
+
+body { font-family: 'Nunito', system-ui, -apple-system, sans-serif; font-weight: 700; color: var(--rq-navy); background: var(--rq-cream); }
+h1, h2, h3, .font-display { font-family: 'Fredoka', 'Nunito', system-ui, sans-serif; font-weight: 700; }
+
+/* One orange primary CTA per view. Navy text on orange = 4.66:1 (AA); white on orange is only 3.26:1. */
+.btn-primary {
+  display: inline-block; text-align: center; background: var(--rq-orange); color: var(--rq-navy);
+  font-family: 'Nunito', sans-serif; font-weight: 900; border: 2px solid var(--rq-navy);
+  border-radius: 9999px; padding: 0.75rem 1.75rem; transition: filter .15s, transform .15s;
+  box-shadow: 0 3px 0 var(--rq-navy);
+}
+.btn-primary:hover { filter: brightness(1.06); transform: translateY(-1px); }
+/* Secondary: cream with a gold border, navy text (14.1:1). */
+.btn-secondary {
+  display: inline-block; text-align: center; background: var(--rq-cream); color: var(--rq-navy);
+  font-family: 'Nunito', sans-serif; font-weight: 800; border: 2px solid var(--rq-gold);
+  border-radius: 9999px; padding: 0.75rem 1.75rem; transition: background .15s;
+}
+.btn-secondary:hover { background: #FFEBC7; }
+.btn-sm { padding: 0.45rem 1.1rem; font-size: 0.875rem; }
+
+/* Hero: navy scrim left → clear right (same as the brand hero gradient), heavier on mobile for text contrast. */
+.hero-scrim { background: linear-gradient(90deg, rgba(20,36,75,.95) 0%, rgba(20,36,75,.8) 42%, rgba(20,36,75,0) 70%); }
+@media (max-width: 767px) { .hero-scrim { background: rgba(20,36,75,.82); } }
+.hero-outline { -webkit-text-stroke: 1px var(--rq-navy); paint-order: stroke fill; text-shadow: 0 3px 0 var(--rq-navy); }

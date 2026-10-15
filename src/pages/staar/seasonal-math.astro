@@ -1,4 +1,5 @@
 ---
+import { TPT_STORE_URL } from '../../lib/site-links';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { TPT_LISTINGS } from '../../lib/tpt-catalog';
 import { PLAY_URL } from '../../lib/site-links';
@@ -93,14 +94,15 @@ const itemListLd = {
   <script type="application/ld+json" set:html={JSON.stringify(itemListLd)} />
 
   <div class="max-w-5xl mx-auto px-4 py-12">
-    <h1 class="text-4xl font-bold text-[#1B365D] mb-4">Holiday Math That Still Practices STAAR</h1>
+    <h1 class="text-4xl font-bold text-[#14244B] mb-4">Holiday Math That Still Practices STAAR</h1>
     <p class="text-xl text-gray-600 mb-10">
       Seasonal escape rooms and scavenger hunts for Texas Grades 3–4, each built on named TEKS. Pick the month, open the TPT listing, or save it to Pinterest for later.
     </p>
+    <p class="mb-10"><a href={TPT_STORE_URL} target="_blank" rel="noopener" class="btn-primary">Shop the Teach4 Texas TPT store</a></p>
 
     {resolved.map((m) => (
       <section class="mb-12">
-        <h2 class="text-2xl font-bold text-[#1B365D] mb-4">{m.name}</h2>
+        <h2 class="text-2xl font-bold text-[#14244B] mb-4">{m.name}</h2>
         <div class="grid sm:grid-cols-2 gap-6">
           {m.cards.map((c) => (
             <article class="border border-gray-200 rounded-lg overflow-hidden flex flex-col">
@@ -115,10 +117,10 @@ const itemListLd = {
                 />
               </a>
               <div class="p-5 flex flex-col gap-3 flex-1">
-                <h3 class="text-lg font-bold text-[#1B365D]">{c.listing.title}</h3>
+                <h3 class="text-lg font-bold text-[#14244B]">{c.listing.title}</h3>
                 <p class="text-gray-600 text-sm">{c.listing.description}</p>
                 <div class="mt-auto flex flex-wrap gap-3 text-sm font-semibold">
-                  <a href={c.listing.href} target="_blank" rel="noopener" class="text-[#BF5700]">{c.listing.price} on TPT &rarr;</a>
+                  <a href={c.listing.href} target="_blank" rel="noopener" class="text-[#B95321]">{c.listing.price} on TPT &rarr;</a>
                   <a
                     href={c.pinHref}
                     target="_blank"
@@ -127,7 +129,7 @@ const itemListLd = {
                     class="text-[#E60023]"
                   >Pin It</a>
                   {c.liveGame && (
-                    <a href={PLAY_URL} target="_blank" rel="noopener" class="text-[#1B365D]">Play the live game bonus</a>
+                    <a href={PLAY_URL} target="_blank" rel="noopener" class="text-[#14244B]">Play the live game bonus</a>
                   )}
                   {c.post && <a href={c.post} class="text-gray-600 underline">Read the teacher guide</a>}
                 </div>
@@ -139,11 +141,11 @@ const itemListLd = {
     ))}
 
     <section class="mt-16">
-      <h2 class="text-2xl font-bold text-[#1B365D] mb-6">Seasonal STAAR math FAQ</h2>
+      <h2 class="text-2xl font-bold text-[#14244B] mb-6">Seasonal STAAR math FAQ</h2>
       <div class="space-y-6">
         {faqs.map((f) => (
           <div>
-            <h3 class="font-bold text-[#1B365D]">{f.q}</h3>
+            <h3 class="font-bold text-[#14244B]">{f.q}</h3>
             <p class="text-gray-700">{f.a}</p>
           </div>
         ))}

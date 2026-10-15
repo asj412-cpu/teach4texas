@@ -1,6 +1,6 @@
 ---
 title: "STAAR Is Going Away: What the Student Success Tool Means for Your Classroom"
-seoTitle: "Student Success Tool: What Replacing STAAR Means for Teachers"
+seoTitle: "STAAR Replacement: What the Student Success Tool Means"
 description: "HB 8 replaces STAAR with the Student Success Tool starting 2027-28. Here's what Texas teachers need to know about the three-window testing model, English II changes, and the transition timeline."
 date: 2026-02-21
 author: "Lone Star Educator"

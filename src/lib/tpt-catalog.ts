@@ -27,8 +27,9 @@ export const TPT_LISTINGS: TptListing[] = [
     id: '17493794',
     href: `${TPT}/FREE-Score-Desk-Companion-STAAR-Click-Score-One-Pager-17493794`,
     title: 'FREE Score Desk Companion | STAAR Click-Score One-Pager',
+    // Free download on TPT, not for sale.
     description:
-      'Free one-pager for click-scoring a STAAR-style stack with Score Desk. No login, no student accounts, nothing is uploaded.',
+      'Free download: a one-pager for click-scoring a STAAR-style stack with Score Desk. No login, no student accounts, nothing is uploaded.',
     price: 'FREE',
     category: 'free',
     featured: true,
@@ -121,6 +122,15 @@ export const TPT_LISTINGS: TptListing[] = [
     price: '$4.99',
     category: 'vault',
     featured: true,
+  },
+  {
+    id: '17547135',
+    href: `${TPT}/Brain-Teasers-Math-Logic-Lab-Grade-3-Money-Rounding-Compare-TEKS-34C-34B-32D-17547135`,
+    title: 'Brain Teasers Math Logic Lab | Grade 3 Money, Rounding, Compare | TEKS 3.4C 3.4B 3.2D',
+    description:
+      'Grade 3 math logic brain teasers covering money (TEKS 3.4C), rounding (3.4B), and comparing numbers (3.2D).',
+    price: '$4.99',
+    category: 'vault',
   },
   {
     id: '17538014',

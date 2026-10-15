@@ -846,7 +846,7 @@ export function sanitizeForHost(room: LiveRoom): HostRoomView {
     active_cell_id: room.active_cell_id,
     used_cell_ids: [...room.used_cell_ids],
     answers: { ...room.answers },
-    answer_count: Object.keys(room.answers).length,
+    answer_count: Object.keys(room.answers).filter((id) => id !== HOST_PLAYER_ID).length,
     points_awarded: { ...room.points_awarded },
     wagers: { ...(room.wagers ?? {}) },
     wager_count: Object.keys(room.wagers ?? {}).length,

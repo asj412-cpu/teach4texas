@@ -3,7 +3,40 @@ import type { DeskState, Rubric, Score } from "./types";
 
 /** Verbatim built-in rubrics carried over from the original Score Desk (see /workspace/ops/score-desk/rubrics.json). */
 export const RUBRICS: Rubric[] = (data as { rubrics: Rubric[] }).rubrics;
-export const rubricById = (id: string | undefined) => RUBRICS.find((r) => r.id === id);
+let CUSTOM: Rubric[] = [];
+/** Called by the desk on each render so lookups see this browser's custom rubrics. */
+export function setCustomRubrics(list: Rubric[] | undefined) { CUSTOM = list ?? []; }
+export const allRubrics = (): Rubric[] => [...RUBRICS, ...CUSTOM];
+export const rubricById = (id: string | undefined) => RUBRICS.find((r) => r.id === id) ?? CUSTOM.find((r) => r.id === id);
+
+const newId = () => (typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : String(Math.random()).slice(2));
+/** Same template as the original Score Desk "New rubric". */
+export function blankRubric(): Rubric {
+  return {
+    id: newId(), name: "New TEKS rubric", kind: "custom", subject: "RLA", gradeBand: "3–5", teks: "", blurb: "",
+    studentTitle: "How this assignment is scored", builtIn: false,
+    criteria: [{ id: newId(), name: "Criterion 1", shortName: "C1", levels: [
+      { score: 1, label: "1", teacher: "Beginning", student: "I am getting started." },
+      { score: 2, label: "2", teacher: "Developing", student: "I showed some of the skill." },
+      { score: 3, label: "3", teacher: "Proficient", student: "I met the goal." },
+      { score: 4, label: "4", teacher: "Distinguished", student: "I went beyond the goal." },
+    ] }],
+  };
+}
+/** Same as the original "Add criterion". */
+export function blankCriterion(n: number) {
+  return { id: newId(), name: `Criterion ${n}`, shortName: `C${n}`, levels: [
+    { score: 1, label: "1", teacher: "Beginning", student: "Getting started." },
+    { score: 2, label: "2", teacher: "Developing", student: "Some of the skill." },
+    { score: 3, label: "3", teacher: "Proficient", student: "Met the goal." },
+    { score: 4, label: "4", teacher: "Distinguished", student: "Went beyond." },
+  ] };
+}
+/** Same as the original Duplicate: editable copy, "(copy)" suffix, kind custom, fresh ids. */
+export function duplicateRubric(r: Rubric): Rubric {
+  return { ...structuredClone(r), id: newId(), builtIn: false, name: `${r.name} (copy)`, kind: "custom",
+    criteria: r.criteria.map((c) => ({ ...c, id: newId(), levels: c.levels.map((l) => ({ ...l })) })) };
+}
 
 export const maxPoints = (r: Rubric) => r.criteria.reduce((s, c) => s + Math.max(...c.levels.map((l) => l.score)), 0);
 

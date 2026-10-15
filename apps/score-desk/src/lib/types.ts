@@ -12,4 +12,6 @@ export type Score = { id: string; assignmentId: string; studentId: string; crite
 export type DeskState = {
   classes: ClassRoom[]; assignments: Assignment[]; scores: Score[];
   lastClassId: string | null; lastAssignmentId: string | null;
+  /** Teacher-made / duplicated rubrics (builtIn=false). Sample: sessionStorage; unlocked: localStorage. */
+  customRubrics?: Rubric[];
 };

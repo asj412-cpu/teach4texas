@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { RUBRICS, TPT_CTA_TEXT, TPT_LISTING_URL, isComplete, maxPoints, rubricById, total } from "@/lib/rubrics";
+import { RUBRICS, TPT_CTA_TEXT, TPT_LISTING_URL, allRubrics, blankCriterion, blankRubric, duplicateRubric, isComplete, maxPoints, rubricById, setCustomRubrics, total } from "@/lib/rubrics";
 import { parseCsv, parsePaste } from "@/lib/roster";
 import { today, useDesk, type DeskApi, type Mode } from "@/lib/useDesk";
-import type { DeskState, Rubric, Window } from "@/lib/types";
+import type { Criterion, DeskState, Rubric, Window } from "@/lib/types";
 
 type Tab = "desk" | "score" | "rubrics" | "classes" | "growth";
 const TABS: { id: Tab; label: string; icon: string }[] = [
@@ -43,6 +43,7 @@ export default function ScoreDesk() {
 
   if (!mode || !s) return <div className="grid min-h-screen place-items-center text-2xl font-bold gs-title">Score Desk</div>;
   const sample = mode === "sample";
+  setCustomRubrics(s.customRubrics);
 
   return (
     <div data-testid="app-root" style={{ paddingBottom: (sample ? barH : 0) + 32 }} className="overflow-x-clip">
@@ -55,14 +56,14 @@ export default function ScoreDesk() {
           <span className={`rounded-full px-3 py-1 text-base font-bold ${sample ? "bg-[#ffd66b] text-[#3d2700]" : "bg-[#237a48] text-white"}`} data-testid="mode-badge">
             {sample ? "SAMPLE MODE" : "YOUR DESK"}
           </span>
-          <nav className="-mx-1 flex w-full gap-1 overflow-x-auto whitespace-nowrap px-1 md:mx-0 md:ml-auto md:w-auto md:flex-wrap md:overflow-visible" aria-label="Main">
+          <nav className="grid w-full grid-cols-3 gap-1 md:ml-auto md:flex md:w-auto md:flex-wrap" aria-label="Main">
             {TABS.map((t) => (
               <button key={t.id} onClick={() => go(t.id)} aria-current={tab === t.id ? "page" : undefined}
-                className={`rounded-lg px-3 py-2 text-base font-bold ${tab === t.id ? "bg-[#ffd66b] text-[#3d2700]" : "text-white hover:bg-white/10"}`}>
+                className={`whitespace-nowrap rounded-lg px-2 py-2 text-base font-bold md:px-3 ${tab === t.id ? "bg-[#ffd66b] text-[#3d2700]" : "text-white hover:bg-white/10"}`}>
                 <span aria-hidden>{t.icon}</span> {t.label}
               </button>
             ))}
-            <button onClick={() => setGuide(true)} className="rounded-lg px-3 py-2 text-base font-bold text-white hover:bg-white/10">❓ How it works</button>
+            <button onClick={() => setGuide(true)} aria-label="How it works" data-testid="help" className="whitespace-nowrap rounded-lg px-2 py-2 text-base font-bold text-white hover:bg-white/10 md:px-3">❓ <span className="md:hidden">Help</span><span className="hidden md:inline">How it works</span></button>
           </nav>
         </div>
         {sample && (
@@ -76,7 +77,7 @@ export default function ScoreDesk() {
       <main className="mx-auto max-w-6xl px-4 pt-6">
         {tab === "desk" && <DeskTab s={s} sample={sample} go={go} openGuide={() => setGuide(true)} openUnlock={() => setUnlockOpen(true)} api={api} setToast={setToast} />}
         {tab === "score" && <ScoreTab s={s} api={api} go={go} sample={sample} />}
-        {tab === "rubrics" && <RubricsTab />}
+        {tab === "rubrics" && <RubricsTab s={s} api={api} sample={sample} setToast={setToast} />}
         {tab === "classes" && <ClassesTab s={s} api={api} go={go} setToast={setToast} />}
         {tab === "growth" && <GrowthTab s={s} sample={sample} />}
       </main>
@@ -98,7 +99,7 @@ export default function ScoreDesk() {
 
       {guide && <Guide s={s} sample={sample} onClose={closeGuide} go={(t) => { closeGuide(); go(t); }} />}
       {unlockOpen && <Unlock onClose={() => { setUnlockOpen(false); history.replaceState(null, "", "#desk"); }} onDone={() => { setUnlockOpen(false); setMode("full"); setTab("desk"); setGuide(true); }} />}
-      {toast && <div role="status" className="fixed left-1/2 top-40 z-50 -translate-x-1/2 rounded-xl bg-[#237a48] px-5 py-3 text-lg font-bold text-white shadow-xl gs-rise">{toast}</div>}
+      {toast && <div role="status" style={{ bottom: "calc(var(--bar-h, 0px) + 16px)" }} data-testid="toast" className="fixed right-4 z-50 max-w-[calc(100vw-2rem)] rounded-xl bg-[#237a48] px-5 py-3 text-lg font-bold text-white shadow-xl gs-rise">{toast}</div>}
     </div>
   );
 }
@@ -237,8 +238,8 @@ function ScoreTab({ s, api, go, sample }: { s: DeskState; api: DeskApi; go: (t: 
                 <div key={c.id}>
                   <p className="text-base font-black">{c.name}</p>
                   <ul className="mt-1 space-y-1">
-                    {[...c.levels].sort((x, y) => y.score - x.score).map((l) => (
-                      <li key={l.score} className="flex gap-2 text-base" data-testid={`legend-${c.id}-${l.score}`}>
+                    {[...c.levels].sort((x, y) => y.score - x.score).map((l, li) => (
+                      <li key={li} className="flex gap-2 text-base" data-testid={`legend-${c.id}-${l.score}`}>
                         <span className="min-w-10 shrink-0 rounded-md bg-[#1b365d] px-2 text-center font-black text-white">{view === "student" ? "☐ " : ""}{l.label}</span>
                         <span>{view === "teacher" ? l.teacher : l.student}</span>
                       </li>
@@ -263,8 +264,8 @@ function ScoreTab({ s, api, go, sample }: { s: DeskState; api: DeskApi; go: (t: 
                     <div key={c.id} className="min-w-0">
                       <p className={`text-base font-bold ${mutedInk}`}>{c.shortName}</p>
                       <div className="flex flex-wrap gap-1">
-                        {[...c.levels].sort((x, y) => x.score - y.score).map((l) => (
-                          <button key={l.score} className="chip px-2" aria-pressed={sc?.criterionScores[c.id] === l.score}
+                        {[...c.levels].sort((x, y) => x.score - y.score).map((l, li) => (
+                          <button key={li} className="chip px-2" aria-pressed={sc?.criterionScores[c.id] === l.score}
                             disabled={ci === 1 && orgZero && l.score !== 0}
                             aria-label={`${st.name} ${c.name} ${l.label}`} title={view === "teacher" ? l.teacher : l.student}
                             onClick={() => { api.setScore(a.id, st.id, c.id, l.score); setFocus({ cid: c.id, v: l.score }); }}>{l.label}</button>
@@ -273,8 +274,9 @@ function ScoreTab({ s, api, go, sample }: { s: DeskState; api: DeskApi; go: (t: 
                     </div>
                   ))}
                   <div className="hidden text-center md:block"><p className={`text-base font-bold ${mutedInk}`}>Total</p><p className="text-2xl font-black" data-testid={`total-${st.name}`}>{t ?? "—"}</p></div>
-                  <label className="w-full min-w-0 md:ml-auto md:w-48"><span className="sr-only">Note for {st.name}</span>
-                    <input aria-label={`Note for ${st.name}`} className="w-full" placeholder="Note" value={sc?.comment ?? ""} onChange={(e) => api.setComment(a.id, st.id, e.target.value)} /></label>
+                  <label className="no-print block w-full min-w-0"><span className={`text-base font-bold ${mutedInk}`}>Notes for {st.name}</span>
+                    <NoteBox testid={`note-${st.name}`} value={sc?.comment ?? ""} onChange={(v) => api.setComment(a.id, st.id, v)} /></label>
+                  {sc?.comment && <p className="print-only w-full whitespace-pre-wrap break-words text-base" data-testid={`note-print-${st.name}`}><b>Notes:</b> {sc.comment}</p>}
                 </li>
               );
             })}
@@ -286,6 +288,13 @@ function ScoreTab({ s, api, go, sample }: { s: DeskState; api: DeskApi; go: (t: 
   );
 }
 
+/** Multi-line per-student note: starts at 5 rows, grows with content (no inner scrollbar), full width so it works at 390px. */
+function NoteBox({ value, onChange, testid }: { value: string; onChange: (v: string) => void; testid: string }) {
+  const ref = useRef<HTMLTextAreaElement>(null);
+  useLayoutEffect(() => { const el = ref.current; if (!el) return; el.style.height = "auto"; el.style.height = `${Math.max(el.scrollHeight + 4, 0)}px`; }, [value]);
+  return <textarea ref={ref} rows={5} data-testid={testid} className="mt-1 block w-full resize-y overflow-hidden text-base leading-snug" placeholder="Notes (saved with this score)" value={value} onChange={(e) => onChange(e.target.value)} />;
+}
+
 function NewAssignment({ classId, api, onDone, canCancel }: { classId: string; api: DeskApi; onDone: () => void; canCancel: boolean }) {
   const [rid, setRid] = useState(RUBRICS[0].id);
   const [title, setTitle] = useState("");
@@ -295,11 +304,11 @@ function NewAssignment({ classId, api, onDone, canCancel }: { classId: string; a
       <h2 className="text-2xl font-black text-white">Pick a rubric</h2>
       <p className={`text-base ${muted}`}>Choose how you&apos;ll score this assignment.</p>
       <div className="mt-3 grid gap-3 md:grid-cols-2">
-        {RUBRICS.map((r) => (
+        {allRubrics().map((r) => (
           <button key={r.id} onClick={() => setRid(r.id)} aria-pressed={rid === r.id} data-testid={`pick-${r.id}`}
             className={`gs-card p-4 text-left ${rid === r.id ? "ring-4 ring-[#ffd66b]" : ""}`}>
             <span className="block text-lg font-black">{rid === r.id ? "✅ " : ""}{r.name}</span>
-            <span className={`block text-base ${mutedInk}`}>{r.gradeBand} · {r.subject} · {maxPoints(r)} pts</span>
+            <span className={`block text-base ${mutedInk}`}>{r.builtIn ? "" : "✏️ My rubric · "}{r.gradeBand} · {r.subject} · {maxPoints(r)} pts</span>
           </button>
         ))}
       </div>
@@ -334,48 +343,134 @@ function ViewToggle({ view, setView }: { view: "teacher" | "student"; setView: (
 }
 
 /* ───────────── Rubrics ───────────── */
-function RubricsTab() {
-  const [rid, setRid] = useState(RUBRICS[0].id);
+function RubricsTab({ s, api, sample, setToast }: { s: DeskState; api: DeskApi; sample: boolean; setToast: (m: string) => void }) {
+  const list = allRubrics();
+  const [rid, setRid] = useState(list[0].id);
   const [view, setView] = useState<"teacher" | "student">("teacher");
-  const r = rubricById(rid) as Rubric;
+  const [draft, setDraft] = useState<Rubric | null>(null);
+  const r = rubricById(rid) ?? list[0];
+  const custom = s.customRubrics ?? [];
+  const startEdit = (x: Rubric) => { setDraft(structuredClone(x)); setRid(x.id); };
+  const dup = () => { const c = duplicateRubric(r); api.saveRubric(c); setRid(c.id); setDraft(structuredClone(c)); setToast("Copy made — edit it below"); };
+  const createNew = () => { const c = blankRubric(); api.saveRubric(c); setRid(c.id); setDraft(structuredClone(c)); setToast("New rubric started"); };
+  const shown = draft && draft.id === r.id ? draft : r;
   return (
     <div>
       <H1 kicker="LIBRARY" title="Rubrics" />
       <div className="grid gap-4 md:grid-cols-[18rem_minmax(0,1fr)]">
-        <div className="no-print flex flex-col gap-2">
+        <div className="no-print flex min-w-0 flex-col gap-2">
+          <button className="gs-btn px-4 py-3 text-lg" onClick={createNew} data-testid="new-rubric">＋ New rubric</button>
+          <p className="mt-1 text-base font-bold tracking-widest text-[#ffd66b]">STAAR &amp; CLASSROOM</p>
           {RUBRICS.map((x) => (
-            <button key={x.id} onClick={() => setRid(x.id)} className={`gs-card p-3 text-left ${rid === x.id ? "ring-4 ring-[#ffd66b]" : ""}`}>
+            <button key={x.id} onClick={() => { setRid(x.id); setDraft(null); }} className={`gs-card p-3 text-left ${rid === x.id ? "ring-4 ring-[#ffd66b]" : ""}`}>
               <span className="block text-base font-black">{x.name}</span>
-              <span className={`block text-base ${mutedInk}`}>{x.gradeBand} · {x.subject} · {maxPoints(x)} pts</span>
+              <span className={`block text-base ${mutedInk}`}>🔒 {x.gradeBand} · {x.subject} · {maxPoints(x)} pts</span>
             </button>
           ))}
+          <p className="mt-2 text-base font-bold tracking-widest text-[#ffd66b]">MY RUBRICS</p>
+          {custom.length === 0 && <p className={`text-base ${muted}`}>None yet. Tap ＋ New rubric, or open a STAAR rubric and tap Duplicate.</p>}
+          {custom.map((x) => (
+            <button key={x.id} data-testid={`my-rubric-${x.name}`} onClick={() => { setRid(x.id); setDraft(null); }} className={`gs-card p-3 text-left ${rid === x.id ? "ring-4 ring-[#ffd66b]" : ""}`}>
+              <span className="block break-words text-base font-black">{x.name}</span>
+              <span className={`block text-base ${mutedInk}`}>✏️ {x.gradeBand} · {x.subject} · {maxPoints(x)} pts</span>
+            </button>
+          ))}
+          {sample && <p className={`text-base ${muted}`}>In the sample, your rubrics reset when you close this tab. Unlock to keep them on this device.</p>}
         </div>
-        <div>
+        <div className="min-w-0">
           <div className="no-print gs-panel mb-3 flex flex-wrap items-center gap-3 p-3">
             <ViewToggle view={view} setView={setView} />
-            <button className="gs-btn2 ml-auto px-4 py-2" onClick={() => window.print()}>🖨 Print</button>
+            <div className="flex flex-wrap gap-2 md:ml-auto">
+              <button className="gs-btn2 px-4 py-2" onClick={() => window.print()}>🖨 Print</button>
+              <button className="gs-btn2 px-4 py-2" onClick={dup} data-testid="duplicate">⧉ Duplicate</button>
+              {!r.builtIn && !draft && <button className="gs-btn2 px-4 py-2" data-testid="edit-rubric" onClick={() => startEdit(r)}>✏️ Edit</button>}
+              {!r.builtIn && <button className="rounded-lg px-3 py-2 text-base font-bold text-white underline" data-testid="delete-rubric" onClick={() => {
+                const used = s.assignments.filter((a) => a.rubricId === r.id).length;
+                if (confirm(used ? `Delete "${r.name}" and its ${used} assignment(s) and scores?` : `Delete "${r.name}"?`)) { api.deleteRubric(r.id); setDraft(null); setRid(RUBRICS[0].id); setToast("Rubric deleted"); }
+              }}>Delete</button>}
+            </div>
           </div>
-          <article className="gs-card p-6" data-testid="rubric-view">
-            <p className={`text-base font-bold ${mutedInk}`}>TEACH4TEXAS SCORE DESK</p>
-            <h2 className="text-3xl font-black">{view === "teacher" ? r.name : r.studentTitle}</h2>
-            {view === "teacher" && <><p className={`text-base ${mutedInk}`}>{r.gradeBand} · {r.subject}{r.teks ? ` · ${r.teks}` : ""} · {maxPoints(r)} points</p><p className="mt-2 text-lg">{r.blurb}</p></>}
-            {r.criteria.map((c) => (
-              <section key={c.id} className="mt-5">
-                <h3 className="text-xl font-black">{c.name}</h3>
-                <ul className="mt-2 space-y-2">
-                  {[...c.levels].sort((x, y) => y.score - x.score).map((l) => (
-                    <li key={l.score} className="flex gap-3 rounded-xl bg-[#eef3fa] p-3">
-                      <span className="grid min-w-12 place-items-center rounded-lg bg-[#1b365d] px-2 text-lg font-black text-white">{view === "student" ? "☐ " : ""}{l.label}</span>
-                      <span className="text-lg">{view === "teacher" ? l.teacher : l.student}</span>
-                    </li>
-                  ))}
-                </ul>
-              </section>
-            ))}
-          </article>
+          {r.builtIn && <p className="no-print mb-3 rounded-xl bg-[#ffd66b] px-4 py-2 text-base font-semibold text-[#3d2700]">🔒 Built-in STAAR language stays locked so it does not drift. Duplicate it to make a classroom version.</p>}
+          {draft && draft.id === r.id && <RubricEditor draft={draft} setDraft={setDraft} onSave={() => { api.saveRubric(draft); setDraft(null); setToast("Rubric saved"); }} onCancel={() => setDraft(null)} />}
+          <RubricView r={shown} view={view} />
         </div>
       </div>
     </div>
+  );
+}
+
+function RubricView({ r, view }: { r: Rubric; view: "teacher" | "student" }) {
+  return (
+    <article className="gs-card p-4 sm:p-6" data-testid="rubric-view">
+      <p className={`text-base font-bold ${mutedInk}`}>TEACH4TEXAS SCORE DESK{r.builtIn ? "" : " · MY RUBRIC"}</p>
+      <h2 className="break-words text-2xl font-black sm:text-3xl">{view === "teacher" ? r.name : r.studentTitle}</h2>
+      {view === "teacher" && <><p className={`text-base ${mutedInk}`}>{r.gradeBand} · {r.subject}{r.teks ? ` · ${r.teks}` : ""} · {maxPoints(r)} points</p>{r.blurb && <p className="mt-2 text-lg">{r.blurb}</p>}</>}
+      {r.criteria.map((c) => (
+        <section key={c.id} className="mt-5">
+          <h3 className="break-words text-xl font-black">{c.name}</h3>
+          <ul className="mt-2 space-y-2">
+            {[...c.levels].map((l, i) => ({ l, i })).sort((x, y) => y.l.score - x.l.score).map(({ l, i }) => (
+              <li key={i} className="flex gap-3 rounded-xl bg-[#eef3fa] p-3">
+                <span className="grid min-w-12 shrink-0 place-items-center rounded-lg bg-[#1b365d] px-2 text-lg font-black text-white">{view === "student" ? "☐ " : ""}{l.label}</span>
+                <span className="min-w-0 break-words text-lg">{view === "teacher" ? l.teacher : l.student}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </article>
+  );
+}
+
+/** Port of the original Score Desk rubric editor: name, student title, grade band, subject, TEKS, notes; per criterion name/short name and each level's score + Teacher language + Student checklist text; add/remove criterion; Save rubric. */
+function RubricEditor({ draft, setDraft, onSave, onCancel }: { draft: Rubric; setDraft: (r: Rubric) => void; onSave: () => void; onCancel: () => void }) {
+  const set = (p: Partial<Rubric>) => setDraft({ ...draft, ...p });
+  const setC = (id: string, p: Partial<Criterion>) => setDraft({ ...draft, criteria: draft.criteria.map((c) => (c.id === id ? { ...c, ...p } : c)) });
+  const field = "block min-w-0 text-base font-bold";
+  const inp = "mt-1 w-full";
+  return (
+    <section className="gs-card mb-4 p-4 sm:p-5 gs-rise" data-testid="rubric-editor">
+      <h2 className="text-2xl font-black">Rubric builder</h2>
+      <p className={`text-base ${mutedInk}`}>Teacher language is what you look for when you score. Student checklist is the kid-friendly self-check students use.</p>
+      <div className="mt-3 grid gap-3 sm:grid-cols-2">
+        <label className={field}>Name<input data-testid="ed-name" className={inp} value={draft.name} onChange={(e) => set({ name: e.target.value })} /></label>
+        <label className={field}>Student title<input className={inp} value={draft.studentTitle} onChange={(e) => set({ studentTitle: e.target.value })} /></label>
+      </div>
+      <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-3">
+        <label className={field}>Grade band<input className={inp} value={draft.gradeBand} onChange={(e) => set({ gradeBand: e.target.value })} /></label>
+        <label className={field}>Subject<input className={inp} value={draft.subject} onChange={(e) => set({ subject: e.target.value })} /></label>
+        <label className={field}>TEKS<input className={inp} value={draft.teks} placeholder="4.11.B" onChange={(e) => set({ teks: e.target.value })} /></label>
+      </div>
+      <label className={`${field} mt-3`}>Notes<textarea className={inp} rows={2} value={draft.blurb} onChange={(e) => set({ blurb: e.target.value })} /></label>
+      <p className="mt-2 text-lg font-black">Max score {maxPoints(draft)}</p>
+      {draft.criteria.map((c, ci) => (
+        <div key={c.id} className="mt-4 rounded-2xl border-2 border-[#1b365d]/20 bg-[#f6f9fd] p-3 sm:p-4" data-testid={`ed-criterion-${ci}`}>
+          <div className="grid gap-3 sm:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+            <label className={field}>Criterion<input data-testid={`ed-c${ci}-name`} className={inp} value={c.name} onChange={(e) => setC(c.id, { name: e.target.value })} /></label>
+            <label className={field}>Short name<input className={inp} value={c.shortName} onChange={(e) => setC(c.id, { shortName: e.target.value })} /></label>
+          </div>
+          <div className="mt-3 space-y-3">
+            {c.levels.map((l, li) => {
+              const upd = (p: Partial<typeof l>) => setC(c.id, { levels: c.levels.map((x, k) => (k === li ? { ...x, ...p } : x)) });
+              return (
+                <div key={li} className="grid gap-2 rounded-xl bg-white p-3 sm:grid-cols-[6rem_minmax(0,1fr)_minmax(0,1fr)]">
+                  <label className={field}>Score<input type="number" data-testid={`ed-c${ci}-l${li}-score`} className={inp} value={l.score} onChange={(e) => { const n = Number(e.target.value); upd({ score: n, label: /^\d+$/.test(l.label) ? String(n) : l.label }); }} /></label>
+                  <label className={field}>Teacher language<textarea data-testid={`ed-c${ci}-l${li}-teacher`} className={inp} rows={2} value={l.teacher} onChange={(e) => upd({ teacher: e.target.value })} /></label>
+                  <label className={field}>Student checklist<textarea data-testid={`ed-c${ci}-l${li}-student`} className={inp} rows={2} value={l.student} onChange={(e) => upd({ student: e.target.value })} /></label>
+                </div>
+              );
+            })}
+          </div>
+          {draft.criteria.length > 1 && <button className="mt-2 rounded-lg px-2 py-2 text-base font-bold text-[#8a1c12] underline" onClick={() => setDraft({ ...draft, criteria: draft.criteria.filter((x) => x.id !== c.id) })}>Remove criterion</button>}
+        </div>
+      ))}
+      <div className="mt-4 flex flex-wrap gap-3">
+        <button className="gs-btn2-dark px-4 py-3" data-testid="ed-add-criterion" onClick={() => setDraft({ ...draft, criteria: [...draft.criteria, blankCriterion(draft.criteria.length + 1)] })}>＋ Add criterion</button>
+        <button className="gs-btn px-5 py-3 text-lg" data-testid="ed-save" onClick={onSave}>💾 Save rubric</button>
+        <button className="gs-btn2 px-4 py-3" onClick={onCancel}>Cancel</button>
+      </div>
+      <p className={`mt-3 text-base ${mutedInk}`}>Preview below updates as you type.</p>
+    </section>
   );
 }
 
@@ -540,7 +635,7 @@ function Guide({ s, sample, onClose, go }: { s: DeskState; sample: boolean; onCl
           <button className="gs-btn2 px-4 py-3" onClick={onClose} data-testid="guide-skip">Skip for now</button>
           <button className="gs-btn px-5 py-3 text-lg" onClick={() => go("classes")} data-testid="guide-start">Start with step 1 →</button>
         </div>
-        <p className={`mt-3 text-base ${muted}`}>Reopen any time with ❓ How it works.</p>
+        <p className={`mt-3 text-base ${muted}`}>Reopen any time with ❓ How it works (❓ Help on phones).</p>
       </div>
     </div>
   );
@@ -577,7 +672,7 @@ function Unlock({ onClose, onDone }: { onClose: () => void; onDone: () => void }
 }
 
 /* ───────────── utils ───────────── */
-function csvCell(v: string) { return /[",\n]/.test(v) ? `"${v.replaceAll('"', '""')}"` : v; }
+function csvCell(v: string) { return /[",\r\n]/.test(v) ? `"${v.replaceAll('"', '""')}"` : v; }
 function toCsv(s: DeskState, aid: string): string {
   const a = s.assignments.find((x) => x.id === aid)!; const r = rubricById(a.rubricId)!; const c = s.classes.find((x) => x.id === a.classId)!;
   const lines = [["Student", "Assignment", "Date", "Window", "Rubric", ...r.criteria.map((x) => x.shortName), "Total", "Comment"].map(csvCell).join(",")];

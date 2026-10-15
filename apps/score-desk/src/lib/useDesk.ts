@@ -54,6 +54,15 @@ export function useDesk(mode: Mode | null) {
       update((d) => ({ ...d, assignments: [{ ...a, id }, ...d.assignments], lastClassId: a.classId, lastAssignmentId: id }));
       return id;
     },
+    saveRubric: (r: import("./types").Rubric) => update((d) => {
+      const list = d.customRubrics ?? [];
+      return { ...d, customRubrics: list.some((x) => x.id === r.id) ? list.map((x) => (x.id === r.id ? r : x)) : [...list, r] };
+    }),
+    deleteRubric: (id: string) => update((d) => {
+      const asg = d.assignments.filter((a) => a.rubricId === id).map((a) => a.id);
+      return { ...d, customRubrics: (d.customRubrics ?? []).filter((x) => x.id !== id), assignments: d.assignments.filter((a) => a.rubricId !== id),
+        scores: d.scores.filter((x) => !asg.includes(x.assignmentId)), lastAssignmentId: asg.includes(d.lastAssignmentId ?? "") ? null : d.lastAssignmentId };
+    }),
     setLast: (classId: string | null, assignmentId: string | null) => update((d) => ({ ...d, lastClassId: classId, lastAssignmentId: assignmentId })),
     setScore: (assignmentId: string, studentId: string, criterionId: string, value: number) => update((d) => {
       const a = d.assignments.find((x) => x.id === assignmentId); const r = rubricById(a?.rubricId);

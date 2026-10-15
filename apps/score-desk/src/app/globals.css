@@ -30,7 +30,8 @@ body {
 .chip:disabled { opacity: 1; background: #e8edf4; color: #4a5a70; border-style: dashed; }
 input, textarea, select { color: #1b365d; background: #fff; border: 2px solid #5b7290; border-radius: .7rem; padding: .55rem .75rem; font-size: 1rem; }
 :focus-visible { outline: 3px solid #ffd66b; outline-offset: 2px; }
-@media print { .no-print { display: none !important } body { background: #fff; color: #000 } .gs-card { box-shadow: none } }
+.print-only { display: none }
+@media print { .no-print { display: none !important } .print-only { display: block !important } body { background: #fff; color: #000 } .gs-card { box-shadow: none } }
 @media (prefers-reduced-motion: reduce) { .gs-rise, .gs-title, .chip { animation: none !important } }
 input, textarea, select { max-width: 100%; }
 select { text-overflow: ellipsis; }

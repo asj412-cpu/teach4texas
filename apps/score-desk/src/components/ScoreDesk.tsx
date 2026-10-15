@@ -382,7 +382,7 @@ function RubricsTab({ s, api, sample, setToast }: { s: DeskState; api: DeskApi; 
             <ViewToggle view={view} setView={setView} />
             <div className="flex flex-wrap gap-2 md:ml-auto">
               <button className="gs-btn2 px-4 py-2" onClick={() => window.print()}>🖨 Print</button>
-              <button className="gs-btn2 px-4 py-2" onClick={dup} data-testid="duplicate">⧉ Duplicate</button>
+              <button className="gs-btn2 px-4 py-2" onClick={dup} data-testid="duplicate"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" className="mr-1 inline-block align-[-3px]"><rect x="8" y="8" width="13" height="13" rx="2" /><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3" /></svg>Duplicate</button>
               {!r.builtIn && !draft && <button className="gs-btn2 px-4 py-2" data-testid="edit-rubric" onClick={() => startEdit(r)}>✏️ Edit</button>}
               {!r.builtIn && <button className="rounded-lg px-3 py-2 text-base font-bold text-white underline" data-testid="delete-rubric" onClick={() => {
                 const used = s.assignments.filter((a) => a.rubricId === r.id).length;
@@ -391,7 +391,7 @@ function RubricsTab({ s, api, sample, setToast }: { s: DeskState; api: DeskApi; 
             </div>
           </div>
           {r.builtIn && <p className="no-print mb-3 rounded-xl bg-[#ffd66b] px-4 py-2 text-base font-semibold text-[#3d2700]">🔒 Built-in STAAR language stays locked so it does not drift. Duplicate it to make a classroom version.</p>}
-          {draft && draft.id === r.id && <RubricEditor draft={draft} setDraft={setDraft} onSave={() => { api.saveRubric(draft); setDraft(null); setToast("Rubric saved"); }} onCancel={() => setDraft(null)} />}
+          {draft && draft.id === r.id && <RubricEditor draft={draft} setDraft={setDraft} onSave={(clean) => { api.saveRubric(clean); setDraft(null); setToast("Rubric saved"); }} onCancel={() => setDraft(null)} />}
           <RubricView r={shown} view={view} />
         </div>
       </div>
@@ -423,7 +423,39 @@ function RubricView({ r, view }: { r: Rubric; view: "teacher" | "student" }) {
 }
 
 /** Port of the original Score Desk rubric editor: name, student title, grade band, subject, TEKS, notes; per criterion name/short name and each level's score + Teacher language + Student checklist text; add/remove criterion; Save rubric. */
-function RubricEditor({ draft, setDraft, onSave, onCancel }: { draft: Rubric; setDraft: (r: Rubric) => void; onSave: () => void; onCancel: () => void }) {
+function validateRubric(r: Rubric) {
+  const errs: Record<string, string> = {};
+  if (!r.name.trim()) errs.name = "Give your rubric a name";
+  r.criteria.forEach((c, ci) => {
+    if (!c.name.trim()) errs[`c${ci}`] = "Give this criterion a name";
+    const seen = new Set<number>();
+    c.levels.forEach((l, li) => {
+      if (!Number.isFinite(l.score)) errs[`c${ci}l${li}`] = "Enter a score";
+      else if (l.score < 0 || !Number.isInteger(l.score)) errs[`c${ci}l${li}`] = "Use a whole number, 0 or more";
+      else if (seen.has(l.score)) errs[`c${ci}l${li}`] = "Each score in a criterion must be different";
+      seen.add(l.score);
+    });
+  });
+  return errs;
+}
+
+function FieldErr({ id, msg }: { id: string; msg?: string }) {
+  return msg ? <span id={id} role="alert" data-testid={`err-${id}`} className="mt-1 block rounded-lg bg-[#fde8e6] px-2 py-1 text-base font-semibold text-[#8a1c12]">⚠ {msg}</span> : null;
+}
+
+function RubricEditor({ draft, setDraft, onSave, onCancel }: { draft: Rubric; setDraft: (r: Rubric) => void; onSave: (clean: Rubric) => void; onCancel: () => void }) {
+  const [tried, setTried] = useState(false);
+  const errs = tried ? validateRubric(draft) : {};
+  const save = () => {
+    const e = validateRubric(draft);
+    if (Object.keys(e).length) {
+      setTried(true);
+      const first = e.name ? "ed-name" : Object.keys(e)[0].includes("l") ? `ed-${Object.keys(e)[0].replace(/l/, "-l")}-score` : `ed-${Object.keys(e)[0]}-name`;
+      requestAnimationFrame(() => (document.querySelector(`[data-testid="${first}"]`) as HTMLElement | null)?.focus());
+      return;
+    }
+    onSave({ ...draft, name: draft.name.trim(), studentTitle: draft.studentTitle.trim() || draft.name.trim(), criteria: draft.criteria.map((c) => ({ ...c, name: c.name.trim(), shortName: c.shortName.trim() || c.name.trim() })) });
+  };
   const set = (p: Partial<Rubric>) => setDraft({ ...draft, ...p });
   const setC = (id: string, p: Partial<Criterion>) => setDraft({ ...draft, criteria: draft.criteria.map((c) => (c.id === id ? { ...c, ...p } : c)) });
   const field = "block min-w-0 text-base font-bold";
@@ -433,7 +465,7 @@ function RubricEditor({ draft, setDraft, onSave, onCancel }: { draft: Rubric; se
       <h2 className="text-2xl font-black">Rubric builder</h2>
       <p className={`text-base ${mutedInk}`}>Teacher language is what you look for when you score. Student checklist is the kid-friendly self-check students use.</p>
       <div className="mt-3 grid gap-3 sm:grid-cols-2">
-        <label className={field}>Name<input data-testid="ed-name" className={inp} value={draft.name} onChange={(e) => set({ name: e.target.value })} /></label>
+        <label className={field}>Name<input data-testid="ed-name" aria-invalid={!!errs.name} aria-describedby={errs.name ? "name" : undefined} className={inp} value={draft.name} onChange={(e) => set({ name: e.target.value })} /><FieldErr id="name" msg={errs.name} /></label>
         <label className={field}>Student title<input className={inp} value={draft.studentTitle} onChange={(e) => set({ studentTitle: e.target.value })} /></label>
       </div>
       <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -442,19 +474,19 @@ function RubricEditor({ draft, setDraft, onSave, onCancel }: { draft: Rubric; se
         <label className={field}>TEKS<input className={inp} value={draft.teks} placeholder="4.11.B" onChange={(e) => set({ teks: e.target.value })} /></label>
       </div>
       <label className={`${field} mt-3`}>Notes<textarea className={inp} rows={2} value={draft.blurb} onChange={(e) => set({ blurb: e.target.value })} /></label>
-      <p className="mt-2 text-lg font-black">Max score {maxPoints(draft)}</p>
+      <p className="mt-2 text-lg font-black">Max score {Number.isFinite(maxPoints(draft)) ? maxPoints(draft) : "—"}</p>
       {draft.criteria.map((c, ci) => (
         <div key={c.id} className="mt-4 rounded-2xl border-2 border-[#1b365d]/20 bg-[#f6f9fd] p-3 sm:p-4" data-testid={`ed-criterion-${ci}`}>
           <div className="grid gap-3 sm:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
-            <label className={field}>Criterion<input data-testid={`ed-c${ci}-name`} className={inp} value={c.name} onChange={(e) => setC(c.id, { name: e.target.value })} /></label>
+            <label className={field}>Criterion<input data-testid={`ed-c${ci}-name`} aria-invalid={!!errs[`c${ci}`]} className={inp} value={c.name} onChange={(e) => setC(c.id, { name: e.target.value })} /><FieldErr id={`c${ci}`} msg={errs[`c${ci}`]} /></label>
             <label className={field}>Short name<input className={inp} value={c.shortName} onChange={(e) => setC(c.id, { shortName: e.target.value })} /></label>
           </div>
           <div className="mt-3 space-y-3">
             {c.levels.map((l, li) => {
               const upd = (p: Partial<typeof l>) => setC(c.id, { levels: c.levels.map((x, k) => (k === li ? { ...x, ...p } : x)) });
               return (
-                <div key={li} className="grid gap-2 rounded-xl bg-white p-3 sm:grid-cols-[6rem_minmax(0,1fr)_minmax(0,1fr)]">
-                  <label className={field}>Score<input type="number" data-testid={`ed-c${ci}-l${li}-score`} className={inp} value={l.score} onChange={(e) => { const n = Number(e.target.value); upd({ score: n, label: /^\d+$/.test(l.label) ? String(n) : l.label }); }} /></label>
+                <div key={li} className="grid gap-2 rounded-xl bg-white p-3 sm:grid-cols-[8rem_minmax(0,1fr)_minmax(0,1fr)]">
+                  <label className={field}>Score<input type="number" min={0} step={1} inputMode="numeric" data-testid={`ed-c${ci}-l${li}-score`} aria-invalid={!!errs[`c${ci}l${li}`]} className={inp} value={Number.isFinite(l.score) ? l.score : ""} onChange={(e) => { const n = e.target.value.trim() === "" ? NaN : Number(e.target.value); upd({ score: n, label: /^-?\d*$/.test(l.label) ? (Number.isFinite(n) ? String(n) : "") : l.label }); }} /><FieldErr id={`c${ci}l${li}`} msg={errs[`c${ci}l${li}`]} /></label>
                   <label className={field}>Teacher language<textarea data-testid={`ed-c${ci}-l${li}-teacher`} className={inp} rows={2} value={l.teacher} onChange={(e) => upd({ teacher: e.target.value })} /></label>
                   <label className={field}>Student checklist<textarea data-testid={`ed-c${ci}-l${li}-student`} className={inp} rows={2} value={l.student} onChange={(e) => upd({ student: e.target.value })} /></label>
                 </div>
@@ -466,7 +498,7 @@ function RubricEditor({ draft, setDraft, onSave, onCancel }: { draft: Rubric; se
       ))}
       <div className="mt-4 flex flex-wrap gap-3">
         <button className="gs-btn2-dark px-4 py-3" data-testid="ed-add-criterion" onClick={() => setDraft({ ...draft, criteria: [...draft.criteria, blankCriterion(draft.criteria.length + 1)] })}>＋ Add criterion</button>
-        <button className="gs-btn px-5 py-3 text-lg" data-testid="ed-save" onClick={onSave}>💾 Save rubric</button>
+        <button className="gs-btn px-5 py-3 text-lg" data-testid="ed-save" onClick={save}>💾 Save rubric</button>
         <button className="gs-btn2 px-4 py-3" onClick={onCancel}>Cancel</button>
       </div>
       <p className={`mt-3 text-base ${mutedInk}`}>Preview below updates as you type.</p>

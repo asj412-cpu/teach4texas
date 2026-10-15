@@ -78,7 +78,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '17696158',
     href: `${TPT}/Texas-Grade-3-Morning-Work-4-Weeks-TEKS-Warmups-Print-Easel-17696158`,
-    title: 'Texas Grade 3 Morning Work | 4 Weeks TEKS Warmups | Print + Easel',
+    title: 'Texas Grade 3 Morning Work  4 Weeks TEKS Warmups (Print + Easel)',
     description:
       'TEKS-tagged Grade 3 Math + RLA morning warmups, 4 weeks / 16 days, Print + Easel. Cadet Corps pages labeled with Texas TEKS (not Common Core). Not an escape room. Not Jeopardy.',
     price: '$4.99',
@@ -88,7 +88,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '17751292',
     href: `${TPT}/Texas-Grade-4-Morning-Work-4-Weeks-TEKS-Warmups-Print-Easel-17751292`,
-    title: 'Texas Grade 4 Morning Work | 4 Weeks TEKS Warmups | Print + Easel',
+    title: 'Texas Grade 4 Morning Work — 4 Weeks TEKS Warmups (Print + Easel)',
     description:
       'TEKS-tagged Grade 4 Math + RLA morning warmups, 4 weeks / 16 days, Print + Easel. Cadet Corps pages labeled with Texas TEKS (not Common Core). Not an escape room. Not Jeopardy.',
     price: '$4.99',
@@ -181,7 +181,7 @@ export const TPT_LISTINGS: TptListing[] = [
     href: `${TPT}/Number-Vault-G7-STAAR-Math-Escape-Room-TEKS-73B-74A-74D-711A-17500215`,
     title: 'Number Vault G7 STAAR Math Escape Room | TEKS 7.3B 7.4A 7.4D 7.11A',
     description:
-      'Grade 7 STAAR math escape room. Four missions plus a boss lock: integers, rates, percent, and two-step equations. $4.99.',
+      'Grade 7 STAAR math escape room. Four missions plus a boss lock: integers, rates, percent, and two-step equations.',
     price: '$4.99',
     category: 'vault',
     featured: true,

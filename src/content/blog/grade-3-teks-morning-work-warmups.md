@@ -79,3 +79,5 @@ If you need a September routine that survives attendance and still moves STAAR-s
 Morning work dies when it is busywork. Name the TEKS on the student page, keep the first fifteen minutes mixed Math + RLA, and use a format that prints *and* assigns in Easel. One tight Cadet Corps set can carry four weeks without burning your planning period or pretending a puzzle packet is Texas practice.
 
 *Teach4 Texas resources are independently created for classroom practice. This is not an official TEA or STAAR product, and nothing here implies endorsement by the Texas Education Agency.*
+
+*Compare the Grade 3 and Grade 4 packs side by side on the [TEKS Morning Work, Grades 3–4](/teks/morning-work) page.*

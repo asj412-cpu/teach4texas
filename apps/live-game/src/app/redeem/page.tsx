@@ -86,9 +86,11 @@ export default function RedeemPage() {
         <p className="mx-auto mt-8 w-fit rounded-full bg-black/55 px-4 py-1 text-base font-black uppercase tracking-widest text-amber-200">
           🎟️ Teacher entrance
         </p>
-        <h1 className="dd-title dd-title-shimmer mt-3 text-center text-5xl font-black uppercase tracking-tight">
+        <div className="mx-auto mt-3 w-fit max-w-full rounded-3xl bg-black/45 px-6 py-2">
+        <h1 className="dd-title dd-title-shimmer text-center text-5xl font-black uppercase tracking-tight">
           Unlock your game
         </h1>
+        </div>
         <p className="mt-5 rounded-2xl border border-white/25 bg-black/55 px-5 py-4 text-center text-base text-white">
           Enter the <strong className="text-amber-200">access code from your TPT download</strong>. It
           unlocks <strong className="text-amber-200">only the game you paid for</strong>. New games

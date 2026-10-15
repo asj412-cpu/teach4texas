@@ -193,7 +193,9 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
     return (
       <GameShowStage>
         <div className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
+          <div className="mx-auto mt-3 w-fit max-w-full rounded-3xl bg-black/45 px-6 py-2">
           <h1 className="dd-title dd-title-shimmer text-5xl font-black uppercase">Get ready!</h1>
+          </div>
           <p className="gs-glass mt-6 rounded-2xl bg-black/55 px-6 py-4 text-xl font-bold text-white">
             <span className="mr-2 inline-block animate-spin" aria-hidden>🎲</span>Loading your purchased game…
           </p>
@@ -207,7 +209,9 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
       <GameShowStage>
         <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6 text-center">
           <p className="mx-auto w-fit rounded-full bg-black/55 px-4 py-1 text-base font-black uppercase tracking-widest text-amber-200">🔒 Locked</p>
-          <h1 className="dd-title mt-3 text-4xl font-black uppercase">No game unlocked yet</h1>
+          <div className="mx-auto mt-3 w-fit max-w-full rounded-3xl bg-black/45 px-6 py-2">
+          <h1 className="dd-title text-4xl font-black uppercase">No game unlocked yet</h1>
+          </div>
           <p className="mt-4 rounded-2xl border border-white/25 bg-black/55 px-5 py-4 text-base text-white">
             Redeem the access code from your Teachers Pay Teachers download. Games
             are sold individually — there is no free generator.
@@ -228,9 +232,11 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
         <p className="mx-auto w-fit rounded-full bg-[#047857] px-4 py-1 text-base font-black uppercase tracking-widest text-white">
           ✓ Paid game unlocked
         </p>
-        <h1 className="dd-title dd-title-shimmer mt-3 text-center text-4xl font-black uppercase sm:text-5xl">
+        <div className="mx-auto mt-3 w-fit max-w-full rounded-3xl bg-black/45 px-6 py-2">
+        <h1 className="dd-title dd-title-shimmer text-center text-4xl font-black uppercase sm:text-5xl">
           {kidPlainText(board.title, 80)}
         </h1>
+        </div>
         <p className="mt-4 rounded-2xl border border-white/25 bg-black/55 px-5 py-3 text-center text-base text-white">
           Grade {board.grade} · {board.subject.toUpperCase()}
           {supportsBoardPlay(board)

@@ -119,10 +119,10 @@ const itemListLd = {
               </a>
               <div class="p-5 flex flex-col gap-3 flex-1">
                 <h3 class="text-lg font-bold text-[#14244B]">{c.listing.title}</h3>
-                <p class="text-gray-600 text-sm">{c.listing.description}</p>
-                <div class="mt-auto flex flex-wrap gap-3 text-sm font-semibold">
+                <p class="text-gray-600 text-base">{c.listing.description}</p>
+                <div class="mt-auto flex flex-wrap gap-3 text-base font-semibold">
                   <a href={c.listing.href} target="_blank" rel="noopener" class="text-[#B95321]">{c.listing.price} on TPT &rarr;</a>
-                  <a href={c.pinHref} target="_blank" rel="noopener" data-pin-do="buttonPin" class="text-[#E60023]">Pin It</a>
+                  <a href={c.pinHref} target="_blank" rel="noopener" data-pin-do="buttonPin" class="text-[#B8001C]">Pin It</a>
                   {c.liveGame && (
                     <a href={PLAY_URL} target="_blank" rel="noopener" class="text-[#14244B]">Host the live game</a>
                   )}

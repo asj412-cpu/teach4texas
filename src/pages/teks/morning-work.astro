@@ -119,13 +119,13 @@ const itemListLd = {
           </a>
           <div class="p-6 flex flex-col gap-3 flex-1">
             <h2 class="text-xl font-bold text-[#14244B]">{c.listing.title}</h2>
-            <ul class="list-disc ml-5 text-sm text-gray-700 space-y-1">
+            <ul class="list-disc ml-5 text-base text-gray-700 space-y-1">
               {c.inside.map((line) => <li>{line}</li>)}
             </ul>
-            <p class="text-sm text-gray-600">{c.skills}</p>
-            <div class="mt-auto flex flex-wrap gap-3 text-sm font-semibold">
+            <p class="text-base text-gray-600">{c.skills}</p>
+            <div class="mt-auto flex flex-wrap gap-3 text-base font-semibold">
               <a href={c.listing.href} target="_blank" rel="noopener" class="text-[#B95321]">{c.listing.price} on TPT &rarr;</a>
-              <a href={c.pinHref} target="_blank" rel="noopener" data-pin-do="buttonPin" class="text-[#E60023]">Pin It</a>
+              <a href={c.pinHref} target="_blank" rel="noopener" data-pin-do="buttonPin" class="text-[#B8001C]">Pin It</a>
               <a href={c.post} class="text-gray-600 underline">{c.grade} teacher guide</a>
             </div>
           </div>

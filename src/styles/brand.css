@@ -31,9 +31,12 @@ h1, h2, h3, .font-display { font-family: 'Fredoka', 'Nunito', system-ui, sans-se
   border-radius: 9999px; padding: 0.75rem 1.75rem; transition: background .15s;
 }
 .btn-secondary:hover { background: #FFEBC7; }
-.btn-sm { padding: 0.45rem 1.1rem; font-size: 0.875rem; }
+.btn-sm { padding: 0.5rem 1.1rem; font-size: 1rem; }
 
 /* Hero: navy scrim left → clear right (same as the brand hero gradient), heavier on mobile for text contrast. */
 .hero-scrim { background: linear-gradient(90deg, rgba(20,36,75,.95) 0%, rgba(20,36,75,.8) 42%, rgba(20,36,75,0) 70%); }
 @media (max-width: 767px) { .hero-scrim { background: rgba(20,36,75,.82); } }
 .hero-outline { -webkit-text-stroke: 1px var(--rq-navy); paint-order: stroke fill; text-shadow: 0 3px 0 var(--rq-navy); }
+
+/* QA R1 P2-3: no text under 16px. Typography plugin shrinks code/pre/figcaption/table text; pin them to 1rem. */
+.prose :where(code, pre, pre code, kbd, figcaption, small, table, thead, tbody, sup, sub) { font-size: 1rem !important; }

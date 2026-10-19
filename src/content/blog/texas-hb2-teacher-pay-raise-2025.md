@@ -132,7 +132,7 @@ If you hold National Board Certification, HB 2 includes a provision for automati
 
 ### Enhanced TIA District Designation
 
-HB 2 also created an **"Enhanced TIA" designation** for districts that go above and beyond in their TIA implementation. Districts that earn this designation receive a **10% increase on top of their annual TIA allotment** for every designated teacher.
+HB 2 also created an **"Enhanced TIA" designation** for districts that go above and beyond in their TIA implementation. Districts that earn this designation receive a **10% increase on top of their annual TIA allotment** for every teacher who holds a designation.
 
 What that means in practice: if your district earns Enhanced TIA status and you have a Master designation generating $12,000 at baseline, that becomes $13,200. At the high-need maximum, $32,000 becomes $35,200. The 10% bump applies across all designation levels.
 

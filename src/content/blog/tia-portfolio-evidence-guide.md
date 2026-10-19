@@ -10,7 +10,7 @@ image: "/images/blog/tia-portfolio-evidence.jpg"
 scoreDeskCta: "Add a BOY→EOY growth snapshot to your TIA portfolio with Score Desk, a free local scoring app, plus printable packs. Nothing is uploaded. Not a TEA endorsement."
 ---
 
-You've heard the promise of TIA: up to $32,000 per year in additional compensation for Recognized, Exemplary, and Master teachers. You know your district has an approved TIA system. Maybe you've even attended a PD session where someone walked through the designation levels and you thought, "I do all of that. I should qualify."
+You've heard the promise of TIA: up to $36,000 per year in additional compensation at the Master level in 2026–27 ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-teacher-incentive-allotment-update)). You know your district has an approved TIA system. Maybe you've even attended a PD session where someone walked through the designation levels and you thought, "I do all of that. I should qualify."
 
 And then you heard the word **portfolio** — and the enthusiasm drained away.
 
@@ -26,7 +26,7 @@ First, let's establish what the portfolio actually is within the TIA framework. 
 2. **Teacher Observation** — typically using the T-TESS framework (Texas Teacher Evaluation and Support System)
 3. **Teacher Portfolio** — a curated collection of evidence demonstrating instructional quality
 
-The portfolio component varies by district but generally accounts for **a meaningful portion of the overall designation score**. Some districts weight it as much as 30–35% of the total evaluation.
+The portfolio component varies by district but generally accounts for **a meaningful portion of the overall designation score**.
 
 ### What Makes TIA Portfolio Evidence Different
 

@@ -147,7 +147,7 @@ export const TPT_LISTINGS: TptListing[] = [
   },
   {
     id: '17538014',
-    href: `${TPT}/Crack-the-Code-Math-Mystery-Grade-3-STAAR-Math-TEKS-34E-34H-35B-17538014`,
+    href: `${TPT}/Crack-the-Code-Math-Mystery-Grade-3-Multiplication-Division-TEKS-34E-34H-35B-17538014`,
     image: '/images/escape-rooms/tpt-17538014-cover.jpg',
     title: 'Crack the Code Math Mystery Grade 3 Multiplication Division TEKS 3.4E 3.4H 3.5B',
     description:
@@ -400,16 +400,6 @@ export const TPT_LISTINGS: TptListing[] = [
     title: 'STAAR Math Task Cards Grade 4 | 32 TEKS-Aligned Questions with Visuals',
     description:
       '32 Grade 4 math task cards covering TEKS 4.2–4.9 with STAAR 2.0-style items. About half include visual aids.',
-    price: '$4.99',
-    category: 'classroom',
-  },
-  {
-    id: '17470369',
-    href: `${TPT}/STAAR-Math-Game-Show-Grade-3-TEKS-Review-Live-Classroom-No-Prep-17470369`,
-    image: '/images/escape-rooms/tpt-17470369-cover.jpg',
-    title: 'STAAR Math Game Show Grade 3 TEKS Review Live Classroom | No Prep',
-    description:
-      'Hosted live Grade 3 math game show. Redeem the access code, project the 5×5 board, students join with a room code. 25 original items.',
     price: '$4.99',
     category: 'classroom',
   },

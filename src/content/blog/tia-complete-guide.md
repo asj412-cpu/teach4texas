@@ -12,7 +12,7 @@ scoreDeskCta: "Keep a BOY→EOY growth snapshot for TIA conversations with Score
 
 If you're a Texas teacher who hasn't heard of the Teacher Incentive Allotment — or you've heard the acronym "TIA" tossed around in PD sessions without anyone explaining it clearly — this guide is for you.
 
-The Teacher Incentive Allotment is the single biggest opportunity for Texas teachers to earn a significant, permanent pay increase based on their effectiveness in the classroom. We're talking **$3,000 to $32,000 or more per year** on top of your regular salary, depending on your designation level and where you teach.
+The Teacher Incentive Allotment is the single biggest opportunity for Texas teachers to earn a significant, permanent pay increase based on their effectiveness in the classroom. For 2026–27, TEA lists the allotment a designation generates at **$3,000 to $36,000 per year**, depending on the designation level and the campus ([TEA HB 2 TIA update](https://tea.texas.gov/taa-letters/hb-2-implementation-teacher-incentive-allotment-update)).
 
 No extra degree required. No administrative role. Just recognition — and compensation — for what you already do: teach well and grow students.
 
@@ -20,64 +20,58 @@ Let's break down exactly how it works.
 
 ## What Is the Teacher Incentive Allotment?
 
-The Teacher Incentive Allotment (TIA) was created by House Bill 3 in 2019 as part of a sweeping school finance overhaul. The idea is straightforward: identify the most effective teachers in Texas and pay them accordingly, especially if they teach in high-need schools.
+The Teacher Incentive Allotment (TIA) was created by the Texas Legislature as part of a school finance overhaul. The idea is straightforward: identify the most effective teachers in Texas and pay them accordingly, especially if they teach in high-need schools.
 
 Here's the core concept:
 
 1. **Districts opt in** to TIA by submitting a local designation system to TEA for approval.
-2. **Teachers earn designations** (Recognized, Exemplary, or Master) based on their performance.
+2. **Teachers earn designations** (Acknowledged, Recognized, Exemplary, or Master) based on their performance.
 3. **The state sends additional funding** to the district for each teacher who holds a designation.
 4. **The teacher receives a pay increase** — the amount depends on the designation level and whether the teacher works at a high-need campus.
 
-This isn't a one-time bonus. TIA designations are **portable across Texas districts** and last for five years before renewal. If you earn a Master designation in Houston ISD and move to a rural district in West Texas, your designation follows you — and that rural district receives even more funding because of the high-need multiplier.
+Designations are issued through your district's approved local system, and the funding is tied to the designation level and the campus where you teach.
 
-## The Three TIA Designation Levels
+## The Four TIA Designation Levels
 
-TIA has three tiers of teacher designation. Each comes with a different level of state funding that flows to your district (and ultimately to your paycheck):
+TEA's HB 2 update lists four designation levels. Each has a statewide performance standard and an allotment range for 2026–27, when the increased allotments take effect. All figures below come from the [TEA HB 2 TIA update](https://tea.texas.gov/taa-letters/hb-2-implementation-teacher-incentive-allotment-update).
+
+### Acknowledged (new)
+
+- **2026–27 allotment:** $3,000–$9,000
+- **Statewide benchmark:** top 50% of Texas teachers
+- **Performance standards:** T-TESS 3.5 (70% of possible points); 50% of students meeting or exceeding expected growth
+
+Districts with local designation systems may designate teachers at this level beginning in 2026–27, based on 2025–26 performance.
 
 ### Recognized
 
-- **Annual allotment:** $3,000–$9,000
-- **What it means:** You consistently demonstrate effective teaching practices and your students show measurable growth.
-- **Base funding:** $3,000 per year
-- **High-need campus multiplier:** Up to $9,000 per year
-
-This is the entry-level designation, but don't let the word "entry" fool you. Earning Recognized status still requires strong evidence of effectiveness. It's a meaningful accomplishment.
+- **2026–27 allotment:** $5,000–$15,000
+- **Statewide benchmark:** top 33% of Texas teachers
+- **Performance standards:** T-TESS 3.7 (74% of possible points); 55% of students meeting or exceeding expected growth
 
 ### Exemplary
 
-- **Annual allotment:** $6,000–$18,000
-- **What it means:** You demonstrate highly effective teaching and produce strong, consistent student growth results.
-- **Base funding:** $6,000 per year
-- **High-need campus multiplier:** Up to $18,000 per year
-
-Exemplary teachers are the ones other teachers come to for advice. Your data backs up what your colleagues already know — you move students.
+- **2026–27 allotment:** $9,000–$25,000
+- **Statewide benchmark:** top 20% of Texas teachers
+- **Performance standards:** T-TESS 3.9 (78% of possible points); 60% of students meeting or exceeding expected growth
 
 ### Master
 
-- **Annual allotment:** $12,000–$32,000
-- **What it means:** You are among the most effective teachers in the state, with exceptional student growth and distinguished observation performance.
-- **Base funding:** $12,000 per year
-- **High-need campus multiplier:** Up to $32,000 per year
+- **2026–27 allotment:** $12,000–$36,000
+- **Statewide benchmark:** top 5% of Texas teachers
+- **Performance standards:** T-TESS 4.5 (90% of possible points); 70% of students meeting or exceeding expected growth
 
-At the Master level, you're earning what amounts to a second salary in some cases. A teacher with a Master designation at a high-need rural campus could see an increase of $32,000 or more annually (TEA lists the 2026–27 Master range as $12k–$36k in its [HB 2 TIA update](https://tea.texas.gov/taa-letters/hb-2-implementation-teacher-incentive-allotment-update)). That's life-changing money — and it's designed to keep the best teachers where students need them most.
+TEA presents these standards as guidelines for districts; each district sets its own designation criteria.
 
-### The High-Need Campus Multiplier
+### Why the ranges are wide
 
-Notice the ranges above. The state intentionally rewards teachers who work at campuses serving economically disadvantaged students. The multiplier is based on the percentage of students who are economically disadvantaged at your campus:
-
-- **0–34% economically disadvantaged:** Base allotment only
-- **35–54%:** Moderate increase
-- **55–74%:** Higher increase
-- **75%+:** Maximum allotment
-
-This means a Master teacher at a campus with 80% economically disadvantaged students receives significantly more than the same Master teacher at an affluent suburban school. It's an intentional design to recruit and retain top teachers in the schools that need them most.
+Where a teacher lands in each range depends on the campus. HB 2 increased the multiplier amounts for the high-needs and rural factor, so a designation on a high-needs or rural campus generates more than the same designation elsewhere. Your district can tell you what your campus generates.
 
 ## The Two Pillars: How Teachers Earn Designation
 
 Every TIA designation system approved by TEA must evaluate teachers on **two pillars**:
 
-### Pillar 1: Student Growth (at least 20% of the evaluation)
+### Pillar 1: Student Growth
 
 This is the data side. Your district's system must include an objective measure of how much your students grow academically under your instruction. Common measures include:
 
@@ -90,7 +84,7 @@ The key word here is **growth**, not achievement. TIA doesn't just reward teache
 
 A 4th-grade teacher who takes students from "Did Not Meet" to "Approaches" on STAAR is demonstrating powerful growth, even if those students aren't yet at "Meets." TIA recognizes that.
 
-### Pillar 2: Teacher Observation (at least 20% of the evaluation)
+### Pillar 2: Teacher Observation
 
 This is the qualitative side. Most Texas districts use the **Texas Teacher Evaluation and Support System (T-TESS)** for their observation rubric. Your observation scores in domains like:
 
@@ -105,13 +99,7 @@ Some districts use alternative observation rubrics (like NIET's TAP rubric), but
 
 ### The Balance
 
-Each district determines the exact weighting, but TEA requires:
-
-- Student growth: **minimum 20%** of the overall evaluation
-- Teacher observation: **minimum 20%** of the overall evaluation
-- The remaining percentage can be distributed between the two pillars as the district sees fit
-
-Most districts weight observations more heavily (around 60-70%) with student growth at 30-40%, but this varies. **Check your district's specific TIA plan** to understand the exact formula.
+Each district decides how its system combines the two pillars. **Check your district's specific TIA plan** to understand the exact formula.
 
 ## Does Your District Participate in TIA?
 
@@ -125,7 +113,7 @@ Here's how to find out:
 
 3. **Check your district's website.** Many participating districts have dedicated TIA pages explaining their local system.
 
-As of the 2025-2026 school year, **hundreds of Texas districts** have approved TIA systems, and more are joining each year. If your district doesn't participate yet, you can advocate for adoption — talk to your superintendent or school board. TEA provides technical assistance to help districts design and submit their systems.
+If your district doesn't participate yet, you can advocate for adoption — talk to your superintendent or school board. TEA provides technical assistance to help districts design and submit their systems.
 
 ### What If My District Doesn't Participate?
 
@@ -233,9 +221,9 @@ Yes — TIA allotments paid as salary count toward your TRS retirement calculati
 
 ## The Bottom Line
 
-The Teacher Incentive Allotment is real money for real teaching. It's not a pipe dream or a legislative promise that never materialized — thousands of Texas teachers are already earning TIA designations and seeing the pay increases hit their checks.
+The Teacher Incentive Allotment is real money for real teaching. It's not a pipe dream or a legislative promise that never materialized — Texas teachers are already earning TIA designations through approved district systems.
 
-If you're an effective teacher (and if you're reading a 2,000-word guide about teaching effectiveness, you probably are), TIA is worth pursuing. The work you put into earning designation — sharpening your instruction, tracking student growth, nailing your observations — makes you a better teacher regardless of the financial outcome.
+If you're an effective teacher (and if you're reading a long guide about teaching effectiveness, you probably are), TIA is worth pursuing. The work you put into earning designation — sharpening your instruction, tracking student growth, nailing your observations — makes you a better teacher regardless of the financial outcome.
 
 But the financial outcome is pretty great too.
 

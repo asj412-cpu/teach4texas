@@ -51,7 +51,7 @@ const ids = [...catalog.matchAll(/id:\s*'(\d+)'/g)].map((m) => m[1]);
 const uniqueHrefs = new Set(hrefs);
 const uniqueIds = new Set(ids);
 
-if (hrefs.length !== 46) failures.push(`Expected exactly 46 live TPT hrefs, found ${hrefs.length}`);
+if (hrefs.length !== 45) failures.push(`Expected exactly 45 live TPT hrefs, found ${hrefs.length}`);
 if (uniqueHrefs.size !== hrefs.length) failures.push('Duplicate TPT hrefs in catalog');
 if (uniqueIds.size !== ids.length) failures.push('Duplicate TPT ids in catalog');
 if (hrefs.some((h) => !h.includes('/Product/'))) failures.push('Catalog href is not a product URL');

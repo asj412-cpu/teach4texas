@@ -31,11 +31,11 @@ The TRA sends state money to your district specifically to raise classroom teach
 
 Read that table carefully. A few things jump out.
 
-**First- and second-year teachers receive nothing from the TRA.** If you're in your first or second year of teaching, the state allotment does not include you. Some districts may choose to supplement locally and give newer teachers a raise anyway, but the TRA itself does not fund it. If you're a new teacher wondering whether you'll see a bump, the answer depends entirely on your district's local decisions.
+**Teachers who have not yet completed three creditable years receive nothing from the TRA.** TRA increases start in the year *after* a teacher completes three (or five) years of creditable experience, not in the year they are earning it ([TEA](https://tea.texas.gov/taa-letters/house-bill-2-hb-2-implementation-teacher-retention-allotment-and-support-staff)). If you're in your first, second or third year of teaching, the state allotment does not include you. Some districts may choose to supplement locally and give newer teachers a raise anyway, but the TRA itself does not fund it. If you're a new teacher wondering whether you'll see a bump, the answer depends entirely on your district's local decisions.
 
 **Small districts get more per teacher.** This is intentional. Districts with 5,000 or fewer students in average daily attendance receive significantly higher per-teacher amounts — $4,000 and $8,000 versus $2,500 and $5,000 at larger districts. The reasoning is that smaller districts have fewer students generating funding but still need competitive salaries to attract and retain teachers. If you teach in a small or rural district, this is a meaningful advantage.
 
-**The five-year threshold matters a lot.** The jump from the 3-4 year bracket to the 5+ year bracket is substantial — it doubles the allotment in small districts (from $4,000 to $8,000) and doubles it in large districts as well ($2,500 to $5,000). If you're currently in your fourth year of teaching, you're one year away from a significant increase.
+**The five-year threshold matters a lot.** The jump from the 3-4 year bracket to the 5+ year bracket is substantial — it doubles the allotment in small districts (from $4,000 to $8,000) and doubles it in large districts as well ($2,500 to $5,000). Because the higher amount starts in the year after you complete five creditable years ([TEA](https://tea.texas.gov/taa-letters/house-bill-2-hb-2-implementation-teacher-retention-allotment-and-support-staff)), a teacher in their fourth year is two years away from it.
 
 ### Who Qualifies as a "Classroom Teacher" for TRA?
 
@@ -157,7 +157,7 @@ Let's run a few scenarios to make this concrete.
 - **Basic allotment increase:** Indirect benefit
 - **TIA potential:** $3,000–$9,000 if designated ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-teacher-incentive-allotment-update))
 - **Total direct increase:** $4,000 immediately, potentially $7,000–$13,000 with TIA
-- **Next year (5th year):** TRA jumps to $8,000
+- **6th year (after five completed years):** TRA rises to $8,000 ([TEA](https://tea.texas.gov/taa-letters/house-bill-2-hb-2-implementation-teacher-retention-allotment-and-support-staff))
 
 ### Scenario 3: First-Year Teacher in a Large District
 
@@ -236,7 +236,7 @@ Yes. Since TRA is paid as regular salary (Object Code 080), it counts toward you
 
 ### I'm a 5th-year teacher. Does the TRA count my years of experience including this year?
 
-Experience calculations are based on your creditable years of experience as recognized by your district. If you're in your 5th year of teaching during 2025-26 and your district has you coded with 5+ years of experience, you should receive the higher amount. Verify with HR — the experience coding in your district's payroll system is what determines your bracket.
+Experience calculations are based on your creditable years of experience as recognized by your district. TRA increases start in the year after you complete three (or five) creditable years, not while you are earning them ([TEA](https://tea.texas.gov/taa-letters/house-bill-2-hb-2-implementation-teacher-retention-allotment-and-support-staff)). So a teacher in their 5th year has completed four years and still generates the 3-4 year amount; the higher amount starts in the 6th year. Verify with HR — the experience coding in your district's payroll system is what determines your bracket.
 
 ### Will there be more funding in future sessions?
 

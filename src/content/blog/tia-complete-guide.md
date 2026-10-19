@@ -195,14 +195,6 @@ Their experience is more valuable than any guide (including this one).
 
 ## Common Questions About TIA
 
-### How long does a TIA designation last?
-
-Five years. After that, you go through the evaluation process again to renew.
-
-### Is TIA designation portable?
-
-Yes. If you earn designation in one Texas district and move to another, your designation follows you. The new district receives the state allotment for you.
-
 ### Do I have to teach at a high-need campus to participate?
 
 No. Any teacher in a participating district can pursue designation. However, the financial allotment is higher at high-need campuses.
@@ -214,10 +206,6 @@ This depends on your district's specific system. Most require full-time classroo
 ### What if I teach a non-STAAR grade or subject?
 
 TIA isn't limited to STAAR-tested areas. Districts must include pathways for all teachers, including those in non-tested subjects. These typically use district-approved assessments or Student Learning Objectives (SLOs) to measure growth.
-
-### Does TIA affect my TRS retirement?
-
-Yes — TIA allotments paid as salary count toward your TRS retirement calculations, which makes the long-term financial impact even greater.
 
 ## The Bottom Line
 

@@ -34,7 +34,7 @@ Name them the way you talk about them in planning, not as a standards dump. A us
 
 **A PowerPoint that dies when kids yell.** Click-ahead slides freeze, the wrong team jumps the file, and you spend the period as the remote. The room is loud, the deck is lost, and the next class starts from a half-clicked board.
 
-**A game that is only vibes.** Theme music and a buzzer do not make an item TEKS-true. If the questions are trivia, or the Bonus Round is a joke, kids remember the noise and forget the model.
+**A game that is only vibes.** Theme music and a buzzer do not make an item TEKS-true. If the questions are trivia, or the Double Points question is a joke, kids remember the noise and forget the model.
 
 ## What a useful live Grade 3 STAAR game show does
 

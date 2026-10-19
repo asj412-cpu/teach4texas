@@ -12,7 +12,7 @@ scoreDeskCta: "Pair T-TESS evidence with Score Desk, a free local scoring app, p
 
 Your T-TESS observation scores aren't just feedback — they're a major factor in whether you earn TIA designation and the thousands of dollars that come with it.
 
-Most Texas districts use T-TESS as the observation rubric for TIA's teacher observation pillar. That means the difference between "Proficient" and "Distinguished" on your T-TESS evaluation could be the difference between Recognized and Master designation — and tens of thousands of dollars over five years.
+Most Texas districts use T-TESS as the observation rubric for TIA's teacher observation pillar. That means the difference between "Proficient" and "Distinguished" on your T-TESS evaluation could be the difference between Recognized and Master designation.
 
 This guide breaks down each T-TESS domain, explains what observers are actually looking for at the Distinguished level, and gives you concrete strategies to get there.
 

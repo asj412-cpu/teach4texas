@@ -78,7 +78,7 @@ These 15 activities are classroom-tested, STAAR-aligned, and actually fun. Some 
 
 ### 7. STAAR Category Game Board
 
-**What it is:** Create a quiz-show game board with categories aligned to STAAR reporting categories. Teams select categories and point values, answer the question, and earn (or lose) points. Bonus Round questions can be worth double points or require an "all-in" wager.
+**What it is:** Create a quiz-show game board with categories aligned to STAAR reporting categories. Teams select categories and point values, answer the question, and earn (or lose) points. Double Points questions can be worth double points or require an "all-in" wager.
 
 **Why it works:** The format is familiar to most students. The category structure naturally organizes review by topic, and the point system creates strategy and competition. Students cheer, groan, and engage in ways that worksheets never produce.
 

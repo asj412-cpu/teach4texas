@@ -472,7 +472,12 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
           <div key={`${activeCell.id}-${view.phase}`} className="gs-glass gs-rise flex-1 rounded-3xl p-5 sm:p-7">
             <p className="text-base font-semibold uppercase text-t4t-gold">
               Room {view.code} · {activeCell.category} · {activeCell.points}
-              {activeCell.daily_double ? " · 2x" : ""}
+              {activeCell.daily_double ? (
+                <>
+                  {" · "}
+                  <span className="normal-case">2x</span>
+                </>
+              ) : null}
             </p>
             {activeCell.daily_double && (
               <p className="mt-2 inline-block rounded-full bg-gradient-to-r from-yellow-300 to-amber-500 px-3 py-1 text-base font-black uppercase text-t4t-navy">

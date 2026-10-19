@@ -96,7 +96,7 @@ Texas offers several routes to standard certification for teachers who are alrea
 
 ### What If You Don't Get Certified?
 
-To be direct: if you don't earn certification by the applicable deadline, your district can no longer employ you in a foundation curriculum role under a DOI exemption. TEA lists alternative ways to qualify: a school district teaching permit under TEC §21.055 or a teacher certification waiver under TEC §7.056 ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)). The clear best path is to start the certification process now while you have time and financial incentives on your side.
+To be direct: if you don't earn certification by the applicable deadline, your district can no longer employ you in a foundation curriculum role under a DOI exemption. TEA lists alternative ways to qualify: a school district teaching permit under TEC §21.055 or a teacher certification waiver under TEC §7.056 ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)). These alternatives do not apply to special education, bilingual education, ESL, or prekindergarten assignments ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)). The clear best path is to start the certification process now while you have time and financial incentives on your side.
 
 ## Reading and Math Academies: Another Piece of the Puzzle
 
@@ -173,7 +173,7 @@ Districts that have relied heavily on DOI exemptions will need to work the harde
 
 ### Does HB 2 affect charter schools?
 
-These DOI exemption changes apply to districts using District of Innovation status to waive certification requirements. Charter schools operate under different statutory provisions, so ask your charter how this applies.
+These DOI exemption changes apply to districts using District of Innovation status to waive certification requirements. If you teach at a charter school, ask your charter how this applies.
 
 ### Does this affect elective teachers?
 
@@ -185,11 +185,11 @@ Teachers in active certification programs holding an intern or probationary cert
 
 ### Can a district reclassify a teacher's assignment to avoid the requirement?
 
-A district can reassign an uncertified teacher to an elective role, but the foundation curriculum teacher of record still needs an appropriate certificate or permit, a school district teaching permit (TEC §21.055), or a certification waiver (TEC §7.056) ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)). The requirement doesn't disappear -- it follows the course, not the teacher.
+A district can reassign an uncertified teacher to an elective role, but the foundation curriculum teacher of record still needs an appropriate certificate or permit, a school district teaching permit (TEC §21.055), or a certification waiver (TEC §7.056) ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)), except in special education, bilingual education, ESL, or prekindergarten assignments, where those alternatives do not apply. The requirement doesn't disappear -- it follows the course, not the teacher.
 
 ### What happens after 2029-30?
 
-2029-30 is when an optional, commissioner-approved district delay ends. From then on, foundation curriculum teachers of record in that district must hold an appropriate certificate or permit ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)).
+2029-30 is when an optional, commissioner-approved district delay ends. From then on, foundation curriculum teachers of record in that district must hold an appropriate certificate or permit ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)). TEA also lists a school district teaching permit (TEC §21.055) or a certification waiver (TEC §7.056) as other ways to qualify, except for special education, bilingual/ESL, and prekindergarten assignments ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)).
 
 ## The Bigger Picture
 

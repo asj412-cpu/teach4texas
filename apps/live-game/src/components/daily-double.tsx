@@ -243,7 +243,7 @@ export function DailyDoubleHost(props: {
           </div>
         </div>
         <aside className="w-full rounded-2xl border border-yellow-300/30 bg-black/30 p-4 backdrop-blur lg:w-72">
-          <p className="text-base uppercase text-white/80">Control dock</p>
+          <p className="text-base uppercase text-white">Control dock</p>
           <p className="mt-2 text-base">
             Wagers in:{" "}
             <span className="font-bold text-yellow-200">

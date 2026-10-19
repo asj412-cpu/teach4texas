@@ -523,7 +523,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
             )}
           </div>
           <aside className="gs-glass w-full rounded-3xl p-4 lg:w-72">
-            <p className="text-base uppercase text-white/80">Control dock</p>
+            <p className="text-base uppercase text-white">Control dock</p>
             <p className="mt-2 text-base">
               Answers: {view.answer_count} / {view.players.filter((p) => p.player_id !== "host").length}
             </p>

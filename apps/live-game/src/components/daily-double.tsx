@@ -108,7 +108,7 @@ function WagerPicker({
         aria-label="Wager"
         className="mt-4 w-full accent-yellow-400"
       />
-      <div className="mt-1 flex justify-between text-xs text-white/60">
+      <div className="mt-1 flex justify-between text-base text-white/80">
         <span>0</span>
         <span>max {max}</span>
       </div>
@@ -119,7 +119,7 @@ function WagerPicker({
             type="button"
             disabled={disabled}
             onClick={() => set(n)}
-            className={`rounded-full border-2 px-4 py-1.5 text-sm font-bold transition hover:scale-105 ${
+            className={`rounded-full border-2 px-4 py-1.5 text-base font-bold transition hover:scale-105 ${
               amount === n
                 ? "border-yellow-300 bg-yellow-300 text-[#1b365d]"
                 : "border-yellow-300/60 text-yellow-200"
@@ -161,7 +161,7 @@ export function DailyDoublePlayer(props: {
       <div className="dd-rays" />
       <Sparks />
       <div className="relative mx-auto flex max-w-md flex-col items-center">
-        <p className="text-xs font-bold uppercase tracking-[0.3em] text-yellow-200/80">
+        <p className="text-base font-bold uppercase tracking-[0.3em] text-yellow-200/80">
           {props.category} · {props.points}
         </p>
         <h1 className="dd-title dd-title-shimmer mt-3 text-center text-5xl font-black uppercase leading-none sm:text-6xl">
@@ -217,7 +217,7 @@ export function DailyDoubleHost(props: {
       <Sparks />
       <div className="relative mx-auto flex max-w-5xl flex-col gap-6 lg:flex-row">
         <div className="flex flex-1 flex-col items-center">
-          <p className="text-sm font-bold uppercase tracking-[0.3em] text-yellow-200/80">
+          <p className="text-base font-bold uppercase tracking-[0.3em] text-yellow-200/80">
             Room {props.code} · {props.category} · {props.points}
           </p>
           <h1 className="dd-title dd-title-shimmer mt-4 text-center text-7xl font-black uppercase leading-none sm:text-8xl">
@@ -230,7 +230,7 @@ export function DailyDoubleHost(props: {
             wrong answers lose it. No wager = plays for {props.points}.
           </p>
           <div className="dd-card mt-8 w-full max-w-sm rounded-3xl border border-yellow-300/40 bg-white/10 p-6 backdrop-blur">
-            <p className="text-center text-sm text-white/80">
+            <p className="text-center text-base text-white/80">
               host score <span className="font-bold text-yellow-200">{props.hostScore}</span>
             </p>
             <WagerPicker
@@ -243,8 +243,8 @@ export function DailyDoubleHost(props: {
           </div>
         </div>
         <aside className="w-full rounded-2xl border border-yellow-300/30 bg-black/30 p-4 backdrop-blur lg:w-72">
-          <p className="text-xs uppercase text-white/60">Control dock</p>
-          <p className="mt-2 text-sm">
+          <p className="text-base uppercase text-white/80">Control dock</p>
+          <p className="mt-2 text-base">
             Wagers in:{" "}
             <span className="font-bold text-yellow-200">
               {props.wagerCount} / {props.playerCount}
@@ -265,7 +265,7 @@ export function DailyDoubleHost(props: {
           >
             Reveal the question
           </button>
-          <ul className="mt-4 max-h-64 space-y-1 overflow-y-auto text-sm">
+          <ul className="mt-4 max-h-64 space-y-1 overflow-y-auto text-base">
             {props.players.map((p) => (
               <li key={p.player_id} className="flex items-center justify-between">
                 <span>{p.display_name}</span>

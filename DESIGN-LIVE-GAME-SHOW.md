@@ -31,7 +31,7 @@ The design reuses the proven content shape from `tpt-products/.../08-staar-revie
 
 | Asset | Path / notes | Role today |
 |-------|----------------|------------|
-| Game show questions | `tpt-products/Uploaded to Teachers Pay Teachers/seasonal/08-staar-review-game-show/grade{3,4,5}_questions.json` | 50 questions, 10 categories × 5 point values (100–500), 2 daily doubles; **no MC `choices`** |
+| Game show questions | `tpt-products/Uploaded to Teachers Pay Teachers/seasonal/08-staar-review-game-show/grade{3,4,5}_questions.json` | 50 questions, 10 categories × 5 point values (100–500), 2 Bonus Wager cells (every player wagers before the question); **no MC `choices`** |
 | Content narrative | `.../content.md` | Board structure, reveal UX, final round |
 | PPTX builders | `build_game_show.py`, `build_pptx.py` | Static interactive deck for TPT |
 | AI lesson generator | `generators/lesson_content_generator.py` | Grok via `OpenAI(base_url="https://api.x.ai/v1")`, model `grok-4.3`, structured JSON, `max_tokens=6000` |
@@ -75,7 +75,7 @@ The content model, TEKS voice, and brand already work. What’s missing is a **s
 - Offline / downloadable packages or PPTX export (post-MVP bridge to TPT)
 - Escape room format
 - Team mode (table groups as single score entity)
-- Final Jeopardy wager round
+- Final wager round
 - **Legacy free-response JSON import** of `grade*_questions.json` (post-MVP; distractors are hard—see Content gap)
 - **`subject: mixed` boards** (defer; single-subject only)
 - District SSO / LMS (Google Classroom roster sync)
@@ -350,10 +350,10 @@ type SessionRegistry = {
 #### Scoring rules (MVP)
 
 - **Scoring uses `correct_index` only** (compare submitted `choice_index`). Field `answer` is reveal/display copy only.
-- Mode **`all_correct` only**: on successful `host.reveal`, every player whose submitted `choice_index === correct_index` earns:
+- Mode **`all_correct` only**: on successful `host.reveal`, scores change as follows (only normal cells are gain-only; Bonus Wager cells can subtract):
   - Normal cell: `points`
   - Bonus Wager cell (formerly "Daily Double"): **every player places a pre-question wager** on their device (0..max(score,500)) before the question is shown; right answer +wager, wrong −wager, no wager plays for face value, no answer 0. Host wagers too.
-- Incorrect or no answer: 0 (no negatives).
+- Normal cell, incorrect or no answer: 0 (no negatives). Bonus Wager cell: wrong answer −wager; no answer 0.
 - **Idempotent reveal:** if `cells[active].scored === true` or `reveal_applied`, second `host.reveal` **always** returns `{ type: "error", code: "ALREADY_REVEALED", message }` **and** re-sends current reveal `room_state` so host UI can toast without double-scoring.
 - **Host override** (after reveal or on board):  
   `host.award_override { player_id, op: "delta" | "set", value: number }`  

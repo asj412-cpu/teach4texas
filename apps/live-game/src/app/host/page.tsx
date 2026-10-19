@@ -514,20 +514,20 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
               })}
             </ul>
             {view.phase === "question_open" && view.host_seat.answered && (
-              <p className="mt-2 text-sm text-t4t-gold">Your host answer is locked in.</p>
+              <p className="mt-2 text-base text-t4t-gold">Your host answer is locked in.</p>
             )}
             {view.phase === "reveal" && (
-              <p className="mt-4 text-sm text-t4t-gold">
+              <p className="mt-4 text-base text-t4t-gold">
                 TEKS {activeCell.teks} · {activeCell.answer}
               </p>
             )}
           </div>
           <aside className="gs-glass w-full rounded-3xl p-4 lg:w-72">
-            <p className="text-xs uppercase text-white/60">Control dock</p>
-            <p className="mt-2 text-sm">
+            <p className="text-base uppercase text-white/80">Control dock</p>
+            <p className="mt-2 text-base">
               Answers: {view.answer_count} / {view.players.filter((p) => p.player_id !== "host").length}
             </p>
-            <p className="text-sm">
+            <p className="text-base">
               host score:{" "}
               <span className="font-bold text-t4t-gold">
                 {view.host_seat.score}
@@ -537,7 +537,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
               {view.phase === "question_open" && (
                 <button
                   type="button"
-                  className="rounded-lg bg-t4t-burnt py-2 text-sm font-semibold"
+                  className="rounded-lg bg-t4t-burnt py-2 text-base font-semibold"
                   onClick={() => hostAction({ type: "lock" })}
                 >
                   Lock answers
@@ -547,7 +547,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
                 view.phase === "question_open") && (
                 <button
                   type="button"
-                  className="rounded-lg bg-t4t-gold py-2 text-sm font-semibold text-t4t-navy"
+                  className="rounded-lg bg-t4t-gold py-2 text-base font-semibold text-t4t-navy"
                   onClick={() => hostAction({ type: "reveal" })}
                 >
                   Reveal & score
@@ -556,14 +556,14 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
               {view.phase === "reveal" && (
                 <button
                   type="button"
-                  className="rounded-lg border border-white/40 py-2 text-sm font-semibold"
+                  className="rounded-lg border border-white/40 py-2 text-base font-semibold"
                   onClick={() => hostAction({ type: "back_to_board" })}
                 >
                   Back to board
                 </button>
               )}
             </div>
-            <ul className="mt-4 max-h-48 space-y-1 overflow-y-auto text-sm">
+            <ul className="mt-4 max-h-48 space-y-1 overflow-y-auto text-base">
               {view.players.map((p) => (
                 <li key={p.player_id} className="flex justify-between">
                   <span>{p.display_name}</span>

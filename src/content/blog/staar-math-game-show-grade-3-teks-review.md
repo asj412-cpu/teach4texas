@@ -42,7 +42,7 @@ Name them the way you talk about them in planning, not as a standards dump. A us
 2. **Kids join on their own devices.** They enter a room code and play from their seats, so the noise is about the math.
 3. **The items match Grade 3 STAAR Math.** Four choices on every cell. No calculator, the same as Grade 3 STAAR math. Word problems and models, in the style of the redesigned STAAR.
 4. **The categories are the TEKS clusters above.** Place value, operations, fractions, geometry and measurement, and data and money sense, including two-step 3.4K.
-5. **It fits one class period.** Twenty-five original items and two Bonus Wager questions (every player bets points first: right adds the bet, wrong subtracts it), then you still have a minute to ask what stalled.
+5. **It fits one class period.** Twenty-five items, two of them Bonus Wagers (every player bets points first: right adds the bet, wrong subtracts it), then you still have a minute to ask what stalled.
 
 ## One live game show that matches
 

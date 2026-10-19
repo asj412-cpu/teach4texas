@@ -3,7 +3,7 @@
 ## Visual Design Notes
 - **Color Palette:** Electric blue, neon purple, hot pink, gold, black backgrounds (game show aesthetic)
 - **Style:** TV game show — spotlights, stage curtains, neon signs, confetti animations
-- **Layout:** Classic Jeopardy grid on main board, individual question slides with dramatic reveals
+- **Layout:** Classic category-and-point-value grid on main board, individual question slides with dramatic reveals
 - **Fonts:** Bold block letters for categories, clean readable font for questions
 - **Animations:** Click to reveal answers, sound effect cues noted in teacher guide
 
@@ -328,7 +328,7 @@
 - Teams take turns choosing a category and point value
 - All teams can attempt to answer (write on whiteboards or recording sheets)
 - Choosing team answers first; if wrong, other teams can "steal"
-- Bonus Wagers: Only the choosing team can answer; they wager points
+- Bonus Wagers: Only the choosing team can answer; they wager points before the question is shown
 - Final Round: All teams wager and answer
 
 ### Tips

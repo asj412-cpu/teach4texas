@@ -11,7 +11,7 @@
 | 5 | 🌍 Earth Day Science Investigation | $5.99 | April | PDF + Google Slides |
 | 6 | 🎉 Cinco de Mayo Cultural Reading & Math Fiesta | $5.99 | May | PDF + Google Slides |
 | 7 | 📚 End of Year Memory Book & Reflection Journal | $4.99 | May | PDF + Google Slides |
-| 8 | 🎮 Summer STAAR Review Game Show (Jeopardy) | $7.99 | April-May | Google Slides (primary) |
+| 8 | 🎮 Summer STAAR Review Game Show (quiz board) | $7.99 | April-May | Google Slides (primary) |
 | 9 | 💝 Teacher Appreciation Week Cards & Activities | $3.99 | May | PDF + Google Slides |
 | 10 | 🌟 Spring Testing Motivation Kit: STAAR Pep Rally Pack | $4.99 | March-April | PDF (print-focused) |
 

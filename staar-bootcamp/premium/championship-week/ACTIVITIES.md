@@ -6,7 +6,7 @@
 
 ## 🎮 REVIEW GAMES
 
-### 1. STAAR Bowl (Jeopardy-Style Game)
+### 1. STAAR Bowl (Quiz Board Game)
 **Type:** Teams | **Time:** 25-30 min | **Best for:** Multi-subject review
 
 **Setup:**
@@ -43,7 +43,7 @@
 
 ---
 
-### 3. March Madness Bracket Challenge
+### 3. Bracket Challenge
 **Type:** Individual/class | **Time:** Ongoing all week | **Best for:** Daily engagement
 
 **Setup:**

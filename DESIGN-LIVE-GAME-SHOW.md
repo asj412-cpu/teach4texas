@@ -352,7 +352,7 @@ type SessionRegistry = {
 - **Scoring uses `correct_index` only** (compare submitted `choice_index`). Field `answer` is reveal/display copy only.
 - Mode **`all_correct` only**: on successful `host.reveal`, every player whose submitted `choice_index === correct_index` earns:
   - Normal cell: `points`
-  - Daily Double: **fixed 2× points** (no mid-class wager in MVP)
+  - Bonus Wager cell (formerly "Daily Double"): **every player places a pre-question wager** on their device (0..max(score,500)) before the question is shown; right answer +wager, wrong −wager, no wager plays for face value, no answer 0. Host wagers too.
 - Incorrect or no answer: 0 (no negatives).
 - **Idempotent reveal:** if `cells[active].scored === true` or `reveal_applied`, second `host.reveal` **always** returns `{ type: "error", code: "ALREADY_REVEALED", message }` **and** re-sends current reveal `room_state` so host UI can toast without double-scoring.
 - **Host override** (after reveal or on board):  
@@ -1128,7 +1128,7 @@ Directed at **teachers** as operators; students are transient participants. No b
 3. **Access code packaging:** how many codes per TPT sale (1 multi-use vs N single-use) — default multi-use until decided per listing.
 4. **Whether teachers may edit redeemed boards** (fork) or only host as-published — default **host as-published** for content control; fork post-MVP.
 
-*(Resolved: Game Show is first Micro-SaaS/runtime bet; monetization = TPT access codes per game; beta subjects = math+RLA+science; DD 2×; single-subject boards; no legacy import; kick yes; server timer; stage/control; free names; PartyKit; async AI operator pipeline.)*
+*(Resolved: Game Show is first Micro-SaaS/runtime bet; monetization = TPT access codes per game; beta subjects = math+RLA+science; Bonus Wager = every player places a pre-question wager; single-subject boards; no legacy import; kick yes; server timer; stage/control; free names; PartyKit; async AI operator pipeline.)*
 
 ---
 
@@ -1155,7 +1155,7 @@ Directed at **teachers** as operators; students are transient participants. No b
 | 14 | **Brand tokens from `generators/brand.py`**; Track 1 = theme+mechanic first, images later | Continuity + honest quality compromise |
 | 15 | **Server-authoritative timer** (`open_until` + alarm) | Avoid Chromebook clock skew |
 | 16 | **Stage vs Control host UI**; answer key off projector by default | Prevent shoulder-surf of keys |
-| 17 | **Daily Double = fixed 2×** | No wager UX friction for 3–5 |
+| 17 | **Bonus Wager = every player places a pre-question wager** (±wager; no wager = face value) | Superseded the MVP fixed-2× plan; matches prod scoring |
 | 18 | **Single-subject only** (no `mixed`) | Reduce prompt failure |
 | 19 | **No legacy free-response JSON import in MVP** | Distractor quality gap |
 | 20 | **Host kick + lock lobby in live UI** | Beta classroom control |
@@ -1200,7 +1200,7 @@ Directed at **teachers** as operators; students are transient participants. No b
 
 ### Post-MVP
 
-- Team mode; Final round; wager DD; escape rooms; self-paced
+- Team mode; Final round; escape rooms; self-paced
 - Legacy JSON import + distractor assist; mixed subject; 10-category boards
 - PPTX/TPT export; images; Google OAuth; LMS; Stripe; buzzer race
 - Supabase durable recovery snapshots (if ever justified with privacy review)

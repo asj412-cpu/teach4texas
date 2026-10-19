@@ -133,7 +133,11 @@ function WagerPicker({
         type="button"
         disabled={disabled}
         onClick={() => onLock(amount)}
-        className="mt-6 w-full rounded-2xl bg-gradient-to-b from-yellow-300 to-amber-500 py-4 text-lg font-black uppercase tracking-wide text-[#1b365d] shadow-[0_6px_0_#8a5a00] transition active:translate-y-1 active:shadow-[0_2px_0_#8a5a00] disabled:opacity-60"
+        className={
+          tone === "host"
+            ? "mt-6 w-full rounded-2xl border-2 border-yellow-300 bg-white/5 py-4 text-lg font-black uppercase tracking-wide text-yellow-200 transition hover:bg-white/10 active:translate-y-1 disabled:opacity-60"
+            : "mt-6 w-full rounded-2xl bg-gradient-to-b from-yellow-300 to-amber-500 py-4 text-lg font-black uppercase tracking-wide text-[#1b365d] shadow-[0_6px_0_#8a5a00] transition active:translate-y-1 active:shadow-[0_2px_0_#8a5a00] disabled:opacity-60"
+        }
       >
         {current !== null ? `Locked at ${current} · change` : tone === "host" ? "Lock host wager" : "Lock my wager"}
       </button>
@@ -166,7 +170,7 @@ export function DailyDoublePlayer(props: {
           Wager!
         </h1>
         <div className="dd-card mt-8 w-full rounded-3xl border border-yellow-300/40 bg-white/10 p-6 backdrop-blur">
-          <p className="text-center text-sm text-white/80">
+          <p className="text-center text-base text-white/90">
             Your score <span className="font-bold text-yellow-200">{props.score}</span> · How much will you bet?
           </p>
           <WagerPicker
@@ -177,12 +181,12 @@ export function DailyDoublePlayer(props: {
             onLock={props.onWager}
             tone="player"
           />
-          <p className="mt-4 text-center text-xs text-white/60">
+          <p className="mt-4 text-center text-base font-semibold text-white/85">
             Right answer: +wager · Wrong answer: −wager
           </p>
         </div>
         {props.myWager !== null && (
-          <p className="mt-6 animate-pulse text-center text-sm font-semibold text-yellow-200">
+          <p className="mt-6 animate-pulse text-center text-base font-semibold text-yellow-200">
             Wager locked! Waiting for your teacher to reveal the question…
           </p>
         )}
@@ -257,7 +261,7 @@ export function DailyDoubleHost(props: {
           <button
             type="button"
             onClick={props.onOpenQuestion}
-            className="mt-4 w-full rounded-xl bg-gradient-to-b from-yellow-300 to-amber-500 py-3 text-sm font-black uppercase text-[#1b365d] shadow-[0_4px_0_#8a5a00] active:translate-y-0.5"
+            className="mt-4 w-full rounded-xl bg-gradient-to-b from-yellow-300 to-amber-500 py-3 text-base font-black uppercase text-[#1b365d] shadow-[0_4px_0_#8a5a00] active:translate-y-0.5"
           >
             Reveal the question
           </button>

@@ -472,7 +472,6 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
           <div key={`${activeCell.id}-${view.phase}`} className="gs-glass gs-rise flex-1 rounded-3xl p-5 sm:p-7">
             <p className="text-base font-semibold uppercase text-yellow-200">
               Room {view.code} · {activeCell.category} · {activeCell.points}
-              {activeCell.daily_double ? " · Bonus Wager" : ""}
             </p>
             {activeCell.daily_double && (
               <p className="mt-2 inline-block rounded-full bg-gradient-to-r from-yellow-300 to-amber-500 px-3 py-1 text-base font-black uppercase text-t4t-navy">
@@ -534,7 +533,6 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
                 {view.host_seat.score}
               </span>
             </p>
-            <p className="text-sm">Phase: {view.phase}</p>
             <div className="mt-4 flex flex-col gap-2">
               {view.phase === "question_open" && (
                 <button

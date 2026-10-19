@@ -51,7 +51,7 @@ const ids = [...catalog.matchAll(/id:\s*'(\d+)'/g)].map((m) => m[1]);
 const uniqueHrefs = new Set(hrefs);
 const uniqueIds = new Set(ids);
 
-if (hrefs.length !== 45) failures.push(`Expected exactly 45 live TPT hrefs, found ${hrefs.length}`);
+if (hrefs.length !== 46) failures.push(`Expected exactly 46 live TPT hrefs, found ${hrefs.length}`);
 if (uniqueHrefs.size !== hrefs.length) failures.push('Duplicate TPT hrefs in catalog');
 if (uniqueIds.size !== ids.length) failures.push('Duplicate TPT ids in catalog');
 if (hrefs.some((h) => !h.includes('/Product/'))) failures.push('Catalog href is not a product URL');
@@ -75,6 +75,7 @@ const requiredIds = [
   '17468013', // Archive Vault
   '17468482', // Cycle Vault
   '17547135', // Brain Teasers Math Logic Lab Grade 3
+  '17470369', // STAAR Math Game Show Grade 3 (Bonus Wager cover, LIVE 2026-10-19)
 ];
 // Dead on TPT as of 2026-10-15 (404 or store-home redirect). Do not re-add without a LIVE check.
 const deadIds = ['15601716', '15601750', '15601786', '15601876', '15601904', '15601975'];

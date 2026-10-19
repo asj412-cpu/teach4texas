@@ -404,6 +404,16 @@ export const TPT_LISTINGS: TptListing[] = [
     category: 'classroom',
   },
   {
+    id: '17470369',
+    href: `${TPT}/STAAR-Math-Game-Show-Grade-3-TEKS-Review-Live-Classroom-No-Prep-17470369`,
+    image: '/images/covers/tpt-17470369-cover-1bce1e54.jpg',
+    title: 'STAAR Math Game Show Grade 3 TEKS Review Live Classroom | No Prep',
+    description:
+      'Hosted live Grade 3 math game show. Redeem the access code, project the 5×5 board, students join with a room code. 25 original items and two Bonus Wagers.',
+    price: '$4.99',
+    category: 'classroom',
+  },
+  {
     id: '15601955',
     href: `${TPT}/Summer-STAAR-Review-Game-Show-Style-Math-RLA-Grades-3-5-15601955`,
     title: 'Summer STAAR Review Game Show Style: Math & RLA (Grades 3-5)',

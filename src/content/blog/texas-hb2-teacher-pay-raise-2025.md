@@ -83,16 +83,16 @@ HB 2 added a fourth designation tier below the existing Recognized, Exemplary, a
 
 **Who qualifies:** TEA's statewide benchmark for Acknowledged is the **top 50% of Texas teachers** (Recognized is the top 33%, Exemplary the top 20%, Master the top 5%). That's a lower bar than the existing tiers, so more teachers can earn a designation.
 
-**What it pays:** The Acknowledged designation generates **$3,000 to $9,000 per teacher** annually, depending on the campus.
+**What it pays:** The Acknowledged designation generates **$3,000 to $9,000 per teacher** annually, depending on the campus ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-teacher-incentive-allotment-update)).
 
-| Designation | 2026–27 Annual Allotment Range (TEA) |
+| Designation | 2026–27 Annual Allotment Range ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-teacher-incentive-allotment-update)) |
 |---|---|
 | Acknowledged (NEW) | $3,000 – $9,000 |
 | Recognized | $5,000 – $15,000 |
 | Exemplary | $9,000 – $25,000 |
 | Master | $12,000 – $36,000 |
 
-TEA says the increased allotments take effect in the 2026–27 school year. Acknowledged and Nationally Board Certified designations generate $3,000–$9,000.
+TEA says the increased allotments take effect in the 2026–27 school year. Acknowledged and Nationally Board Certified designations generate $3,000–$9,000 ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-teacher-incentive-allotment-update)).
 
 ### Timeline for Acknowledged Designation
 
@@ -102,7 +102,7 @@ This isn't someday — it's this year's data.
 
 ### National Board Certified Teachers (NBCTs)
 
-Beginning in 2026–27, eligible NBCTs transition to a new Nationally Board Certified designation, funded at the same $3,000–$9,000 range as Acknowledged. SBEC must review National Board certification as a TIA pathway by **December 31, 2026** to keep it eligible. If you're an NBCT, keep an eye on SBEC and district communications.
+Beginning in 2026–27, eligible NBCTs transition to a new Nationally Board Certified designation, funded at the same $3,000–$9,000 range as Acknowledged ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-teacher-incentive-allotment-update)). SBEC must review National Board certification as a TIA pathway by **December 31, 2026** to keep it eligible. If you're an NBCT, keep an eye on SBEC and district communications.
 
 ### Enhanced TIA District Designation
 
@@ -116,15 +116,15 @@ Let's run a few scenarios to make this concrete.
 
 - **TRA:** $5,000 (5+ years experience, large district)
 - **Basic allotment increase:** Indirect benefit through district budget
-- **TIA potential (Acknowledged):** $3,000–$9,000 if designated for 2026–27
-- **Total direct increase:** $5,000 immediately, potentially $8,000–$14,000 with TIA
+- **TIA potential (Acknowledged):** $3,000–$9,000 if designated for 2026–27 ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-teacher-incentive-allotment-update))
+- **Total direct increase:** $5,000 immediately
 
 ### Scenario 2: 4th-Year Teacher in a Small District (3,000 students)
 
 - **TRA:** $4,000 (3-4 years experience, small district)
 - **Basic allotment increase:** Indirect benefit
-- **TIA potential:** $3,000–$9,000 if designated
-- **Total direct increase:** $4,000 immediately, potentially $7,000–$13,000 with TIA
+- **TIA potential:** $3,000–$9,000 if designated ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-teacher-incentive-allotment-update))
+- **Total direct increase:** $4,000 immediately
 - **Next year (5th year):** TRA jumps to $8,000
 
 ### Scenario 3: First-Year Teacher in a Large District
@@ -158,7 +158,7 @@ Don't assume it's been applied correctly. Payroll errors happen, especially with
 
 ### Step 2: Check Your District's TIA Participation Status
 
-If your district has an approved TIA system, the new Acknowledged designation could mean $3,000–$9,000 on top of your TRA. If your district doesn't participate yet, ask your administration whether they plan to apply. The Acknowledged tier's broader eligibility makes TIA more attractive for districts that previously thought only a handful of teachers would benefit.
+If your district has an approved TIA system, the new Acknowledged designation could mean $3,000–$9,000 ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-teacher-incentive-allotment-update)) on top of your TRA. If your district doesn't participate yet, ask your administration whether they plan to apply. The Acknowledged tier's broader eligibility makes TIA more attractive for districts that previously thought only a handful of teachers would benefit.
 
 ### Step 3: Build Your 2025-26 Effectiveness Record
 

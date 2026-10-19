@@ -37,7 +37,7 @@ TEA's HB 2 update lists four designation levels. Each has a statewide performanc
 
 ### Acknowledged (new)
 
-- **2026–27 allotment:** $3,000–$9,000
+- **2026–27 allotment:** $3,000–$9,000 ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-teacher-incentive-allotment-update))
 - **Statewide benchmark:** top 50% of Texas teachers
 - **Performance standards:** T-TESS 3.5 (70% of possible points); 50% of students meeting or exceeding expected growth
 
@@ -45,19 +45,19 @@ Districts with local designation systems may designate teachers at this level be
 
 ### Recognized
 
-- **2026–27 allotment:** $5,000–$15,000
+- **2026–27 allotment:** $5,000–$15,000 ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-teacher-incentive-allotment-update))
 - **Statewide benchmark:** top 33% of Texas teachers
 - **Performance standards:** T-TESS 3.7 (74% of possible points); 55% of students meeting or exceeding expected growth
 
 ### Exemplary
 
-- **2026–27 allotment:** $9,000–$25,000
+- **2026–27 allotment:** $9,000–$25,000 ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-teacher-incentive-allotment-update))
 - **Statewide benchmark:** top 20% of Texas teachers
 - **Performance standards:** T-TESS 3.9 (78% of possible points); 60% of students meeting or exceeding expected growth
 
 ### Master
 
-- **2026–27 allotment:** $12,000–$36,000
+- **2026–27 allotment:** $12,000–$36,000 ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-teacher-incentive-allotment-update))
 - **Statewide benchmark:** top 5% of Texas teachers
 - **Performance standards:** T-TESS 4.5 (90% of possible points); 70% of students meeting or exceeding expected growth
 

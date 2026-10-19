@@ -15,7 +15,7 @@ Either way, the days of staffing foundation curriculum classrooms with uncertifi
 
 ## The Problem HB 2 Is Trying to Solve
 
-For years, Texas districts designated as Districts of Innovation have had the authority to exempt themselves from certain Education Code provisions — including the requirement that teachers hold standard certifications. What began as a flexibility tool gradually became a workaround for the teacher shortage.
+For years, Texas districts designated as Districts of Innovation have had the authority to exempt themselves from certain Education Code provisions — including the requirement that teachers hold an appropriate certificate or permit. What began as a flexibility tool gradually became a workaround for the teacher shortage.
 
 The numbers tell the story. In the 2024-25 school year, roughly **half of all new-to-the-profession teachers** in Texas had no certification whatsoever. Not an alternative certification in progress. No certification at all.
 
@@ -27,7 +27,7 @@ HB 2 addresses this head-on through TEC Section 21.0032, which phases out DOI ex
 
 ## What HB 2 Actually Changes
 
-The law doesn't eliminate Districts of Innovation or their broader flexibility. It targets one specific use: the practice of hiring teachers without standard certification to teach **foundation curriculum subjects** — the core academic areas defined in the Texas Education Code.
+The law doesn't eliminate Districts of Innovation or their broader flexibility. It targets one specific use: the practice of hiring teachers without an appropriate certificate or permit to teach **foundation curriculum subjects** — the core academic areas defined in the Texas Education Code.
 
 Foundation curriculum includes:
 
@@ -52,7 +52,7 @@ This graduated approach recognizes that you can't flip a switch overnight. Eleme
 
 ### The Extension Option
 
-Districts that cannot meet the 2026-27 or 2027-28 deadlines can apply to the Commissioner of Education for an extension to **2029-30**. The application window opened **October 16, 2025** and closes **March 2, 2026**. If your district is considering this, the window is already open and closing soon.
+Districts that could not meet the 2026-27 or 2027-28 deadlines could submit a plan for commissioner approval to delay until the beginning of the 2029-30 school year ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)). If this affects you, ask whether your district applied.
 
 The extension doesn't exempt a district from ever complying — an approved delay ends at the beginning of the 2029-30 school year, when the district's foundation curriculum teachers of record must hold an appropriate certificate or permit ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)).
 
@@ -76,11 +76,11 @@ HB 2 signals a return to the principle that teaching is a profession with meanin
 
 ## What This Means for Uncertified Teachers
 
-If you're currently teaching under a DOI exemption without a standard certification, HB 2 directly affects your career. But this isn't a door slamming shut — it's a deadline with a clearly marked pathway through it.
+If you're currently teaching under a DOI exemption without an appropriate certificate or permit, HB 2 directly affects your career. But this isn't a door slamming shut — it's a deadline with a clearly marked pathway through it.
 
 ### You Have Time, But Not Unlimited Time
 
-The timeline gives you multiple school years to earn your certification. If you teach K-5 reading or math, the clock is tightest — DOI exemptions for those roles disappear in the **2026-27 school year**. For other foundation subjects, you have until **2027-28** before the exemptions end, and the absolute final deadline is **2029-30**.
+The timeline gives you multiple school years to earn your certification. If you teach K-5 reading or math, the clock is tightest — DOI exemptions for those roles disappear in the **2026-27 school year**. For other foundation subjects, you have until **2027-28** before the exemptions end. 2029-30 applies only if your district has an approved delay plan ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)).
 
 That's enough time to complete an alternative certification program (most take 1-2 years), pass the required content and pedagogy exams, and earn your standard certificate.
 
@@ -103,7 +103,7 @@ Texas offers several routes to standard certification for teachers who are alrea
 
 ### What If You Don't Get Certified?
 
-To be direct: if you don't earn certification by the applicable deadline, your district can no longer employ you in a foundation curriculum role under a DOI exemption. Your options would narrow to elective roles, private/charter schools, or leaving the classroom. The clear best path is to start the certification process now while you have time and financial incentives on your side.
+To be direct: if you don't earn certification by the applicable deadline, your district can no longer employ you in a foundation curriculum role under a DOI exemption. TEA lists alternative ways to qualify: a school district teaching permit under TEC §21.055 or a teacher certification waiver under TEC §7.056 ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)). The clear best path is to start the certification process now while you have time and financial incentives on your side.
 
 ## Reading and Math Academies: Another Piece of the Puzzle
 
@@ -180,7 +180,7 @@ Districts that have relied heavily on DOI exemptions will need to work the harde
 
 2. **Build support systems.** Create certification pathways — partner with ACPs, offer tuition reimbursement, arrange mentoring, and provide time for exam preparation.
 
-3. **Evaluate the extension option.** If your district cannot meet the 2026-27 or 2027-28 deadlines, the Commissioner's extension application window closes March 2, 2026. Don't wait until the last minute.
+3. **Check the delay option.** Districts that could not meet the 2026-27 or 2027-28 deadlines could request a commissioner-approved delay to 2029-30 ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)). Ask whether your district applied.
 
 4. **Plan your pipeline.** Long-term, the goal is not just to certify your current staff but to build sustainable recruitment pipelines for certified teachers in high-need subjects.
 
@@ -202,11 +202,11 @@ Teachers in active certification programs holding an intern or probationary cert
 
 ### Can a district reclassify a teacher's assignment to avoid the requirement?
 
-A district can reassign an uncertified teacher to an elective role, but someone certified still needs to teach the foundation curriculum course. The requirement doesn't disappear -- it follows the course, not the teacher.
+A district can reassign an uncertified teacher to an elective role, but the foundation curriculum teacher of record still needs an appropriate certificate or permit, a school district teaching permit (TEC §21.055), or a certification waiver (TEC §7.056) ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)). The requirement doesn't disappear -- it follows the course, not the teacher.
 
 ### What happens after 2029-30?
 
-2029-30 is when an optional, commissioner-approved district delay ends. From then on, foundation curriculum teachers of record in that district must hold an appropriate certificate or permit ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)). No extensions. No workarounds.
+2029-30 is when an optional, commissioner-approved district delay ends. From then on, foundation curriculum teachers of record in that district must hold an appropriate certificate or permit ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)).
 
 ## The Bigger Picture
 

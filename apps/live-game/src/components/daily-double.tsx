@@ -269,7 +269,7 @@ export function DailyDoubleHost(props: {
             {props.players.map((p) => (
               <li key={p.player_id} className="flex items-center justify-between">
                 <span>{p.display_name}</span>
-                <span className={props.wagers[p.player_id] !== undefined ? "font-bold text-yellow-200" : "text-white/40"}>
+                <span className={props.wagers[p.player_id] !== undefined ? "font-bold text-yellow-200" : "text-white/75"}>
                   {props.wagers[p.player_id] !== undefined ? "✓ locked" : "…"}
                 </span>
               </li>

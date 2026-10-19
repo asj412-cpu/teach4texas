@@ -7,13 +7,13 @@
 | **Date** | 2026-08-02 |
 | **Status** | Draft (Rev 4 — TPT access-code monetization; product priority = Game Show first) |
 | **Product** | Teach4Texas **live runtime for TPT-sold games** (access codes per game product) |
-| **Scope** | Live classroom only; Jeopardy-style board; AI for product creation; TPT access-code gate |
+| **Scope** | Live classroom only; category-grid quiz board; AI for product creation; TPT access-code gate |
 
 ---
 
 ## Overview
 
-Teach4Texas’s bestsellers are student-facing games—especially the STAAR Game Show (Jeopardy-style PPTX) and Grammar Galaxy escape rooms. Today those products ship as static Google Slides / PowerPoint downloads sold on TPT. Teachers love the format but cannot generate a custom TEKS-aligned board in minutes, host a live multiplayer session on Chromebooks, or get automatic scoring and a leaderboard without manual bookkeeping.
+Teach4Texas’s bestsellers are student-facing games—especially the STAAR Game Show (category-grid quiz PPTX) and Grammar Galaxy escape rooms. Today those products ship as static Google Slides / PowerPoint downloads sold on TPT. Teachers love the format but cannot generate a custom TEKS-aligned board in minutes, host a live multiplayer session on Chromebooks, or get automatic scoring and a leaderboard without manual bookkeeping.
 
 This document designs a **web app vertical slice** aligned with how Teach4Texas already sells: **each game is a TPT product with its own access codes**. Internal (or operator) tooling AI-generates / edits a game-show board → product ships on TPT with **access code(s)** in the download → teacher redeems an access code on the web app to unlock that board → starts a live room with a short **student join code** → projects a safe host **stage** while controlling from a dock → students join with display name only → teacher paces open / lock / reveal / score → leaderboard.
 
@@ -1030,7 +1030,7 @@ See stack trade-off table above. **PartyKit chosen** over Supabase-only despite 
 | Teacher-only projector board + paper answers | Zero WS | Misses product thesis |
 | QR shared form without WS | Simple | Weak live energy |
 | **Editor + single-device “practice mode” before multiplayer (chosen as soft gate)** | Validates AI/editor before PartyKit | Extra small PR surface |
-| Full Jeopardy host control (chosen) vs Kahoot auto-advance | Matches bestseller mechanic | Slower; fewer cells/period |
+| Full host control of a category-grid board (chosen) vs Kahoot auto-advance | Matches bestseller mechanic | Slower; fewer cells/period |
 
 **Dogfood path:** after PR 4, teacher uses **`/boards/[id]/practice`** (see Practice mode contract). Multiplayer lands PR 6–8. Expect **8–12 cells** per period in live mode, not necessarily full 25.
 
@@ -1137,7 +1137,7 @@ Directed at **teachers** as operators; students are transient participants. No b
 | # | Decision | Rationale |
 |---|----------|-----------|
 | 1 | **Live classroom only** for MVP | Fixed product decision; vertical slice redeem → host → join → play |
-| 2 | **Jeopardy-style board** first | Bestselling STAAR Game Show shape |
+| 2 | **Category-grid quiz board** first | Bestselling STAAR Game Show shape |
 | 3 | **Independent `apps/live-game` Next.js package**; leave Astro/`generators` alone | Protect TPT + SEO; repo is not a workspace yet |
 | 4 | **PartyKit authoritative rooms** (not Supabase-only realtime) | FSM + timer alarms + role sanitization; accept 3-vendor ops cost |
 | 5 | **TPT product access codes unlock host** (not teacher magic-link SaaS) | Monetization = sell games on TPT; codes in download |

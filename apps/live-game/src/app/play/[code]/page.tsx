@@ -482,7 +482,7 @@ function PlayPageBody({
           </p>
         )}
         {reveal && q.answer && (
-          <p className="gs-glass mx-auto mt-6 max-w-md rounded-xl px-3 py-2 text-center text-sm font-semibold">
+          <p className="gs-glass mx-auto mt-6 max-w-md rounded-xl px-3 py-2 text-center text-base font-semibold">
             Correct: {kidPlainText(q.answer, 120)}
             {q.teks ? ` (${q.teks})` : ""}
           </p>

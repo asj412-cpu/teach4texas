@@ -273,7 +273,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
               onClick={() => startLive("board")}
               className="gs-cat rounded-2xl px-4 py-4 text-xl font-black uppercase tracking-wide transition hover:-translate-y-0.5 disabled:cursor-wait disabled:grayscale-[60%]"
             >
-              {starting ? "Starting…" : "Start game show (Jeopardy board)"}
+              {starting ? "Starting…" : "Start game show (quiz board)"}
             </button>
           )}
           {supportsMemoryMatch(board) && (
@@ -474,7 +474,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
               Room {view.code} · {activeCell.category} · {activeCell.points}
             </p>
             {activeCell.daily_double && (
-              <p className="mt-2 inline-block rounded-full bg-gradient-to-r from-yellow-300 to-amber-500 px-3 py-1 text-base font-black uppercase text-t4t-navy">
+              <p className="mt-2 inline-block whitespace-nowrap rounded-full bg-gradient-to-r from-yellow-300 to-amber-500 px-3 py-1 text-base font-black text-t4t-navy">
                 Bonus Wager · playing for wagers
               </p>
             )}
@@ -504,7 +504,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
                             : "border-white/20"
                       } ${canPick ? "hover:bg-white/20" : ""} disabled:cursor-default`}
                     >
-                      <span className="font-bold text-t4t-gold">
+                      <span className="font-bold text-yellow-200">
                         {String.fromCharCode(65 + i)}.
                       </span>{" "}
                       {c}
@@ -514,10 +514,10 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
               })}
             </ul>
             {view.phase === "question_open" && view.host_seat.answered && (
-              <p className="mt-2 text-base text-t4t-gold">Your host answer is locked in.</p>
+              <p className="mt-2 text-base text-yellow-200">Your host answer is locked in.</p>
             )}
             {view.phase === "reveal" && (
-              <p className="mt-4 text-base text-t4t-gold">
+              <p className="mt-4 text-base text-yellow-200">
                 TEKS {activeCell.teks} · {activeCell.answer}
               </p>
             )}
@@ -529,7 +529,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
             </p>
             <p className="text-base">
               host score:{" "}
-              <span className="font-bold text-t4t-gold">
+              <span className="font-bold text-yellow-200">
                 {view.host_seat.score}
               </span>
             </p>
@@ -547,7 +547,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
                 view.phase === "question_open") && (
                 <button
                   type="button"
-                  className="rounded-lg bg-t4t-gold py-2 text-base font-semibold text-t4t-navy"
+                  className="rounded-lg bg-yellow-300 py-2 text-base font-semibold text-t4t-navy"
                   onClick={() => hostAction({ type: "reveal" })}
                 >
                   Reveal & score
@@ -567,7 +567,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
               {view.players.map((p) => (
                 <li key={p.player_id} className="flex justify-between">
                   <span>{p.display_name}</span>
-                  <span className="text-t4t-gold">
+                  <span className="text-yellow-200">
                     {view.phase === "reveal" &&
                     view.points_awarded[p.player_id] !== undefined
                       ? `${view.points_awarded[p.player_id]! >= 0 ? "+" : ""}${view.points_awarded[p.player_id]} → `

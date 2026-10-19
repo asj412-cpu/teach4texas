@@ -8,7 +8,7 @@ author: "Lone Star Educator"
 tags: ["STAAR", "math", "Grade 3", "TEKS", "game show"]
 ---
 
-Mid-October in a Texas Grade 3 room has a split personality. The benchmark window is close enough that you can feel it, and Friday still wants to feel like game day. So the stations come out, or a Jeopardy file from a few years ago gets projected, and the hope is that the noise means the TEKS moved.
+Mid-October in a Texas Grade 3 room has a split personality. The benchmark window is close enough that you can feel it, and Friday still wants to feel like game day. So the stations come out, or a quiz-board file from a few years ago gets projected, and the hope is that the noise means the TEKS moved.
 
 Grade 3 STAAR math does not take Friday off. Place value up to 100,000, two-step multiplication and division, fraction models, geometry and measurement, and data and money sense are all still on the clock. A loud block that only reviews bare facts leaves those standards sitting there for Monday.
 
@@ -28,13 +28,13 @@ Name them the way you talk about them in planning, not as a standards dump. A us
 
 ## Where Friday game day usually goes sideways
 
-**Jeopardy with bare facts.** A cell that says "6 × 7" and four products is retrieval practice. Grade 3 STAAR Math asks students to solve word problems and work with models, and a multiple-choice item can include the answer you get if you stop too early. Bare facts feel fast and teach the wrong habit.
+**Quiz boards with bare facts.** A cell that says "6 × 7" and four products is retrieval practice. Grade 3 STAAR Math asks students to solve word problems and work with models, and a multiple-choice item can include the answer you get if you stop too early. Bare facts feel fast and teach the wrong habit.
 
 **No TEKS labels.** If the category says "Numbers" and nothing else, you cannot tell whether the block practiced 3.2D or 3.4K. You also cannot tell a PLC what Friday covered. The standards have to be nameable when the board comes down.
 
 **A PowerPoint that dies when kids yell.** Click-ahead slides freeze, the wrong team jumps the file, and you spend the period as the remote. The room is loud, the deck is lost, and the next class starts from a half-clicked board.
 
-**A game that is only vibes.** Theme music and a buzzer do not make an item TEKS-true. If the questions are trivia, or the Daily Double is a joke, kids remember the noise and forget the model.
+**A game that is only vibes.** Theme music and a buzzer do not make an item TEKS-true. If the questions are trivia, or the Double Points question is a joke, kids remember the noise and forget the model.
 
 ## What a useful live Grade 3 STAAR game show does
 
@@ -42,7 +42,7 @@ Name them the way you talk about them in planning, not as a standards dump. A us
 2. **Kids join on their own devices.** They enter a room code and play from their seats, so the noise is about the math.
 3. **The items match Grade 3 STAAR Math.** Four choices on every cell. No calculator, the same as Grade 3 STAAR math. Word problems and models, in the style of the redesigned STAAR.
 4. **The categories are the TEKS clusters above.** Place value, operations, fractions, geometry and measurement, and data and money sense, including two-step 3.4K.
-5. **It fits one class period.** Twenty-five original items and two Daily Doubles, then you still have a minute to ask what stalled.
+5. **It fits one class period.** Twenty-five original items and two Double Points questions, then you still have a minute to ask what stalled.
 
 ## One live game show that matches
 
@@ -50,14 +50,14 @@ Here's the honest match from the Teach4 Texas store.
 
 **[STAAR Math Game Show Grade 3 TEKS Review Live Classroom | No Prep](https://www.teacherspayteachers.com/Product/STAAR-Math-Game-Show-Grade-3-TEKS-Review-Live-Classroom-No-Prep-17470369)** ($4.99) is a hosted live classroom game on [play.teach4texas.com](https://play.teach4texas.com/). The buyer gets a Start Here PDF with an access code. Redeem that code, project the 5×5 board, and students join with a room code. The class plays 25 original items.
 
-The categories on the board are Place Value, Operations, Fractions, Geo & Measurement, and Data & Money Sense. The items cover these Grade 3 TEKS (§111.5): 3.2A, 3.2C, 3.2D, 3.4A, 3.4D, 3.4K, 3.3A, 3.3B, 3.3C, 3.3F, 3.3H, 3.6A, 3.6B, 3.6C, 3.7B, 3.7C, 3.8A, 3.8B, 3.9A, and 3.9C. Every cell has four choices. Two of them are Daily Doubles. Students play with no calculator, as on Grade 3 STAAR math (calculators are not permitted on STAAR grades 3–7 math except as an eligible accommodation).
+The categories on the board are Place Value, Operations, Fractions, Geo & Measurement, and Data & Money Sense. The items cover these Grade 3 TEKS (§111.5): 3.2A, 3.2C, 3.2D, 3.4A, 3.4D, 3.4K, 3.3A, 3.3B, 3.3C, 3.3F, 3.3H, 3.6A, 3.6B, 3.6C, 3.7B, 3.7C, 3.8A, 3.8B, 3.9A, and 3.9C. Every cell has four choices. Two of them are Double Points questions. Students play with no calculator, as on Grade 3 STAAR math (calculators are not permitted on STAAR grades 3–7 math except as an eligible accommodation).
 
-It is a live board for one class period. It is not a click-ahead PowerPoint, a bare-facts Jeopardy file, or a buzzer game with no standards on it.
+It is a live board for one class period. It is not a click-ahead PowerPoint, a bare-facts quiz board file, or a buzzer game with no standards on it.
 
 After you play, leave the five category names up for two minutes. Ask each team which cell felt like a guess. Listen for two common stalls: a 3.4K item where the class did the first step and stopped, and a fraction cell where the model and the number line did not match. A five-minute debrief on those two the next morning does more than running the board a second time.
 
 ## Closing
 
-Mid-October can be loud and still be a TEKS review. Keep the game-day energy, use items that look like the test, and pick a live board that fits in one class period and leaves you something to talk about on Monday. Your third graders will still leave talking about the Daily Double. They will have done the math to earn it.
+Mid-October can be loud and still be a TEKS review. Keep the game-day energy, use items that look like the test, and pick a live board that fits in one class period and leaves you something to talk about on Monday. Your third graders will still leave talking about the Double Points question. They will have done the math to earn it.
 
 *Teach4 Texas resources are independently created for classroom practice. This is not an official TEA or STAAR product, and nothing here implies endorsement by the Texas Education Agency.*

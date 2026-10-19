@@ -1,5 +1,5 @@
 ---
-title: "How STAAR Scores Can Help You Earn TIA Designation (And Up to $32,000)"
+title: "How STAAR Scores Can Help You Earn TIA Designation"
 seoTitle: "How STAAR Scores Help You Earn TIA Designation"
 description: "Learn how your students' STAAR growth data connects directly to TIA designation — and practical strategies to maximize student growth for both your students and your paycheck."
 keywords: ["STAAR TIA connection", "student growth TIA", "improve STAAR scores for TIA", "TIA student growth pillar", "STAAR progress measure TIA"]
@@ -18,7 +18,7 @@ This guide breaks down exactly how STAAR scores feed into TIA, which growth metr
 
 ## How STAAR Connects to TIA: The Direct Link
 
-TIA requires every district's designation system to include a **student growth component** worth at least 20% of the overall evaluation. For teachers in STAAR-tested grades and subjects (3rd–8th grade reading, math, science, and social studies; plus EOC subjects), STAAR data is typically the primary — or sole — measure for this pillar.
+TIA requires every district's designation system to include a **student growth component**. For teachers in STAAR-tested grades and subjects (3rd–8th grade reading, math, science, and social studies; plus EOC subjects), STAAR data is typically the primary — or sole — measure for this pillar.
 
 Here's the critical distinction: **TIA cares about growth, not just proficiency.**
 
@@ -30,25 +30,16 @@ TEA's STAAR progress measure tracks how much a student grows from one year to th
 
 This is the most important concept to internalize: **you don't need a classroom full of high achievers to earn TIA designation. You need a classroom of students who are growing.**
 
-### STAAR Progress Measures Explained
-
-TEA calculates STAAR progress using a Student Growth Percentile (SGP) model. Here's how it works:
-
-1. Each student's current STAAR score is compared against students who had a similar score the previous year.
-2. The student receives a growth percentile (1-99) showing how their growth compares to similar peers.
-3. Your students' growth percentiles are aggregated to produce your overall student growth measure.
-
-A student with an SGP of 75 means they grew more than 75% of students who started at a similar level. That's strong growth regardless of whether the student is performing at grade level.
-
 ### What Growth Levels Mean for TIA
 
-Most district TIA systems set thresholds something like this (check your specific district):
+TEA's statewide performance standards for TIA use the **percentage of a teacher's students who meet or exceed expected growth**. According to TEA's [HB 2 TIA update](https://tea.texas.gov/taa-letters/hb-2-implementation-teacher-incentive-allotment-update), the benchmarks are:
 
-- **Recognized:** Average student growth percentile around the 50th–60th percentile range
-- **Exemplary:** Average student growth percentile around the 60th–75th percentile range
-- **Master:** Average student growth percentile above the 75th percentile
+- **Acknowledged:** 50% of students meeting or exceeding expected growth
+- **Recognized:** 55%
+- **Exemplary:** 60%
+- **Master:** 70%
 
-These thresholds vary by district. Some use median SGPs, others use the percentage of students meeting expected growth. Know your district's exact formula.
+How your district measures expected growth depends on its approved local designation system. Know your district's exact formula.
 
 ## The "Approaches to Meets" Sweet Spot
 
@@ -56,7 +47,7 @@ If you want to maximize student growth for TIA purposes, focus your energy on th
 
 ### Students at "Approaches Grade Level"
 
-These students are close to proficiency. Moving them to "Meets" shows clear, measurable growth and often produces strong SGP scores. They typically:
+These students are close to proficiency. Moving them to "Meets" shows clear, measurable growth and often shows up as strong growth. They typically:
 
 - Have foundational skills but gaps in specific areas
 - Respond well to targeted intervention
@@ -64,11 +55,11 @@ These students are close to proficiency. Moving them to "Meets" shows clear, mea
 
 ### Students at "Did Not Meet Grade Level"
 
-Students furthest from proficiency often show the **largest raw growth** when they receive effective instruction. Moving a student from "Did Not Meet" to "Approaches" can produce exceptional SGP scores because the growth relative to similar peers is dramatic.
+Students furthest from proficiency often show the **largest raw growth** when they receive effective instruction. Moving a student from "Did Not Meet" to "Approaches" can produce exceptional growth scores because the growth relative to similar peers is dramatic.
 
 ### The Trap: Ignoring Middle and High Performers
 
-Don't fall into the trap of only focusing on struggling students. TIA measures **overall** student growth. Your "Meets" and "Masters" students need to grow too. If you neglect them, their flat SGPs drag down your aggregate score.
+Don't fall into the trap of only focusing on struggling students. TIA measures **overall** student growth. Your "Meets" and "Masters" students need to grow too. If you neglect them, their flat growth drags down your aggregate score.
 
 The best TIA growth data comes from classrooms where **every student** is growing, not just the ones below grade level.
 
@@ -242,14 +233,9 @@ You might be producing incredible student growth, but if you haven't tracked and
 
 Let's make the connection concrete. If you teach 4th-grade math in a participating district:
 
-- Your students' STAAR growth data makes up 30-40% of your TIA evaluation (district-dependent)
-- Strong growth data — say, a median SGP of 70+ — puts you in range for Exemplary or Master
-- Combined with strong observation scores, that's **$6,000 to $32,000 per year** on top of your salary
-- That designation lasts five years and is portable
-
-Over five years, a Master designation at a high-need campus could mean **$160,000 in additional compensation.** For doing what you're already doing — just doing it with more intentionality and documentation.
-
-That's not a fantasy. That's the math.
+- Your students' STAAR growth data can be part of your district's TIA evaluation (check your district's system)
+- TEA's growth standards are 50/55/60/70% of students meeting or exceeding expected growth for Acknowledged, Recognized, Exemplary and Master
+- Under TEA's 2026–27 allotments, designations generate **$3,000 to $36,000 per year** depending on level and campus ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-teacher-incentive-allotment-update))
 
 ## Start Now
 

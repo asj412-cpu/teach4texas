@@ -54,7 +54,7 @@ Here's the honest match from the Teach4 Texas store.
 - **Leftover Lab** practices multi-step measurement, where stopping after the first step gets you the wrong answer (4.8C).
 - **Gratitude Gate** mixes all three before the feast opens.
 
-That's 20 STAAR 2.0-style items, self-checking Google Slides, printable student missions and a recording sheet, a teacher guide, and a full answer key. It isn't a coloring page, a Jeopardy board, or a bare-facts worksheet with a lock icon on it.
+That's 20 STAAR 2.0-style items, self-checking Google Slides, printable student missions and a recording sheet, a teacher guide, and a full answer key. It isn't a coloring page, a quiz-show board, or a bare-facts worksheet with a lock icon on it.
 
 After the room, pull the recording sheets and look for the two most common misses. They are usually the remainder problem where kids didn't round up and the two-step measurement item where they stopped early. A five-minute debrief on those two the next morning does more than another worksheet would.
 

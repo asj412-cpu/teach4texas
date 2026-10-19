@@ -50,7 +50,7 @@ Here is the honest match — one live Teach4 Texas listing, not a catalog dump.
 
 **[Halloween Escape Room | Grade 4 STAAR Math | TEKS 4.4D 4.4E 4.5A](https://www.teacherspayteachers.com/Product/Halloween-Escape-Room-Grade-4-STAAR-Math-TEKS-44D-44E-45A-17812227)** ($4.99) is a Cadet Corps Google Slides + printable escape with missions built for **4.4D** (multiply up to 4×1 and 2×2), **4.4E** (divide up to 4-digit by 1-digit), and **4.5A** (represent multi-step problems with strip diagrams and equations). Self-checking slides, printable missions, answer path you can defend in a PLC. About one class period.
 
-What it is *not*: a color-by-number worksheet pack, a maze with a Texas sticker, Jeopardy, or a Grade 3 Number Vault reprint. The vault only opens when the multiply, divide, and strip-diagram work is real — which is exactly what teachers need when they search “Halloween math grade 4” and refuse another coloring stack.
+What it is *not*: a color-by-number worksheet pack, a maze with a Texas sticker, a quiz-show board, or a Grade 3 Number Vault reprint. The vault only opens when the multiply, divide, and strip-diagram work is real — which is exactly what teachers need when they search “Halloween math grade 4” and refuse another coloring stack.
 
 If you need an October block that still moves STAAR readiness, run the missions, collect the trackers, and debrief the two most common misses the next morning (usually the 4.5A strip that does not match the equation, or the 4.4E remainder kids ignore). That debrief is where the transfer sticks.
 

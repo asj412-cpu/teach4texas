@@ -12,7 +12,7 @@ scoreDeskCta: "Pair T-TESS evidence with Score Desk, a free local scoring app, p
 
 Your T-TESS observation scores aren't just feedback — they're a major factor in whether you earn TIA designation and the thousands of dollars that come with it.
 
-Most Texas districts use T-TESS as the observation rubric for TIA's teacher observation pillar. That means the difference between "Proficient" and "Distinguished" on your T-TESS evaluation could be the difference between Recognized and Master designation — and tens of thousands of dollars over five years.
+Most Texas districts use T-TESS as the observation rubric for TIA's teacher observation pillar. That means the difference between "Proficient" and "Distinguished" on your T-TESS evaluation could be the difference between Recognized and Master designation.
 
 This guide breaks down each T-TESS domain, explains what observers are actually looking for at the Distinguished level, and gives you concrete strategies to get there.
 
@@ -209,7 +209,7 @@ Your observation scores combine with your student growth data to produce your ov
 | Exemplary | Distinguished in most dimensions | Strong growth |
 | Master | Distinguished across domains | Exceptional growth |
 
-The exact thresholds vary by district. Some weight observations at 60-70%, making your T-TESS scores the primary driver of your designation level. This means the difference between Proficient and Distinguished on T-TESS could be worth **$6,000–$20,000+ per year.**
+The exact weighting varies by district. TEA's statewide T-TESS standards are 3.5, 3.7, 3.9 and 4.5 for Acknowledged, Recognized, Exemplary and Master ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-teacher-incentive-allotment-update)), so moving from Proficient toward Distinguished can change your designation level.
 
 ## The Investment Is Worth It
 

@@ -23,13 +23,13 @@ Before creating products, configure these account-wide settings:
 
 ---
 
-## Product 1: STAAR Wars Boot Camp
+## Product 1: STAAR Command Boot Camp
 
 **Gumroad Fields:**
 
 | Field | Value |
 |-------|-------|
-| **Name** | `STAAR Wars Boot Camp -- Premium STAAR Review (Grades 3-5)` |
+| **Name** | `STAAR Command Boot Camp -- Premium STAAR Review (Grades 3-5)` |
 | **Price** | `$29` |
 | **Category** | Education |
 | **Tags** | `STAAR, STAAR prep, test prep, boot camp, Texas, grades 3-5, math review, reading review, TEKS` |
@@ -39,7 +39,7 @@ Before creating products, configure these account-wide settings:
 ```
 Turn STAAR review into an epic galactic adventure your students will never forget.
 
-STAAR Wars Boot Camp is a fully themed, 5-day STAAR review experience for grades 3-5. Students complete "missions" across math, reading, and science as they progress through training levels to become STAAR Jedi Masters.
+STAAR Command Boot Camp is a fully themed, 5-day STAAR review experience for grades 3-5. Students complete "missions" across math, reading, and science as they progress through training levels to become STAAR Jedi Masters.
 
 WHAT'S INCLUDED:
 - 5 days of themed review activities (print-and-go)
@@ -67,7 +67,7 @@ Format: PDF (instant download)
 ```
 
 **Cover Image (create in Canva):**
-Space/galaxy themed background (dark blue or black with stars). Large bold text: "STAAR Wars Boot Camp" in white or gold. Subtitle: "5-Day STAAR Review | Grades 3-5". Small "PREMIUM" badge in corner. Include Teach4Texas logo at bottom.
+Space/galaxy themed background (dark blue or black with stars). Large bold text: "STAAR Command Boot Camp" in white or gold. Subtitle: "5-Day STAAR Review | Grades 3-5". Small "PREMIUM" badge in corner. Include Teach4Texas logo at bottom.
 
 ---
 
@@ -259,13 +259,13 @@ Fiesta themed background (bright warm colors -- orange, yellow, pink, teal). Lar
 
 ---
 
-## Product 6: STAAR Trek
+## Product 6: STAAR Case Files
 
 **Gumroad Fields:**
 
 | Field | Value |
 |-------|-------|
-| **Name** | `STAAR Trek -- STAAR Review Activities (Grades 3-5)` |
+| **Name** | `STAAR Case Files -- STAAR Review Activities (Grades 3-5)` |
 | **Price** | `$15` |
 | **Category** | Education |
 | **Tags** | `STAAR, STAAR prep, test prep, Texas, grades 3-5, space theme, science fiction, review activities, math, reading` |
@@ -273,9 +273,9 @@ Fiesta themed background (bright warm colors -- orange, yellow, pink, teal). Lar
 
 **Description (copy-paste into Gumroad):**
 ```
-Boldly go where no STAAR review has gone before. STAAR Trek takes your students on an interstellar review mission.
+Boldly go where no STAAR review has gone before. STAAR Case Files takes your students on an interstellar review mission.
 
-STAAR Trek is a set of space-themed STAAR review activities for grades 3-5. Students explore "planets" of knowledge by completing skill challenges in math and reading as they chart their course through the galaxy.
+STAAR Case Files is a set of space-themed STAAR review activities for grades 3-5. Students explore "planets" of knowledge by completing skill challenges in math and reading as they chart their course through the galaxy.
 
 WHAT'S INCLUDED:
 - Space-themed math review activities aligned to tested TEKS
@@ -288,7 +288,7 @@ PERFECT FOR:
 - STAAR review centers and rotations
 - Morning work or early finisher activities
 - Small group intervention sessions
-- Pairing with STAAR Wars Boot Camp for a full space-themed week
+- Pairing with STAAR Command Boot Camp for a full space-themed week
 
 Activities mirror STAAR question formats and cover the most heavily tested TEKS standards.
 
@@ -300,7 +300,7 @@ Format: PDF (instant download)
 ```
 
 **Cover Image (create in Canva):**
-Space/sci-fi themed background (deep purple or navy with planets and stars). Large bold text: "STAAR Trek" in futuristic white or silver font. Subtitle: "STAAR Review Activities | Grades 3-5". Rocket ship or planet graphic. Teach4Texas logo at bottom.
+Space/sci-fi themed background (deep purple or navy with planets and stars). Large bold text: "STAAR Case Files" in futuristic white or silver font. Subtitle: "STAAR Review Activities | Grades 3-5". Rocket ship or planet graphic. Teach4Texas logo at bottom.
 
 ---
 
@@ -324,7 +324,7 @@ The STAAR Boot Camp MEGA BUNDLE includes ALL 6 of our themed STAAR review packs 
 
 YOU GET ALL 6 PACKS:
 
-1. STAAR Wars Boot Camp (Premium - $29 value)
+1. STAAR Command Boot Camp (Premium - $29 value)
    Full 5-day galactic STAAR review with missions across math, reading, and science.
 
 2. Championship Week (Premium - $29 value)
@@ -339,7 +339,7 @@ YOU GET ALL 6 PACKS:
 5. Taco 'Bout STAAR Ready ($15 value)
    Fiesta-themed review activities for math and reading.
 
-6. STAAR Trek ($15 value)
+6. STAAR Case Files ($15 value)
    Space-themed review activities for math and reading.
 
 TOTAL VALUE: $132
@@ -361,7 +361,7 @@ Format: PDF (instant download)
 ```
 
 **Cover Image (create in Canva):**
-Dynamic collage-style layout showing mini-previews or icons from all 6 themes (space, sports, survival, superhero, fiesta, space trek). Bold text: "MEGA BUNDLE" at top in large gold or white font. Subtitle: "All 6 STAAR Boot Camps | Grades 3-5". Price callout badge: "Save $73!" in a starburst. "BEST VALUE" ribbon across corner. Teach4Texas logo at bottom.
+Dynamic collage-style layout showing mini-previews or icons from all 6 themes (space, sports, survival, superhero, fiesta, space mission). Bold text: "MEGA BUNDLE" at top in large gold or white font. Subtitle: "All 6 STAAR Boot Camps | Grades 3-5". Price callout badge: "Save $73!" in a starburst. "BEST VALUE" ribbon across corner. Teach4Texas logo at bottom.
 
 ---
 
@@ -423,7 +423,7 @@ Use Gumroad's overlay checkout so the purchase modal pops up on your site withou
 
 2. For each product button, use this link format:
    ```html
-   <a class="gumroad-button" href="https://teach4texas.gumroad.com/l/YOUR_PRODUCT_ID">Get STAAR Wars Boot Camp - $29</a>
+   <a class="gumroad-button" href="https://teach4texas.gumroad.com/l/YOUR_PRODUCT_ID">Get STAAR Command Boot Camp - $29</a>
    ```
 
 3. The checkout overlay will handle payment, delivery, and receipts automatically.
@@ -456,8 +456,8 @@ On teach4texas.com/resources, organize the products like this:
 [Divider: "Or choose individual packs:"]
 
 [3-column grid:]
-  Row 1: STAAR Wars | Championship Week | STAAR-vival
-  Row 2: STAAR Power | Taco 'Bout STAAR Ready | STAAR Trek
+  Row 1: STAAR Command | Championship Week | STAAR-vival
+  Row 2: STAAR Power | Taco 'Bout STAAR Ready | STAAR Case Files
 
 [Each card shows: cover image, name, price, "Buy Now" button]
 ```

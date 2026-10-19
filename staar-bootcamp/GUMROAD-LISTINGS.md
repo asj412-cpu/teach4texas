@@ -4,9 +4,9 @@
 
 ---
 
-## Listing 1: STAAR Wars Boot Camp (Premium)
+## Listing 1: STAAR Command Boot Camp (Premium)
 
-**Product Name:** STAAR Wars Boot Camp — Space-Themed STAAR Prep Week (Complete Package)
+**Product Name:** STAAR Command Boot Camp — Space-Themed STAAR Prep Week (Complete Package)
 
 **Price:** $29
 
@@ -14,11 +14,11 @@
 
 🚀 **Transform your classroom into STAAR Command and launch your students toward test-day success!**
 
-STAAR Wars is a **complete, turnkey, space-themed STAAR prep week** for Texas teachers (grades 3-8). Everything you need for a 5-day boot camp — lesson plans, activities, decorations, student materials, and parent communication — all themed and ready to print.
+STAAR Command is a **complete, turnkey, space-themed STAAR prep week** for Texas teachers (grades 3-8). Everything you need for a 5-day boot camp — lesson plans, activities, decorations, student materials, and parent communication — all themed and ready to print.
 
 **What's Inside:**
 ⭐ **5-Day Lesson Plans** — Daily "missions" with time blocks, teacher scripts, warm-ups, guided practice, and independent work. Covers Reading/ELA, Math, Science, and Social Studies.
-⭐ **12 Themed Activities** — Asteroid Field review game, Escape the Space Station, Warp Speed Challenge, Planetary Stations, and more. Individual, partner, and group options.
+⭐ **12 Themed Activities** — Asteroid Field review game, Escape the Space Station, Rocket Speed Challenge, Planetary Stations, and more. Individual, partner, and group options.
 ⭐ **Full Decoration Guide** — Step-by-step instructions to transform your hallway into a space station and your classroom into STAAR Command Center. Materials lists, budget options ($15-35), and setup timeline.
 ⭐ **Student Materials** — Cadet ID badges, Mission Badge tracking cards, daily mission packets framework, Launch Sequence countdown poster, Mission Complete certificates, Explorer Yearbook page, and more.
 ⭐ **Parent Letter** — Ready-to-customize letter in English AND Spanish.
@@ -144,9 +144,9 @@ Texas-specific. Texas culture approved. (We love tacos here.) TEKS-aligned.
 
 ---
 
-## Listing 6: STAAR Trek: Mission to Mastery (Standard)
+## Listing 6: STAAR Case Files: Mission to Mastery (Standard)
 
-**Product Name:** STAAR Trek: Mission to Mastery — Detective/Mystery STAAR Prep Week
+**Product Name:** STAAR Case Files: Mission to Mastery — Detective/Mystery STAAR Prep Week
 
 **Price:** $15
 
@@ -154,7 +154,7 @@ Texas-specific. Texas culture approved. (We love tacos here.) TEKS-aligned.
 
 🔍 **Can your students crack the case? A week-long mystery that makes STAAR review irresistible.**
 
-STAAR Trek is a **detective/mystery-themed STAAR prep week** for Texas teachers (grades 3-8). Students investigate "The Case of the Missing STAAR Scores" — solving a new clue each day through review activities. By Friday, they crack the case and earn their detective badges.
+STAAR Case Files is a **detective/mystery-themed STAAR prep week** for Texas teachers (grades 3-8). Students investigate "The Case of the Missing STAAR Scores" — solving a new clue each day through review activities. By Friday, they crack the case and earn their detective badges.
 
 **What's Inside:**
 🔎 **5-Day Lesson Plans** — Each day reveals a new clue: The Missing Main Idea, The Numbers Don't Add Up, The Scientific Evidence, The Full Investigation, Case Closed! Includes the complete mystery arc.
@@ -185,12 +185,12 @@ Texas-specific. TEKS-aligned. The Evidence Board alone is worth the price — st
 The STAAR Boot Camp MEGA BUNDLE includes **all 6 themed STAAR prep week packages** — 3 premium + 3 standard = 36 files total. That's over $130 worth of turnkey STAAR prep material for just $59.
 
 **You Get ALL 6 Themes:**
-⭐ **STAAR Wars** (Space/Sci-Fi) — Premium
+⭐ **STAAR Command** (Space/Sci-Fi) — Premium
 🏈 **Championship Week** (Sports) — Premium
 🌿 **STAAR-vival** (Survival/Adventure) — Premium
 💥 **STAAR Power** (Superhero) — Standard
 🌮 **Taco 'Bout STAAR Ready** (Fiesta/Food) — Standard
-🔍 **STAAR Trek** (Detective/Mystery) — Standard
+🔍 **STAAR Case Files** (Detective/Mystery) — Standard
 
 **Each Theme Includes:**
 ✅ 5-Day Lesson Plans with time blocks, activities, and differentiation

@@ -118,7 +118,7 @@
 ### Survival Training 2 (40 min)
 
 **Social Studies + Mixed Review:**
-1. **(15 min) "History Hike" Timeline** — Collaborative timeline activity (same as STAAR Wars but themed as a mountain trail — events placed at increasing "elevations")
+1. **(15 min) "History Hike" Timeline** — Collaborative timeline activity (same as STAAR Command but themed as a mountain trail — events placed at increasing "elevations")
 2. **(25 min) "Mountain Challenge" Packet** — Mixed science/social studies STAAR questions
 
 ### Tribal Council (10 min)

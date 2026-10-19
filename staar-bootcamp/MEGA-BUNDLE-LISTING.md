@@ -9,14 +9,14 @@
 ## What's Included
 
 ### 🏆 3 Premium Themes ($29 value each = $87)
-1. **⭐ STAAR Wars** — Space/Sci-Fi theme with full hallway space station transformation, mission badges, cadet IDs, daily teacher scripts, playlist suggestions
+1. **⭐ STAAR Command** — Space/Sci-Fi theme with full hallway space station transformation, mission badges, cadet IDs, daily teacher scripts, playlist suggestions
 2. **🏈 Championship Week** — Sports theme with stadium tunnel hallway, tournament bracket system, MVP awards, trading cards, halftime show game
 3. **🌿 STAAR-vival** — Survival/Adventure theme with 5-terrain journey, jungle vines hallway, explorer journals, tribal council game, survival badges
 
 ### 📦 3 Standard Themes ($15 value each = $45)
 4. **💥 STAAR Power** — Superhero theme with hero training sessions, villain battles, power-up tickets, Hero HQ classroom
 5. **🌮 Taco 'Bout STAAR Ready** — Fiesta/Food theme with cooking-themed lessons, 3 difficulty levels (Mild/Medium/Spicy), recipe cards, food puns galore
-6. **🔍 STAAR Trek: Mission to Mastery** — Detective/Mystery theme with week-long mystery arc, evidence gathering, crime scene hallway, detective notebooks
+6. **🔍 STAAR Case Files: Mission to Mastery** — Detective/Mystery theme with week-long mystery arc, evidence gathering, crime scene hallway, detective notebooks
 
 **Total individual value: $132 → Bundle price: $59 (55% off!)**
 
@@ -66,7 +66,7 @@ Use one theme per year. That's 6 years of STAAR prep weeks covered!
 
 ## What Teachers Are Saying
 
-> *"I bought the STAAR Wars theme and my kids talked about it for WEEKS. The badges alone were worth the price."*
+> *"I bought the STAAR Command theme and my kids talked about it for WEEKS. The badges alone were worth the price."*
 
 > *"I used Championship Week for my 5th graders and the tournament bracket kept them motivated all week. My lowest performers actually ASKED to do more practice."*
 

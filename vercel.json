@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    { "source": "/staar-wars", "destination": "/resources", "statusCode": 301 },
+    { "source": "/staar-trek", "destination": "/resources", "statusCode": 301 },
+    { "source": "/staar-trek-mystery", "destination": "/resources", "statusCode": 301 },
+    { "source": "/staar-command", "destination": "/resources", "statusCode": 301 },
+    { "source": "/staar-case-files", "destination": "/resources", "statusCode": 301 }
+  ]
+}

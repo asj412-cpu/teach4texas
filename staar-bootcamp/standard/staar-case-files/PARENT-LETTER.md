@@ -1,4 +1,4 @@
-# 🔍 STAAR Trek: Mission to Mastery — Parent Letter
+# 🔍 STAAR Case Files: Mission to Mastery — Parent Letter
 
 ---
 
@@ -10,7 +10,7 @@
 
 Dear Families,
 
-Next week, our classroom becomes a **Detective Agency!** 🔍 We're launching **"STAAR Trek: Mission to Mastery"** — a mystery-themed STAAR prep week where your child will work as a "detective" solving a week-long case while reviewing key skills for the STAAR test.
+Next week, our classroom becomes a **Detective Agency!** 🔍 We're launching **"STAAR Case Files: Mission to Mastery"** — a mystery-themed STAAR prep week where your child will work as a "detective" solving a week-long case while reviewing key skills for the STAAR test.
 
 **When:** [Monday, Date] – [Friday, Date]
 
@@ -40,7 +40,7 @@ Thank you! 🔍
 
 Estimadas familias,
 
-¡La próxima semana, nuestro salón se convierte en una **Agencia de Detectives!** 🔍 Estamos lanzando **"STAAR Trek: Misión hacia la Maestría"** — una semana de preparación para el STAAR con tema de misterio donde su hijo(a) trabajará como "detective" resolviendo un caso durante toda la semana.
+¡La próxima semana, nuestro salón se convierte en una **Agencia de Detectives!** 🔍 Estamos lanzando **"STAAR Case Files: Misión hacia la Maestría"** — una semana de preparación para el STAAR con tema de misterio donde su hijo(a) trabajará como "detective" resolviendo un caso durante toda la semana.
 
 **Cuándo:** [Lunes, fecha] – [Viernes, fecha]
 

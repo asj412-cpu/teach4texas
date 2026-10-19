@@ -1,4 +1,4 @@
-# ⭐ STAAR Wars — Student Materials
+# ⭐ STAAR Command — Student Materials
 
 > Every student-facing material you need for the week, described in detail. Print, cut, and go.
 

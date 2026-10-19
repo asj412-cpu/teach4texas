@@ -1,4 +1,4 @@
-# 🔍 STAAR Trek: Mission to Mastery — Student Materials
+# 🔍 STAAR Case Files: Mission to Mastery — Student Materials
 
 ---
 

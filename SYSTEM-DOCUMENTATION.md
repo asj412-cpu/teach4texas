@@ -132,9 +132,9 @@ Full 5-day themed STAAR prep week packages. Each contains:
 - DECORATIONS.md -- classroom/hallway transformation guide
 - PARENT-LETTER.md -- communication template
 
-**Premium themes ($29):** STAAR Wars (space/sci-fi), Championship Week (sports), STAARvival (survival/adventure)
+**Premium themes ($29):** STAAR Command (space/sci-fi), Championship Week (sports), STAARvival (survival/adventure)
 
-**Standard themes ($15):** STAAR Power (superhero), Taco 'Bout STAAR (fiesta/food), STAAR Trek (detective/mystery)
+**Standard themes ($15):** STAAR Power (superhero), Taco 'Bout STAAR (fiesta/food), STAAR Case Files (detective/mystery)
 
 **Mega Bundle:** All 6 themes for $59.
 
@@ -357,12 +357,12 @@ Gumroad is used for selling STAAR Boot Camp themed packages. There is no API int
 Full copy-paste listing instructions are in `GUMROAD-SETUP.md`, covering:
 - Account profile configuration (display name, bio, payment setup)
 - 7 product listings with exact field values:
-  1. STAAR Wars Boot Camp (Premium) -- $29
+  1. STAAR Command Boot Camp (Premium) -- $29
   2. Championship Week Boot Camp (Premium) -- $29
   3. STAARvival Boot Camp (Premium) -- $29
   4. STAAR Power Boot Camp (Standard) -- $15
   5. Taco 'Bout STAAR Boot Camp (Standard) -- $15
-  6. STAAR Trek Boot Camp (Standard) -- $15
+  6. STAAR Case Files Boot Camp (Standard) -- $15
   7. STAAR Boot Camp Mega Bundle -- $59
 - Each listing includes: name, price, category, tags, full description, FAQ, and call-to-action text
 
@@ -422,12 +422,12 @@ The actual product files are the PDFs generated from `staar-bootcamp/` Markdown 
 
 | Directory | Purpose |
 |-----------|---------|
-| `premium/staar-wars/` | Space/sci-fi themed 5-day STAAR prep package |
+| `premium/staar-command/` | Space/sci-fi themed 5-day STAAR prep package |
 | `premium/championship-week/` | Sports themed package |
 | `premium/staarvival/` | Survival/adventure themed package |
 | `standard/staar-power/` | Superhero themed package |
 | `standard/taco-bout-staar/` | Fiesta/food themed package |
-| `standard/staar-trek-mystery/` | Detective/mystery themed package |
+| `standard/staar-case-files/` | Detective/mystery themed package |
 | `GUMROAD-LISTINGS.md` | Individual Gumroad listing copy for each theme |
 | `MEGA-BUNDLE-LISTING.md` | Mega bundle listing copy |
 

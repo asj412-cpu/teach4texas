@@ -1,4 +1,4 @@
-# ⭐ STAAR Wars — Decoration Guide
+# ⭐ STAAR Command — Decoration Guide
 
 > Transform your hallway into a space station and your classroom into STAAR Command Center.
 

@@ -165,7 +165,7 @@ Some of your students' parents may ask you about the TEFA program. A few princip
 
 - **Stick to facts.** You can share what the program is and direct families to the Comptroller's Office for application details. You do not need to offer an opinion on whether they should apply.
 
-- **Be honest about what you do not know.** The program is new. Administrative details are still being finalized. It is perfectly appropriate to say, "I'd recommend contacting the Comptroller's Office directly for specifics on eligibility and the application process."
+- **Be honest about what you do not know.** The program is new. It is perfectly appropriate to say, "I'd recommend contacting the Comptroller's Office directly for specifics on eligibility and the application process."
 
 - **For special education families, encourage thorough research.** Families considering TEFA for a student with an IEP should understand what services the receiving private school can provide and what federal protections they may be giving up. This is not about discouraging them — it is about making sure they make an informed choice.
 

@@ -43,11 +43,11 @@ Read that table carefully. A few things jump out.
 
 This is where people get confused. The TRA uses the statutory definition of "classroom teacher" — and importantly, **you do not need to hold a standard teaching certificate to qualify.** If you meet the legal definition of a classroom teacher under Texas Education Code, you're eligible regardless of your certification path.
 
-That said, you need to actually be serving as a classroom teacher. Instructional coaches, department heads without a regular teaching load, and administrators don't qualify for TRA funding.
+That said, you need to actually be serving as a classroom teacher. TEA's definition requires teaching an average of at least four hours a day ([TEA](https://tea.texas.gov/taa-letters/house-bill-2-hb-2-implementation-teacher-retention-allotment-and-support-staff)).
 
 ### How the TRA Hits Your Paycheck
 
-The TRA is not a bonus. It's not a stipend. It's paid as part of your regular salary. That means it shows up in your normal paycheck, it's subject to normal payroll taxes and deductions, and it counts toward your TRS retirement calculation.
+The TRA is not a bonus. It's not a stipend. It's paid as part of your regular salary. That means it shows up in your normal paycheck, it's subject to normal payroll taxes and deductions, and it counts toward your TRS retirement calculation ([TEA](https://tea.texas.gov/taa-letters/house-bill-2-hb-2-implementation-teacher-retention-allotment-and-support-staff)).
 
 Your district receives the TRA funding from the state and is required to pass it through to eligible teachers as a salary increase. You should see it reflected in your annual salary for 2025-26. If you don't, ask your HR department directly: "Has the Teacher Retention Allotment been applied to my salary?"
 
@@ -73,7 +73,7 @@ The exact amount each support staff member receives depends on your district's i
 
 ## The Basic Allotment Increase: More Funding Per Student
 
-Beyond the targeted allotments above, HB 2 raised the basic allotment — the foundational per-student funding that drives most of a district's state revenue.
+Beyond the targeted allotments above, HB 2 raised the basic allotment — the foundational per-student funding in the school finance formulas.
 
 **The basic allotment increased from $6,160 to $6,215 per student in average daily attendance** ($6,160 plus a **$55 Guaranteed Yield Increment Adjustment**) for the 2026–2027 biennium ([TEA](https://tea.texas.gov/taa-letters/house-bill-2-hb-2-implementation-foundation-school-program-fsp-funding-formula-changes)).
 
@@ -89,11 +89,14 @@ HB 2 created a new funding stream called the Allotment for Basic Costs, providin
 
 ABC funds are designated for:
 
-- **Transportation costs** (fuel, fleet maintenance, bus routes)
-- **Insurance** (property, liability, workers' compensation)
-- **Utilities** (electricity, water, gas, internet connectivity)
-- **Employee benefits** (health insurance contributions, payroll costs)
-- **Hiring retired educators** (covering the costs of rehiring experienced teachers who've left the profession)
+- **Transportation**
+- **Hiring retired teachers**
+- **Health insurance, employee benefits, and payroll taxes**
+- **TRS contributions**
+- **Utilities**
+- **Property and casualty insurance**
+
+([TEA](https://tea.texas.gov/taa-letters/house-bill-2-hb-2-implementation-foundation-school-program-fsp-funding-formula-changes))
 
 While this allotment doesn't go directly to your salary, it matters. When a district is drowning in rising utility and insurance costs, those pressures squeeze the budget available for compensation. The ABC relieves some of that pressure, creating more room in district budgets for salary-related spending.
 
@@ -118,7 +121,7 @@ HB 2 added a fourth designation tier below the existing Recognized, Exemplary, a
 
 ### Timeline for Acknowledged Designation
 
-Beginning in the **2026–27 school year**, districts with local designation systems may designate teachers at the Acknowledged level based on their performance during the **2025–26 school year**. That means this current school year's data is what counts. Your observation scores, your student growth data, your overall effectiveness metrics from right now are building the case for Acknowledged designation.
+Beginning in the **2026–27 school year**, districts with local designation systems may designate teachers at the Acknowledged level based on their performance during the **2025–26 school year**. That means 2025–26 data is what counts. Your observation scores, your student growth data, your overall effectiveness metrics from right now are building the case for Acknowledged designation.
 
 This isn't someday — it's this year's data, applied next fall.
 
@@ -139,8 +142,6 @@ HB 2 created a one-time **$1,000 Teacher Certification Incentive**. TEA pays it 
 - was hired as an uncertified first-year teacher in 2022-2023 or 2023-2024 and was still uncertified on January 1, 2025;
 - earns a standard certificate by the end of the 2026-2027 school year; and
 - has been continuously employed as a teacher by the district.
-
-Districts decide locally how to use the funds, so ask yours whether any of it reaches eligible teachers.
 
 ## Putting It All Together: What's Your Total Impact?
 
@@ -166,7 +167,7 @@ Let's run a few scenarios to make this concrete.
 - **TRA:** $0 (1st year, not eligible)
 - **Basic allotment increase:** Indirect benefit
 - **TIA potential:** Not yet eligible for Acknowledged (data not established)
-- **Total direct increase:** Depends entirely on district local decisions
+- **Support staff raise:** Teachers not eligible for the TRA, such as those with less than three years of experience, count as eligible support staff under the SSRA ([TEA](https://tea.texas.gov/taa-letters/house-bill-2-hb-2-implementation-teacher-retention-allotment-and-support-staff))
 
 ### Scenario 4: School Counselor in a Mid-Size District (8,000 students)
 
@@ -234,7 +235,7 @@ No. The TRA is specifically designated for classroom teacher compensation. Distr
 
 ### Does TRA affect my TRS retirement?
 
-Yes. Since TRA is paid as regular salary, it counts toward your TRS retirement calculation. Higher salary now means higher retirement benefits later.
+Yes. TRA increases must be increases in base pay, so they count toward your TRS retirement calculation ([TEA](https://tea.texas.gov/taa-letters/house-bill-2-hb-2-implementation-teacher-retention-allotment-and-support-staff)). Higher salary now means higher retirement benefits later.
 
 ### I'm a 5th-year teacher. Does the TRA count my years of experience including this year?
 
@@ -246,7 +247,7 @@ That's a legislative question nobody can answer with certainty. The 89th Session
 
 ## The Bottom Line
 
-HB 2 is not a silver bullet, and it's not going to make Texas the highest-paying state for teachers overnight. But it represents real, tangible money flowing to educator paychecks — especially for experienced classroom teachers in small districts, who could see $8,000 or more from TRA alone.
+HB 2 is not a silver bullet, and it's not going to make Texas the highest-paying state for teachers overnight. But it represents real, tangible money flowing to educator paychecks — especially for experienced classroom teachers in small districts, who could see up to $8,000 from TRA alone ([TEA](https://tea.texas.gov/taa-letters/house-bill-2-hb-2-implementation-teacher-retention-allotment-and-support-staff)).
 
 Combined with TIA expansion and the new Acknowledged designation, a veteran teacher in a participating district could realistically see additional annual compensation within the next two years. The exact amount depends on your district and your designation.
 

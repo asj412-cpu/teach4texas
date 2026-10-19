@@ -76,7 +76,7 @@ If you're currently teaching under a DOI exemption without an appropriate certif
 
 The timeline gives you multiple school years to earn your certification. If you teach K-5 reading or math, the clock is tightest — DOI exemptions for those roles disappear in the **2026-27 school year**. For other foundation subjects, you have until **2027-28** before the exemptions end. 2029-30 applies only if your district has an approved delay plan ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)).
 
-That's enough time to complete an alternative certification program (most take 1-2 years), pass the required content and pedagogy exams, and earn your standard certificate.
+That's enough time to complete an alternative certification program, pass the required content and pedagogy exams, and earn your standard certificate.
 
 ### The $1,000 Certification Incentive
 
@@ -86,13 +86,11 @@ HB 2 created a one-time **$1,000 Teacher Certification Incentive**. TEA pays it 
 - earns a standard certificate by the end of the 2026-2027 school year; and
 - has been continuously employed as a teacher by the district.
 
-Districts decide locally how to use the funds, so ask yours whether any of it reaches eligible teachers.
-
 ### Certification Pathways Available to You
 
 Texas offers several routes to standard certification for teachers who are already in the classroom:
 
-- **Alternative Certification Programs (ACPs):** The most common pathway. ACPs pair coursework (often online) with supervised clinical teaching that you may already be doing in your current role. Programs typically take 1-2 years and end with the required TExES exams.
+- **Alternative Certification Programs (ACPs):** The most common pathway. ACPs pair coursework (often online) with supervised clinical teaching that you may already be doing in your current role. Programs end with the required TExES exams.
 - **University-Based Programs:** Accelerated post-baccalaureate programs for those with a bachelor's degree in a non-education field. Some lead to a master's degree alongside your certificate.
 - **District-Supported Programs:** Many districts partner with ACPs or universities and offer tuition assistance, mentoring, and flexible scheduling. Ask your HR department what's available — districts have a strong incentive to help you get certified rather than lose you.
 
@@ -106,7 +104,7 @@ HB 2's certification requirements don't exist in isolation. They're part of a br
 
 ### What Are They?
 
-The Texas Reading Academies and Math Academies are state-developed professional development programs designed to deepen teachers' knowledge of evidence-based instructional practices in literacy and numeracy. They aren't certification programs — they're intensive training that all K-3 teachers and principals must complete.
+The Texas Reading Academies and Math Academies are state-developed professional development programs designed to deepen teachers' knowledge of evidence-based instructional practices in literacy and numeracy. They aren't certification programs.
 
 ### The Timeline
 
@@ -175,7 +173,7 @@ Districts that have relied heavily on DOI exemptions will need to work the harde
 
 ### Does HB 2 affect charter schools?
 
-These DOI exemption changes apply to districts using District of Innovation status to waive certification requirements. Charter schools operate under different statutory provisions and are not directly affected by this section.
+These DOI exemption changes apply to districts using District of Innovation status to waive certification requirements. Charter schools operate under different statutory provisions, so ask your charter how this applies.
 
 ### Does this affect elective teachers?
 

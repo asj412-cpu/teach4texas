@@ -470,7 +470,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
         <CueOn k={`${activeCell.id}-${view.phase}`} kind={view.phase === "reveal" ? "reveal" : "open"} />
         <div className="mx-auto flex max-w-5xl flex-col gap-6 lg:flex-row">
           <div key={`${activeCell.id}-${view.phase}`} className="gs-glass gs-rise flex-1 rounded-3xl p-5 sm:p-7">
-            <p className="text-base font-semibold uppercase text-t4t-gold">
+            <p className="text-base font-semibold uppercase text-yellow-200">
               Room {view.code} · {activeCell.category} · {activeCell.points}
               {activeCell.daily_double ? (
                 <>

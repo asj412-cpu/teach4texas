@@ -419,7 +419,7 @@ function PlayPageBody({
           kind={reveal ? (mine == null ? "reveal" : gotIt ? "correct" : "wrong") : "open"}
         />
         <div key={`${q.category}-${q.points}`} className="gs-glass gs-rise mx-auto max-w-lg rounded-3xl p-5">
-          <p className="text-center text-base font-black uppercase tracking-wider text-t4t-gold">
+          <p className="text-center text-base font-black uppercase tracking-wider text-yellow-200">
             {q.category} · {q.points}
             {q.daily_double ? " · Double Points" : ""}
           </p>

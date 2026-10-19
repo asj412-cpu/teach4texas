@@ -496,9 +496,9 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
                       onClick={() =>
                         hostAction({ type: "host_answer", choice_index: i })
                       }
-                      className={`gs-choice gs-glass w-full rounded-2xl border-2 px-4 py-4 text-left text-lg font-semibold ${
+                      className={`gs-choice gs-glass bg-t4t-navy/70 w-full rounded-2xl border-2 px-4 py-4 text-left text-lg font-semibold ${
                         view.phase === "reveal" && i === activeCell.correct_index
-                          ? "gs-correct"
+                          ? "fb-correct"
                           : picked
                             ? "border-t4t-gold"
                             : "border-white/20"

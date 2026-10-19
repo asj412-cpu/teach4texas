@@ -107,9 +107,9 @@ For teachers already familiar with the Teacher Incentive Allotment, HB 2 brought
 
 HB 2 added a fourth designation tier below the existing Recognized, Exemplary, and Master levels. It's called **Acknowledged**, and it's designed to reach a much larger pool of Texas teachers.
 
-**Who qualifies:** Teachers in the **top 50% of effectiveness** as measured by their district's TIA evaluation system. That's a significantly lower bar than the existing tiers, which means far more teachers can earn designation and the accompanying pay increase.
+**Who qualifies:** TEA's statewide benchmark for Acknowledged is the **top 50% of Texas teachers** (Recognized is the top 33%, Exemplary the top 20%, Master the top 5%). That's a lower bar than the existing tiers, so more teachers can earn a designation.
 
-**What it pays:** The Acknowledged designation generates **$3,000 to $9,000 per teacher** annually, depending on the high-need campus multiplier.
+**What it pays:** The Acknowledged designation generates **$3,000 to $9,000 per teacher** annually, depending on the campus ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-teacher-incentive-allotment-update)).
 
 | Designation | 2026–27 Annual Allotment Range ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-teacher-incentive-allotment-update)) |
 |---|---|
@@ -120,13 +120,13 @@ HB 2 added a fourth designation tier below the existing Recognized, Exemplary, a
 
 ### Timeline for Acknowledged Designation
 
-This current school year's data is what counts. Your observation scores, your student growth data, your overall effectiveness metrics from right now are building the case for Acknowledged designation.
+Beginning in the **2026–27 school year**, districts with local designation systems may designate teachers at the Acknowledged level based on their performance during the **2025–26 school year**. That means this current school year's data is what counts. Your observation scores, your student growth data, your overall effectiveness metrics from right now are building the case for Acknowledged designation.
 
 This isn't someday — it's this year's data, applied next fall.
 
 ### National Board Certified Teachers (NBCTs) Auto-Qualify
 
-If you hold National Board Certification, HB 2 includes a provision for automatic TIA designation. The State Board for Educator Certification (SBEC) is reviewing the details and will finalize the policy by **December 31, 2026**. If you're an NBCT, keep an eye on SBEC communications — you may be eligible for TIA designation without going through the standard district evaluation process.
+Beginning in 2026–27, eligible NBCTs transition to a new Nationally Board Certified designation, funded at the same $3,000–$9,000 range as Acknowledged ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-teacher-incentive-allotment-update)). SBEC must review National Board certification as a TIA pathway by **December 31, 2026** to keep it eligible. If you're an NBCT, keep an eye on SBEC and district communications.
 
 ### Enhanced TIA District Designation
 
@@ -148,14 +148,14 @@ Let's run a few scenarios to make this concrete.
 
 - **TRA:** $5,000 (5+ years experience, large district)
 - **Basic allotment increase:** Indirect benefit through district budget
-- **TIA potential (Acknowledged):** $3,000–$9,000 if designated in 2026
+- **TIA potential (Acknowledged):** $3,000–$9,000 if designated for 2026–27 ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-teacher-incentive-allotment-update))
 - **Total direct increase:** $5,000 immediately, potentially $8,000–$14,000 with TIA
 
 ### Scenario 2: 4th-Year Teacher in a Small District (3,000 students)
 
 - **TRA:** $4,000 (3-4 years experience, small district)
 - **Basic allotment increase:** Indirect benefit
-- **TIA potential:** $3,000–$9,000 if designated
+- **TIA potential:** $3,000–$9,000 if designated ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-teacher-incentive-allotment-update))
 - **Total direct increase:** $4,000 immediately, potentially $7,000–$13,000 with TIA
 - **Next year (5th year):** TRA jumps to $8,000
 
@@ -190,7 +190,7 @@ Don't assume it's been applied correctly. Payroll errors happen, especially with
 
 ### Step 2: Check Your District's TIA Participation Status
 
-If your district has an approved TIA system, the new Acknowledged designation could mean $3,000–$9,000 on top of your TRA. If your district doesn't participate yet, ask your administration whether they plan to apply. The Acknowledged tier's broader eligibility makes TIA more attractive for districts that previously thought only a handful of teachers would benefit.
+If your district has an approved TIA system, the new Acknowledged designation could mean $3,000–$9,000 ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-teacher-incentive-allotment-update)) on top of your TRA. If your district doesn't participate yet, ask your administration whether they plan to apply. The Acknowledged tier's broader eligibility makes TIA more attractive for districts that previously thought only a handful of teachers would benefit.
 
 ### Step 3: Build Your 2025-26 Effectiveness Record
 
@@ -246,7 +246,7 @@ That's a legislative question nobody can answer with certainty. The 89th Session
 
 HB 2 is not a silver bullet, and it's not going to make Texas the highest-paying state for teachers overnight. But it represents real, tangible money flowing to educator paychecks — especially for experienced classroom teachers in small districts, who could see $8,000 or more from TRA alone.
 
-Combined with TIA expansion and the new Acknowledged designation, a veteran teacher in a participating district could realistically see $10,000 to $20,000 in additional annual compensation within the next two years. That's not hypothetical. That's the math, based on the allotments already written into law.
+Combined with TIA expansion and the new Acknowledged designation, a veteran teacher in a participating district could realistically see additional annual compensation within the next two years. That's not hypothetical. That's the math, based on the allotments already written into law.
 
 The key is knowing what you're entitled to, verifying it's being applied correctly, and positioning yourself for the TIA opportunities that are coming. Your district has the money. Make sure it reaches your paycheck.
 

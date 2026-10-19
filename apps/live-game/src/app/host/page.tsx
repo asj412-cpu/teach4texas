@@ -470,13 +470,13 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
         <CueOn k={`${activeCell.id}-${view.phase}`} kind={view.phase === "reveal" ? "reveal" : "open"} />
         <div className="mx-auto flex max-w-5xl flex-col gap-6 lg:flex-row">
           <div key={`${activeCell.id}-${view.phase}`} className="gs-glass gs-rise flex-1 rounded-3xl p-5 sm:p-7">
-            <p className="text-sm font-semibold uppercase text-t4t-gold">
+            <p className="text-base font-semibold uppercase text-t4t-gold">
               Room {view.code} · {activeCell.category} · {activeCell.points}
-              {activeCell.daily_double ? " · DD" : ""}
+              {activeCell.daily_double ? " · 2x" : ""}
             </p>
             {activeCell.daily_double && (
-              <p className="mt-2 inline-block rounded-full bg-gradient-to-r from-yellow-300 to-amber-500 px-3 py-1 text-xs font-black uppercase text-t4t-navy">
-                Daily Double · playing for wagers
+              <p className="mt-2 inline-block rounded-full bg-gradient-to-r from-yellow-300 to-amber-500 px-3 py-1 text-base font-black uppercase text-t4t-navy">
+                Double Points · playing for wagers
               </p>
             )}
             <p className="mt-4 text-2xl font-black leading-snug drop-shadow sm:text-4xl">

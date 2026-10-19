@@ -161,9 +161,9 @@ export function DailyDoublePlayer(props: {
           {props.category} · {props.points}
         </p>
         <h1 className="dd-title dd-title-shimmer mt-3 text-center text-5xl font-black uppercase leading-none sm:text-6xl">
-          Daily
+          Double
           <br />
-          Double!
+          Points!
         </h1>
         <div className="dd-card mt-8 w-full rounded-3xl border border-yellow-300/40 bg-white/10 p-6 backdrop-blur">
           <p className="text-center text-sm text-white/80">
@@ -217,9 +217,9 @@ export function DailyDoubleHost(props: {
             Room {props.code} · {props.category} · {props.points}
           </p>
           <h1 className="dd-title dd-title-shimmer mt-4 text-center text-7xl font-black uppercase leading-none sm:text-8xl">
-            Daily
+            Double
             <br />
-            Double!
+            Points!
           </h1>
           <p className="mt-6 max-w-lg text-center text-lg text-white/85">
             Everyone places a wager on their device. Right answers win the wager,

@@ -150,7 +150,7 @@ The single best thing you can do for your TIA portfolio is **collect evidence co
 
 ## Organization Systems That Actually Work
 
-Having evidence is useless if you can't find it when you need it. Here are three organization systems used by successful TIA-designated teachers:
+Having evidence is useless if you can't find it when you need it. Here are three organization systems to try:
 
 ### Option 1: Digital Folder System (Google Drive or OneDrive)
 

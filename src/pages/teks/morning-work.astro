@@ -38,7 +38,7 @@ const byId = new Map(TPT_LISTINGS.map((l) => [l.id, l]));
 const resolved = cards.map((c) => {
   const l = byId.get(c.id);
   if (!l) throw new Error(`Morning work card ${c.id} is not in the verified catalog`);
-  const imagePath = `/images/morning-work/tpt-${c.id}-cover.jpg`;
+  const imagePath = l.image ?? `/images/morning-work/tpt-${c.id}-cover.jpg`;
   const image = `${SITE}${imagePath}`;
   const pinHref =
     'https://www.pinterest.com/pin/create/button/?' +
@@ -49,7 +49,7 @@ const resolved = cards.map((c) => {
 const faqs = [
   {
     q: 'What is in each TEKS morning work pack?',
-    a: 'Each pack has a Start Here teacher guide, 32 student pages covering 16 days (a Math page and a Reading and Writing page per day), and an answer key numbered to match the student pages. Every day is labeled with its TEKS.',
+    a: 'Each pack has a Start Here teacher guide, 32 student pages covering 16 days (a Math page and a Reading and Writing page per day), and an answer key numbered to match the student pages. The Start Here guide and answer key list the TEKS for every day.',
   },
   {
     q: 'How long does morning work take each day?',

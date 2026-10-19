@@ -51,9 +51,9 @@ Five missions that escalate, then a short code collection at the end, is a sweet
 
 Here is the honest match — one live Teach4 Texas listing, not a catalog dump.
 
-**[Grammar Escape Room | STAAR Test Prep Editing & Revising](https://www.teacherspayteachers.com/Product/Grammar-Escape-Room-STAAR-Test-Prep-Editing-Revising-15950382)** ($4.99) is a Cadet Corps Google slides boot camp with **five STAAR-format missions**: revising for clarity (combining sentences), editing for conventions, editing for grammar (subject-verb agreement and pronouns), editing for spelling and homophones, and a full mixed editing passage. It is self-checking with training tips, includes a mission tracker and answer key with explanations, and lines up to **TEKS 3.11D / 4.11D / 5.11D** for Grades 3–5.
+**[STAAR Grammar Escape Room | Editing & Revising | Grades 3-5 | Google Slides](https://www.teacherspayteachers.com/Product/STAAR-Grammar-Escape-Room-Editing-Revising-Grades-3-5-Google-Slides-15950382)** ($4.99) is a Cadet Corps Google slides boot camp with **five STAAR-format missions**: revising for clarity (combining sentences), editing for conventions, editing for grammar (subject-verb agreement and pronouns), editing for spelling and homophones, and a full mixed editing passage. It is self-checking with training tips, includes a mission tracker and answer key with explanations, and lines up to **TEKS 3.11D / 4.11D / 5.11D** for Grades 3–5.
 
-What it is *not*: a constructed-response ECR pack, a Jeopardy clone, or a seasonal math scavenger with a grammar sticker. The escape code is earned from editing decisions — which is exactly what teachers are searching for when they type “grammar escape rooms third grade” instead of downloading another underline-the-noun page.
+What it is *not*: a constructed-response ECR pack, a quiz-show clone, or a seasonal math scavenger with a grammar sticker. The escape code is earned from editing decisions — which is exactly what teachers are searching for when they type “grammar escape rooms third grade” instead of downloading another underline-the-noun page.
 
 If you need a September literacy block that makes editing feel like a mission instead of a worksheet stack, run Missions 1–5, collect the trackers, and debrief the two most common wrong edits the next morning. That debrief is where the transfer sticks.
 

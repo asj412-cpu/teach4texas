@@ -68,9 +68,9 @@ Four days a week, four weeks, is a honest first set: **16 days**. Enough to prov
 
 Here is the honest match — one live Teach4 Texas listing, not a catalog dump.
 
-**[Texas Grade 3 Morning Work — 4 Weeks TEKS Warmups (Print + Easel)](https://www.teacherspayteachers.com/Product/Texas-Grade-3-Morning-Work-4-Weeks-TEKS-Warmups-Print-Easel-17696158)** ($4.99) is a Cadet Corps Print + Easel warmup set: **16 student pages** (4 days × 4 weeks), a complete answer key, and a teacher start-here guide. Each day is labeled with Texas TEKS, not Common Core. Sample Week 1 already hits Math **3.2A / 3.4A / 3.4E / 3.5E** and RLA **3.3B / 3.11D / 3.6G / 3.11C**. Print the PDF for morning tubs, or assign the same pages in TPT Easel. Calm. Classroom-ready. About 10–15 minutes.
+**[Texas Grade 3 Morning Work — 4 Weeks TEKS Warmups (Print)](https://www.teacherspayteachers.com/Product/Texas-Grade-3-Morning-Work-4-Weeks-TEKS-Warmups-Print-17696158)** ($4.99) is a Cadet Corps Print + Easel warmup set: **16 student pages** (4 days × 4 weeks), a complete answer key, and a teacher start-here guide. Each day is labeled with Texas TEKS, not Common Core. Sample Week 1 already hits Math **3.2A / 3.4A / 3.4E / 3.5E** and RLA **3.3B / 3.11D / 3.6G / 3.11C**. Print the PDF for morning tubs, or assign the same pages in TPT Easel. Calm. Classroom-ready. About 10–15 minutes.
 
-What it is *not*: an escape room, a Jeopardy board, Number Vault, or a color-by-code stack with a Texas sticker. The warmup only counts if the TEKS are on the page and the work is mixed Math + RLA — which is exactly what teachers need when they search “Grade 3 morning work” and refuse another busywork packet.
+What it is *not*: an escape room, a quiz-show board, Number Vault, or a color-by-code stack with a Texas sticker. The warmup only counts if the TEKS are on the page and the work is mixed Math + RLA — which is exactly what teachers need when they search “Grade 3 morning work” and refuse another busywork packet.
 
 If you need a September routine that survives attendance and still moves STAAR-season readiness, run one page a day, check with the key, and pull two misses into the math or RLA mini-lesson (usually the table columns or the edit that “sounds fine”). That handoff is where morning work stops being babysitting.
 

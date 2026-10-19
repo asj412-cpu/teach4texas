@@ -26,7 +26,7 @@ Here's the core concept:
 
 1. **Districts opt in** to TIA by submitting a local designation system to TEA for approval.
 2. **Teachers earn designations** (Recognized, Exemplary, or Master) based on their performance.
-3. **The state sends additional funding** to the district for each designated teacher.
+3. **The state sends additional funding** to the district for each teacher who holds a designation.
 4. **The teacher receives a pay increase** — the amount depends on the designation level and whether the teacher works at a high-need campus.
 
 This isn't a one-time bonus. TIA designations are **portable across Texas districts** and last for five years before renewal. If you earn a Master designation in Houston ISD and move to a rural district in West Texas, your designation follows you — and that rural district receives even more funding because of the high-need multiplier.
@@ -60,7 +60,7 @@ Exemplary teachers are the ones other teachers come to for advice. Your data bac
 - **Base funding:** $12,000 per year
 - **High-need campus multiplier:** Up to $32,000 per year
 
-At the Master level, you're earning what amounts to a second salary in some cases. A Master-designated teacher at a high-need rural campus could see an increase of $32,000 or more annually. That's life-changing money — and it's designed to keep the best teachers where students need them most.
+At the Master level, you're earning what amounts to a second salary in some cases. A teacher with a Master designation at a high-need rural campus could see an increase of $32,000 or more annually (TEA lists the 2026–27 Master range as $12k–$36k in its [HB 2 TIA update](https://tea.texas.gov/taa-letters/hb-2-implementation-teacher-incentive-allotment-update)). That's life-changing money — and it's designed to keep the best teachers where students need them most.
 
 ### The High-Need Campus Multiplier
 

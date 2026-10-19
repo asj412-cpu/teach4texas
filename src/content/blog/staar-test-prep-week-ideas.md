@@ -76,13 +76,13 @@ These 15 activities are classroom-tested, STAAR-aligned, and actually fun. Some 
 
 **Differentiation tip:** Assign roles within each group: reader, recorder, checker, timekeeper. This ensures every student has a responsibility and prevents one strong student from doing all the work.
 
-### 7. STAAR Jeopardy
+### 7. STAAR Category Game Board
 
-**What it is:** Create a Jeopardy-style game board with categories aligned to STAAR reporting categories. Teams select categories and point values, answer the question, and earn (or lose) points. Daily Double questions can be worth double points or require an "all-in" wager.
+**What it is:** Create a quiz-show game board with categories aligned to STAAR reporting categories. Teams select categories and point values, answer the question, and earn (or lose) points. Daily Double questions can be worth double points or require an "all-in" wager.
 
-**Why it works:** Jeopardy is universally known. The category structure naturally organizes review by topic, and the point system creates strategy and competition. Students cheer, groan, and engage in ways that worksheets never produce.
+**Why it works:** The format is familiar to most students. The category structure naturally organizes review by topic, and the point system creates strategy and competition. Students cheer, groan, and engage in ways that worksheets never produce.
 
-**Setup time:** 30 minutes to create the game board. (Google Slides or PowerPoint templates make this much faster — search for "Jeopardy template for teachers.")
+**Setup time:** 30 minutes to create the game board. (Google Slides or PowerPoint templates make this much faster — search for "review game board template for teachers.")
 
 **Differentiation tip:** Assign lower point values to foundational questions and higher points to complex ones. This way, struggling students can target easier questions to build confidence while advanced students are incentivized to take on challenges.
 
@@ -116,15 +116,15 @@ These 15 activities are classroom-tested, STAAR-aligned, and actually fun. Some 
 
 ## Technology-Based Activities
 
-### 11. Kahoot or Blooket Review Battles
+### 11. Device-Based Review Game Battles
 
-**What it is:** Use Kahoot, Blooket, or Gimkit to create STAAR-style review games that students play on individual devices. Questions appear on the projector; students answer on their screens. Leaderboards and game mechanics keep energy high.
+**What it is:** Use an online classroom quiz platform to create STAAR-style review games that students play on individual devices. Questions appear on the projector; students answer on their screens. Leaderboards and game mechanics keep energy high.
 
 **Why it works:** Students will voluntarily review STAAR content for 30+ minutes straight if it's wrapped in a game. The instant feedback after each question creates built-in formative assessment. You can see exactly which questions the class struggles with and address them in real time.
 
 **Setup time:** 15–20 minutes to create a game (or search the platform's library for pre-made STAAR review games — hundreds already exist).
 
-**Differentiation tip:** Blooket's game modes allow different play styles. "Tower Defense" mode is collaborative; "Battle Royale" is competitive. Choose the mode that matches your class culture.
+**Differentiation tip:** Many quiz platforms offer both team (collaborative) and individual (competitive) game modes. Choose the mode that matches your class culture.
 
 ### 12. QR Code Scavenger Hunt
 
@@ -171,8 +171,8 @@ Here's how you might structure a full week of review using these activities:
 - Afternoon: Gallery Walk Review (Activity 8) to identify class-wide strengths and gaps
 
 **Tuesday — "Game Day"**
-- Morning: STAAR Jeopardy (Activity 7) for the first subject
-- Afternoon: Kahoot/Blooket Battle (Activity 11) for the second subject
+- Morning: STAAR Category Game Board (Activity 7) for the first subject
+- Afternoon: Device-Based Review Game Battle (Activity 11) for the second subject
 
 **Wednesday — "Boot Camp Day"**
 - Full-day STAAR Boot Camp (Activity 10) with rotating stations including Escape Rooms (Activity 6), Speed Dating (Activity 9), and teacher-led small groups
@@ -193,7 +193,7 @@ Regardless of which activities you choose, keep these principles in mind:
 
 - **Use data from the activity.** If 80% of your students miss the elapsed time question during Scoot, that tells you where to spend your small-group time tomorrow. Every review activity is also a formative assessment.
 
-- **Vary the format daily.** Don't do Kahoot five days in a row. Mix low-tech and high-tech, competitive and collaborative, individual and team-based. Variety prevents fatigue.
+- **Vary the format daily.** Don't run the same online quiz game five days in a row. Mix low-tech and high-tech, competitive and collaborative, individual and team-based. Variety prevents fatigue.
 
 - **Maintain test-like conditions at least once.** Fun review is critical, but students also need at least one practice session that mimics real test conditions — quiet room, timed, no collaboration. This builds stamina and reduces test-day anxiety.
 

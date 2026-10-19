@@ -21,15 +21,15 @@ export const TPT_PRODUCTS = {
     label: 'RACE constructed-response posters',
   },
   tia: {
-    href: 'https://www.teacherspayteachers.com/Product/TIA-Portfolio-Guide-Evidence-Kit-Texas-Teacher-Incentive-Allotment-Roadmap-15602263',
-    label: 'TIA Portfolio Guide & Evidence Kit',
+    href: 'https://www.teacherspayteachers.com/Product/TIA-Portfolio-Guide-Texas-Teacher-Incentive-Allotment-Roadmap-2026-27-15602263',
+    label: 'TIA Portfolio Guide',
   },
   freeCompanion: {
     href: 'https://www.teacherspayteachers.com/Product/FREE-Score-Desk-Companion-STAAR-Click-Score-One-Pager-17493794',
     label: 'Free Score Desk companion (Free download)',
   },
   morningWorkG3: {
-    href: 'https://www.teacherspayteachers.com/Product/Texas-Grade-3-Morning-Work-4-Weeks-TEKS-Warmups-Print-Easel-17696158',
+    href: 'https://www.teacherspayteachers.com/Product/Texas-Grade-3-Morning-Work-4-Weeks-TEKS-Warmups-Print-17696158',
     label: 'Texas Grade 3 Morning Work — 4 Weeks TEKS Warmups',
   },
   morningWorkG4: {
@@ -37,7 +37,7 @@ export const TPT_PRODUCTS = {
     label: 'Texas Grade 4 Morning Work — 4 Weeks TEKS Warmups',
   },
   hispanicHeritageG3: {
-    href: 'https://www.teacherspayteachers.com/Product/Hispanic-Heritage-Month-Scavenger-Hunt-Grade-3-STAAR-Math-TEKS-34A-34F-35E-17547396',
+    href: 'https://www.teacherspayteachers.com/Product/Hispanic-Heritage-Scavenger-Hunt-Grade-3-STAAR-Math-TEKS-34A-34F-35E-17547396',
     label: 'Hispanic Heritage Scavenger Hunt | Grade 3 STAAR Math',
   },
   crackCodeMysteryG3: {
@@ -45,7 +45,7 @@ export const TPT_PRODUCTS = {
     label: 'Crack the Code Math Mystery Grade 3 STAAR Math',
   },
   laborDayG3: {
-    href: 'https://www.teacherspayteachers.com/Product/Labor-Day-Escape-Room-Grade-3-STAAR-Math-TEKS-34K-34G-35A-17517520',
+    href: 'https://www.teacherspayteachers.com/Product/Labor-Day-Math-Escape-Room-Grade-3-STAAR-Review-TEKS-34K-34G-35A-17517520',
     label: 'Labor Day Math Escape Room | Grade 3 STAAR Review',
   },
   firstDayG4: {
@@ -53,7 +53,7 @@ export const TPT_PRODUCTS = {
     label: 'First Day of School Scavenger Hunt Grade 4 STAAR Math',
   },
   backToSchoolG3: {
-    href: 'https://www.teacherspayteachers.com/Product/Back-to-School-Escape-Room-Grade-3-STAAR-Math-TEKS-32A-32C-34A-17506345',
+    href: 'https://www.teacherspayteachers.com/Product/Back-to-School-Escape-Room-Grade-3-Math-Place-Value-Rounding-TEKS-32A-32C-34A-17506345',
     label: 'Back to School Escape Room Grade 3 Math',
   },
   numberVaultG7: {

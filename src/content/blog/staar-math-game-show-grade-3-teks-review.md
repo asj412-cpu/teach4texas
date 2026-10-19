@@ -8,7 +8,7 @@ author: "Lone Star Educator"
 tags: ["STAAR", "math", "Grade 3", "TEKS", "game show"]
 ---
 
-Mid-October in a Texas Grade 3 room has a split personality. The benchmark window is close enough that you can feel it, and Friday still wants to feel like game day. So the stations come out, or a Jeopardy file from a few years ago gets projected, and the hope is that the noise means the TEKS moved.
+Mid-October in a Texas Grade 3 room has a split personality. The benchmark window is close enough that you can feel it, and Friday still wants to feel like game day. So the stations come out, or a quiz-board file from a few years ago gets projected, and the hope is that the noise means the TEKS moved.
 
 Grade 3 STAAR math does not take Friday off. Place value up to 100,000, two-step multiplication and division, fraction models, geometry and measurement, and data and money sense are all still on the clock. A loud block that only reviews bare facts leaves those standards sitting there for Monday.
 
@@ -28,7 +28,7 @@ Name them the way you talk about them in planning, not as a standards dump. A us
 
 ## Where Friday game day usually goes sideways
 
-**Jeopardy with bare facts.** A cell that says "6 × 7" and four products is retrieval practice. Grade 3 STAAR Math asks students to solve word problems and work with models, and a multiple-choice item can include the answer you get if you stop too early. Bare facts feel fast and teach the wrong habit.
+**Quiz boards with bare facts.** A cell that says "6 × 7" and four products is retrieval practice. Grade 3 STAAR Math asks students to solve word problems and work with models, and a multiple-choice item can include the answer you get if you stop too early. Bare facts feel fast and teach the wrong habit.
 
 **No TEKS labels.** If the category says "Numbers" and nothing else, you cannot tell whether the block practiced 3.2D or 3.4K. You also cannot tell a PLC what Friday covered. The standards have to be nameable when the board comes down.
 
@@ -52,7 +52,7 @@ Here's the honest match from the Teach4 Texas store.
 
 The categories on the board are Place Value, Operations, Fractions, Geo & Measurement, and Data & Money Sense. The items cover these Grade 3 TEKS (§111.5): 3.2A, 3.2C, 3.2D, 3.4A, 3.4D, 3.4K, 3.3A, 3.3B, 3.3C, 3.3F, 3.3H, 3.6A, 3.6B, 3.6C, 3.7B, 3.7C, 3.8A, 3.8B, 3.9A, and 3.9C. Every cell has four choices. Two of them are Daily Doubles. Students play with no calculator, as on Grade 3 STAAR math (calculators are not permitted on STAAR grades 3–7 math except as an eligible accommodation).
 
-It is a live board for one class period. It is not a click-ahead PowerPoint, a bare-facts Jeopardy file, or a buzzer game with no standards on it.
+It is a live board for one class period. It is not a click-ahead PowerPoint, a bare-facts quiz board file, or a buzzer game with no standards on it.
 
 After you play, leave the five category names up for two minutes. Ask each team which cell felt like a guess. Listen for two common stalls: a 3.4K item where the class did the first step and stopped, and a fraction cell where the model and the number line did not match. A five-minute debrief on those two the next morning does more than running the board a second time.
 

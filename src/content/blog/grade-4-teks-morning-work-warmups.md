@@ -52,7 +52,7 @@ Four days a week, four weeks, is an honest first set: **16 days**. Enough to pro
 
 **[Texas Grade 4 Morning Work — 4 Weeks TEKS Warmups (Print + Easel)](https://www.teacherspayteachers.com/Product/Texas-Grade-4-Morning-Work-4-Weeks-TEKS-Warmups-Print-Easel-17751292)** ($4.99) is a Cadet Corps Print + Easel warmup set: **16 student pages** (4 days × 4 weeks), a complete answer key, and a teacher start-here guide. Each day is labeled with Texas TEKS, not Common Core. Sample Week 1 already hits Math **4.2B / 4.4A / 4.4D / 4.5B** and RLA **4.3B / 4.11D / 4.6G / 4.11C**. Print the PDF for morning tubs, or assign the same pages in TPT Easel. Calm. Classroom-ready. About 10–15 minutes.
 
-What it is *not*: an escape room, a Jeopardy board, Number Vault, or a color-by-code stack with a Texas sticker. The warmup only counts if the TEKS are on the page and the work is mixed Math + RLA.
+What it is *not*: an escape room, a quiz-show board, Number Vault, or a color-by-code stack with a Texas sticker. The warmup only counts if the TEKS are on the page and the work is mixed Math + RLA.
 
 If you need a September routine that survives attendance and still moves STAAR-season readiness, run one page a day, check with the key, and pull two misses into the math or RLA mini-lesson. That handoff is where morning work stops being babysitting.
 

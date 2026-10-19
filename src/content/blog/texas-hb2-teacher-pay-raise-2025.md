@@ -23,11 +23,11 @@ The TRA sends state money to your district specifically to raise classroom teach
 
 ### TRA Amounts by District Size and Experience
 
-| Experience Level | Small Districts (5,000 students or fewer) | Large Districts (more than 5,000 students) |
+| Completed Years of Experience | Small Districts (5,000 students or fewer) | Large Districts (more than 5,000 students) |
 |---|---|---|
-| **1-2 years** | $0 | $0 |
-| **3-4 years** | $4,000 per teacher | $2,500 per teacher |
-| **5+ years** | $8,000 per teacher | $5,000 per teacher |
+| **0-2 completed years** | $0 | $0 |
+| **3-4 completed years** | $4,000 per teacher | $2,500 per teacher |
+| **5+ completed years** | $8,000 per teacher | $5,000 per teacher |
 
 Source: TEA, [HB 2 Implementation: Teacher Retention Allotment and Support Staff Retention Allotment](https://tea.texas.gov/taa-letters/house-bill-2-hb-2-implementation-teacher-retention-allotment-and-support-staff).
 

@@ -45,7 +45,7 @@ export default function PlayPage() {
           aria-live="polite"
           className="pointer-events-none fixed inset-x-0 top-3 z-50 flex justify-center px-3"
         >
-          <p className="max-w-[90vw] rounded-full bg-t4t-burnt px-4 py-2 text-sm font-semibold text-white shadow-lg">
+          <p className="max-w-[90vw] rounded-full bg-t4t-burnt px-4 py-2 text-base font-semibold text-white shadow-lg">
             {tap === "retrying"
               ? "Sending…"
               : tap === "rejected"
@@ -384,7 +384,7 @@ function PlayPageBody({
         footer={
           <>
             <p className="gs-glass mx-auto mt-8 max-w-xs rounded-2xl px-4 py-3 text-center text-lg font-black">
-              Your score: <span className="text-t4t-gold">{view.my_score}</span>
+              Your score: <span className="text-yellow-200">{view.my_score}</span>
             </p>
             <p className="mx-auto mt-6 w-fit rounded-full bg-black/55 px-4 py-1 text-center text-base font-semibold text-white">Waiting for host to play again…</p>
           </>
@@ -442,17 +442,17 @@ function PlayPageBody({
                   void answer(i);
                 }}
                 style={{ animationDelay: `${0.1 + i * 0.07}s` }}
-                className={`gs-choice gs-glass gs-rise rounded-2xl border-2 px-4 py-4 text-left text-lg font-bold ${
+                className={`gs-choice gs-rise rounded-2xl border-2 bg-[#13294b]/90 backdrop-blur px-4 py-4 text-left text-lg font-bold ${
                   showCorrect
-                    ? "gs-correct"
+                    ? "fb-correct"
                     : showWrong
-                      ? "gs-wrong"
+                      ? "fb-wrong"
                       : picked
                         ? "border-t4t-gold ring-2 ring-t4t-gold"
                         : "border-white/25 disabled:opacity-70"
                 }`}
               >
-                <span className="mr-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-t4t-gold font-black text-t4t-navy">
+                <span className="mr-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-yellow-300 font-black text-t4t-navy">
                   {String.fromCharCode(65 + i)}
                 </span>
                 {kidPlainText(choice, 120)}
@@ -461,10 +461,10 @@ function PlayPageBody({
           })}
         </div>
         {view.my_answered && view.phase === "question_open" && (
-          <p className="mt-6 text-center text-base font-bold text-t4t-gold">Locked in! Wait for the reveal…</p>
+          <p className="mt-6 text-center text-base font-bold text-yellow-200">Locked in! Wait for the reveal…</p>
         )}
         {view.phase === "question_locked" && (
-          <p className="mt-6 text-center text-base font-bold text-t4t-gold">Answers locked…</p>
+          <p className="mt-6 text-center text-base font-bold text-yellow-200">Answers locked…</p>
         )}
         {reveal && mine != null && (
           <p className={`dd-pop mt-6 text-center text-4xl font-black ${gotIt ? "text-green-300" : "text-red-300"}`}>
@@ -473,8 +473,8 @@ function PlayPageBody({
         )}
         {reveal && view.my_points_delta !== null && view.my_points_delta !== 0 && (
           <p
-            className={`dd-pop mt-2 text-center text-3xl font-black ${
-              view.my_points_delta >= 0 ? "text-green-300" : "text-red-300"
+            className={`dd-pop mx-auto mt-2 w-fit rounded-full bg-black/60 px-5 py-1 text-center text-3xl font-black ${
+              view.my_points_delta >= 0 ? "text-green-200" : "text-red-200"
             }`}
           >
             {view.my_points_delta >= 0 ? "+" : ""}
@@ -487,8 +487,8 @@ function PlayPageBody({
             {q.teks ? ` (${q.teks})` : ""}
           </p>
         )}
-        <p className="mt-8 text-center text-lg font-black">
-          Score: <span className="text-t4t-gold">{view.my_score}</span>
+        <p className="mx-auto mt-8 w-fit rounded-full bg-black/60 px-5 py-1 text-center text-lg font-black">
+          Score: <span className="text-yellow-200">{view.my_score}</span>
         </p>
       </GameShowStage>
     );
@@ -500,8 +500,8 @@ function PlayPageBody({
       <h1 className="dd-title text-center text-2xl font-black uppercase">
         {kidPlainText(view.title, 80)}
       </h1>
-      <p className="mt-2 text-center text-sm font-semibold text-white/80">
-        Score <span className="font-black text-t4t-gold">{view.my_score}</span> · Watch the board!
+      <p className="mx-auto mt-2 w-fit rounded-full bg-black/55 px-4 py-1 text-center text-base font-semibold text-white">
+        Score <span className="font-black text-yellow-200">{view.my_score}</span> · Watch the board!
       </p>
       <div className="mx-auto mt-8 max-w-lg">
         <div

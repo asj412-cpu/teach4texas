@@ -590,19 +590,19 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
       <header className="gs-glass border-x-0 border-t-0">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-4">
           <div>
-            <p className="text-xs font-semibold uppercase text-t4t-gold">
+            <p className="text-base font-semibold uppercase text-yellow-200">
               Live host · paid game only
             </p>
             <h1 className="dd-title text-2xl font-black uppercase sm:text-3xl">{view.board.title}</h1>
           </div>
           <div className="gs-glass rounded-2xl px-5 py-3 text-center text-white">
-            <p className="text-[10px] uppercase tracking-wide text-white/70">
+            <p className="text-base uppercase tracking-wide text-white/90">
               Student room code
             </p>
             <p className="font-mono text-3xl font-extrabold tracking-widest">
               {view.code}
             </p>
-            <p className="text-xs text-white/70">
+            <p className="text-base text-white/90">
               {view.players.filter((p) => p.player_id !== "host").length} joined · students go to /join
             </p>
           </div>
@@ -615,7 +615,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
             <button
               type="button"
               onClick={() => hostAction({ type: "start_game" })}
-              className="rounded-xl bg-t4t-green px-5 py-3 text-sm font-semibold text-white"
+              className="rounded-xl bg-t4t-green px-5 py-3 text-base font-semibold text-white"
             >
               Start game (leave lobby)
             </button>
@@ -624,7 +624,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
               onClick={() =>
                 hostAction({ type: "lock_lobby", locked: !view.lobby_locked })
               }
-              className="rounded-xl border border-white/60 px-5 py-3 text-sm font-semibold text-white"
+              className="rounded-xl border border-white/60 px-5 py-3 text-base font-semibold text-white"
             >
               {view.lobby_locked ? "Unlock lobby" : "Lock lobby"}
             </button>
@@ -636,7 +636,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
             <button
               type="button"
               onClick={() => hostAction({ type: "open_question" })}
-              className="rounded-xl bg-t4t-burnt px-5 py-3 text-sm font-semibold text-white"
+              className="rounded-xl bg-t4t-burnt px-5 py-3 text-base font-semibold text-white"
             >
               Open question for students
             </button>
@@ -685,20 +685,20 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
         </div>
 
         <div className="mt-8 flex flex-wrap items-start justify-between gap-4">
-          <ul className="flex flex-wrap gap-2 text-sm">
+          <ul className="flex flex-wrap gap-2 text-base">
             {[...view.players].sort((a, b) => b.score - a.score).map((p) => (
               <li key={p.player_id} className="gs-glass gs-rise rounded-full px-3 py-1">
-                {p.display_name} <span className="font-black text-t4t-gold">{p.score}</span>
+                {p.display_name} <span className="font-black text-yellow-200">{p.score}</span>
               </li>
             ))}
             {view.players.filter((p) => p.player_id !== "host").length === 0 && (
-              <li className="text-white/60">Waiting for students…</li>
+              <li className="text-white/85">Waiting for students…</li>
             )}
           </ul>
           <button
             type="button"
             onClick={() => hostAction({ type: "end_game" })}
-            className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-200"
+            className="rounded-lg border border-red-300 px-4 py-2 text-base font-semibold text-red-200"
           >
             End game
           </button>

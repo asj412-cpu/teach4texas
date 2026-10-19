@@ -11,7 +11,7 @@ keywords: ["Texas Education Freedom Accounts", "Texas ESA program", "SB 2 Texas 
 
 Texas public school teachers are heading into the 2026-27 school year with a significant policy change on the horizon. Senate Bill 2, passed during the 89th Texas Legislature in 2025, establishes the Texas Education Freedom Accounts (TEFA) program — the state's first Education Savings Account system.
 
-Whether you view this as a long-overdue expansion of educational options or a potential threat to public school funding, the practical reality is the same: this law is now on the books, applications are open, and some of your current students may leave your classroom because of it.
+Whether you view this as a long-overdue expansion of educational options or a potential threat to public school funding, the practical reality is the same: this law is now on the books, the first application window ran February 4 – March 31, 2026 ([official TEFA site](https://educationfreedom.texas.gov/)), and some of your current students may leave your classroom because of it.
 
 This guide lays out the facts — what the program is, how it works, who qualifies, and what the projected impact on public schools looks like — so you can plan accordingly. No spin. Just what you need to know.
 
@@ -57,12 +57,11 @@ The $2,000 homeschool amount is considerably less than the private school amount
 
 If you are a public school teacher, these dates matter because they determine when students may begin withdrawing from your campus:
 
-- **Applications are currently open** for the 2026-27 school year.
-- **Application deadline: March 17, 2026 at 11:59 PM CT.** This is a firm deadline. Families who miss it will need to wait for the next application window.
+- **The 2026-27 application window ran February 4 – March 31, 2026 and is now closed** ([official TEFA site](https://educationfreedom.texas.gov/)). The original March 17 deadline was extended to March 31 to comply with a federal court order ([Comptroller](https://comptroller.texas.gov/about/media-center/news/20260317-texas-education-freedom-account-application-deadline-extended-through-march-31-1773784632313)).
 - **ESA rules finalized: May 2026.** The Comptroller's Office is expected to publish final administrative rules governing the program by this date.
 - **Accounts become usable for the 2026-27 school year.** Once approved, families can begin using funds for the upcoming fall semester.
 
-From a classroom planning perspective, the March 17 application deadline means that by late spring 2026, districts should begin to have a clearer picture of how many students plan to leave for the 2026-27 year. However, applying does not guarantee a student will ultimately leave — some families may apply, receive approval, and still choose to remain in public school.
+From a classroom planning perspective, the March 31 close of the application window means districts should now have a clearer picture of how many students plan to leave for the 2026-27 year. However, applying does not guarantee a student will ultimately leave — some families may apply, receive approval, and still choose to remain in public school.
 
 ## How Is This Funded?
 
@@ -144,7 +143,7 @@ The TEFA program is new, and several aspects remain uncertain. Here is what is w
 
 ### Application Numbers by District
 
-Once the March 17 deadline passes, watch for reporting on application totals. Your district's central office should be tracking how many students have applied. This data will give you the earliest signal of local impact.
+The application window has closed, so watch for reporting on application totals. Your district's central office should be tracking how many students have applied. This data will give you the earliest signal of local impact.
 
 ### Comptroller Rules (May 2026)
 
@@ -176,7 +175,7 @@ Some of your students' parents may ask you about the TEFA program. A few princip
 
 ## The Bottom Line
 
-The Texas Education Freedom Accounts program is happening. Applications are open now, with a March 17, 2026 deadline for the 2026-27 school year. The projected enrollment impact on public schools starts modest — around 24,500 students statewide in FY 2027 — and grows to approximately 98,000 by FY 2030.
+The Texas Education Freedom Accounts program is happening. The 2026-27 application window ran February 4 – March 31, 2026 and is closed ([official TEFA site](https://educationfreedom.texas.gov/)). The projected enrollment impact on public schools starts modest — around 24,500 students statewide in FY 2027 — and grows to approximately 98,000 by FY 2030.
 
 For most Texas teachers, the immediate classroom impact will be small. For some — particularly those in small districts, near private school clusters, or in areas already experiencing enrollment decline — the effects could be more noticeable.
 

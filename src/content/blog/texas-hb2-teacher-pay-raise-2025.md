@@ -29,11 +29,13 @@ The TRA sends state money to your district specifically to raise classroom teach
 | **3-4 years** | $4,000 per teacher | $2,500 per teacher |
 | **5+ years** | $8,000 per teacher | $5,000 per teacher |
 
+Source: TEA, [HB 2 Implementation: Teacher Retention Allotment and Support Staff Retention Allotment](https://tea.texas.gov/taa-letters/house-bill-2-hb-2-implementation-teacher-retention-allotment-and-support-staff).
+
 Read that table carefully. A few things jump out.
 
 **Teachers who have not yet completed three creditable years receive nothing from the TRA.** TRA increases start in the year *after* a teacher completes three (or five) years of creditable experience, not in the year they are earning it ([TEA](https://tea.texas.gov/taa-letters/house-bill-2-hb-2-implementation-teacher-retention-allotment-and-support-staff)). If you're in your first, second or third year of teaching, the state allotment does not include you. Some districts may choose to supplement locally and give newer teachers a raise anyway, but the TRA itself does not fund it. If you're a new teacher wondering whether you'll see a bump, the answer depends entirely on your district's local decisions.
 
-**Small districts get more per teacher.** This is intentional. Districts with 5,000 or fewer students in average daily attendance receive significantly higher per-teacher amounts — $4,000 and $8,000 versus $2,500 and $5,000 at larger districts. The reasoning is that smaller districts have fewer students generating funding but still need competitive salaries to attract and retain teachers. If you teach in a small or rural district, this is a meaningful advantage.
+**Small districts get more per teacher.** This is intentional. Districts with 5,000 or fewer enrolled students ([TEA](https://tea.texas.gov/taa-letters/house-bill-2-hb-2-implementation-teacher-retention-allotment-and-support-staff)) receive significantly higher per-teacher amounts — $4,000 and $8,000 versus $2,500 and $5,000 at larger districts. The reasoning is that smaller districts have fewer students generating funding but still need competitive salaries to attract and retain teachers. If you teach in a small or rural district, this is a meaningful advantage.
 
 **The five-year threshold matters a lot.** The jump from the 3-4 year bracket to the 5+ year bracket is substantial — it doubles the allotment in small districts (from $4,000 to $8,000) and doubles it in large districts as well ($2,500 to $5,000). Because the higher amount starts in the year after you complete five creditable years ([TEA](https://tea.texas.gov/taa-letters/house-bill-2-hb-2-implementation-teacher-retention-allotment-and-support-staff)), a teacher in their fourth year is two years away from it.
 
@@ -45,15 +47,13 @@ That said, you need to actually be serving as a classroom teacher. Instructional
 
 ### How the TRA Hits Your Paycheck
 
-The TRA is not a bonus. It's not a stipend. It's paid as part of your regular salary under Object Code 080 in school district accounting. That means it shows up in your normal paycheck, it's subject to normal payroll taxes and deductions, and it counts toward your TRS retirement calculation.
+The TRA is not a bonus. It's not a stipend. It's paid as part of your regular salary. That means it shows up in your normal paycheck, it's subject to normal payroll taxes and deductions, and it counts toward your TRS retirement calculation.
 
 Your district receives the TRA funding from the state and is required to pass it through to eligible teachers as a salary increase. You should see it reflected in your annual salary for 2025-26. If you don't, ask your HR department directly: "Has the Teacher Retention Allotment been applied to my salary?"
 
 ## Support Staff Retention Allotment (SSRA): Not Just for Teachers
 
-HB 2 didn't forget the people who keep schools running. The Support Staff Retention Allotment provides **$45 per student in average daily attendance** to fund raises for non-administrative support staff.
-
-That $45/student adds up fast. A district with 10,000 students in ADA receives $450,000 specifically earmarked for support staff compensation. A large district with 50,000 students gets $2.25 million.
+HB 2 didn't forget the people who keep schools running. The Support Staff Retention Allotment provides **$45 per student in adjusted average attendance** ([TEA](https://tea.texas.gov/taa-letters/house-bill-2-hb-2-implementation-teacher-retention-allotment-and-support-staff)) to fund raises for non-administrative support staff.
 
 ### Who's Covered by the SSRA?
 
@@ -75,19 +75,17 @@ The exact amount each support staff member receives depends on your district's i
 
 Beyond the targeted allotments above, HB 2 raised the basic allotment — the foundational per-student funding that drives most of a district's state revenue.
 
-**The basic allotment increased from $6,160 to $6,380 per student** — a $220 per-student increase. On top of that, HB 2 added a **$55 per-student Guaranteed Yield Increase Adjustment (GYIA) supplement.**
-
-Combined, that's $275 more per student in foundational funding. For a district with 5,000 students, that translates to $1.375 million in additional general revenue.
+**The basic allotment increased from $6,160 to $6,215 per student in average daily attendance** ($6,160 plus a **$55 Guaranteed Yield Increment Adjustment**) for the 2026–2027 biennium ([TEA](https://tea.texas.gov/taa-letters/house-bill-2-hb-2-implementation-foundation-school-program-fsp-funding-formula-changes)).
 
 ### Why This Matters for Your Paycheck
 
-The basic allotment increase doesn't flow directly to teacher salaries the way the TRA does. It goes into the district's general operating budget. However, since employee compensation typically accounts for 80-85% of a district's budget, more overall revenue generally means more capacity for salary increases, maintained staffing levels, and operational improvements that affect your working conditions.
+The basic allotment increase doesn't flow directly to teacher salaries the way the TRA does. It goes into the district's general operating budget. However, more overall revenue generally means more capacity for salary increases, maintained staffing levels, and operational improvements that affect your working conditions.
 
 The basic allotment increase is also significant because it raises the floor for every district in Texas, including property-wealthy districts that may not benefit as much from the targeted allotments.
 
 ## Allotment for Basic Costs (ABC): Operational Relief
 
-HB 2 created a new funding stream called the Allotment for Basic Costs, providing **$106 per enrolled student** to help districts cover operational expenses that have been eating into their budgets for years.
+HB 2 created a new funding stream called the Allotment for Basic Costs, providing **$106 per enrolled student** ([TEA](https://tea.texas.gov/taa-letters/house-bill-2-hb-2-implementation-foundation-school-program-fsp-funding-formula-changes)) to help districts cover operational expenses that have been eating into their budgets for years.
 
 ABC funds are designated for:
 
@@ -101,7 +99,7 @@ While this allotment doesn't go directly to your salary, it matters. When a dist
 
 ## TIA Expansion: New Pathways to Even More Pay
 
-For teachers already familiar with the Teacher Incentive Allotment, HB 2 brought the most significant expansion since TIA was created by HB 3 in 2019. If you're not familiar with TIA, start with our [TIA Complete Guide](/blog/tia-complete-guide) — but here's what changed under HB 2.
+For teachers already familiar with the Teacher Incentive Allotment, HB 2 brought the most significant expansion since TIA was created by [HB 3 in 2019](https://capitol.texas.gov/tlodocs/86R/billtext/html/HB00003F.htm). If you're not familiar with TIA, start with our [TIA Complete Guide](/blog/tia-complete-guide) — but here's what changed under HB 2. The TIA figures below come from TEA's [HB 2 TIA update](https://tea.texas.gov/taa-letters/hb-2-implementation-teacher-incentive-allotment-update).
 
 ### The New "Acknowledged" Designation
 
@@ -124,7 +122,7 @@ Beginning in the **2026–27 school year**, districts with local designation sys
 
 This isn't someday — it's this year's data, applied next fall.
 
-### National Board Certified Teachers (NBCTs) Auto-Qualify
+### National Board Certified Teachers (NBCTs)
 
 Beginning in 2026–27, eligible NBCTs transition to a new Nationally Board Certified designation, funded at the same $3,000–$9,000 range as Acknowledged ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-teacher-incentive-allotment-update)). SBEC must review National Board certification as a TIA pathway by **December 31, 2026** to keep it eligible. If you're an NBCT, keep an eye on SBEC and district communications.
 
@@ -136,9 +134,13 @@ How districts earn Enhanced TIA status is determined by TEA, and the specifics a
 
 ## The $1,000 Certification Incentive
 
-This one is specifically for teachers currently working on alternative certification or who entered the classroom without a standard certificate. HB 2 provides a **$1,000 incentive** for uncertified teachers who earn their full teaching certification by the end of the **2026-27 school year**.
+HB 2 created a one-time **$1,000 Teacher Certification Incentive**. TEA pays it **to the district** (not directly to the teacher) for each eligible classroom teacher who ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)):
 
-If you're working under a probationary or emergency permit and you complete your certification requirements — including passing the relevant TExES or edTPA exams — you're eligible for this one-time incentive. It's not a massive amount, but it's a tangible reward for completing a process that also opens the door to higher TRA brackets as you gain experience.
+- was hired as an uncertified first-year teacher in 2022-2023 or 2023-2024 and was still uncertified on January 1, 2025;
+- earns a standard certificate by the end of the 2026-2027 school year; and
+- has been continuously employed as a teacher by the district.
+
+Districts decide locally how to use the funds, so ask yours whether any of it reaches eligible teachers.
 
 ## Putting It All Together: What's Your Total Impact?
 
@@ -169,7 +171,7 @@ Let's run a few scenarios to make this concrete.
 ### Scenario 4: School Counselor in a Mid-Size District (8,000 students)
 
 - **TRA:** $0 (not a classroom teacher)
-- **SSRA:** Amount varies by district allocation (district receives $360,000 total for support staff)
+- **SSRA:** Amount varies by district allocation
 - **Total direct increase:** Depends on district's SSRA distribution plan
 
 These scenarios make an important point: **your actual impact varies significantly based on your role, experience, and district.** Don't assume the headline number is your number. Know your specific situation.
@@ -202,7 +204,7 @@ Everything you do from now through the end of the school year matters. Focus on:
 
 ### Step 4: If You're Uncertified, Start Your Certification Path
 
-The $1,000 incentive has a deadline: end of the 2026-27 school year. If you're teaching on an alternative certificate, probationary certificate, or emergency permit, map out what you need to finish. Schedule your remaining exams. Talk to your certification program about your timeline. A thousand dollars isn't life-changing, but earning your full certificate opens the door to long-term career benefits well beyond that incentive.
+If you're eligible for the $1,000 Teacher Certification Incentive, the certification deadline is the end of the 2026-27 school year, and the payment goes to your district ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)). If you're teaching on an alternative certificate, probationary certificate, or emergency permit, map out what you need to finish. Schedule your remaining exams. Talk to your certification program about your timeline. Earning your full certificate opens the door to long-term career benefits.
 
 ### Step 5: Support Staff — Ask About the SSRA
 
@@ -216,11 +218,11 @@ Many teachers don't know these provisions exist, or they've heard vague rumors w
 
 ### Does the TRA apply to charter school teachers?
 
-Yes. Open-enrollment charter schools are included in the TRA provisions. The district size thresholds apply based on the charter school's ADA.
+Yes. Open-enrollment charter schools are included in the TRA provisions. The size thresholds are based on enrolled students ([TEA](https://tea.texas.gov/taa-letters/house-bill-2-hb-2-implementation-teacher-retention-allotment-and-support-staff)).
 
 ### What if my district has exactly 5,000 students?
 
-The statute says 5,000 students or fewer for the higher TRA amounts. So a district at exactly 5,000 students in ADA qualifies for the small district rate ($4,000 / $8,000).
+TEA's guidance sets the higher TRA amounts for school systems with 5,000 or fewer enrolled students, so a district with exactly 5,000 enrolled students gets the small-district rate ($4,000 / $8,000) ([TEA](https://tea.texas.gov/taa-letters/house-bill-2-hb-2-implementation-teacher-retention-allotment-and-support-staff)).
 
 ### Is the TRA a one-time thing, or does it continue?
 
@@ -232,7 +234,7 @@ No. The TRA is specifically designated for classroom teacher compensation. Distr
 
 ### Does TRA affect my TRS retirement?
 
-Yes. Since TRA is paid as regular salary (Object Code 080), it counts toward your TRS retirement calculation. Higher salary now means higher retirement benefits later.
+Yes. Since TRA is paid as regular salary, it counts toward your TRS retirement calculation. Higher salary now means higher retirement benefits later.
 
 ### I'm a 5th-year teacher. Does the TRA count my years of experience including this year?
 
@@ -246,7 +248,7 @@ That's a legislative question nobody can answer with certainty. The 89th Session
 
 HB 2 is not a silver bullet, and it's not going to make Texas the highest-paying state for teachers overnight. But it represents real, tangible money flowing to educator paychecks — especially for experienced classroom teachers in small districts, who could see $8,000 or more from TRA alone.
 
-Combined with TIA expansion and the new Acknowledged designation, a veteran teacher in a participating district could realistically see additional annual compensation within the next two years. That's not hypothetical. That's the math, based on the allotments already written into law.
+Combined with TIA expansion and the new Acknowledged designation, a veteran teacher in a participating district could realistically see additional annual compensation within the next two years. The exact amount depends on your district and your designation.
 
 The key is knowing what you're entitled to, verifying it's being applied correctly, and positioning yourself for the TIA opportunities that are coming. Your district has the money. Make sure it reaches your paycheck.
 

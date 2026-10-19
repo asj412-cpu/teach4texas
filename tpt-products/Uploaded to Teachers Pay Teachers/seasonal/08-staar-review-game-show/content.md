@@ -25,7 +25,7 @@
 
 ### Navigation
 - Every question slide has a "Back to Board" button
-- Daily Double slides have special animation
+- Bonus Wager slides have special animation
 - Final Round slide has wager area
 
 ---
@@ -84,7 +84,7 @@
 **400:** A rectangle has a length of 8 cm and a width of 3 cm. What is its area?
 *Answer: 24 square cm* (TEKS 3.6C)
 
-**500 (DAILY DOUBLE):** The perimeter of a rectangle is 26 feet. The length is 9 feet. What is the width?
+**500 (BONUS WAGER):** The perimeter of a rectangle is 26 feet. The length is 9 feet. What is the width?
 *Answer: 4 feet* (TEKS 3.7B)
 
 ---
@@ -160,7 +160,7 @@
 **400:** What does the PREFIX "un-" mean in "unhappy"?
 *Answer: Not (unhappy = not happy)* (TEKS 3.2C)
 
-**500 (DAILY DOUBLE):** Read: "The scientist was perplexed by the strange results." What does "perplexed" mean? What CONTEXT CLUES helped you?
+**500 (BONUS WAGER):** Read: "The scientist was perplexed by the strange results." What does "perplexed" mean? What CONTEXT CLUES helped you?
 *Answer: Confused/puzzled. "Strange results" is a clue.* (TEKS 3.2B)
 
 ---
@@ -328,7 +328,7 @@
 - Teams take turns choosing a category and point value
 - All teams can attempt to answer (write on whiteboards or recording sheets)
 - Choosing team answers first; if wrong, other teams can "steal"
-- Daily Doubles: Only the choosing team can answer; they wager points
+- Bonus Wagers: Only the choosing team can answer; they wager points
 - Final Round: All teams wager and answer
 
 ### Tips

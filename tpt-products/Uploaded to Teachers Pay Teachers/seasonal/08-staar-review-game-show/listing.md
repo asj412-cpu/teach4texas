@@ -17,7 +17,7 @@ Three COMPLETE game boards (one per grade level) with **150 total questions** al
 - ❓ 150 total questions (50 per grade level)
 - 📊 5 Math categories + 5 RLA categories per game
 - 💰 Point values: 100, 200, 300, 400, 500
-- ⭐ Daily Doubles built in
+- ⭐ Bonus Wagers built in
 - 🏆 Final STAAR Round
 - 📋 Student answer recording sheets
 - 📝 Score tracking sheet

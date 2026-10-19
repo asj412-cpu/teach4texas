@@ -18,7 +18,7 @@
 1. Teams take turns selecting a category and point value
 2. Read the question; team has 30 seconds to discuss and answer
 3. Correct = earn points. Incorrect = other teams can steal
-4. "Daily Double" — one hidden square doubles the points
+4. "Double Points" — one hidden square doubles the points
 5. Team with most points wins the STAAR Bowl
 
 **Materials:** Grid on board, question cards, scoreboard

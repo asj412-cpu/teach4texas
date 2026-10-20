@@ -125,6 +125,17 @@ export const TPT_LISTINGS: TptListing[] = [
     featured: true,
   },
   {
+    id: '18020793',
+    href: `${TPT}/Christmas-Escape-Room-Grade-4-STAAR-Math-Compare-Fractions-Area-Data-18020793`,
+    image: '/images/covers/tpt-18020793-cover-297915ed.jpg',
+    title: 'Christmas Escape Room Grade 4 STAAR Math | Compare Fractions, Area, Data',
+    description:
+      'Grade 4 STAAR math Christmas escape room. 20 STAAR 2.0-style items for TEKS 4.3D, 4.5D, 4.9A (compare fractions with different numerators and denominators, perimeter and area of rectangles, frequency tables, dot plots, and stem-and-leaf plots). 4 workshop scenes + Gift Gate boss. Self-checking Cadet Corps Google Slides + printable missions. Not a scavenger hunt.',
+    price: '$4.99',
+    category: 'vault',
+    featured: true,
+  },
+  {
     id: '17547396',
     href: `${TPT}/Hispanic-Heritage-Scavenger-Hunt-Grade-3-STAAR-Math-TEKS-34A-34F-35E-17547396`,
     image: '/images/covers/tpt-17547396-cover-c1a0f2bb.jpg',

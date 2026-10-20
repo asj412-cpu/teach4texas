@@ -1,8 +1,8 @@
-# 🔍 STAAR Trek: Mission to Mastery — Quick-Start Overview
+# 🔍 STAAR Case Files: Mission to Mastery — Quick-Start Overview
 
 ## Welcome, Detective!
 
-You've downloaded **STAAR Trek: Mission to Mastery** — a detective/mystery-themed STAAR prep week where students solve a week-long case. Each day reveals a new clue, and by Friday, they've cracked the case and mastered their STAAR skills.
+You've downloaded **STAAR Case Files: Mission to Mastery** — a detective/mystery-themed STAAR prep week where students solve a week-long case. Each day reveals a new clue, and by Friday, they've cracked the case and mastered their STAAR skills.
 
 ---
 

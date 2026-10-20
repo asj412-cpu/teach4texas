@@ -1,6 +1,6 @@
-# ⭐ STAAR Wars — Themed Activities
+# ⭐ STAAR Command — Themed Activities
 
-> 12 ready-to-run activities for your STAAR Wars Boot Camp week. Mix of individual, partner, and group. Includes 3 review games.
+> 12 ready-to-run activities for your STAAR Command Boot Camp week. Mix of individual, partner, and group. Includes 3 review games.
 
 ---
 
@@ -27,7 +27,7 @@
 
 ---
 
-### 2. Warp Speed Challenge (Fast-Paced Whole Class)
+### 2. Rocket Speed Challenge (Fast-Paced Whole Class)
 **Type:** Individual competitive | **Time:** 15-20 min | **Best for:** Quick fact review, computation, vocabulary
 
 **Setup:**
@@ -38,8 +38,8 @@
 1. Display question + start timer
 2. Students write answer and hold up whiteboard when timer ends
 3. Correct answers earn 1 point (students track their own score)
-4. Every 5 questions, announce who's in "warp speed" (5/5 correct)
-5. Final score: students who got 80%+ earn a "Warp Speed Badge"
+4. Every 5 questions, announce who's in "rocket speed" (5/5 correct)
+5. Final score: students who got 80%+ earn a "Rocket Speed Badge"
 
 **Twist:** Include 2-3 "Hyperdrive" questions worth double points (harder questions).
 
@@ -225,7 +225,7 @@ Completed sections are posted on the wall to form a complete "space station" tha
 | Co-Pilot Quiz | Tue or Thu | 20 min | Partner | Any |
 | Mission Control & Pilot | Tue | 20-25 min | Partner | Math |
 | Asteroid Field | Wed | 20-25 min | Group game | Any |
-| Warp Speed Challenge | Fri | 15-20 min | Class game | Any |
+| Rocket Speed Challenge | Fri | 15-20 min | Class game | Any |
 | Escape the Space Station | Thu or Fri | 30-40 min | Group game | Mixed |
 | Planetary Stations | Wed | 30-40 min | Group rotation | Mixed |
 | Intergalactic Debate | Mon or Thu | 20 min | Group | ELA/SS |

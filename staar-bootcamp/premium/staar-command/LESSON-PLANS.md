@@ -1,4 +1,4 @@
-# ⭐ STAAR Wars — 5-Day Lesson Plans
+# ⭐ STAAR Command — 5-Day Lesson Plans
 
 > **Mission Commander's Guide to Boot Camp Week**
 > Adapt these plans to your grade level (3rd–8th) and tested subjects. The framework is flexible — plug in your specific TEKS-aligned content.
@@ -270,7 +270,7 @@
 
 2. **(15 min) "Error Analysis: Common Traps"** — Show examples of common STAAR trick questions and how to avoid them. Students practice identifying "trap" answer choices.
 
-3. **(15 min) "Rapid Fire Review Game"** — Quick, fun, low-stakes review game (see ACTIVITIES.md — "Warp Speed Challenge"). Focus on high-frequency tested concepts.
+3. **(15 min) "Rapid Fire Review Game"** — Quick, fun, low-stakes review game (see ACTIVITIES.md — "Rocket Speed Challenge"). Focus on high-frequency tested concepts.
 
 ### Fuel Break (5 min)
 - "Meditation in Space" — 2 minutes of quiet breathing/mindfulness. "Astronauts train their minds, not just their skills."

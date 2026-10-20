@@ -10,7 +10,7 @@ You know the feeling: STAAR is around the corner, your kids need a boost, and yo
 
 Premium packages include **extensive decoration guides** (hallway AND classroom transformations), daily teacher scripts, playlist suggestions, 10+ themed activities, detailed 5-day lesson plans, student motivation systems, and parent communication templates. These are the full experience.
 
-### 1. ⭐ STAAR Wars (Space/Sci-Fi Theme)
+### 1. ⭐ STAAR Command (Space/Sci-Fi Theme)
 Transform your classroom into STAAR Command and send students on daily missions through the galaxy of TEKS. Includes space station hallway transformation, mission badges, cadet name tags, and a launch sequence countdown to test day.
 
 ### 2. 🏈 STAAR Athletes: Championship Week (Sports Theme)
@@ -31,7 +31,7 @@ Daily hero training sessions where students battle test-taking villains. Hero ID
 ### 5. 🌮 Taco 'Bout STAAR Ready (Fiesta/Food Theme)
 Food puns meet serious review. "Nacho Average Review Day," recipe-style study guides, spicy/mild difficulty levels, and taco champion certificates.
 
-### 6. 🔍 STAAR Trek: Mission to Mastery (Detective/Mystery Theme)
+### 6. 🔍 STAAR Case Files: Mission to Mastery (Detective/Mystery Theme)
 Solve the case over 5 days! Each day reveals a new clue. Evidence-based practice problems, detective notebooks, case files by subject, and crime scene hallway tape.
 
 ---

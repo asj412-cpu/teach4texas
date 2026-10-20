@@ -1,4 +1,4 @@
-# 🔍 STAAR Trek: Mission to Mastery — Themed Activities
+# 🔍 STAAR Case Files: Mission to Mastery — Themed Activities
 
 > 10 detective-themed activities with 3 review games.
 

@@ -1,8 +1,8 @@
-# ⭐ STAAR Wars — Quick-Start Overview
+# ⭐ STAAR Command — Quick-Start Overview
 
 ## Welcome, Commander!
 
-You've just downloaded the **STAAR Wars Boot Camp** — a complete, space-themed STAAR prep week that transforms your classroom into STAAR Command and your hallway into a space station. Your students are cadets on a 5-day mission to conquer the STAAR.
+You've just downloaded the **STAAR Command Boot Camp** — a complete, space-themed STAAR prep week that transforms your classroom into STAAR Command and your hallway into a space station. Your students are cadets on a 5-day mission to conquer the STAAR.
 
 ---
 

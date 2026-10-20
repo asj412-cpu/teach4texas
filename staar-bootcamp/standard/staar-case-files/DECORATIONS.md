@@ -1,4 +1,4 @@
-# 🔍 STAAR Trek: Mission to Mastery — Decoration Guide
+# 🔍 STAAR Case Files: Mission to Mastery — Decoration Guide
 
 > Moody, mysterious, and surprisingly easy to set up.
 

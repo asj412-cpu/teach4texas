@@ -1,4 +1,4 @@
-# ⭐ STAAR Wars — Parent Letter
+# ⭐ STAAR Command — Parent Letter
 
 > Copy, customize, and send home the week before boot camp. Available in English and Spanish.
 
@@ -14,7 +14,7 @@
 
 Dear Families,
 
-Next week, our classroom is transforming into **STAAR Command** for an exciting, space-themed STAAR prep week we're calling **"STAAR Wars Boot Camp!"** 🚀
+Next week, our classroom is transforming into **STAAR Command** for an exciting, space-themed STAAR prep week we're calling **"STAAR Command Boot Camp!"** 🚀
 
 **What is STAAR Boot Camp?**
 It's a fun, focused review week designed to help your child feel confident and prepared for the upcoming STAAR test. Instead of regular review worksheets, we've created an immersive experience where students become "cadets" completing daily "missions" that review key skills in [Reading/Math/Science/Social Studies].
@@ -60,7 +60,7 @@ Sincerely,
 
 Estimadas familias,
 
-La próxima semana, nuestro salón de clases se transformará en el **Centro de Comando STAAR** para una emocionante semana de preparación temática espacial que llamamos **"¡STAAR Wars Boot Camp!"** 🚀
+La próxima semana, nuestro salón de clases se transformará en el **Centro de Comando STAAR** para una emocionante semana de preparación temática espacial que llamamos **"¡STAAR Command Boot Camp!"** 🚀
 
 **¿Qué es el STAAR Boot Camp?**
 Es una semana de repaso divertida y enfocada, diseñada para ayudar a su hijo(a) a sentirse seguro(a) y preparado(a) para el próximo examen STAAR. En lugar de hojas de repaso regulares, hemos creado una experiencia inmersiva donde los estudiantes se convierten en "cadetes" que completan "misiones" diarias que repasan habilidades clave en [Lectura/Matemáticas/Ciencias/Estudios Sociales].

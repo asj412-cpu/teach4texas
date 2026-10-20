@@ -1,4 +1,4 @@
-# 🔍 STAAR Trek: Mission to Mastery — 5-Day Lesson Plans
+# 🔍 STAAR Case Files: Mission to Mastery — 5-Day Lesson Plans
 
 > **Chief Detective's Case File**
 

@@ -28,6 +28,7 @@ const resolved = months.map((m) => ({
     const image = `${SITE}${imagePath}`;
     const pinDescription = `${l.title} | Seasonal STAAR math from Teach4 Texas`;
     const pinHref =
+      l.pin ??
       'https://www.pinterest.com/pin/create/button/?' +
       new URLSearchParams({ url: PAGE_URL, media: image, description: pinDescription }).toString();
     return { ...c, listing: l, image, imagePath, pinHref };
@@ -126,7 +127,7 @@ const itemListLd = {
                     href={c.pinHref}
                     target="_blank"
                     rel="noopener"
-                    data-pin-do="buttonPin"
+                    data-pin-do={c.listing.pin ? undefined : 'buttonPin'}
                     class="text-[#B8001C]"
                   >Pin It</a>
                   {c.liveGame && (

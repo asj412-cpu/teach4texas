@@ -528,7 +528,7 @@ def build_budget():
         ["2025-08-15", "Composition notebooks (30-pk)", "Supplies", 32.00, "Yes", None, "Reimbursed by campus"],
         ["2025-08-20", "Flexible seating cushions", "Decor", 45.00, "No", None, "Amazon"],
         ["2025-09-05", "Laminating pouches", "Supplies", 12.99, "No", None, ""],
-        ["2025-09-15", "Kahoot premium subscription", "Tech", 48.00, "Yes", None, "District paid"],
+        ["2025-09-15", "Quiz app premium subscription", "Tech", 48.00, "Yes", None, "District paid"],
         ["2025-10-01", "Halloween incentive prizes", "Supplies", 15.00, "No", None, "Dollar Tree"],
         ["2025-10-20", "Scholastic book order (class set)", "Curriculum", 35.00, "No", None, "Used bonus points too"],
         ["2025-11-15", "Chart paper (10-pk)", "Supplies", 22.00, "No", None, ""],

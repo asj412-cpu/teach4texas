@@ -181,7 +181,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '17506345',
     href: `${TPT}/Back-to-School-Escape-Room-Grade-3-Math-Place-Value-Rounding-TEKS-32A-32C-34A-17506345`,
-    image: '/images/covers/tpt-17506345-cover-dde7bf5d.jpg',
+    image: '/images/covers/tpt-17506345-cover-7274b485.jpg',
     title: 'Back to School Escape Room Grade 3 Math Place Value Rounding TEKS 3.2A 3.2C 3.4A',
     description:
       'Grade 3 STAAR math escape room for the first week of school. Word problems, expanded notation, rounding to 10 or 100, and STAAR 2.0 items.',

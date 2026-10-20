@@ -9,7 +9,7 @@ interface Props {
 }
 
 const { frontmatter, slug } = Astro.props;
-const { title, seoTitle, description, date, author, tags, scoreDeskCta } = frontmatter;
+const { title, seoTitle, description, date, author, tags, scoreDeskCta, ogImage } = frontmatter;
 const packs = slug ? tptPacksForSlug(slug) : [];
 const formattedDate = new Date(date).toLocaleDateString('en-US', {
   year: 'numeric',
@@ -28,7 +28,7 @@ const jsonLd = {
 };
 ---
 
-<BaseLayout title={seoTitle ?? title} description={description}>
+<BaseLayout title={seoTitle ?? title} description={description} image={ogImage}>
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
   <article class="max-w-3xl mx-auto px-4 py-12">

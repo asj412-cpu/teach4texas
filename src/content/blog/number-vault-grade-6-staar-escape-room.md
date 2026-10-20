@@ -7,6 +7,7 @@ date: 2026-10-20
 author: "Lone Star Educator"
 tags: ["STAAR", "math", "Grade 6", "escape room", "TEKS", "Number Corps"]
 image: "/images/pins/pin-number-vault-grade-6-staar-escape-room.jpg"
+ogImage: "/images/pins/pin-number-vault-grade-6-staar-escape-room.jpg"
 ---
 
 One search keeps showing up in our store's TPT search data: **math TEKS 6.3E**. It's typed like a lesson-plan box, not a shopping list. A sixth-grade teacher has the standard number on the unit calendar and wants practice that matches it.

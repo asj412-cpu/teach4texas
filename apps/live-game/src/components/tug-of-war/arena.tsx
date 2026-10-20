@@ -97,11 +97,14 @@ export function TowArena({
   const ropeShift = position * 250;
   const teamShift = position * 110;
   const ropeH = 16;
+  // Compact uses the same full frame — height follows the viewBox so neither team is cropped.
+  void compact;
   return (
     <svg
       viewBox="0 0 1200 420"
-      preserveAspectRatio="xMidYMid slice"
-      className={`block w-full ${compact ? "h-[190px]" : "h-[260px] sm:h-[340px] lg:h-[400px]"}`}
+      preserveAspectRatio="xMidYMid meet"
+      className="block w-full h-auto"
+      style={{ aspectRatio: "1200 / 420" }}
       role="img"
       aria-label={`Rope position ${position > 0 ? "toward Blue Comets" : position < 0 ? "toward Red Rockets" : "at center"}`}
     >
@@ -146,12 +149,12 @@ export function TowArena({
       <rect x={597} y={256} width={6} height={160} fill="rgba(255,255,255,0.8)" />
       {/* teams */}
       <g className="tw-team-move" style={{ transform: `translateX(${teamShift}px)` }}>
-        <Mascot x={110} team="red" delay={0} flip={false} />
-        <Mascot x={190} team="red" delay={0.15} flip={false} />
-        <Mascot x={270} team="red" delay={0.3} flip={false} />
-        <Mascot x={930} team="blue" delay={0.1} flip />
-        <Mascot x={1010} team="blue" delay={0.25} flip />
-        <Mascot x={1090} team="blue" delay={0.4} flip />
+        <Mascot x={180} team="red" delay={0} flip={false} />
+        <Mascot x={260} team="red" delay={0.15} flip={false} />
+        <Mascot x={340} team="red" delay={0.3} flip={false} />
+        <Mascot x={835} team="blue" delay={0.1} flip />
+        <Mascot x={915} team="blue" delay={0.25} flip />
+        <Mascot x={995} team="blue" delay={0.4} flip />
       </g>
       {/* rope + flag */}
       <g className="tw-rope-move" style={{ transform: `translateX(${ropeShift}px)` }}>

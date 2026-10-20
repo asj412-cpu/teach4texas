@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { HostRoomView } from "@/lib/domain/live-room";
-import { HostFinalActions } from "@/components/host-seat-panel";
 import { kidPlainText } from "@/lib/plain-text";
 import { fmtPull, type TowTeam } from "@/lib/domain/tug-of-war";
 import { TeamPlate, TowArena, TowConfetti } from "@/components/tug-of-war/arena";
@@ -177,7 +176,22 @@ export function TugOfWarHost({
             <TowArena position={tow.position} winner={w} />
           </div>
           <Recap tow={tow} />
-          <HostFinalActions onAction={act} />
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+            <button
+              type="button"
+              onClick={() => act({ type: "play_again" })}
+              className="tw-btn rounded-2xl bg-yellow-300 px-8 py-4 text-2xl font-black uppercase text-[#0b1630] shadow-[0_6px_0_#a16207]"
+            >
+              Play again
+            </button>
+            <button
+              type="button"
+              onClick={() => act({ type: "return_to_game" })}
+              className="tw-btn rounded-2xl border-2 border-white/70 bg-[#13294b] px-8 py-4 text-2xl font-black uppercase text-white"
+            >
+              Return to game
+            </button>
+          </div>
         </main>
       </div>
     );

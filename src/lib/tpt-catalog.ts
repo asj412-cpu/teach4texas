@@ -455,7 +455,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '15602085',
     href: `${TPT}/Grammar-Escape-Room-Conjunctions-Prepositions-Irregular-Verbs-5th-Grade-15602085`,
-    image: '/images/covers/tpt-15602085-cover-da4fb95b.jpg',
+    image: '/images/covers/tpt-15602085-cover-53e3eccb.jpg',
     title: 'Grammar Escape Room | Conjunctions, Prepositions & Irregular Verbs | 5th Grade',
     description:
       'Interactive digital escape room with five grammar challenges on conjunctions, verb tenses, and prepositional phrases.',

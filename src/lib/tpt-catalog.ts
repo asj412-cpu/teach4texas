@@ -285,7 +285,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '17460207',
     href: `${TPT}/Number-Vault-Grade-6-STAAR-Math-Escape-Room-TEKS-63E-65B-610AGoogle-Slides-17460207`,
-    image: '/images/escape-rooms/tpt-17460207-cover.jpg',
+    image: '/images/covers/tpt-17460207-cover-cfc4297e.jpg',
     title: 'Number Vault Grade 6 STAAR Math Escape Room | TEKS 6.3E 6.5B 6.10A|Google Slides',
     description:
       'Grade 6 STAAR math escape room. Rationals, ratios, percents, and one-step equations. Self-checking Google Slides.',

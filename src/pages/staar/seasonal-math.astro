@@ -15,6 +15,7 @@ const months: { name: string; cards: Card[] }[] = [
   { name: 'September', cards: [{ id: '17517520', month: 'September' }, { id: '17547396', month: 'September', post: '/blog/grade-3-hispanic-heritage-staar-math-scavenger' }] },
   { name: 'October', cards: [{ id: '17812227', month: 'October', post: '/blog/halloween-grade-4-staar-math-escape-room' }] },
   { name: 'November', cards: [{ id: '17850252', month: 'November', post: '/blog/thanksgiving-grade-4-staar-math-escape-room', liveGame: true }] },
+  { name: 'December', cards: [{ id: '18020793', month: 'December' }] },
 ];
 
 const byId = new Map(TPT_LISTINGS.map((l) => [l.id, l]));
@@ -49,11 +50,11 @@ const faqs = [
   },
   {
     q: 'Are these printable or digital?',
-    a: 'All six are Google Slides plus a printable PDF.',
+    a: 'All seven are Google Slides plus a printable PDF.',
   },
   {
     q: 'How long does each one take?',
-    a: 'The Back to School Escape Room takes about 40–50 minutes. The First Day of School, Labor Day, Hispanic Heritage, Halloween, and Thanksgiving resources each take about 45–60 minutes.',
+    a: 'The Back to School Escape Room takes about 40–50 minutes. The First Day of School, Labor Day, Hispanic Heritage, Halloween, Thanksgiving, and Christmas resources each take about 45–60 minutes.',
   },
   {
     q: 'Can I run one as a live game show?',
@@ -87,7 +88,7 @@ const itemListLd = {
 
 <BaseLayout
   title="Seasonal STAAR Math Escape Rooms, Grades 3–4"
-  description="Holiday math that still practices STAAR: Back to School, Labor Day, Hispanic Heritage Month, Halloween, and Thanksgiving escape rooms and scavenger hunts for Texas Grades 3–4, by TEKS."
+  description="Holiday math that still practices STAAR: Back to School, Labor Day, Hispanic Heritage Month, Halloween, Thanksgiving, and Christmas escape rooms and scavenger hunts for Texas Grades 3–4, by TEKS."
   image="/images/covers/tpt-17850252-cover-a5937c03.jpg"
 >
   <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />

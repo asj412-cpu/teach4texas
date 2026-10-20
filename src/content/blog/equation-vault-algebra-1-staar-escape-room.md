@@ -13,7 +13,7 @@ Teachers searching **write equations linear quadratic exponential escape room**,
 
 If your deck can be finished by matching “linear / quadratic / exponential” next to a lock icon, you already know the gap. That is trivia cosplay. It is not STAAR EOC practice.
 
-The real ask: force-copy Google Slides, STAAR 2.0 item shapes (including multi-select and multipart), a graphing calculator on (because Algebra I EOC is not elementary math), and stations that make kids distribute and collect like terms, write growth and decay models, then factor, take square roots, complete the square, and use the quadratic formula — not three naming flash cards.
+The real ask: force-copy Google Slides, STAAR 2.0 item shapes (including multi-select and multipart), a graphing calculator that may be used to check answers (because Algebra I EOC is not elementary math), and stations that make kids distribute and collect like terms, write growth and decay models, then factor, take square roots, complete the square, and use the quadratic formula — not three naming flash cards.
 
 ## The TEKS that matter in an Algebra I EOC review block
 
@@ -55,7 +55,7 @@ Linear Gate → Reactor Bay → Impact Chamber → Diagnostic Dock → GRID boss
 
 Here is the honest match — one live Teach4 Texas listing, not a catalog dump.
 
-**[Equation Vault Algebra I STAAR EOC | TEKS A.5A A.8A A.9C | Google Slides](https://www.teacherspayteachers.com/Product/Equation-Vault-Algebra-I-STAAR-EOC-TEKS-A5A-A8A-A9C-Google-Slides-17467264)** ($4.99) is an Ops Lab Google Slides escape with **four stations and a boss**: Linear Gate (A.5A one-variable linear equations with distribution and variables on both sides), Reactor Bay (A.9C write \(f(x) = ab^x\), growth and decay), Impact Chamber (A.8A factoring and square roots), Diagnostic Dock (A.8A completing the square and quadratic formula), then a mixed **GRID** boss. Twenty STAAR 2.0-style items with multi-select and multipart. Self-checking with hints, G-R-I-D station tracker, teacher PDF with force-copy assign sheet, answer key, recording sheet. Ops Lab characters (Director Hale, Analyst Mora, Tech Chen) — operational look, not elementary cadets. About 45–60 minutes. Graphing calculator ON, matching Algebra I STAAR EOC.
+**[Equation Vault Algebra I STAAR EOC | TEKS A.5A A.8A A.9C | Google Slides](https://www.teacherspayteachers.com/Product/Equation-Vault-Algebra-I-STAAR-EOC-TEKS-A5A-A8A-A9C-Google-Slides-17467264)** ($4.99) is an Ops Lab Google Slides escape with **four stations and a boss**: Linear Gate (A.5A one-variable linear equations with distribution and variables on both sides), Reactor Bay (A.9C write \(f(x) = ab^x\), growth and decay), Impact Chamber (A.8A factoring and square roots), Diagnostic Dock (A.8A completing the square and quadratic formula), then a mixed **GRID** boss. Twenty STAAR 2.0-style items with multi-select and multipart. Self-checking with hints, G-R-I-D station tracker, teacher PDF with force-copy assign sheet, answer key, recording sheet. Ops Lab characters (Director Hale, Analyst Mora, Tech Chen) — operational look, not elementary cadets. About 45–60 minutes. A graphing calculator may be used to check answers, matching Algebra I STAAR EOC.
 
 What it is *not*: lock-icon “which family?” trivia, a Grade 5 Number Vault with an Algebra sticker, Cadet Corps, or a bare \(3x = 12\) padlock pack. The vault only opens when kids solve real A.5A / A.8A / A.9C items — which is exactly what teachers need when they search “write equations linear quadratic exponential escape room” and refuse another naming deck.
 

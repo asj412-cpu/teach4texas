@@ -25,9 +25,9 @@ A few key structural details:
 
 - **The Texas Comptroller's Office administers the program**, not the Texas Education Agency (TEA). This is an important distinction. TEA oversees public schools. The Comptroller's Office manages financial accounts. Questions about TEFA accounts, applications, and fund disbursement go through the Comptroller, not your district or TEA.
 
-- **Funding comes from a dedicated $1 billion appropriation** for the 2026-27 biennium. This is separate from the Foundation School Program funding that flows to public school districts.
+- **Funding is capped at $1 billion** for the biennium beginning September 1, 2025 ([SB 2 fiscal note](https://capitol.texas.gov/tlodocs/89R/fiscalnotes/html/SB00002F.htm)). This is separate from the Foundation School Program funding that flows to public school districts.
 
-- **Students who receive TEFA funds are no longer counted in public school Average Daily Attendance (ADA)** if they fully withdraw from their public school. Since ADA is the primary driver of per-student funding to districts, each departing student reduces the revenue a district receives.
+- **Students who fully withdraw from their public school to use TEFA funds are no longer counted in that school's Average Daily Attendance (ADA).** Since ADA is the primary driver of per-student funding to districts, each departing student reduces the revenue a district receives.
 
 ## Who Qualifies?
 
@@ -35,13 +35,11 @@ The TEFA program is available to Texas students who meet certain eligibility req
 
 ### Private School Students
 
-Students enrolled in or planning to enroll in an eligible private school in Texas can receive TEFA funds. For the 2026-27 school year, these accounts are funded at **$10,474 per student**. That figure represents approximately 85% of the statewide average per-student funding in Texas public schools.
-
-The $10,474 is the base amount. It does not vary by family income — any eligible student attending an approved private school can receive this amount regardless of household earnings.
+Students enrolled in or planning to enroll in an eligible private school in Texas can receive TEFA funds. For the 2026-27 school year the amount is **$10,474 per student** ([official TEFA site](https://educationfreedom.texas.gov/)).
 
 ### Students with Disabilities
 
-Students who have an Individualized Education Program (IEP) on file with TEA may receive enhanced TEFA funding of **up to $30,000 per year**. This higher amount reflects the additional costs associated with specialized instruction, therapies, and accommodations that students with disabilities require.
+Students who have an Individualized Education Program (IEP) on file with TEA may receive enhanced TEFA funding of **up to $30,000 per year** ([SB 2 fiscal note](https://capitol.texas.gov/tlodocs/89R/fiscalnotes/html/SB00002F.htm)). This higher amount reflects the additional costs associated with specialized instruction, therapies, and accommodations that students with disabilities require.
 
 This is the largest per-student amount in the program and significantly exceeds what many public school districts spend on special education services per student, though special education costs vary enormously depending on the nature and severity of a student's disability.
 
@@ -49,27 +47,27 @@ One critical consideration for families: students who accept TEFA funds and leav
 
 ### Homeschool Students
 
-Families who homeschool their children and do not enroll them in a private school can receive **$2,000 per year** through a TEFA account. These funds can be used for approved educational materials, curricula, and other qualifying expenses.
+Families who homeschool their children and do not enroll them in a private school can receive **up to $2,000 per year** through a TEFA account ([SB 2 fiscal note](https://capitol.texas.gov/tlodocs/89R/fiscalnotes/html/SB00002F.htm)). These funds can be used for approved educational materials, curricula, and other qualifying expenses.
 
-The $2,000 homeschool amount is considerably less than the private school amount, reflecting the legislature's distinction between structured private school enrollment and home-based instruction.
+The $2,000 homeschool cap is considerably less than the $10,474 private school amount, reflecting the legislature's distinction between structured private school enrollment and home-based instruction.
 
 ## Application Timeline: Key Dates for 2026-27
 
 If you are a public school teacher, these dates matter because they determine when students may begin withdrawing from your campus:
 
 - **The 2026-27 application window ran February 4 – March 31, 2026 and is now closed** ([official TEFA site](https://educationfreedom.texas.gov/)). The original March 17 deadline was extended to March 31 to comply with a federal court order ([Comptroller](https://comptroller.texas.gov/about/media-center/news/20260317-texas-education-freedom-account-application-deadline-extended-through-march-31-1773784632313)).
-- **ESA rules finalized: May 2026.** The Comptroller's Office is expected to publish final administrative rules governing the program by this date.
-- **Accounts become usable for the 2026-27 school year.** Once approved, families can begin using funds for the upcoming fall semester.
+- **Rules:** SB 2 required the Comptroller to adopt rules to implement the program by May 15, 2026 ([SB 2 fiscal note](https://capitol.texas.gov/tlodocs/89R/fiscalnotes/html/SB00002F.htm)).
+- **Initial funding:** July 1, 2026, when private school students receive the first 25% of their award ([official TEFA site](https://educationfreedom.texas.gov/)).
 
 From a classroom planning perspective, the March 31 close of the application window means districts should now have a clearer picture of how many students plan to leave for the 2026-27 year. However, applying does not guarantee a student will ultimately leave — some families may apply, receive approval, and still choose to remain in public school.
 
 ## How Is This Funded?
 
-The Texas Legislature appropriated **$1 billion for the 2026-27 biennium** to fund the TEFA program. This is not money redirected from existing public school funding formulas. It is a separate line item in the state budget.
+Money for TEFA is set by the Legislature each biennium and **could not exceed $1 billion** for the biennium beginning September 1, 2025 ([SB 2 fiscal note](https://capitol.texas.gov/tlodocs/89R/fiscalnotes/html/SB00002F.htm)). This is not money redirected from existing public school funding formulas. It is a separate line item in the state budget.
 
 That said, the funding picture for public schools is more nuanced than "separate money." Here is why:
 
-- **Every dollar the state spends on TEFA is a dollar that could have been appropriated elsewhere** — including toward increasing the Basic Allotment, which has remained at $6,160 per student since 2019. Teachers and administrators who have been advocating for a Basic Allotment increase may view the $1 billion TEFA appropriation in that context.
+- **Every dollar the state spends on TEFA is a dollar that could have been appropriated elsewhere** — including toward increasing the Basic Allotment, which was $6,160 per student before HB 2 raised it to $6,215 ([TEA](https://tea.texas.gov/taa-letters/house-bill-2-hb-2-implementation-foundation-school-program-fsp-funding-formula-changes)). Teachers and administrators who have been advocating for a Basic Allotment increase may view the TEFA funding in that context.
 
 - **Students who leave public schools take their ADA-based funding with them.** When a student withdraws to use a TEFA account, the district no longer counts that student for state funding purposes. For large urban districts, losing a few hundred students may be absorbable. For small rural districts where every student represents a meaningful percentage of total enrollment, even modest departures can create budget pressure.
 
@@ -84,9 +82,9 @@ The Legislative Budget Board (LBB) published enrollment projections when SB 2 wa
 | Fiscal Year | Projected Students Leaving Public Schools |
 |---|---|
 | FY 2027 | 24,500 |
-| FY 2028 | 49,000 (estimated) |
-| FY 2029 | 73,500 (estimated) |
 | FY 2030 | 98,000 |
+
+Source: [SB 2 fiscal note (Legislative Budget Board)](https://capitol.texas.gov/tlodocs/89R/fiscalnotes/html/SB00002F.htm).
 
 ### Homeschool Students Enrolling in Private Schools
 
@@ -95,13 +93,13 @@ The projections also estimate that a significant number of students currently ho
 | Fiscal Year | Projected Homeschool-to-Private Transfers |
 |---|---|
 | FY 2027 | 10,500 |
-| FY 2028 | 21,000 (estimated) |
-| FY 2029 | 31,500 (estimated) |
 | FY 2030 | 42,000 |
 
-If these projections hold, by FY 2030 approximately **98,000 students** will have left public schools through the program, and an additional **42,000 formerly homeschooled students** will have enrolled in private schools.
+Source: [SB 2 fiscal note (Legislative Budget Board)](https://capitol.texas.gov/tlodocs/89R/fiscalnotes/html/SB00002F.htm).
 
-To put 98,000 in context: Texas public schools currently enroll approximately 5.5 million students. A loss of 98,000 represents roughly 1.8% of total statewide enrollment. At the statewide level, that is a manageable number. But enrollment losses will not be evenly distributed. Some districts — particularly those near clusters of private schools or in suburban areas where new private schools may open to meet TEFA-driven demand — could see significantly higher percentage losses.
+If these projections hold, by FY 2030 approximately **98,000 students** will have left public schools through the program, and an additional **42,000 formerly homeschooled students** will have enrolled in private schools ([SB 2 fiscal note](https://capitol.texas.gov/tlodocs/89R/fiscalnotes/html/SB00002F.htm)).
+
+Enrollment losses will not be evenly distributed. Some districts — particularly those near clusters of private schools or in suburban areas where new private schools may open to meet TEFA-driven demand — could see significantly higher percentage losses.
 
 ## What This Means for Public School Teachers — Practically
 
@@ -115,7 +113,7 @@ Small campuses and small districts are most vulnerable here. A campus of 200 stu
 
 ### Special Education Considerations
 
-The $30,000 TEFA amount for students with disabilities may lead some families with students on IEPs to explore private school options. If students with more intensive (and more expensive) special education needs leave, it could reduce the overall cost burden on a district's special education program. Conversely, districts could lose students whose special education funding actually exceeded the cost of services provided — meaning those students were net-positive for the special education budget.
+The $30,000 ([SB 2 fiscal note](https://capitol.texas.gov/tlodocs/89R/fiscalnotes/html/SB00002F.htm)) TEFA amount for students with disabilities may lead some families with students on IEPs to explore private school options. If students with more intensive (and more expensive) special education needs leave, it could reduce the overall cost burden on a district's special education program. Conversely, districts could lose students whose special education funding actually exceeded the cost of services provided — meaning those students were net-positive for the special education budget.
 
 The impact will vary significantly by district and by the specific students who choose to leave.
 
@@ -125,7 +123,7 @@ Schools are communities. When families leave, it affects more than budget lines.
 
 ### Your Job Security
 
-For most Texas teachers, TEFA is unlikely to create an immediate job security concern. The projected numbers — 24,500 students statewide in FY 2027 — are spread across more than 1,200 school districts and over 8,000 campuses. The per-campus impact in year one will be minimal for the vast majority of schools.
+For most Texas teachers, TEFA is unlikely to create an immediate job security concern. The projected numbers — 24,500 students statewide in FY 2027 ([SB 2 fiscal note](https://capitol.texas.gov/tlodocs/89R/fiscalnotes/html/SB00002F.htm)) — are spread across the state's districts and campuses. The per-campus impact in year one will be minimal for the vast majority of schools.
 
 However, teachers in specific situations should pay closer attention:
 
@@ -145,9 +143,9 @@ The TEFA program is new, and several aspects remain uncertain. Here is what is w
 
 The application window has closed, so watch for reporting on application totals. Your district's central office should be tracking how many students have applied. This data will give you the earliest signal of local impact.
 
-### Comptroller Rules (May 2026)
+### Comptroller Rules
 
-The final administrative rules, expected in May 2026, will clarify important operational details — approved expense categories, accountability requirements for participating private schools, account management procedures, and dispute resolution processes. These rules will shape how the program actually functions day-to-day.
+SB 2 required the Comptroller to adopt the program's rules by May 15, 2026 ([SB 2 fiscal note](https://capitol.texas.gov/tlodocs/89R/fiscalnotes/html/SB00002F.htm)).
 
 ### Private School Capacity
 
@@ -155,11 +153,11 @@ The TEFA program creates demand for private school seats. In many parts of Texas
 
 ### Legislative Adjustments
 
-The Texas Legislature meets again in 2027. Legislators will have roughly one year of TEFA data to evaluate. Depending on participation rates, costs, and public response, the program could be expanded, modified, or have its funding adjusted. The $1 billion appropriation covers the current biennium; future funding levels will depend on legislative action.
+The Texas Legislature meets again in 2027. Legislators will have roughly one year of TEFA data to evaluate. Depending on participation rates, costs, and public response, the program could be expanded, modified, or have its funding adjusted. Funding could not exceed $1 billion for the biennium beginning September 1, 2025 ([SB 2 fiscal note](https://capitol.texas.gov/tlodocs/89R/fiscalnotes/html/SB00002F.htm)); future funding levels will depend on legislative action.
 
 ### Impact on the Basic Allotment
 
-Many Texas educators have been vocal about the need to increase the Basic Allotment, which has been frozen at $6,160 since 2019. Whether the TEFA appropriation affects the political appetite for a Basic Allotment increase — either by consuming available budget dollars or by creating political pressure for a "public school package" alongside school choice — remains an open question.
+Many Texas educators have been vocal about the need to increase the Basic Allotment, which was $6,160 before HB 2 raised it to $6,215 ([TEA](https://tea.texas.gov/taa-letters/house-bill-2-hb-2-implementation-foundation-school-program-fsp-funding-formula-changes)). Whether the TEFA appropriation affects the political appetite for a Basic Allotment increase — either by consuming available budget dollars or by creating political pressure for a "public school package" alongside school choice — remains an open question.
 
 ## Talking to Parents About TEFA
 
@@ -167,7 +165,7 @@ Some of your students' parents may ask you about the TEFA program. A few princip
 
 - **Stick to facts.** You can share what the program is and direct families to the Comptroller's Office for application details. You do not need to offer an opinion on whether they should apply.
 
-- **Be honest about what you do not know.** The program is new. Administrative details are still being finalized. It is perfectly appropriate to say, "I'd recommend contacting the Comptroller's Office directly for specifics on eligibility and the application process."
+- **Be honest about what you do not know.** The program is new. It is perfectly appropriate to say, "I'd recommend contacting the Comptroller's Office directly for specifics on eligibility and the application process."
 
 - **For special education families, encourage thorough research.** Families considering TEFA for a student with an IEP should understand what services the receiving private school can provide and what federal protections they may be giving up. This is not about discouraging them — it is about making sure they make an informed choice.
 
@@ -175,7 +173,7 @@ Some of your students' parents may ask you about the TEFA program. A few princip
 
 ## The Bottom Line
 
-The Texas Education Freedom Accounts program is happening. The 2026-27 application window ran February 4 – March 31, 2026 and is closed ([official TEFA site](https://educationfreedom.texas.gov/)). The projected enrollment impact on public schools starts modest — around 24,500 students statewide in FY 2027 — and grows to approximately 98,000 by FY 2030.
+The Texas Education Freedom Accounts program is happening. The 2026-27 application window ran February 4 – March 31, 2026 and is closed ([official TEFA site](https://educationfreedom.texas.gov/)). The projected enrollment impact on public schools starts modest — around 24,500 students statewide in FY 2027 — and grows to approximately 98,000 by FY 2030 ([SB 2 fiscal note](https://capitol.texas.gov/tlodocs/89R/fiscalnotes/html/SB00002F.htm)).
 
 For most Texas teachers, the immediate classroom impact will be small. For some — particularly those in small districts, near private school clusters, or in areas already experiencing enrollment decline — the effects could be more noticeable.
 
@@ -183,4 +181,4 @@ The best thing you can do right now is stay informed. Know the facts. Understand
 
 ---
 
-*This post covers the TEFA program as established by SB 2 during the 89th Texas Legislature. Administrative rules are still being finalized by the Comptroller's Office as of February 2026. We will update this guide as new information becomes available.*
+*This post covers the TEFA program as established by SB 2 during the 89th Texas Legislature. We will update this guide as new information becomes available.*

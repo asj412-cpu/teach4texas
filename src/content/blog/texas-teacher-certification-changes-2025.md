@@ -1,7 +1,7 @@
 ---
 title: "New Rules for Uncertified Teachers: Texas Certification Changes Explained"
 seoTitle: "Texas Teacher Certification Changes Explained"
-description: "HB 2 phases out District of Innovation exemptions for uncertified teachers in core subjects. Here's the timeline, the $1,000 incentive, and what certified and uncertified teachers need to know."
+description: "HB 2 phases out District of Innovation exemptions for uncertified teachers in core subjects. Here's the timeline, the district certification incentive, and what certified and uncertified teachers need to know."
 date: 2026-02-21
 author: "Lone Star Educator"
 tags: ["Texas legislation", "teacher certification", "professional development"]
@@ -16,12 +16,6 @@ Either way, the days of staffing foundation curriculum classrooms with uncertifi
 ## The Problem HB 2 Is Trying to Solve
 
 For years, Texas districts designated as Districts of Innovation have had the authority to exempt themselves from certain Education Code provisions — including the requirement that teachers hold an appropriate certificate or permit. What began as a flexibility tool gradually became a workaround for the teacher shortage.
-
-The numbers tell the story. In the 2024-25 school year, roughly **half of all new-to-the-profession teachers** in Texas had no certification whatsoever. Not an alternative certification in progress. No certification at all.
-
-That means tens of thousands of students in core academic classrooms were being taught by individuals who hadn't met the state's own standards for content knowledge and pedagogical training.
-
-The data on student outcomes reinforces why this matters. Research examined by the legislature found that students taught by uncertified teachers lost approximately **4 months of reading progress** and **3 months of math progress** compared to peers taught by certified teachers. Over multiple years, that gap compounds into a deficit that's incredibly difficult to recover from.
 
 HB 2 addresses this head-on through TEC Section 21.0032, which phases out DOI exemptions for uncertified teachers in foundation curriculum courses on a defined timeline.
 
@@ -82,28 +76,27 @@ If you're currently teaching under a DOI exemption without an appropriate certif
 
 The timeline gives you multiple school years to earn your certification. If you teach K-5 reading or math, the clock is tightest — DOI exemptions for those roles disappear in the **2026-27 school year**. For other foundation subjects, you have until **2027-28** before the exemptions end. 2029-30 applies only if your district has an approved delay plan ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)).
 
-That's enough time to complete an alternative certification program (most take 1-2 years), pass the required content and pedagogy exams, and earn your standard certificate.
+That's enough time to complete an alternative certification program, pass the required content and pedagogy exams, and earn your standard certificate.
 
 ### The $1,000 Certification Incentive
 
-Here's the carrot alongside the stick. HB 2 includes a **one-time $1,000 payment** for uncertified teachers who meet the following criteria:
+HB 2 created a one-time **$1,000 Teacher Certification Incentive**. TEA pays it **to the district** (not directly to the teacher) for each eligible classroom teacher who ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)):
 
-- **Hired within the last 3 years** (meaning you entered the profession recently under a DOI exemption or similar pathway)
-- **Earn your standard teaching certification by the end of the 2026-27 school year**
-
-One thousand dollars won't cover all your certification costs, but it offsets a meaningful portion — especially exam fees, which can total several hundred dollars across the required TExES tests. If you're eligible, start the certification process now so you can claim this incentive before the deadline.
+- was hired as an uncertified first-year teacher in 2022-2023 or 2023-2024 and was still uncertified on January 1, 2025;
+- earns a standard certificate by the end of the 2026-2027 school year; and
+- has been continuously employed as a teacher by the district.
 
 ### Certification Pathways Available to You
 
 Texas offers several routes to standard certification for teachers who are already in the classroom:
 
-- **Alternative Certification Programs (ACPs):** The most common pathway. ACPs pair coursework (often online) with supervised clinical teaching that you may already be doing in your current role. Programs typically take 1-2 years and end with the required TExES exams.
+- **Alternative Certification Programs (ACPs):** The most common pathway. ACPs pair coursework (often online) with supervised clinical teaching that you may already be doing in your current role. Programs end with the required TExES exams.
 - **University-Based Programs:** Accelerated post-baccalaureate programs for those with a bachelor's degree in a non-education field. Some lead to a master's degree alongside your certificate.
 - **District-Supported Programs:** Many districts partner with ACPs or universities and offer tuition assistance, mentoring, and flexible scheduling. Ask your HR department what's available — districts have a strong incentive to help you get certified rather than lose you.
 
 ### What If You Don't Get Certified?
 
-To be direct: if you don't earn certification by the applicable deadline, your district can no longer employ you in a foundation curriculum role under a DOI exemption. TEA lists alternative ways to qualify: a school district teaching permit under TEC §21.055 or a teacher certification waiver under TEC §7.056 ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)). The clear best path is to start the certification process now while you have time and financial incentives on your side.
+To be direct: if you don't earn certification by the applicable deadline, your district can no longer employ you in a foundation curriculum role under a DOI exemption. TEA lists alternative ways to qualify: a school district teaching permit under TEC §21.055 or a teacher certification waiver under TEC §7.056 ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)). These alternatives do not apply to special education, bilingual education, ESL, or prekindergarten assignments ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)). The clear best path is to start the certification process now while you have time and financial incentives on your side.
 
 ## Reading and Math Academies: Another Piece of the Puzzle
 
@@ -111,25 +104,15 @@ HB 2's certification requirements don't exist in isolation. They're part of a br
 
 ### What Are They?
 
-The Texas Reading Academies and Math Academies are state-developed professional development programs designed to deepen teachers' knowledge of evidence-based instructional practices in literacy and numeracy. They aren't certification programs — they're intensive training that all K-3 teachers and principals must complete.
+The Texas Reading Academies and Math Academies are state-developed professional development programs designed to deepen teachers' knowledge of evidence-based instructional practices in literacy and numeracy. They aren't certification programs.
 
 ### The Timeline
 
-All K-3 teachers and campus principals must be trained through the Reading Academies and Math Academies by **2031**. This applies to both certified and uncertified teachers (though under HB 2, uncertified teachers in these roles will need to be working toward certification simultaneously).
-
-### Stipend Eligibility
-
-Starting with the **September 2025 cohort**, teachers who complete Reading Academies training outside of their contracted work hours may be eligible for a stipend. This is a meaningful change — earlier cohorts completed the training as part of their professional obligations with no additional compensation.
-
-If you're a K-3 teacher who hasn't yet completed Reading Academies, timing your enrollment to the September 2025 cohort or later could mean getting paid for the time you invest.
+Under HB 2, each district must ensure that **not later than the 2030-2031 school year**, every K-3 classroom teacher who teaches mathematics has attended a teacher mathematics achievement academy (TEC §28.0071, [HB 2 enrolled text](https://capitol.texas.gov/tlodocs/89R/billtext/html/HB00002F.htm)).
 
 ## The Teacher Shortage Context
 
 It's worth stepping back to acknowledge the elephant in the room: Texas has a teacher shortage, and HB 2's certification requirements will, at least in the short term, make staffing harder for some districts.
-
-### The Numbers
-
-Texas hired over **43,000 teachers** in the 2024-25 school year — a significant number, but actually a **10% decrease** from the prior year. The pipeline is shrinking at exactly the moment the state is raising the bar on qualifications.
 
 ### Designated Shortage Areas for 2025-26
 
@@ -158,7 +141,7 @@ Districts that have relied heavily on DOI exemptions will need to work the harde
 
 4. **Explore TIA.** If you haven't looked into the Teacher Incentive Allotment, the current focus on teacher quality makes TIA designations more relevant than ever. A strong certification paired with a TIA designation puts you in a powerful professional position.
 
-5. **Complete Academy training.** If you're a K-3 teacher, get your Reading Academies and Math Academies training scheduled. Targeting the September 2025 cohort or later gives you stipend eligibility for work completed outside contract hours.
+5. **Complete Academy training.** If you're a K-3 teacher, get your Reading Academies and Math Academies training scheduled.
 
 ### If You're an Uncertified Teacher
 
@@ -170,7 +153,7 @@ Districts that have relied heavily on DOI exemptions will need to work the harde
 
 4. **Prepare for TExES exams.** Your certification will require passing content and pedagogy exams. Start studying early — these are rigorous tests that benefit from sustained preparation, not cramming.
 
-5. **Claim the $1,000 incentive.** If you were hired within the last three years and can earn your certification by the end of 2026-27, you're eligible for the one-time payment. Don't leave money on the table.
+5. **Ask about the $1,000 certification incentive.** If you were hired as an uncertified first-year teacher in 2022-23 or 2023-24 and earn your certificate by the end of 2026-27, your district may receive a one-time $1,000 payment for you ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)).
 
 6. **Keep teaching well.** Certification is a credential, and it matters. But the teaching you're doing every day matters too. The experience you're gaining in the classroom right now makes you a stronger candidate for certification and a more effective teacher on the other side of it.
 
@@ -190,7 +173,7 @@ Districts that have relied heavily on DOI exemptions will need to work the harde
 
 ### Does HB 2 affect charter schools?
 
-These DOI exemption changes apply to districts using District of Innovation status to waive certification requirements. Charter schools operate under different statutory provisions and are not directly affected by this section.
+These DOI exemption changes apply to districts using District of Innovation status to waive certification requirements. If you teach at a charter school, ask your charter how this applies.
 
 ### Does this affect elective teachers?
 
@@ -202,11 +185,11 @@ Teachers in active certification programs holding an intern or probationary cert
 
 ### Can a district reclassify a teacher's assignment to avoid the requirement?
 
-A district can reassign an uncertified teacher to an elective role, but the foundation curriculum teacher of record still needs an appropriate certificate or permit, a school district teaching permit (TEC §21.055), or a certification waiver (TEC §7.056) ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)). The requirement doesn't disappear -- it follows the course, not the teacher.
+A district can reassign an uncertified teacher to an elective role, but the foundation curriculum teacher of record still needs an appropriate certificate or permit, a school district teaching permit (TEC §21.055), or a certification waiver (TEC §7.056) ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)), except in special education, bilingual education, ESL, or prekindergarten assignments, where those alternatives do not apply. The requirement doesn't disappear -- it follows the course, not the teacher.
 
 ### What happens after 2029-30?
 
-2029-30 is when an optional, commissioner-approved district delay ends. From then on, foundation curriculum teachers of record in that district must hold an appropriate certificate or permit ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)).
+2029-30 is when an optional, commissioner-approved district delay ends. From then on, foundation curriculum teachers of record in that district must hold an appropriate certificate or permit ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)). TEA also lists a school district teaching permit (TEC §21.055) or a certification waiver (TEC §7.056) as other ways to qualify, except for special education, bilingual/ESL, and prekindergarten assignments ([TEA](https://tea.texas.gov/taa-letters/hb-2-implementation-new-certification-requirements-and-incentives-uncertified-teachers)).
 
 ## The Bigger Picture
 

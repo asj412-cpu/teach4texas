@@ -96,7 +96,7 @@ You deliver clear instruction, demonstrate content knowledge, communicate effect
 
 ### Strategies for Distinguished in Instruction
 
-**1. Flip the ratio.** In a Distinguished classroom, students talk more than the teacher. Aim for a ratio where students are actively discussing, explaining, questioning, and presenting for at least 60-70% of the instructional time. Use think-pair-share, Socratic seminars, collaborative problem-solving, and student-led discussions.
+**1. Flip the ratio.** In a Distinguished classroom, students talk more than the teacher. Aim for a ratio where students are actively discussing, explaining, questioning, and presenting for most of the instructional time. Use think-pair-share, Socratic seminars, collaborative problem-solving, and student-led discussions.
 
 **2. Script your higher-order questions in advance.** Don't wing your questioning. Write 5-8 questions at the Analyze, Evaluate, and Create levels of Bloom's taxonomy and embed them into your lesson plan. When the observer sees you asking students to justify, compare, predict, or evaluate, that's Distinguished territory.
 

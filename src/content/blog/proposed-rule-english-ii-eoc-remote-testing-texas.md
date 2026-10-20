@@ -96,12 +96,8 @@ The comment period ends November 16, 2026 ([Texas Register](https://www.sos.stat
 
 ---
 
-## Sources (claim → URL)
+## Sources
 
-| Claim | Source |
-|---|---|
-| Proposal, its two changes, HB 8 / SB 569 basis, English II quote, (b) and (c) rule text, eligible entities, benefit, no teacher paperwork, $105,200/yr FY2027-2031, no local fiscal impact, filed Oct 5, published Oct 16, comments Oct 16–Nov 16, earliest adoption Nov 15, 14-day hearing request, comment topics | https://www.sos.state.tx.us/texreg/archive/October162026/Proposed%20Rules/19.EDUCATION.html (fetched 200, 2026-10-20) |
-| Proposal listed with summary; Proposed Effective Date: February 21, 2027; electronic public comment form; Rulemaking Unit (512) 475-1497 / rules@tea.texas.gov; proposals stay listed until adopted | https://tea.texas.gov/laws-and-rules/commissioner-rules-tac/proposed-commissioner-education-rules (200; the Register's printed URL redirects here) |
-| Filed rule PDF (supporting) | https://tea.texas.gov/laws-and-rules/commissioner-rules-tac/coe-proposed/26-10-101-3011.pdf (200) |
-| Internal link | /blog/staar-replacement-student-success-tool-texas (prod 200) |
-| TPT 17493531, 17493627, 17468013 | catalog hrefs on main, each 200 |
+- [Texas Register, October 16, 2026: Proposed Rules, Title 19 (Education), 19 TAC §101.3011](https://www.sos.state.tx.us/texreg/archive/October162026/Proposed%20Rules/19.EDUCATION.html)
+- [TEA proposed commissioner rules and public comment form](https://tea.texas.gov/laws-and-rules/commissioner-rules-tac/proposed-commissioner-education-rules)
+- [TEA filed proposal for 19 TAC §101.3011 (PDF)](https://tea.texas.gov/laws-and-rules/commissioner-rules-tac/coe-proposed/26-10-101-3011.pdf)

@@ -1,4 +1,4 @@
-# 🎮 Summer STAAR Review Game Show: Math & RLA Jeopardy (Grades 3-5)
+# 🎮 Summer STAAR Review Game Show: Math & RLA Quiz Board (Grades 3-5)
 
 ## Price: $7.99
 
@@ -8,7 +8,7 @@
 
 ## Description
 
-🎮 **The MOST fun way to review for STAAR!** An interactive Jeopardy-style game show covering Math AND RLA topics — all in Google Slides! 🏆
+🎮 **The MOST fun way to review for STAAR!** An interactive quiz-board game show covering Math AND RLA topics — all in Google Slides! 🏆
 
 Three COMPLETE game boards (one per grade level) with **150 total questions** aligned to the most-tested STAAR standards!
 
@@ -17,7 +17,7 @@ Three COMPLETE game boards (one per grade level) with **150 total questions** al
 - ❓ 150 total questions (50 per grade level)
 - 📊 5 Math categories + 5 RLA categories per game
 - 💰 Point values: 100, 200, 300, 400, 500
-- ⭐ Daily Doubles built in
+- ⭐ Bonus Wagers built in
 - 🏆 Final STAAR Round
 - 📋 Student answer recording sheets
 - 📝 Score tracking sheet
@@ -53,4 +53,4 @@ Three COMPLETE game boards (one per grade level) with **150 total questions** al
 ✅ Replayable — students won't memorize since there are 150 questions!
 
 ## Tags
-STAAR review, test prep, Jeopardy game, math review, reading review, grades 3-5, Google Slides, interactive game, end of year, Texas STAAR, TEKS aligned, game show, ELA review, math game, classroom game
+STAAR review, test prep, quiz board game, math review, reading review, grades 3-5, Google Slides, interactive game, end of year, Texas STAAR, TEKS aligned, game show, ELA review, math game, classroom game

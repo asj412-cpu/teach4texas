@@ -46,7 +46,7 @@ Championship Week is a **complete, sports-themed STAAR prep week** for Texas tea
 
 **What's Inside:**
 🏈 **5-Day Lesson Plans** — Framed as a tournament bracket: Quarterfinals → Semifinals → Halftime → Championship → Pep Rally. Daily coach's huddle scripts, practice drills, and game-day prep.
-🏈 **12 Themed Activities** — STAAR Bowl (Jeopardy), Relay Race Review, March Madness Bracket Challenge, Halftime Show games, strategy Trading Cards, and more.
+🏈 **12 Themed Activities** — STAAR Bowl quiz game, Relay Race Review, Bracket Challenge, Halftime Show games, strategy Trading Cards, and more.
 🏈 **Full Decoration Guide** — Stadium tunnel hallway entrance, locker room door signs, class scoreboard, team pennants. Materials lists and budget options ($13-30).
 🏈 **Student Materials** — Jersey-style name tags, MVP awards, Playbook study guides, foam finger printables, Championship certificates.
 🏈 **Parent Letter** — English and Spanish.

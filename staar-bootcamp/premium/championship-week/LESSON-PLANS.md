@@ -117,7 +117,7 @@
 
 Run 2-3 of the following (see ACTIVITIES.md for full instructions):
 
-1. **(15 min) "STAAR Bowl"** — Jeopardy-style review game. Categories by subject/topic. Teams compete, keep score on the class "scoreboard."
+1. **(15 min) "STAAR Bowl"** — Quiz-board review game. Categories by subject/topic. Teams compete, keep score on the class "scoreboard."
 
 2. **(15 min) "Relay Race"** — Teams line up, relay-style. Each member runs to solve one problem. First team to finish all problems correctly wins.
 

@@ -148,7 +148,7 @@ Full 5-day themed STAAR prep week packages. Each contains:
 5. Earth Day Science Investigation
 6. Cinco de Mayo Cross-Curricular
 7. End of Year Memory Book
-8. Summer STAAR Review Game Show (Jeopardy)
+8. Summer STAAR Review Game Show (quiz board)
 9. Teacher Appreciation Week Cards
 10. Spring Testing Motivation Kit
 

@@ -315,7 +315,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '17467264',
     href: `${TPT}/Equation-Vault-Algebra-I-STAAR-EOC-TEKS-A5A-A8A-A9C-Google-Slides-17467264`,
-    image: '/images/escape-rooms/tpt-17467264-cover.jpg',
+    image: '/images/covers/tpt-17467264-cover-7b19e0f9.jpg',
     title: 'Equation Vault Algebra I STAAR EOC | TEKS A.5A A.8A A.9C | Google Slides',
     description:
       'Algebra I STAAR EOC escape room. Linear equations, exponential functions, and quadratics with real solutions.',

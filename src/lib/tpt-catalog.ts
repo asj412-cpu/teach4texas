@@ -148,7 +148,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '17538014',
     href: `${TPT}/Crack-the-Code-Math-Mystery-Grade-3-Multiplication-Division-TEKS-34E-34H-35B-17538014`,
-    image: '/images/escape-rooms/tpt-17538014-cover.jpg',
+    image: '/images/covers/tpt-17538014-cover-0a00a548.jpg',
     title: 'Crack the Code Math Mystery Grade 3 Multiplication Division TEKS 3.4E 3.4H 3.5B',
     description:
       'Grade 3 STAAR math crack-the-code mystery. Multiplication facts, arrays, and strip-diagram equations across Cipher Lab, Number Grid, Array Alley, Clue Desk, and Final Code. Not an escape room reprint. Not a seasonal holiday pack.',

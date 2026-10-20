@@ -258,7 +258,7 @@ export const TPT_LISTINGS: TptListing[] = [
     image: '/images/escape-rooms/tpt-17460089-cover.jpg',
     title: 'Number Vault Grade 3 STAAR Math Escape Room | TEKS 3.4K 3.5B 3.4A |Google Slides',
     description:
-      'Grade 3 STAAR math escape room. Word problems, multi-select, arrays, and strip diagrams. Self-checking Google Slides.',
+      'Grade 3 STAAR math escape room. Word problems, multiple-choice, arrays, and strip diagrams. Self-checking Google Slides.',
     price: '$4.99',
     category: 'vault',
   },
@@ -268,7 +268,7 @@ export const TPT_LISTINGS: TptListing[] = [
     image: '/images/escape-rooms/tpt-17455809-cover.jpg',
     title: 'Number Vault Grade 4 STAAR Math Escape Room | TEKS 4.4H 4.5A 4.2B |Google Slides',
     description:
-      'Grade 4 STAAR math escape room. Word problems, multi-select, equations with a letter for the unknown, and strip diagrams.',
+      'Grade 4 STAAR math escape room. Word problems, multiple-choice, equations with a letter for the unknown, and strip diagrams.',
     price: '$4.99',
     category: 'vault',
   },
@@ -278,7 +278,7 @@ export const TPT_LISTINGS: TptListing[] = [
     image: '/images/escape-rooms/tpt-17460004-cover.jpg',
     title: 'Number Vault Grade 5 STAAR Math Escape Room | TEKS 5.3E 5.4B 5.2A |Google Slides',
     description:
-      'Grade 5 STAAR math escape room. Word problems, multi-select, equations with a letter, and decimal place value through thousandths.',
+      'Grade 5 STAAR math escape room. Word problems, multiple-choice, equations with a letter, and decimal place value through thousandths.',
     price: '$4.99',
     category: 'vault',
   },

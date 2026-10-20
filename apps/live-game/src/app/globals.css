@@ -232,3 +232,31 @@ body {
 .fb-correct { background: #047857 !important; border-color: #b6ffd3 !important; animation: dd-pop 0.45s ease-out; color: #fff !important; }
 .fb-wrong { background: #b91c1c !important; border-color: #ffc2c2 !important; animation: gs-shake 0.45s ease-out; color: #fff !important; }
 @media (prefers-reduced-motion: reduce) { .fb-correct, .fb-wrong { animation: none !important; } }
+
+/* tug_of_war — CSS/SVG only ($0). All text sits on solid panels (AA); motion off under reduced-motion. */
+@keyframes tw-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes tw-crowd { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+@keyframes tw-pull-l { 0%,100% { transform: rotate(-8deg) translateX(0); } 50% { transform: rotate(-14deg) translateX(-4px); } }
+@keyframes tw-pull-r { 0%,100% { transform: rotate(8deg) translateX(0); } 50% { transform: rotate(14deg) translateX(4px); } }
+@keyframes tw-burst { 0% { transform: translate(-50%, 10px) scale(0.6); opacity: 0; } 25% { transform: translate(-50%, 0) scale(1.15); opacity: 1; } 80% { opacity: 1; } 100% { transform: translate(-50%, -30px) scale(1); opacity: 0; } }
+@keyframes tw-light { 0%,100% { opacity: 0.55; } 50% { opacity: 0.9; } }
+@keyframes tw-flag { 0%,100% { transform: skewY(0deg); } 50% { transform: skewY(-8deg); } }
+.tw-sky { background: radial-gradient(ellipse at 50% 0%, #3b5bdb 0%, #1e2a78 45%, #0b1030 100%); }
+.tw-rope-move { transition: transform 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.2); }
+.tw-team-move { transition: transform 0.7s ease-out; }
+.tw-crowd { animation: tw-crowd 1.4s ease-in-out infinite; }
+.tw-pull-l { transform-box: fill-box; transform-origin: 50% 100%; animation: tw-pull-l 0.9s ease-in-out infinite; }
+.tw-pull-r { transform-box: fill-box; transform-origin: 50% 100%; animation: tw-pull-r 0.9s ease-in-out infinite; }
+.tw-win-lean-l { animation-duration: 0.55s; }
+.tw-win-lean-r { animation-duration: 0.55s; }
+.tw-light { animation: tw-light 2.2s ease-in-out infinite; }
+.tw-flag { transform-box: fill-box; transform-origin: 0% 0%; animation: tw-flag 0.8s ease-in-out infinite; }
+.tw-burst { position: absolute; left: 50%; top: 8%; animation: tw-burst 2.2s ease-out both; pointer-events: none; }
+.tw-btn { transition: transform 0.12s ease, box-shadow 0.2s ease; }
+.tw-btn:not(:disabled):active { transform: scale(0.97); }
+.tw-panel { background: #0b1630; border: 2px solid rgba(255,255,255,0.22); box-shadow: 0 10px 30px rgba(0,0,0,0.45); }
+@media (prefers-reduced-motion: reduce) {
+  .tw-crowd, .tw-pull-l, .tw-pull-r, .tw-light, .tw-flag, .tw-burst { animation: none !important; }
+  .tw-rope-move, .tw-team-move { transition: none !important; }
+  .tw-burst { transform: translate(-50%, 0); }
+}

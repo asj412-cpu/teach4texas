@@ -17,6 +17,8 @@ import {
   supportsOddOneOut,
   supportsScavengerTap,
   supportsTrueFalseDash,
+  supportsTugOfWar,
+  type TugOfWarItem,
   supportsEscapeVault,
   supportsSequenceSort,
   supportsTimedRace,
@@ -87,6 +89,12 @@ import {
   DEMO_ESCAPE_VAULT_CODE,
   ESCAPE_VAULT_SAMPLE_BOARD_ID,
 } from "@/lib/fixtures/sample-escape-vault";
+import {
+  buildSampleTugOfWarBoard,
+  DEMO_TUG_OF_WAR_CODE,
+  TUG_OF_WAR_SAMPLE_BOARD_ID,
+} from "@/lib/fixtures/sample-tug-of-war";
+import { towItemsFromBoard } from "@/lib/domain/tug-of-war";
 import { getServiceSupabase } from "@/lib/supabase-admin";
 
 const SAMPLE_BOARD_ID = "board_sample_math_g3";
@@ -101,6 +109,7 @@ export {
   DEMO_ODD_ONE_OUT_CODE,
   DEMO_TRUE_FALSE_DASH_CODE,
   DEMO_ESCAPE_VAULT_CODE,
+  DEMO_TUG_OF_WAR_CODE,
 };
 
 type BoardRow = {
@@ -160,6 +169,7 @@ type CellsPayload = {
   category_items?: CategorySortItem[];
   odd_items?: OddOneOutItem[];
   dash_items?: TrueFalseDashItem[];
+  tow_items?: TugOfWarItem[];
   vault_rooms?: EscapeVaultRoom[];
   cells: unknown;
 };
@@ -174,6 +184,7 @@ function unpackCells(raw: unknown): {
   category_items?: CategorySortItem[];
   odd_items?: OddOneOutItem[];
   dash_items?: TrueFalseDashItem[];
+  tow_items?: TugOfWarItem[];
   vault_rooms?: EscapeVaultRoom[];
 } {
   if (raw && typeof raw === "object" && !Array.isArray(raw) && "cells" in raw) {
@@ -188,6 +199,7 @@ function unpackCells(raw: unknown): {
       category_items: p.category_items,
       odd_items: p.odd_items,
       dash_items: p.dash_items,
+      tow_items: p.tow_items,
       vault_rooms: p.vault_rooms,
     };
   }
@@ -204,6 +216,7 @@ function packCells(board: GameBoard): unknown {
     (board.category_items?.length ?? 0) > 0 ||
     (board.odd_items?.length ?? 0) > 0 ||
     (board.dash_items?.length ?? 0) > 0 ||
+    (board.tow_items?.length ?? 0) > 0 ||
     (board.vault_rooms?.length ?? 0) > 0
   ) {
     return {
@@ -216,6 +229,7 @@ function packCells(board: GameBoard): unknown {
       category_items: board.category_items,
       odd_items: board.odd_items,
       dash_items: board.dash_items,
+      tow_items: board.tow_items,
       vault_rooms: board.vault_rooms,
       cells: board.cells,
     };
@@ -241,6 +255,7 @@ function boardFromRow(row: BoardRow): GameBoard {
     category_items: unpacked.category_items,
     odd_items: unpacked.odd_items,
     dash_items: unpacked.dash_items,
+    tow_items: unpacked.tow_items,
     vault_rooms: unpacked.vault_rooms,
     cells: unpacked.cells,
     created_at: iso(row.created_at),
@@ -333,6 +348,8 @@ export function toHostBoardView(board: GameBoard): HostBoardView {
     supports_odd_one_out: supportsOddOneOut(board),
     supports_true_false_dash: supportsTrueFalseDash(board),
     supports_escape_vault: supportsEscapeVault(board),
+    tow_item_count: towItemsFromBoard(board).length,
+    supports_tug_of_war: supportsTugOfWar(board),
   };
 }
 
@@ -418,6 +435,10 @@ export type RedeemResult =
 export async function redeemAccessCode(rawCode: string): Promise<RedeemResult> {
   await ensureSampleBoard();
   const normalized = normalizeAccessCode(rawCode);
+  // Tug of War demo self-seeds on first redeem (idempotent; demo kind, never a sale).
+  if (normalized === normalizeAccessCode(DEMO_TUG_OF_WAR_CODE)) {
+    await ensureTugOfWarSample();
+  }
   if (normalized.length < 12) {
     return { ok: false, error: "INVALID_CODE" };
   }
@@ -993,6 +1014,68 @@ export async function ensureTrueFalseDashSample(
 }
 
 
+
+async function ensureTugOfWarBoard(): Promise<GameBoard> {
+  const sb = getServiceSupabase();
+  const existing = await sb
+    .from("boards")
+    .select("*")
+    .eq("id", TUG_OF_WAR_SAMPLE_BOARD_ID)
+    .maybeSingle();
+  throwIfError(existing.error, "ensureTugOfWarBoard.select");
+  if (existing.data) {
+    return boardFromRow(existing.data as BoardRow);
+  }
+  const board = GameBoardSchema.parse(buildSampleTugOfWarBoard());
+  const inserted = await sb
+    .from("boards")
+    .insert(boardToRow(board))
+    .select("*")
+    .single();
+  throwIfError(inserted.error, "ensureTugOfWarBoard.insert");
+  return boardFromRow(inserted.data as BoardRow);
+}
+
+/** Seed Tug of War sample packet + known demo access code. Idempotent. */
+export async function ensureTugOfWarSample(
+  plaintext = DEMO_TUG_OF_WAR_CODE,
+): Promise<{ code: string; boardId: string; created: boolean }> {
+  const board = await ensureTugOfWarBoard();
+  const hash = sha256Hex(normalizeAccessCode(plaintext));
+  const sb = getServiceSupabase();
+  const existing = await sb
+    .from("product_codes")
+    .select("id")
+    .eq("code_hash", hash)
+    .maybeSingle();
+  throwIfError(existing.error, "ensureTugOfWarSample.lookup");
+  if (existing.data) {
+    return { code: DEMO_TUG_OF_WAR_CODE, boardId: board.id, created: false };
+  }
+  const record = ProductCodeRecordSchema.parse({
+    id: generateId("pc"),
+    code_hash: hash,
+    board_id: board.id,
+    label: "Local demo / tug of war sample",
+    max_sessions: null,
+    sessions_started: 0,
+    revoked_at: null,
+    created_at: new Date().toISOString(),
+  });
+  const ins = await sb.from("product_codes").insert({
+    id: record.id,
+    code_hash: record.code_hash,
+    board_id: record.board_id,
+    label: record.label ?? null,
+    max_sessions: record.max_sessions,
+    sessions_started: record.sessions_started,
+    revoked_at: record.revoked_at,
+    created_at: record.created_at,
+  });
+  throwIfError(ins.error, "ensureTugOfWarSample.insert");
+  return { code: DEMO_TUG_OF_WAR_CODE, boardId: board.id, created: true };
+}
+
 async function ensureEscapeVaultBoard(): Promise<GameBoard> {
   const sb = getServiceSupabase();
   const existing = await sb
@@ -1169,6 +1252,10 @@ export async function cloneBoard(opts: {
     dash_items: source.dash_items?.map((item) => ({
       ...item,
       id: generateId("tf"),
+    })),
+    tow_items: source.tow_items?.map((item) => ({
+      ...item,
+      id: generateId("tw"),
     })),
     vault_rooms: source.vault_rooms?.map((room) => ({
       ...room,

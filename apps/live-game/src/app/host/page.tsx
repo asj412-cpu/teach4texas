@@ -16,6 +16,7 @@ import {
   supportsEscapeVault,
   supportsSequenceSort,
   supportsTimedRace,
+  supportsTugOfWar,
 } from "@/lib/domain/board";
 import type { HostRoomView } from "@/lib/domain/live-room";
 import { CategorySortHost } from "@/components/category-sort-host";
@@ -26,6 +27,7 @@ import { EscapeVaultHost } from "@/components/escape-vault-host";
 import { ScavengerTapHost } from "@/components/scavenger-tap-host";
 import { SequenceSortHost } from "@/components/sequence-sort-host";
 import { TimedRaceHost } from "@/components/timed-race-host";
+import { TugOfWarHost } from "@/components/tug-of-war-host";
 import {
   HostFinalActions,
   HostSeatPanel,
@@ -255,14 +257,17 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
                         ? ` · ${board.odd_items?.length ?? 0} odd-one-out rounds`
                         : supportsTrueFalseDash(board)
                           ? ` · ${board.dash_items?.length ?? 0} true-or-false claims`
-                          : ""}
+                          : supportsTugOfWar(board)
+                            ? ` · ${board.tow_items?.length ?? 0} team questions`
+                            : ""}
           {supportsMemoryMatch(board) ? " · Memory Match ready" : ""}
           {supportsTimedRace(board) ? " · Timed Race ready" : ""}
           {supportsScavengerTap(board) ? " · Scavenger Hunt ready" : ""}
           {supportsSequenceSort(board) ? " · Order the Steps ready" : ""}
           {supportsCategorySort(board) ? " · Sort into Bins ready" : ""}
           {supportsOddOneOut(board) ? " · Find the Odd One ready" : ""}
-          {supportsTrueFalseDash(board) ? " · True or False Dash ready" : ""}. Only
+          {supportsTrueFalseDash(board) ? " · True or False Dash ready" : ""}
+          {supportsTugOfWar(board) ? " · Tug of War ready" : ""}. Only
           this game is available on this host session.
         </p>
         <div className="gs-glass gs-rise mt-6 flex flex-col gap-3 rounded-3xl bg-black/40 p-5">
@@ -388,6 +393,16 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
                   : "Start as Escape Vault"}
             </button>
           )}
+          {supportsTugOfWar(board) && (
+            <button
+              type="button"
+              disabled={starting}
+              onClick={() => startLive("tug_of_war")}
+              className="gs-cat rounded-2xl px-4 py-4 text-xl font-black uppercase tracking-wide transition hover:-translate-y-0.5 disabled:cursor-wait disabled:grayscale-[60%]"
+            >
+              {starting ? "Starting…" : "Start tug of war"}
+            </button>
+          )}
         </div>
         <p className="mt-4 rounded-xl bg-black/55 px-4 py-3 text-center text-base text-white">
           Students will join with a short room code (not your TPT access code).
@@ -399,6 +414,10 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
 
   if (view.game_type === "escape_vault" && (view.phase === "escaping" || view.phase === "final" || view.phase === "lobby")) {
     return <EscapeVaultHost view={view} onAction={hostAction} />;
+  }
+
+  if (view.game_type === "tug_of_war") {
+    return <TugOfWarHost view={view} onAction={hostAction} />;
   }
 
   if (view.phase === "final") {

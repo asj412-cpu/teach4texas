@@ -14,6 +14,7 @@ export const DEMO_CATEGORY_SORT_CODE = fileStore.DEMO_CATEGORY_SORT_CODE;
 export const DEMO_ODD_ONE_OUT_CODE = fileStore.DEMO_ODD_ONE_OUT_CODE;
 export const DEMO_TRUE_FALSE_DASH_CODE = fileStore.DEMO_TRUE_FALSE_DASH_CODE;
 export const DEMO_ESCAPE_VAULT_CODE = fileStore.DEMO_ESCAPE_VAULT_CODE;
+export const DEMO_TUG_OF_WAR_CODE = fileStore.DEMO_TUG_OF_WAR_CODE;
 
 export const toHostBoardView = fileStore.toHostBoardView;
 
@@ -134,4 +135,10 @@ export async function getConversionStats(opts: {
   until?: string;
 }) {
   return backend().getConversionStats(opts);
+}
+
+export async function ensureTugOfWarSample(
+  plaintext = DEMO_TUG_OF_WAR_CODE,
+) {
+  return backend().ensureTugOfWarSample(plaintext);
 }

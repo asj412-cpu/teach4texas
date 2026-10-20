@@ -11,6 +11,7 @@ import {
   supportsOddOneOut,
   supportsScavengerTap,
   supportsTrueFalseDash,
+  supportsTugOfWar,
   supportsEscapeVault,
   supportsSequenceSort,
   supportsTimedRace,
@@ -78,6 +79,12 @@ import {
   DEMO_ESCAPE_VAULT_CODE,
   ESCAPE_VAULT_SAMPLE_BOARD_ID,
 } from "@/lib/fixtures/sample-escape-vault";
+import {
+  buildSampleTugOfWarBoard,
+  DEMO_TUG_OF_WAR_CODE,
+  TUG_OF_WAR_SAMPLE_BOARD_ID,
+} from "@/lib/fixtures/sample-tug-of-war";
+import { towItemsFromBoard } from "@/lib/domain/tug-of-war";
 import {
   ACCESS_CODE_COOKIE,
   ENTITLEMENT_TTL_HOURS,
@@ -465,6 +472,8 @@ export function toHostBoardView(board: GameBoard): HostBoardView {
     supports_odd_one_out: supportsOddOneOut(board),
     supports_true_false_dash: supportsTrueFalseDash(board),
     supports_escape_vault: supportsEscapeVault(board),
+    tow_item_count: towItemsFromBoard(board).length,
+    supports_tug_of_war: supportsTugOfWar(board),
   };
 }
 
@@ -518,6 +527,10 @@ export type RedeemResult =
  * Teacher never receives a list of other products.
  */
 export async function redeemAccessCode(rawCode: string): Promise<RedeemResult> {
+  // Tug of War demo self-seeds on first redeem (idempotent; demo kind, never a sale).
+  if (normalizeAccessCode(rawCode) === normalizeAccessCode(DEMO_TUG_OF_WAR_CODE)) {
+    await ensureTugOfWarSample();
+  }
   const store = await ensureStore();
   const normalized = normalizeAccessCode(rawCode);
   if (normalized.length < 12) {
@@ -616,6 +629,7 @@ export {
   DEMO_ODD_ONE_OUT_CODE,
   DEMO_TRUE_FALSE_DASH_CODE,
   DEMO_ESCAPE_VAULT_CODE,
+  DEMO_TUG_OF_WAR_CODE,
 };
 
 export async function ensureDemoAccessCode(
@@ -1128,6 +1142,10 @@ export async function cloneBoard(opts: {
       ...item,
       id: generateId("tf"),
     })),
+    tow_items: source.tow_items?.map((item) => ({
+      ...item,
+      id: generateId("tw"),
+    })),
     vault_rooms: source.vault_rooms?.map((room) => ({
       ...room,
       id: generateId("vr"),
@@ -1203,4 +1221,37 @@ export async function getConversionStats(opts: {
     since: opts.since ?? null,
     until: opts.until ?? null,
   };
+}
+
+
+/** Seed Tug of War sample packet + known demo access code. Idempotent. */
+export async function ensureTugOfWarSample(
+  plaintext = DEMO_TUG_OF_WAR_CODE,
+): Promise<{ code: string; boardId: string; created: boolean }> {
+  const store = await ensureStore();
+  const board =
+    store.boards.find((b) => b.id === TUG_OF_WAR_SAMPLE_BOARD_ID) ??
+    GameBoardSchema.parse(buildSampleTugOfWarBoard());
+  if (!store.boards.some((b) => b.id === board.id)) {
+    store.boards.push(board);
+  }
+  const hash = sha256Hex(normalizeAccessCode(plaintext));
+  const existing = store.product_codes.find((c) => c.code_hash === hash);
+  if (existing) {
+    await writeStore(store);
+    return { code: DEMO_TUG_OF_WAR_CODE, boardId: board.id, created: false };
+  }
+  const record = ProductCodeRecordSchema.parse({
+    id: generateId("pc"),
+    code_hash: hash,
+    board_id: board.id,
+    label: "Local demo / tug of war sample",
+    max_sessions: null,
+    sessions_started: 0,
+    revoked_at: null,
+    created_at: new Date().toISOString(),
+  });
+  store.product_codes.push(record);
+  await writeStore(store);
+  return { code: DEMO_TUG_OF_WAR_CODE, boardId: board.id, created: true };
 }

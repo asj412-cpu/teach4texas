@@ -29,6 +29,8 @@ type HostBoard = {
   supports_odd_one_out?: boolean;
   supports_true_false_dash?: boolean;
   supports_escape_vault?: boolean;
+  supports_tug_of_war?: boolean;
+  tow_item_count?: number;
   supports_board?: boolean;
 };
 
@@ -72,6 +74,7 @@ export default function RedeemPage() {
     [unlocked?.supports_odd_one_out, "odd_one_out", "Find the Odd One"],
     [unlocked?.supports_true_false_dash, "true_false_dash", "True or False Dash"],
     [unlocked?.supports_escape_vault, "escape_vault", "Escape Vault"],
+    [unlocked?.supports_tug_of_war, "tug_of_war", "Tug of War"],
   ];
 
   return (
@@ -188,6 +191,7 @@ function summaryFor(b: HostBoard): string {
     case "odd_one_out": return `Find the Odd One · ${b.odd_item_count ?? 0} rounds`;
     case "true_false_dash": return `True or False Dash · ${b.dash_item_count ?? 0} claims`;
     case "escape_vault": return `Escape Vault · ${b.vault_room_count ?? 0} rooms`;
+    case "tug_of_war": return `Tug of War · ${b.tow_item_count ?? 0} team questions`;
     default: return `Game show board · ${b.cell_count} questions`;
   }
 }

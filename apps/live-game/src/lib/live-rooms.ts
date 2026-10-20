@@ -58,6 +58,16 @@ import {
   type VaultAnswerPayload,
 } from "@/lib/domain/escape-vault";
 import {
+  createTowState,
+  pickTeamForNewPlayer,
+  scoreTowRound,
+  TOW_POINTS_PER_CORRECT,
+  TOW_ROUND_CHOICES,
+  towItemsFromBoard,
+  towOutcome,
+  towOutcomeEnded,
+} from "@/lib/domain/tug-of-war";
+import {
   generateId,
   generateOpaqueToken,
   sha256Hex,
@@ -154,6 +164,20 @@ function ensurePlayerOddState(room: LiveRoom, playerId: string) {
 }
 
 
+/** Tug of War: make sure state exists and every student (never the host seat) is on a team. */
+function ensureTow(room: LiveRoom) {
+  if (room.game_type !== "tug_of_war") return;
+  if (!room.tow) room.tow = createTowState();
+  const st = room.tow;
+  for (const pid of Object.keys(st.teams)) {
+    if (!room.players[pid] || pid === HOST_PLAYER_ID) delete st.teams[pid];
+  }
+  for (const pid of Object.keys(room.players)) {
+    if (pid === HOST_PLAYER_ID || st.teams[pid]) continue;
+    st.teams[pid] = pickTeamForNewPlayer(st.teams);
+  }
+}
+
 function ensureHostPlayer(room: LiveRoom) {
   if (room.players[HOST_PLAYER_ID]) return;
   room.players[HOST_PLAYER_ID] = {
@@ -197,6 +221,13 @@ function resetRoomToLobby(room: LiveRoom) {
   room.odd_states = {};
   room.dash_states = {};
   room.vault_states = {};
+  if (room.game_type === "tug_of_war") {
+    // Keep the teams the class already has; reset the match.
+    const prev = room.tow;
+    room.tow = createTowState(prev?.rounds_total);
+    if (prev) room.tow.teams = { ...prev.teams };
+    ensureTow(room);
+  }
   for (const p of Object.values(room.players)) {
     p.score = 0;
     p.connected = true;
@@ -265,6 +296,7 @@ export async function createLiveRoom(opts: {
     created_at: new Date().toISOString(),
     ended_at: null,
   };
+  if (gameType === "tug_of_war") room.tow = createTowState();
   ensureHostPlayer(room);
   for (let i = 0; i < 20; i++) {
     if (await insertRoomRecord(room)) return { room, hostToken };
@@ -395,6 +427,8 @@ const PLAYER_ACTIONS = {
     submitOddTap(room, pid, a[0] as string),
   submitDashTap: (room: LiveRoom, pid: string, a: unknown[]) =>
     submitDashTap(room, pid, a[0] as boolean),
+  submitTowAnswer: (room: LiveRoom, pid: string, a: unknown[]) =>
+    submitTowAnswer(room, pid, a[0] as number),
 } as const;
 
 export type PlayerActionName = keyof typeof PLAYER_ACTIONS;
@@ -505,6 +539,7 @@ export function hostView(room: LiveRoom) {
   if (room.game_type === "escape_vault" && room.phase === "escaping") {
     ensurePlayerVaultState(room, HOST_PLAYER_ID);
   }
+  ensureTow(room);
   return sanitizeForHost(room);
 }
 
@@ -529,6 +564,7 @@ export function playerView(room: LiveRoom, playerId: string) {
   if (room.game_type === "escape_vault" && room.phase === "escaping") {
     ensurePlayerVaultState(room, playerId);
   }
+  ensureTow(room);
   return sanitizeForPlayer(room, playerId);
 }
 
@@ -624,6 +660,7 @@ export function joinRoom(
     resume_secret_hash: sha256Hex(resume_secret),
   };
   room.players[player_id] = player;
+  ensureTow(room);
   if (room.game_type === "memory_match" && room.phase === "matching") {
     ensurePlayerMatchState(room, player_id);
   }
@@ -683,7 +720,12 @@ export type HostAction =
   | { type: "host_bin"; category_id: string }
   | { type: "host_odd"; option_id: string }
   | { type: "host_claim"; answer: boolean }
-  | { type: "host_vault"; choice_id?: string; numeric?: string };
+  | { type: "host_vault"; choice_id?: string; numeric?: string }
+  | { type: "tow_move_player"; player_id: string }
+  | { type: "tow_set_rounds"; rounds: number }
+  | { type: "tow_next" }
+  | { type: "tow_reveal" }
+  | { type: "tow_pause" };
 
 export function applyHostAction(
   room: LiveRoom,
@@ -740,6 +782,18 @@ export function applyHostAction(
           ensurePlayerDashState(room, pid);
         }
         room.phase = "dashing";
+      } else if (room.game_type === "tug_of_war") {
+        ensureTow(room);
+        const st = room.tow!;
+        st.round = 0;
+        st.stage = "ready";
+        st.paused = false;
+        st.position = 0;
+        st.answers = {};
+        st.history = [];
+        st.winner = null;
+        st.win_kind = null;
+        room.phase = "towing";
       } else if (room.game_type === "escape_vault") {
         room.vault_room_index = 0;
         room.vault_puzzle_index = 0;
@@ -1014,6 +1068,10 @@ export function applyHostAction(
       return { ok: true };
     }
     case "end_game": {
+      if (room.game_type === "tug_of_war" && room.tow && !room.tow.winner) {
+        room.tow.winner = towOutcomeEnded(room.tow.position);
+        room.tow.win_kind = "ended";
+      }
       room.phase = "final";
       room.ended_at = new Date().toISOString();
       room.open_until = null;
@@ -1046,6 +1104,88 @@ export function applyHostAction(
       delete room.odd_states[action.player_id];
       delete room.dash_states[action.player_id];
       delete room.vault_states[action.player_id];
+      if (room.tow) {
+        delete room.tow.teams[action.player_id];
+        delete room.tow.answers[action.player_id];
+      }
+      return { ok: true };
+    }
+    case "tow_move_player": {
+      if (room.game_type !== "tug_of_war") return { ok: false, error: "NOT_TUG_OF_WAR" };
+      if (room.phase !== "lobby") return { ok: false, error: "ILLEGAL_TRANSITION" };
+      if (action.player_id === HOST_PLAYER_ID) return { ok: false, error: "HOST_NOT_ON_TEAM" };
+      if (!room.players[action.player_id]) return { ok: false, error: "NOT_A_PLAYER" };
+      ensureTow(room);
+      const st = room.tow!;
+      st.teams[action.player_id] = st.teams[action.player_id] === "red" ? "blue" : "red";
+      return { ok: true };
+    }
+    case "tow_set_rounds": {
+      if (room.game_type !== "tug_of_war") return { ok: false, error: "NOT_TUG_OF_WAR" };
+      if (room.phase !== "lobby") return { ok: false, error: "ILLEGAL_TRANSITION" };
+      const n = Number(action.rounds);
+      if (
+        !(TOW_ROUND_CHOICES as readonly number[]).includes(n) ||
+        n > towItemsFromBoard(room.board).length
+      ) {
+        return { ok: false, error: "INVALID_ROUNDS" };
+      }
+      ensureTow(room);
+      room.tow!.rounds_total = n;
+      return { ok: true };
+    }
+    case "tow_pause": {
+      if (room.game_type !== "tug_of_war" || !room.tow) return { ok: false, error: "NOT_TUG_OF_WAR" };
+      if (room.phase !== "towing") return { ok: false, error: "ILLEGAL_TRANSITION" };
+      room.tow.paused = !room.tow.paused;
+      return { ok: true };
+    }
+    case "tow_next": {
+      if (room.game_type !== "tug_of_war" || !room.tow) return { ok: false, error: "NOT_TUG_OF_WAR" };
+      if (room.phase !== "towing") return { ok: false, error: "ILLEGAL_TRANSITION" };
+      const st = room.tow;
+      if (st.paused) return { ok: false, error: "PAUSED" };
+      if (st.winner) return { ok: false, error: "GAME_DECIDED" };
+      if (st.stage === "question") return { ok: false, error: "ROUND_OPEN" };
+      const items = towItemsFromBoard(room.board);
+      if (st.round >= st.rounds_total || st.round >= items.length) {
+        return { ok: false, error: "NO_MORE_ROUNDS" };
+      }
+      st.round += 1;
+      st.stage = "question";
+      st.answers = {};
+      return { ok: true };
+    }
+    case "tow_reveal": {
+      if (room.game_type !== "tug_of_war" || !room.tow) return { ok: false, error: "NOT_TUG_OF_WAR" };
+      if (room.phase !== "towing") return { ok: false, error: "ILLEGAL_TRANSITION" };
+      const st = room.tow;
+      if (st.stage !== "question") return { ok: false, error: "NO_OPEN_ROUND" };
+      if (st.paused) return { ok: false, error: "PAUSED" };
+      ensureTow(room);
+      const items = towItemsFromBoard(room.board);
+      const item = items[(st.round - 1) % Math.max(1, items.length)];
+      if (!item) return { ok: false, error: "NO_ITEM" };
+      const result = scoreTowRound({
+        round: st.round,
+        item,
+        teams: st.teams,
+        answers: st.answers,
+        position: st.position,
+      });
+      for (const [pid, choice] of Object.entries(st.answers)) {
+        if (choice === item.correct_index && room.players[pid] && st.teams[pid]) {
+          room.players[pid]!.score += TOW_POINTS_PER_CORRECT;
+        }
+      }
+      st.history.push({ ...result, answers: { ...st.answers } } as typeof result);
+      st.position = result.position_after;
+      st.stage = "reveal";
+      const out = towOutcome(st.position, st.round, st.rounds_total);
+      if (out) {
+        st.winner = out.winner;
+        st.win_kind = out.win_kind;
+      }
       return { ok: true };
     }
     case "host_wager": {
@@ -1342,7 +1482,8 @@ export function submitAnswer(
     room.game_type === "category_sort" ||
     room.game_type === "odd_one_out" ||
     room.game_type === "true_false_dash" ||
-    room.game_type === "escape_vault"
+    room.game_type === "escape_vault" ||
+    room.game_type === "tug_of_war"
   ) {
     return { ok: false, error: "NOT_ACCEPTING_ANSWERS" };
   }
@@ -1380,5 +1521,30 @@ export function submitWager(
   const wager = Math.round(amount);
   if (wager < 0 || wager > max) return { ok: false, error: "WAGER_OUT_OF_RANGE" };
   room.wagers = { ...(room.wagers ?? {}), [playerId]: wager };
+  return { ok: true };
+}
+
+/** Tug of War: one locked A–D choice per student per round (host seat is not on a team). */
+export function submitTowAnswer(
+  room: LiveRoom,
+  playerId: string,
+  choiceIndex: number,
+): { ok: true } | { ok: false; error: string } {
+  if (room.game_type !== "tug_of_war" || !room.tow) {
+    return { ok: false, error: "NOT_TUG_OF_WAR" };
+  }
+  if (room.phase !== "towing" || room.tow.stage !== "question") {
+    return { ok: false, error: "NOT_ACCEPTING_ANSWERS" };
+  }
+  if (room.tow.paused) return { ok: false, error: "PAUSED" };
+  if (playerId === HOST_PLAYER_ID) return { ok: false, error: "HOST_NOT_ON_TEAM" };
+  if (!room.players[playerId]) return { ok: false, error: "NOT_A_PLAYER" };
+  if (!Number.isInteger(choiceIndex) || choiceIndex < 0 || choiceIndex > 3) {
+    return { ok: false, error: "INVALID_CHOICE" };
+  }
+  ensureTow(room);
+  if (room.tow.answers[playerId] === undefined) {
+    room.tow.answers[playerId] = choiceIndex;
+  }
   return { ok: true };
 }

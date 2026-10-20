@@ -13,6 +13,7 @@ import { VaultScene } from "@/components/escape-vault/scene";
 import { ScavengerTapPlay } from "@/components/scavenger-tap-play";
 import { SequenceSortPlay } from "@/components/sequence-sort-play";
 import { TimedRacePlay } from "@/components/timed-race-play";
+import { TugOfWarPlay } from "@/components/tug-of-war-play";
 import { kidPlainText } from "@/lib/plain-text";
 import { ConnectionBanner, type ConnState } from "@/components/connection-banner";
 import { postAction, type TapStatus } from "@/lib/action-post";
@@ -216,6 +217,18 @@ function PlayPageBody({
     }
   }
 
+  async function towAnswer(choice_index: number) {
+    if (!playerId || !view || view.game_type !== "tug_of_war") return;
+    if (view.phase !== "towing" || view.tow?.stage !== "question" || view.tow.my_choice != null) return;
+    setSubmitting(true);
+    try {
+      const r = await postAction(`/api/rooms/${code}/tow`, { player_id: playerId, choice_index }, onTap);
+      if (r?.data?.ok && r.data.view) setView(r.data.view as PlayerRoomView);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
   async function answer(choice_index: number) {
     if (!playerId || !view || view.my_answered || view.phase !== "question_open")
       return;
@@ -256,6 +269,10 @@ function PlayPageBody({
         Connecting…
       </div>
     );
+  }
+
+  if (view.game_type === "tug_of_war") {
+    return <TugOfWarPlay view={view} submitting={submitting} onAnswer={towAnswer} />;
   }
 
   if (view.phase === "lobby" && view.game_type === "escape_vault") {

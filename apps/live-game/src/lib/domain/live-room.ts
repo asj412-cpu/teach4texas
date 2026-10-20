@@ -60,6 +60,18 @@ import {
   type PlayerVaultView,
   type VaultLockState,
 } from "@/lib/domain/escape-vault";
+import {
+  TOW_ROUND_CHOICES,
+  TOW_TEAM_NAME,
+  teamCounts,
+  towItemsFromBoard,
+  towQuestionView,
+  type TowQuestionView,
+  type TowRoundResult,
+  type TowStage,
+  type TowState,
+  type TowTeam,
+} from "@/lib/domain/tug-of-war";
 import { kidPlainText } from "@/lib/plain-text";
 
 export const RoomPhaseSchema = z.enum([
@@ -74,6 +86,7 @@ export const RoomPhaseSchema = z.enum([
   "dashing",
   "dd_wager",
   "escaping",
+  "towing",
   "question_open",
   "question_locked",
   "reveal",
@@ -163,6 +176,8 @@ export type LiveRoom = {
   vault_revealed: boolean;
   vault_unlocked_rooms: string[];
   vault_started_at: string | null;
+  /** Tug of War team state (optional so older stored rooms still load). */
+  tow?: TowState;
   open_until: string | null;
   answer_seconds: number;
   lobby_locked: boolean;
@@ -333,6 +348,27 @@ export type HostRoomView = {
     /** Host-only answer key — keep off the 16:9 student-facing stage. */
     item_key: { room: string; prompt: string; answer: string }[];
   };
+  tow: null | {
+    team_names: Record<TowTeam, string>;
+    rounds_total: number;
+    round_choices: number[];
+    item_total: number;
+    round: number;
+    stage: TowStage;
+    paused: boolean;
+    position: number;
+    question: TowQuestionView | null;
+    history: TowRoundResult[];
+    last: TowRoundResult | null;
+    winner: TowTeam | "tie" | null;
+    win_kind: "line" | "rounds" | "ended" | null;
+    team_sizes: Record<TowTeam, number>;
+    answer_count: number;
+    student_count: number;
+    teams: Record<TowTeam, { player_id: string; display_name: string; answered: boolean; correct_count: number }[]>;
+    /** Host-only answer key — keep off the projector stage. */
+    item_key: { prompt: string; answer: string; teks: string }[];
+  };
   open_until: string | null;
   answer_seconds: number;
   lobby_locked: boolean;
@@ -389,6 +425,28 @@ export type PlayerRoomView = {
   odd: PlayerOddView | null;
   dash: PlayerDashView | null;
   vault: PlayerVaultView | null;
+  tow: null | {
+    team_names: Record<TowTeam, string>;
+    rounds_total: number;
+    round_choices: number[];
+    item_total: number;
+    round: number;
+    stage: TowStage;
+    paused: boolean;
+    position: number;
+    question: TowQuestionView | null;
+    history: TowRoundResult[];
+    last: TowRoundResult | null;
+    winner: TowTeam | "tie" | null;
+    win_kind: "line" | "rounds" | "ended" | null;
+    team_sizes: Record<TowTeam, number>;
+    answer_count: number;
+    student_count: number;
+    my_team: TowTeam | null;
+    my_choice: number | null;
+    my_correct: boolean | null;
+    my_correct_count: number;
+  };
   open_until: string | null;
   answer_seconds: number;
   server_now: string;
@@ -830,6 +888,117 @@ function hostDashView(room: LiveRoom): HostRoomView["dash"] {
   };
 }
 
+function towCorrectCount(room: LiveRoom, pid: string): number {
+  const st = room.tow;
+  if (!st) return 0;
+  const items = towItemsFromBoard(room.board);
+  let n = 0;
+  for (const h of st.history) {
+    const it = items.find((i) => i.id === h.item_id);
+    const a = (h as TowRoundResult & { answers?: Record<string, number> }).answers?.[pid];
+    if (it && a === it.correct_index) n += 1;
+  }
+  return n;
+}
+
+function towCommon(room: LiveRoom) {
+  const st = room.tow!;
+  const items = towItemsFromBoard(room.board);
+  const studentIds = Object.keys(room.players).filter((id) => id !== HOST_PLAYER_ID);
+  const sizes = teamCounts(st.teams, studentIds);
+  return {
+    team_names: { ...TOW_TEAM_NAME },
+    rounds_total: st.rounds_total,
+    round_choices: TOW_ROUND_CHOICES.filter((n) => n <= Math.max(items.length, 8)),
+    item_total: items.length,
+    round: st.round,
+    stage: st.stage,
+    paused: st.paused,
+    position: st.position,
+    question: towQuestionView(items, st),
+    history: st.history.map((h) => {
+      const { answers: _drop, ...rest } = h as TowRoundResult & { answers?: unknown };
+      void _drop;
+      return rest as TowRoundResult;
+    }),
+    last: st.history.length
+      ? (() => {
+          const { answers: _d, ...rest } = st.history[st.history.length - 1] as TowRoundResult & {
+            answers?: unknown;
+          };
+          void _d;
+          return rest as TowRoundResult;
+        })()
+      : null,
+    winner: st.winner,
+    win_kind: st.win_kind,
+    team_sizes: sizes,
+    answer_count: Object.keys(st.answers).filter(
+      (id) => id !== HOST_PLAYER_ID && st.teams[id],
+    ).length,
+    student_count: studentIds.filter((id) => st.teams[id]).length,
+  };
+}
+
+function hostTowView(room: LiveRoom): HostRoomView["tow"] {
+  if (room.game_type !== "tug_of_war" || !room.tow) return null;
+  const st = room.tow;
+  const items = towItemsFromBoard(room.board);
+  const teams: Record<TowTeam, { player_id: string; display_name: string; answered: boolean; correct_count: number }[]> = {
+    red: [],
+    blue: [],
+  };
+  for (const p of Object.values(room.players)) {
+    if (p.player_id === HOST_PLAYER_ID) continue;
+    const t = st.teams[p.player_id];
+    if (!t) continue;
+    teams[t].push({
+      player_id: p.player_id,
+      display_name: p.display_name,
+      answered: st.answers[p.player_id] !== undefined,
+      correct_count: towCorrectCount(room, p.player_id),
+    });
+  }
+  return {
+    ...towCommon(room),
+    teams,
+    item_key: items.map((it) => ({
+      prompt: kidPlainText(it.prompt, 80),
+      answer: kidPlainText(it.choices[it.correct_index], 60),
+      teks: it.teks,
+    })),
+  };
+}
+
+function playerTowView(room: LiveRoom, playerId: string): PlayerRoomView["tow"] {
+  if (room.game_type !== "tug_of_war" || !room.tow) return null;
+  const st = room.tow;
+  const items = towItemsFromBoard(room.board);
+  const myTeam = st.teams[playerId] ?? null;
+  const q = towQuestionView(items, st);
+  const lastAnswers =
+    st.stage === "reveal" && st.history.length
+      ? (st.history[st.history.length - 1] as TowRoundResult & { answers?: Record<string, number> })
+          .answers
+      : undefined;
+  const myChoice =
+    st.stage === "question"
+      ? (st.answers[playerId] ?? null)
+      : st.stage === "reveal"
+        ? (lastAnswers?.[playerId] ?? null)
+        : null;
+  return {
+    ...towCommon(room),
+    my_team: myTeam,
+    my_choice: myChoice,
+    my_correct:
+      st.stage === "reveal" && q && q.correct_index != null
+        ? myChoice === q.correct_index
+        : null,
+    my_correct_count: towCorrectCount(room, playerId),
+  };
+}
+
 export function sanitizeForHost(room: LiveRoom): HostRoomView {
   return {
     role: "host",
@@ -859,6 +1028,7 @@ export function sanitizeForHost(room: LiveRoom): HostRoomView {
     host_seat: hostSeatView(room),
     dash: hostDashView(room),
     vault: hostVaultView(room),
+    tow: hostTowView(room),
     open_until: room.open_until,
     answer_seconds: room.answer_seconds,
     lobby_locked: room.lobby_locked,
@@ -997,6 +1167,7 @@ export function sanitizeForPlayer(
             vaultViewExtra(room),
           )
         : null,
+    tow: playerTowView(room, playerId),
     open_until: room.open_until,
     answer_seconds: room.answer_seconds,
     server_now: new Date().toISOString(),

@@ -10,6 +10,7 @@ export const GameTypeSchema = z.enum([
   "odd_one_out",
   "true_false_dash",
   "escape_vault",
+  "tug_of_war",
 ]);
 export type GameType = z.infer<typeof GameTypeSchema>;
 
@@ -38,6 +39,12 @@ export const TimedRaceItemSchema = z.object({
 });
 
 export type TimedRaceItem = z.infer<typeof TimedRaceItemSchema>;
+
+/** Tug of War: 4-choice MCQ (same shape as Timed Race) with a required TEKS tag. */
+export const TugOfWarItemSchema = TimedRaceItemSchema.extend({
+  teks: z.string().min(1).max(32),
+});
+export type TugOfWarItem = z.infer<typeof TugOfWarItemSchema>;
 
 /** TEKS-agnostic labeled-hotspot item for Scavenger Tap. `teks` is optional. */
 export const ScavengerTargetSchema = z.object({
@@ -315,6 +322,8 @@ export const GameBoardSchema = z
     dash_items: z.array(TrueFalseDashItemSchema).max(12).optional(),
     /** Escape Vault rooms + puzzles. Ignored unless host picks escape_vault. */
     vault_rooms: z.array(EscapeVaultRoomSchema).max(8).optional(),
+    /** Tug of War team MCQ rounds. Opt-in: only boards that ship tow_items. */
+    tow_items: z.array(TugOfWarItemSchema).max(16).optional(),
     created_at: z.string(),
     updated_at: z.string(),
   })
@@ -345,6 +354,16 @@ export const GameBoardSchema = z
             message: `Category "${cat}" must have points 100–500 exactly once`,
           });
         }
+      }
+      return;
+    }
+
+    if (type === "tug_of_war") {
+      if ((board.tow_items?.length ?? 0) < 4) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Tug of war needs at least 4 tow_items",
+        });
       }
       return;
     }
@@ -575,6 +594,8 @@ export type HostBoardView = {
   supports_odd_one_out: boolean;
   supports_true_false_dash: boolean;
   supports_escape_vault: boolean;
+  tow_item_count: number;
+  supports_tug_of_war: boolean;
 };
 
 export function boardGameType(board: { game_type?: GameType }): GameType {
@@ -695,10 +716,18 @@ export function supportsEscapeVault(board: {
   );
 }
 
+/** Tug of War is opt-in per product: only boards that ship >= 4 authored tow_items. */
+export function supportsTugOfWar(board: { tow_items?: TugOfWarItem[] }): boolean {
+  return (board.tow_items?.length ?? 0) >= 4;
+}
+
 export function resolvePlayableGameType(
   board: GameBoard,
   requested?: string | null,
 ): GameType {
+  if (requested === "tug_of_war" && supportsTugOfWar(board)) {
+    return "tug_of_war";
+  }
   if (requested === "escape_vault" && supportsEscapeVault(board)) {
     return "escape_vault";
   }
@@ -727,6 +756,9 @@ export function resolvePlayableGameType(
     return "board";
   }
   const native = boardGameType(board);
+  if (native === "tug_of_war" && supportsTugOfWar(board)) {
+    return "tug_of_war";
+  }
   if (native === "escape_vault" && supportsEscapeVault(board)) {
     return "escape_vault";
   }
@@ -760,5 +792,6 @@ export function resolvePlayableGameType(
   if (supportsOddOneOut(board)) return "odd_one_out";
   if (supportsTrueFalseDash(board)) return "true_false_dash";
   if (supportsEscapeVault(board)) return "escape_vault";
+  if (supportsTugOfWar(board)) return "tug_of_war";
   return "board";
 }

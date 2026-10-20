@@ -479,7 +479,7 @@ def build_budget():
         ["Utilities (electric, water, internet)", 200, "=B18*12", ""],
         ["Phone", 80, "=B19*12", ""],
         ["Health Insurance", 150, "=B20*12", "District plan"],
-        ["Subscriptions (Netflix, Spotify, etc.)", 50, "=B21*12", ""],
+        ["Subscriptions (streaming service, music subscription, etc.)", 50, "=B21*12", ""],
         ["Dining Out / Coffee", 150, "=B22*12", ""],
         ["Classroom Spending", 75, "=B23*12", "See Classroom Spending tab"],
         ["Savings", 200, "=B24*12", "Emergency fund goal"],
@@ -523,14 +523,14 @@ def build_budget():
     style_header(ws2, 1, len(headers2))
 
     spend_data = [
-        ["2025-08-10", "Expo markers (bulk)", "Supplies", 24.99, "No", None, "Back to school"],
+        ["2025-08-10", "Dry-erase markers (bulk)", "Supplies", 24.99, "No", None, "Back to school"],
         ["2025-08-10", "Bulletin board borders", "Decor", 18.50, "No", None, "Classroom setup"],
         ["2025-08-15", "Composition notebooks (30-pk)", "Supplies", 32.00, "Yes", None, "Reimbursed by campus"],
-        ["2025-08-20", "Flexible seating cushions", "Decor", 45.00, "No", None, "Amazon"],
+        ["2025-08-20", "Flexible seating cushions", "Decor", 45.00, "No", None, "Online retailer"],
         ["2025-09-05", "Laminating pouches", "Supplies", 12.99, "No", None, ""],
         ["2025-09-15", "Quiz app premium subscription", "Tech", 48.00, "Yes", None, "District paid"],
-        ["2025-10-01", "Halloween incentive prizes", "Supplies", 15.00, "No", None, "Dollar Tree"],
-        ["2025-10-20", "Scholastic book order (class set)", "Curriculum", 35.00, "No", None, "Used bonus points too"],
+        ["2025-10-01", "Halloween incentive prizes", "Supplies", 15.00, "No", None, "Dollar store"],
+        ["2025-10-20", "Book order (class set)", "Curriculum", 35.00, "No", None, "Used bonus points too"],
         ["2025-11-15", "Chart paper (10-pk)", "Supplies", 22.00, "No", None, ""],
         ["2025-12-10", "Holiday party supplies", "Supplies", 20.00, "No", None, "Shared cost with team"],
         ["2026-01-05", "New pencil sharpener", "Supplies", 28.99, "No", None, "Electric — worth it"],

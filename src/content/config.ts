@@ -11,6 +11,8 @@ const blog = defineCollection({
     author: z.string().default('Lone Star Educator'),
     tags: z.array(z.string()).default([]),
     image: z.string().optional(),
+    // Opt-in: use this path for og:image / twitter:image instead of og-default.jpg.
+    ogImage: z.string().optional(),
     keywords: z.array(z.string()).default([]),
     scoreDeskCta: z.string().optional(),
   }),

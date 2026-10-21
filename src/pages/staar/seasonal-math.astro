@@ -15,7 +15,7 @@ const months: { name: string; cards: Card[] }[] = [
   { name: 'September', cards: [{ id: '17517520', month: 'September' }, { id: '17547396', month: 'September', post: '/blog/grade-3-hispanic-heritage-staar-math-scavenger' }] },
   { name: 'October', cards: [{ id: '17812227', month: 'October', post: '/blog/halloween-grade-4-staar-math-escape-room' }] },
   { name: 'November', cards: [{ id: '17850252', month: 'November', post: '/blog/thanksgiving-grade-4-staar-math-escape-room', liveGame: true }] },
-  { name: 'December', cards: [{ id: '18020793', month: 'December' }] },
+  { name: 'December', cards: [{ id: '18020793', month: 'December', post: '/blog/christmas-grade-4-staar-math-escape-room' }] },
 ];
 
 const byId = new Map(TPT_LISTINGS.map((l) => [l.id, l]));
@@ -43,6 +43,10 @@ const faqs = [
   {
     q: 'Which TEKS does the Thanksgiving escape room cover?',
     a: 'The Grade 4 Thanksgiving Escape Room covers TEKS 4.3E, 4.4H, and 4.8C, with 20 STAAR 2.0-style items.',
+  },
+  {
+    q: 'Which TEKS does the Christmas escape room cover?',
+    a: 'The Grade 4 Christmas Escape Room covers TEKS 4.3D, 4.5D, and 4.9A, with 20 STAAR 2.0-style items.',
   },
   {
     q: 'Which seasonal STAAR math resources are there for Grade 3?',

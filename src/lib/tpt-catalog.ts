@@ -15,6 +15,8 @@ export type TptListing = {
   /** Real product preview screenshot (site path), when we have one. Never a mockup. */
   image?: string;
   featured?: boolean;
+  /** Live Pinterest pin URL for this listing; Pin It links here instead of the create-pin button. */
+  pin?: string;
 };
 
 const TPT = 'https://www.teacherspayteachers.com/Product';
@@ -128,6 +130,7 @@ export const TPT_LISTINGS: TptListing[] = [
     id: '18020793',
     href: `${TPT}/Christmas-Escape-Room-Grade-4-STAAR-Math-Compare-Fractions-Area-Data-18020793`,
     image: '/images/covers/tpt-18020793-cover-297915ed.jpg',
+    pin: 'https://www.pinterest.com/pin/1147503180094957291/',
     title: 'Christmas Escape Room Grade 4 STAAR Math | Compare Fractions, Area, Data',
     description:
       'Grade 4 STAAR math Christmas escape room. 20 STAAR 2.0-style items for TEKS 4.3D, 4.5D, 4.9A (compare fractions with different numerators and denominators, perimeter and area of rectangles, frequency tables, dot plots, and stem-and-leaf plots). 4 workshop scenes + Gift Gate boss. Self-checking Cadet Corps Google Slides + printable missions. Not a scavenger hunt.',

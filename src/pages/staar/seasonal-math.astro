@@ -16,6 +16,7 @@ const months: { name: string; cards: Card[] }[] = [
   { name: 'October', cards: [{ id: '17812227', month: 'October', post: '/blog/halloween-grade-4-staar-math-escape-room' }] },
   { name: 'November', cards: [{ id: '17850252', month: 'November', post: '/blog/thanksgiving-grade-4-staar-math-escape-room', liveGame: true }] },
   { name: 'December', cards: [{ id: '18020793', month: 'December', post: '/blog/christmas-grade-4-staar-math-escape-room' }] },
+  { name: 'Grade 4 Holiday Bundle: October to December', cards: [{ id: '18041613', month: 'October to December', liveGame: true }] },
 ];
 
 const byId = new Map(TPT_LISTINGS.map((l) => [l.id, l]));
@@ -50,12 +51,16 @@ const faqs = [
     a: 'The Grade 4 Christmas Escape Room covers TEKS 4.3D, 4.5D, and 4.9A, with 20 STAAR 2.0-style items.',
   },
   {
+    q: 'Is there a bundle of the Grade 4 holiday escape rooms?',
+    a: 'Yes. The Holiday Escape Room Bundle Grade 4 has the Halloween, Thanksgiving, and Christmas escape rooms: 9 Grade 4 TEKS and 60 items in all. It is $11.99 on TPT; bought one at a time the three rooms are $14.97.',
+  },
+  {
     q: 'Which seasonal STAAR math resources are there for Grade 3?',
     a: 'Three: the Back to School Escape Room (TEKS 3.2A, 3.2C, 3.4A), the Labor Day Math Escape Room (TEKS 3.4K, 3.4G, 3.5A), and the Hispanic Heritage Scavenger Hunt (TEKS 3.4A, 3.4F, 3.5E).',
   },
   {
     q: 'Are these printable or digital?',
-    a: 'All seven are Google Slides plus a printable PDF.',
+    a: 'All seven escape rooms and scavenger hunts are Google Slides plus a printable PDF. The Grade 4 Holiday Bundle packages three of them (Halloween, Thanksgiving, and Christmas) in one listing.',
   },
   {
     q: 'How long does each one take?',
@@ -63,7 +68,7 @@ const faqs = [
   },
   {
     q: 'Can I run one as a live game show?',
-    a: 'The Thanksgiving Escape Room includes a live game bonus on play.teach4texas.com. The access code is in its Start Here PDF.',
+    a: 'The Thanksgiving Escape Room includes a live game bonus on play.teach4texas.com. The access code is in its Start Here PDF, which is also in the Grade 4 Holiday Bundle.',
   },
 ];
 
@@ -93,7 +98,7 @@ const itemListLd = {
 
 <BaseLayout
   title="Seasonal STAAR Math Escape Rooms, Grades 3–4"
-  description="Holiday math that still practices STAAR: Back to School, Labor Day, Hispanic Heritage Month, Halloween, Thanksgiving, and Christmas escape rooms and scavenger hunts for Texas Grades 3–4, by TEKS."
+  description="Holiday math that still practices STAAR: Back to School, Labor Day, Hispanic Heritage Month, Halloween, Thanksgiving, and Christmas escape rooms and scavenger hunts for Texas Grades 3–4, by TEKS, plus a Grade 4 holiday bundle."
   image="/images/covers/tpt-17850252-cover-a5937c03.jpg"
 >
   <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />

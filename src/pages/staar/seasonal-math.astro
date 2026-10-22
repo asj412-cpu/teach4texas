@@ -9,14 +9,14 @@ const PAGE_URL = `${SITE}/staar/seasonal-math`;
 
 // Only verified-LIVE catalog IDs (TPT Operator, 2026-10-15). Card images are the
 // live TPT cover previews for each listing (downloaded from ecdn.teacherspayteachers.com).
-type Card = { id: string; month: string; post?: string; liveGame?: boolean };
+type Card = { id: string; month: string; post?: string; liveGame?: boolean; liveGameLabel?: string };
 const months: { name: string; cards: Card[] }[] = [
   { name: 'August', cards: [{ id: '17506345', month: 'August' }, { id: '17516930', month: 'August' }] },
   { name: 'September', cards: [{ id: '17517520', month: 'September' }, { id: '17547396', month: 'September', post: '/blog/grade-3-hispanic-heritage-staar-math-scavenger' }] },
   { name: 'October', cards: [{ id: '17812227', month: 'October', post: '/blog/halloween-grade-4-staar-math-escape-room' }] },
   { name: 'November', cards: [{ id: '17850252', month: 'November', post: '/blog/thanksgiving-grade-4-staar-math-escape-room', liveGame: true }] },
   { name: 'December', cards: [{ id: '18020793', month: 'December', post: '/blog/christmas-grade-4-staar-math-escape-room' }] },
-  { name: 'Grade 4 Holiday Bundle: October to December', cards: [{ id: '18041613', month: 'October to December', liveGame: true }] },
+  { name: 'Grade 4 Holiday Bundle: October to December', cards: [{ id: '18041613', month: 'October to December', liveGame: true, liveGameLabel: "Play the Thanksgiving room's live game bonus" }] },
 ];
 
 const byId = new Map(TPT_LISTINGS.map((l) => [l.id, l]));
@@ -131,7 +131,11 @@ const itemListLd = {
                 <h3 class="text-lg font-bold text-[#14244B]">{c.listing.title}</h3>
                 <p class="text-gray-600 text-base">{c.listing.description}</p>
                 <div class="mt-auto flex flex-wrap gap-3 text-base font-semibold">
-                  <a href={c.listing.href} target="_blank" rel="noopener" class="text-[#B95321]">{c.listing.price} on TPT &rarr;</a>
+                  {c.listing.originalPrice && c.listing.originalPrice !== c.listing.price ? (
+                    <a href={c.listing.href} target="_blank" rel="noopener" class="text-[#B95321]"><span class="text-gray-600 line-through mr-2">{c.listing.originalPrice}</span>{c.listing.price} on TPT &rarr;</a>
+                  ) : (
+                    <a href={c.listing.href} target="_blank" rel="noopener" class="text-[#B95321]">{c.listing.price} on TPT &rarr;</a>
+                  )}
                   <a
                     href={c.pinHref}
                     target="_blank"
@@ -140,7 +144,7 @@ const itemListLd = {
                     class="text-[#B8001C]"
                   >Pin It</a>
                   {c.liveGame && (
-                    <a href={PLAY_URL} target="_blank" rel="noopener" class="text-[#14244B]">Play the live game bonus</a>
+                    <a href={PLAY_URL} target="_blank" rel="noopener" class="text-[#14244B]">{c.liveGameLabel ?? 'Play the live game bonus'}</a>
                   )}
                   {c.post && <a href={c.post} class="text-gray-600 underline">Read the teacher guide</a>}
                 </div>

@@ -146,6 +146,7 @@ export const TPT_LISTINGS: TptListing[] = [
     description:
       'Grade 4 STAAR math bundle of three escape rooms: Halloween (TEKS 4.4D, 4.4E, 4.5A), Thanksgiving (TEKS 4.3E, 4.4H, 4.8C), and Christmas (TEKS 4.3D, 4.5D, 4.9A). 20 STAAR 2.0-style items per room, 60 in all. Self-checking Cadet Corps Google Slides + printable missions. Bought one at a time the three rooms are $14.97.',
     price: '$11.99',
+    originalPrice: '$14.97',
     category: 'vault',
     featured: true,
   },

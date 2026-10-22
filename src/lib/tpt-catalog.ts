@@ -251,7 +251,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '17478715',
     href: `${TPT}/Number-Vault-K-Math-Escape-Room-TEKS-K2I-K3A-K2G-17478715`,
-    image: '/images/escape-rooms/tpt-17478715-cover.jpg',
+    image: '/images/covers/tpt-17478715-cover-b4c7d7ac.jpg',
     title: 'Number Vault K Math Escape Room | TEKS K.2I K.3A K.2G',
     description:
       'Kindergarten math escape room. Word problems, pictures and tables of sets, and Select TWO. Kindergarten math, not STAAR.',

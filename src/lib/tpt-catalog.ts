@@ -410,7 +410,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '15609323',
     href: `${TPT}/STAAR-Math-Task-Cards-Grade-4-32-TEKS-Aligned-Questions-with-Visuals-15609323`,
-    image: '/images/escape-rooms/tpt-15609323-cover.jpg',
+    image: '/images/covers/tpt-15609323-cover-ab7c6039.jpg',
     title: 'STAAR Math Task Cards Grade 4 | 32 TEKS-Aligned Questions with Visuals',
     description:
       '32 Grade 4 math task cards covering TEKS 4.2–4.9 with STAAR 2.0-style items. About half include visual aids.',

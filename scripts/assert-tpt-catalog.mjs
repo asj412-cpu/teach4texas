@@ -51,7 +51,7 @@ const ids = [...catalog.matchAll(/id:\s*'(\d+)'/g)].map((m) => m[1]);
 const uniqueHrefs = new Set(hrefs);
 const uniqueIds = new Set(ids);
 
-if (hrefs.length !== 47) failures.push(`Expected exactly 47 live TPT hrefs, found ${hrefs.length}`);
+if (hrefs.length !== 48) failures.push(`Expected exactly 48 live TPT hrefs, found ${hrefs.length}`);
 if (uniqueHrefs.size !== hrefs.length) failures.push('Duplicate TPT hrefs in catalog');
 if (uniqueIds.size !== ids.length) failures.push('Duplicate TPT ids in catalog');
 if (hrefs.some((h) => !h.includes('/Product/'))) failures.push('Catalog href is not a product URL');
@@ -67,6 +67,7 @@ const requiredIds = [
   '17812227', // Halloween Escape Room Grade 4 STAAR Math TEKS 4.4D 4.4E 4.5A
   '17850252', // Thanksgiving Escape Room Grade 4 STAAR Math TEKS 4.3E 4.4H 4.8C
   '18020793', // Christmas Escape Room Grade 4 STAAR Math (Compare Fractions, Area, Data)
+  '18041613', // Holiday Escape Room Bundle Grade 4 STAAR Math (17812227 + 17850252 + 18020793)
   '17547396', // Hispanic Heritage Month Scavenger Hunt Grade 3 STAAR Math
   '17538014', // Crack the Code Math Mystery Grade 3 STAAR Math
   '17517520', // Labor Day Escape Room Grade 3 STAAR Math

@@ -139,6 +139,18 @@ export const TPT_LISTINGS: TptListing[] = [
     featured: true,
   },
   {
+    id: '18041613',
+    href: `${TPT}/Holiday-Escape-Room-Bundle-Grade-4-STAAR-Math-Halloween-Thanksgiving-Christmas-18041613`,
+    image: '/images/covers/tpt-18041613-cover-a7d7e9b6.jpg',
+    title: 'Holiday Escape Room Bundle Grade 4 STAAR Math | Halloween Thanksgiving Christmas',
+    description:
+      'Grade 4 STAAR math bundle of three escape rooms: Halloween (TEKS 4.4D, 4.4E, 4.5A), Thanksgiving (TEKS 4.3E, 4.4H, 4.8C), and Christmas (TEKS 4.3D, 4.5D, 4.9A). 20 STAAR 2.0-style items per room, 60 in all. Self-checking Cadet Corps Google Slides + printable missions. Bought one at a time the three rooms are $14.97.',
+    price: '$11.99',
+    originalPrice: '$14.97',
+    category: 'vault',
+    featured: true,
+  },
+  {
     id: '17547396',
     href: `${TPT}/Hispanic-Heritage-Scavenger-Hunt-Grade-3-STAAR-Math-TEKS-34A-34F-35E-17547396`,
     image: '/images/covers/tpt-17547396-cover-c1a0f2bb.jpg',

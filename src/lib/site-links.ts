@@ -80,6 +80,10 @@ export const TPT_PRODUCTS = {
     href: 'https://www.teacherspayteachers.com/Product/Thanksgiving-Escape-Room-Grade-4-STAAR-Math-TEKS-43E-44H-48C-17850252',
     label: 'Thanksgiving Escape Room Grade 4 STAAR Math',
   },
+  christmasEscapeG4: {
+    href: 'https://www.teacherspayteachers.com/Product/Christmas-Escape-Room-Grade-4-STAAR-Math-Compare-Fractions-Area-Data-18020793',
+    label: 'Christmas Escape Room Grade 4 STAAR Math',
+  },
   mathGameShowG3: {
     href: 'https://www.teacherspayteachers.com/Product/STAAR-Math-Game-Show-Grade-3-TEKS-Review-Live-Classroom-No-Prep-17470369',
     label: 'STAAR Math Game Show Grade 3 TEKS Review',
@@ -122,6 +126,9 @@ export function tptPacksForSlug(slug: string): TptPack[] {
   }
   if (slug === 'thanksgiving-grade-4-staar-math-escape-room') {
     return [TPT_PRODUCTS.thanksgivingEscapeG4];
+  }
+  if (slug === 'christmas-grade-4-staar-math-escape-room') {
+    return [TPT_PRODUCTS.christmasEscapeG4];
   }
   if (slug === 'staar-math-game-show-grade-3-teks-review') {
     return [TPT_PRODUCTS.mathGameShowG3];

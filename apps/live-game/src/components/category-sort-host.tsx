@@ -121,7 +121,7 @@ export function CategorySortHost({
                 {category.categories.map((bin) => (
                   <div
                     key={bin.id}
-                    className="rounded-xl border-2 border-t4t-gold/60 bg-black/55 px-2 py-2 text-center text-base font-bold"
+                    className="rounded-xl border-2 border-t4t-gold/60 bg-black/55 px-2 py-2 text-center text-2xl font-bold break-words"
                   >
                     {bin.label}
                   </div>

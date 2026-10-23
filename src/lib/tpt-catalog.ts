@@ -164,7 +164,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '17547135',
     href: `${TPT}/Brain-Teasers-Math-Logic-Lab-Grade-3-Money-Rounding-Compare-TEKS-34C-34B-32D-17547135`,
-    image: '/images/covers/tpt-17547135-cover-06106596.jpg',
+    image: '/images/covers/tpt-17547135-cover-e4c6c4e7.jpg',
     title: 'Brain Teasers Math Logic Lab Grade 3 Money Rounding Compare TEKS 3.4C 3.4B 3.2D',
     description:
       'Grade 3 math logic brain teasers covering money (TEKS 3.4C), rounding (3.4B), and comparing numbers (3.2D).',

@@ -43,7 +43,7 @@ function errMsg(err: unknown): string {
 }
 
 function faultInject(): void {
-  if (process.env.UT_FAULT_INJECT === "1") {
+  if (process.env.VERCEL_ENV !== "production" && process.env.UT_FAULT_INJECT === "1") {
     throw new Error("UT_FAULT_INJECT");
   }
 }

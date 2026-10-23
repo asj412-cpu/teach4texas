@@ -273,11 +273,11 @@ export function TugOfWarHost({
                         correct ? "border-white bg-[#047857]" : "border-white/30 bg-[#13294b]"
                       }`}
                     >
-                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-yellow-300 text-xl font-black text-[#0b1630]">
+                      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-yellow-300 text-2xl font-black text-[#0b1630]">
                         {LETTERS[i]}
                       </span>
                       <span>{c}</span>
-                      {correct && <span className="ml-auto text-xl font-black">✓</span>}
+                      {correct && <span className="ml-auto text-2xl font-black">✓</span>}
                     </div>
                   );
                 })}

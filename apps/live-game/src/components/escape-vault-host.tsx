@@ -393,7 +393,7 @@ export function EscapeVaultHost({
                       <div
                         key={c.id}
                         data-revealed-correct={isKey ? "true" : undefined}
-                        className={`ev-glass gs-rise rounded-2xl px-4 py-3 text-lg font-bold ${
+                        className={`ev-glass gs-rise rounded-2xl px-4 py-3 text-2xl font-bold ${
                           isKey
                             ? "gs-correct"
                             : vault.revealed_choice_id
@@ -401,7 +401,7 @@ export function EscapeVaultHost({
                               : ""
                         }`}
                       >
-                        <span className="mr-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-amber-300 font-black text-t4t-navy">{c.id}</span>
+                        <span className="mr-2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-amber-300 font-black text-t4t-navy">{c.id}</span>
                         {c.label}
                         {isKey ? (
                           <span className="ml-2 font-black text-white">✓ Answer</span>

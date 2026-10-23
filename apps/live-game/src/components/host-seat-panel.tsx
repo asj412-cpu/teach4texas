@@ -57,7 +57,7 @@ export function HostSeatPanel({
       <div className="mt-4 rounded-xl border border-t4t-gold/40 bg-black/25 p-3">
         {scoreLine}
         {seat.answered ? (
-          <p className="text-base text-white/80">Answer locked in.</p>
+          <p className="text-2xl text-white/80">Answer locked in.</p>
         ) : (
           <div className="grid gap-2 sm:grid-cols-2">
             {cell.choices.map((c, i) => (
@@ -66,7 +66,7 @@ export function HostSeatPanel({
                 type="button"
                 disabled={busy}
                 onClick={() => act({ type: "host_answer", choice_index: i })}
-                className="rounded-lg border border-white/30 bg-white/10 px-3 py-2 text-left text-base font-semibold text-white hover:bg-t4t-gold hover:text-t4t-navy disabled:opacity-60"
+                className="rounded-lg border border-white/30 bg-white/10 px-3 py-2 text-left text-2xl font-semibold text-white hover:bg-t4t-gold hover:text-t4t-navy disabled:opacity-60"
               >
                 <span className="mr-1 text-t4t-gold">
                   {String.fromCharCode(65 + i)}.
@@ -85,14 +85,14 @@ export function HostSeatPanel({
     return (
       <div className="mt-4 rounded-xl border border-t4t-gold/40 bg-black/25 p-3">
         {scoreLine}
-        <p className="mb-2 text-base text-white/90">
+        <p className="mb-2 text-2xl text-white/90">
           Tap cards · {match.pairs_found}/{match.pair_total} pairs · moves{" "}
           {match.moves}
         </p>
         <button
           type="button"
           onClick={() => setShowMine((v) => !v)}
-          className="mb-2 rounded-lg border border-white/40 px-3 py-1 text-base font-semibold text-white"
+          className="mb-2 rounded-lg border border-white/40 px-3 py-1 text-2xl font-semibold text-white"
         >
           {showMine ? "Hide my cards" : "Show my cards (students can see the projector)"}
         </button>
@@ -112,7 +112,7 @@ export function HostSeatPanel({
                 type="button"
                 disabled={disabled}
                 onClick={() => act({ type: "host_flip", card_index: i })}
-                className={`flex aspect-square items-center justify-center rounded-lg border p-1 text-center text-base font-semibold leading-tight sm:text-base ${
+                className={`flex aspect-square items-center justify-center rounded-lg border p-1 text-center text-2xl break-words font-semibold leading-tight ${
                   card.matched
                     ? "border-t4t-green bg-t4t-green/20 text-white"
                     : card.up
@@ -136,7 +136,7 @@ export function HostSeatPanel({
       return (
         <div className="mt-4 rounded-xl border border-t4t-gold/40 bg-black/25 p-3">
           {scoreLine}
-          <p className="text-base text-white/80">
+          <p className="text-2xl text-white/80">
             {race.completed ? "You finished the race." : "Waiting…"}
           </p>
         </div>
@@ -145,7 +145,7 @@ export function HostSeatPanel({
     return (
       <div className="mt-4 rounded-xl border border-t4t-gold/40 bg-black/25 p-3">
         {scoreLine}
-        <p className="mb-2 text-base font-bold text-white">
+        <p className="mb-2 text-2xl font-bold text-white">
           {kidPlainText(race.prompt, 160)}
         </p>
         <div className="flex flex-col gap-2">
@@ -155,7 +155,7 @@ export function HostSeatPanel({
               type="button"
               disabled={busy || !race.can_answer}
               onClick={() => act({ type: "host_race", choice_index: i })}
-              className="rounded-lg border border-white/30 bg-white/10 px-3 py-2 text-left text-base font-semibold text-white hover:bg-t4t-gold hover:text-t4t-navy disabled:opacity-60"
+              className="rounded-lg border border-white/30 bg-white/10 px-3 py-2 text-left text-2xl font-semibold text-white hover:bg-t4t-gold hover:text-t4t-navy disabled:opacity-60"
             >
               <span className="mr-1 text-t4t-gold">
                 {String.fromCharCode(65 + i)}.
@@ -178,7 +178,7 @@ export function HostSeatPanel({
       <div className="mt-4 rounded-xl border border-t4t-gold/40 bg-black/25 p-3">
         {scoreLine}
         {sc.tapped ? (
-          <p className="text-base text-white/80">Locked in — wait for next clue.</p>
+          <p className="text-2xl text-white/80">Locked in — wait for next clue.</p>
         ) : sc.targets ? (
           <div className="grid grid-cols-2 gap-2">
             {sc.targets.map((t) => (
@@ -187,7 +187,7 @@ export function HostSeatPanel({
                 type="button"
                 disabled={busy || !sc.can_tap}
                 onClick={() => act({ type: "host_scavenge", target_id: t.id })}
-                className="min-h-14 rounded-lg border border-white/30 bg-white/10 px-2 py-2 text-base font-semibold text-white hover:bg-t4t-gold hover:text-t4t-navy disabled:opacity-60"
+                className="min-h-14 rounded-lg border border-white/30 bg-white/10 px-2 py-2 text-2xl font-semibold text-white hover:bg-t4t-gold hover:text-t4t-navy disabled:opacity-60"
               >
                 {kidPlainText(t.label, 60)}
               </button>
@@ -217,7 +217,7 @@ export function HostSeatPanel({
       <div className="mt-4 rounded-xl border border-t4t-gold/40 bg-black/25 p-3">
         {scoreLine}
         {sequence.submitted ? (
-          <p className="text-base text-white/80">
+          <p className="text-2xl text-white/80">
             Locked in — wait for next prompt.
           </p>
         ) : (
@@ -226,7 +226,7 @@ export function HostSeatPanel({
               {order.map((step, i) => (
                 <li
                   key={step.id}
-                  className="flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-2 py-2 text-base text-white"
+                  className="flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-2 py-2 text-2xl text-white"
                 >
                   <span className="w-5 text-t4t-gold">{i + 1}</span>
                   <span className="flex-1">{kidPlainText(step.label, 80)}</span>
@@ -234,7 +234,7 @@ export function HostSeatPanel({
                     type="button"
                     disabled={busy || !sequence.can_submit || i === 0}
                     onClick={() => move(i, -1)}
-                    className="rounded bg-t4t-navy px-2 py-0.5 text-base uppercase disabled:opacity-40"
+                    className="rounded bg-t4t-navy px-2 py-0.5 text-2xl uppercase disabled:opacity-40"
                   >
                     Up
                   </button>
@@ -246,7 +246,7 @@ export function HostSeatPanel({
                       i === order.length - 1
                     }
                     onClick={() => move(i, 1)}
-                    className="rounded bg-t4t-navy px-2 py-0.5 text-base uppercase disabled:opacity-40"
+                    className="rounded bg-t4t-navy px-2 py-0.5 text-2xl uppercase disabled:opacity-40"
                   >
                     Down
                   </button>
@@ -260,7 +260,7 @@ export function HostSeatPanel({
                 onClick={() =>
                   act({ type: "host_sort", order: order.map((s) => s.id) })
                 }
-                className="mt-2 w-full rounded-lg bg-t4t-green py-2 text-base font-semibold text-white disabled:opacity-60"
+                className="mt-2 w-full rounded-lg bg-t4t-green py-2 text-2xl font-semibold text-white disabled:opacity-60"
               >
                 Lock in this order
               </button>
@@ -281,7 +281,7 @@ export function HostSeatPanel({
       <div className="mt-4 rounded-xl border border-t4t-gold/40 bg-black/25 p-3">
         {scoreLine}
         {cat.tapped ? (
-          <p className="text-base text-white/80">Locked in — wait for next item.</p>
+          <p className="text-2xl text-white/80">Locked in — wait for next item.</p>
         ) : cat.categories ? (
           <div
             className={`grid gap-2 ${
@@ -294,7 +294,7 @@ export function HostSeatPanel({
                 type="button"
                 disabled={busy || !cat.can_tap}
                 onClick={() => act({ type: "host_bin", category_id: bin.id })}
-                className="min-h-14 rounded-lg border border-white/30 bg-white/10 px-2 py-2 text-base font-semibold text-white hover:bg-t4t-gold hover:text-t4t-navy disabled:opacity-60"
+                className="min-h-14 rounded-lg border border-white/30 bg-white/10 px-2 py-2 text-2xl font-semibold text-white hover:bg-t4t-gold hover:text-t4t-navy disabled:opacity-60"
               >
                 {kidPlainText(bin.label, 60)}
               </button>
@@ -311,7 +311,7 @@ export function HostSeatPanel({
       <div className="mt-4 rounded-xl border border-t4t-gold/40 bg-black/25 p-3">
         {scoreLine}
         {odd.tapped ? (
-          <p className="text-base text-white/80">
+          <p className="text-2xl text-white/80">
             Locked in — wait for next round.
           </p>
         ) : odd.options ? (
@@ -326,7 +326,7 @@ export function HostSeatPanel({
                 type="button"
                 disabled={busy || !odd.can_tap}
                 onClick={() => act({ type: "host_odd", option_id: opt.id })}
-                className="min-h-14 rounded-lg border border-white/30 bg-white/10 px-2 py-2 text-base font-semibold text-white hover:bg-t4t-gold hover:text-t4t-navy disabled:opacity-60"
+                className="min-h-14 rounded-lg border border-white/30 bg-white/10 px-2 py-2 text-2xl font-semibold text-white hover:bg-t4t-gold hover:text-t4t-navy disabled:opacity-60"
               >
                 {kidPlainText(opt.label, 60)}
               </button>
@@ -343,7 +343,7 @@ export function HostSeatPanel({
       <div className="mt-4 rounded-xl border border-t4t-gold/40 bg-black/25 p-3">
         {scoreLine}
         {dash.tapped ? (
-          <p className="text-base text-white/80">
+          <p className="text-2xl text-white/80">
             Locked in — wait for next claim.
           </p>
         ) : (
@@ -352,7 +352,7 @@ export function HostSeatPanel({
               type="button"
               disabled={busy || !dash.can_tap}
               onClick={() => act({ type: "host_claim", answer: true })}
-              className="min-h-14 rounded-lg border border-white/30 bg-white/10 px-2 py-2 text-base font-semibold text-white hover:bg-t4t-gold hover:text-t4t-navy disabled:opacity-60"
+              className="min-h-14 rounded-lg border border-white/30 bg-white/10 px-2 py-2 text-2xl font-semibold text-white hover:bg-t4t-gold hover:text-t4t-navy disabled:opacity-60"
             >
               True
             </button>
@@ -360,7 +360,7 @@ export function HostSeatPanel({
               type="button"
               disabled={busy || !dash.can_tap}
               onClick={() => act({ type: "host_claim", answer: false })}
-              className="min-h-14 rounded-lg border border-white/30 bg-white/10 px-2 py-2 text-base font-semibold text-white hover:bg-t4t-gold hover:text-t4t-navy disabled:opacity-60"
+              className="min-h-14 rounded-lg border border-white/30 bg-white/10 px-2 py-2 text-2xl font-semibold text-white hover:bg-t4t-gold hover:text-t4t-navy disabled:opacity-60"
             >
               False
             </button>
@@ -376,7 +376,7 @@ export function HostSeatPanel({
       <div className="mt-4 rounded-xl border border-amber-400/40 bg-black/25 p-3">
         {scoreLine}
         {vault.answered ? (
-          <p className="text-base text-white/80">
+          <p className="text-2xl text-white/80">
             Locked in — {vault.last_correct ? "correct" : "miss"}.
           </p>
         ) : vault.kind === "mc" && vault.choices ? (
@@ -387,14 +387,14 @@ export function HostSeatPanel({
                 type="button"
                 disabled={busy || !vault.can_answer}
                 onClick={() => act({ type: "host_vault", choice_id: c.id })}
-                className="min-h-12 rounded-lg border border-white/30 bg-white/10 px-2 py-2 text-left text-base font-semibold text-white hover:bg-t4t-gold hover:text-t4t-navy disabled:opacity-60"
+                className="min-h-12 rounded-lg border border-white/30 bg-white/10 px-2 py-2 text-left text-2xl font-semibold text-white hover:bg-t4t-gold hover:text-t4t-navy disabled:opacity-60"
               >
                 <span className="font-mono">{c.id}.</span> {c.label}
               </button>
             ))}
           </div>
         ) : (
-          <p className="text-base text-white/90">Waiting for puzzle…</p>
+          <p className="text-2xl text-white/90">Waiting for puzzle…</p>
         )}
       </div>
     );

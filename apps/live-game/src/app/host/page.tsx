@@ -520,7 +520,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
                       onClick={() =>
                         hostAction({ type: "host_answer", choice_index: i })
                       }
-                      className={`gs-choice w-full bg-[#13294b]/90 backdrop-blur rounded-2xl border-2 px-4 py-4 text-left text-lg font-semibold ${
+                      className={`gs-choice w-full bg-[#13294b]/90 backdrop-blur rounded-2xl border-2 px-4 py-4 text-left text-2xl font-semibold ${
                         view.phase === "reveal" && i === activeCell.correct_index
                           ? "fb-correct"
                           : picked

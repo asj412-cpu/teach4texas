@@ -521,7 +521,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '15601925',
     href: `${TPT}/End-of-Year-Memory-Book-Reflection-Journal-Google-Slides-Grades-3-5-15601925`,
-    image: '/images/covers/tpt-15601925-cover-95d1235e.jpg',
+    image: '/images/covers/tpt-15601925-cover-7f490969.jpg',
     title: 'End of Year Memory Book & Reflection Journal | Google Slides | Grades 3-5',
     description:
       'Memory book pages, academic reflection, writing prompts, and autograph pages for the end of the year.',

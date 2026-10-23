@@ -5,6 +5,7 @@ import type { HostRoomView } from "@/lib/domain/live-room";
 import { kidPlainText } from "@/lib/plain-text";
 import { fmtPull, type TowTeam } from "@/lib/domain/tug-of-war";
 import { TeamPlate, TowArena, TowConfetti } from "@/components/tug-of-war/arena";
+import { HostFeedback } from "@/components/host-feedback";
 import { ensureTowAudio, isTowMuted, playTowSfx, setTowMuted } from "@/components/tug-of-war/audio";
 
 const LETTERS = ["A", "B", "C", "D"];
@@ -176,6 +177,9 @@ export function TugOfWarHost({
             <TowArena position={tow.position} winner={w} />
           </div>
           <Recap tow={tow} />
+          <div className="mx-auto mt-6 flex max-w-lg justify-center">
+            <HostFeedback code={view.code} />
+          </div>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <button
               type="button"

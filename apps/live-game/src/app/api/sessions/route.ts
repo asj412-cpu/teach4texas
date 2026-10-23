@@ -37,6 +37,7 @@ export async function POST(req: NextRequest) {
     const { room, hostToken } = await createLiveRoom({
       board: resolved.board,
       gameType: requestedType,
+      entitlement: resolved.entitlement,
     });
     return NextResponse.json({
       ok: true,

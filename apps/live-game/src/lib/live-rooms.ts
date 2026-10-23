@@ -1,5 +1,6 @@
 import type { GameBoard, GameType } from "@/lib/domain/board";
 import { resolvePlayableGameType } from "@/lib/domain/board";
+import type { HostEntitlement } from "@/lib/domain/access-code";
 import {
   getCell,
   maxWagerFor,
@@ -7,9 +8,11 @@ import {
   HOST_PLAYER_ID,
   type LivePlayer,
   type LiveRoom,
+  type RoomUsage,
   sanitizeForHost,
   sanitizeForPlayer,
 } from "@/lib/domain/live-room";
+import { recordRoomStart, writeAbandoned, writeFinished } from "@/lib/usage";
 import {
   applyCardFlip,
   clearExpiredMismatch,
@@ -193,6 +196,78 @@ function studentPlayerCount(room: LiveRoom): number {
   return Object.keys(room.players).filter((id) => id !== HOST_PLAYER_ID).length;
 }
 
+function ensureUsage(room: LiveRoom): RoomUsage {
+  if (!room.usage) {
+    room.usage = {
+      is_demo: false,
+      board_id: room.board_id,
+      room_start_counted: false,
+      max_players: 0,
+      questions_answered: 0,
+      action_errors: 0,
+      written_final: false,
+    };
+  }
+  return room.usage;
+}
+
+function bumpMaxPlayers(room: LiveRoom) {
+  const u = room.usage;
+  if (!u) return;
+  u.max_players = Math.max(u.max_players ?? 0, studentPlayerCount(room));
+}
+
+function bumpQuestionsAnswered(room: LiveRoom, playerId: string) {
+  if (playerId === HOST_PLAYER_ID) return;
+  const u = room.usage;
+  if (!u) return;
+  u.questions_answered = (u.questions_answered ?? 0) + 1;
+}
+
+function noteGameStart(room: LiveRoom) {
+  const u = ensureUsage(room);
+  u.game_id = generateId("gs");
+  u.game_started_at = new Date().toISOString();
+  u.max_players = studentPlayerCount(room);
+  u.questions_answered = 0;
+  u.action_errors = 0;
+  u.written_final = false;
+  if (!u.room_start_counted) u.room_start_counted = true;
+}
+
+function markFinishedIfNeeded(room: LiveRoom) {
+  if (room.phase !== "final") return;
+  const u = room.usage;
+  if (!u?.game_id || u.written_final) return;
+  u.written_final = true;
+  u.last_finished_game_id = u.game_id;
+}
+
+async function flushUsageAfterSave(
+  room: LiveRoom,
+  prev: { roomStartCounted: boolean; writtenFinal: boolean },
+): Promise<void> {
+  const u = room.usage;
+  if (!u) return;
+  if (u.room_start_counted && !prev.roomStartCounted) {
+    await recordRoomStart(room);
+  }
+  if (u.written_final && !prev.writtenFinal && u.game_id) {
+    await writeFinished(room);
+  }
+}
+
+async function commitRoom(
+  room: LiveRoom,
+  expectedVersion: number,
+  appliedIds: number[],
+  prev: { roomStartCounted: boolean; writtenFinal: boolean },
+): Promise<boolean> {
+  const saved = await saveRoomRecord(room, expectedVersion, appliedIds);
+  if (saved) await flushUsageAfterSave(room, prev);
+  return saved;
+}
+
 function resetRoomToLobby(room: LiveRoom) {
   room.phase = "lobby";
   room.ended_at = null;
@@ -233,6 +308,14 @@ function resetRoomToLobby(room: LiveRoom) {
     p.connected = true;
   }
   ensureHostPlayer(room);
+  if (room.usage) {
+    room.usage.game_id = undefined;
+    room.usage.game_started_at = undefined;
+    room.usage.max_players = 0;
+    room.usage.questions_answered = 0;
+    room.usage.action_errors = 0;
+    room.usage.written_final = false;
+  }
 }
 
 function ensurePlayerDashState(room: LiveRoom, playerId: string) {
@@ -251,6 +334,7 @@ export async function createLiveRoom(opts: {
   board: GameBoard;
   answerSeconds?: number;
   gameType?: string | null;
+  entitlement?: HostEntitlement | null;
 }): Promise<{ room: LiveRoom; hostToken: string }> {
   void purgeIdleRooms();
   const code = randomRoomCode();
@@ -295,6 +379,17 @@ export async function createLiveRoom(opts: {
     lobby_locked: false,
     created_at: new Date().toISOString(),
     ended_at: null,
+    usage: {
+      redemption_event_id: opts.entitlement?.redemption_event_id ?? null,
+      product_code_id: opts.entitlement?.product_code_id ?? null,
+      is_demo: Boolean(opts.entitlement?.is_demo),
+      board_id: opts.entitlement?.board_id ?? opts.board.id,
+      room_start_counted: false,
+      max_players: 0,
+      questions_answered: 0,
+      action_errors: 0,
+      written_final: false,
+    },
   };
   if (gameType === "tug_of_war") room.tow = createTowState();
   ensureHostPlayer(room);
@@ -329,11 +424,16 @@ const ACTION_ERRORS_KEEP = 300;
 function recordActionErrors(room: LiveRoom, results: Map<number, ActionResult>) {
   const errs: Record<string, string> = { ...(room.action_errors ?? {}) };
   let changed = false;
+  let rejected = 0;
   for (const [id, r] of results) {
     if (!r.ok) {
       errs[String(id)] = r.error;
       changed = true;
+      rejected += 1;
     }
+  }
+  if (rejected > 0 && room.usage) {
+    room.usage.action_errors = (room.usage.action_errors ?? 0) + rejected;
   }
   if (!changed) return;
   const keys = Object.keys(errs).sort((a, b) => Number(a) - Number(b));
@@ -355,9 +455,14 @@ export async function withRoom<T>(
       if (!rec) return { kind: "missing" };
       const now = Date.now();
       if (now - rec.updatedAtMs > ROOM_IDLE_TTL_MS || isRoomExpired(rec.room, now)) {
+        await writeAbandoned(rec.room);
         return { kind: "ended" };
       }
       const room = rec.room;
+      const prevUsage = {
+        roomStartCounted: Boolean(room.usage?.room_start_counted),
+        writtenFinal: Boolean(room.usage?.written_final),
+      };
       const results = new Map<number, ActionResult>();
       if (opts.ownId != null && !rec.pending.some((p) => p.id === opts.ownId)) {
         // Someone else folded our action; report its stored outcome.
@@ -376,15 +481,16 @@ export async function withRoom<T>(
       maybeAutoLock(room);
       maybeClearMismatches(room);
       recordActionErrors(room, results);
+      markFinishedIfNeeded(room);
       const value = fn(room, results);
       if (opts.poll) {
         // P2-L1: polls fold in memory for an accurate view but rarely write, so they
         // don't fight tap requests for the version. Writers drain the queue.
         if (rec.pending.length === 0) {
-          if (JSON.stringify(room) !== before) await saveRoomRecord(room, rec.version, []);
+          if (JSON.stringify(room) !== before) await commitRoom(room, rec.version, [], prevUsage);
         } else {
           // Polls drain the queue (one try; losing the version race is harmless).
-          await saveRoomRecord(room, rec.version, rec.pending.map((p) => p.id));
+          await commitRoom(room, rec.version, rec.pending.map((p) => p.id), prevUsage);
         }
         return { kind: "ok", value };
       }
@@ -393,7 +499,7 @@ export async function withRoom<T>(
       // write to the 1 Hz polls, so a 25-student burst costs one round trip per tap.
       if (opts.ownId != null && rec.pending.length > 1) return { kind: "ok", value };
       const ids = rec.pending.map((p) => p.id);
-      if (await saveRoomRecord(room, rec.version, ids)) return { kind: "ok", value };
+      if (await commitRoom(room, rec.version, ids, prevUsage)) return { kind: "ok", value };
       // P2-L1: our action is in the queue and replay is deterministic (ordered by id,
       // each at its queued time), so the in-memory result is the result. Whoever wins
       // the version race folds it identically; don't spin on the version.
@@ -660,6 +766,7 @@ export function joinRoom(
     resume_secret_hash: sha256Hex(resume_secret),
   };
   room.players[player_id] = player;
+  bumpMaxPlayers(room);
   ensureTow(room);
   if (room.game_type === "memory_match" && room.phase === "matching") {
     ensurePlayerMatchState(room, player_id);
@@ -807,6 +914,7 @@ export function applyHostAction(
       } else {
         room.phase = "board";
       }
+      noteGameStart(room);
       return { ok: true };
     }
     case "next_clue": {
@@ -1254,6 +1362,7 @@ export function flipMatchCard(
   if (!state) return { ok: false, error: "NO_MATCH_STATE" };
   const result = applyCardFlip(state, cardIndex);
   if (!result.ok) return result;
+  bumpQuestionsAnswered(room, playerId);
   if (result.points > 0) {
     room.players[playerId]!.score += result.points;
   }
@@ -1282,6 +1391,7 @@ export function submitRaceAnswer(
     endsAt: room.race_ends_at,
   });
   if (!result.ok) return result;
+  bumpQuestionsAnswered(room, playerId);
   if (result.points > 0) {
     room.players[playerId]!.score += result.points;
   }
@@ -1311,6 +1421,7 @@ export function submitScavengerTap(
     scavengerItemsFromBoard(room.board),
   );
   if (!result.ok) return result;
+  bumpQuestionsAnswered(room, playerId);
   if (result.points > 0) {
     room.players[playerId]!.score += result.points;
   }
@@ -1342,6 +1453,7 @@ export function submitSequenceOrder(
     sequenceItemsFromBoard(room.board),
   );
   if (!result.ok) return result;
+  bumpQuestionsAnswered(room, playerId);
   if (result.points > 0) {
     room.players[playerId]!.score += result.points;
   }
@@ -1371,6 +1483,7 @@ export function submitCategoryTap(
     categoryItemsFromBoard(room.board),
   );
   if (!result.ok) return result;
+  bumpQuestionsAnswered(room, playerId);
   if (result.points > 0) {
     room.players[playerId]!.score += result.points;
   }
@@ -1400,6 +1513,7 @@ export function submitOddTap(
     oddItemsFromBoard(room.board),
   );
   if (!result.ok) return result;
+  bumpQuestionsAnswered(room, playerId);
   if (result.points > 0) {
     room.players[playerId]!.score += result.points;
   }
@@ -1433,6 +1547,7 @@ export function submitVaultAnswer(
     vaultRoomsFromBoard(room.board),
   );
   if (!result.ok) return result;
+  bumpQuestionsAnswered(room, playerId);
   if (result.points > 0) {
     room.players[playerId]!.score += result.points;
   }
@@ -1462,6 +1577,7 @@ export function submitDashTap(
     dashItemsFromBoard(room.board),
   );
   if (!result.ok) return result;
+  bumpQuestionsAnswered(room, playerId);
   if (result.points > 0) {
     room.players[playerId]!.score += result.points;
   }
@@ -1502,6 +1618,7 @@ export function submitAnswer(
   // First answer sticks (idempotent)
   if (room.answers[playerId] === undefined) {
     room.answers[playerId] = choiceIndex;
+    bumpQuestionsAnswered(room, playerId);
   }
   return { ok: true };
 }
@@ -1545,6 +1662,7 @@ export function submitTowAnswer(
   ensureTow(room);
   if (room.tow.answers[playerId] === undefined) {
     room.tow.answers[playerId] = choiceIndex;
+    bumpQuestionsAnswered(room, playerId);
   }
   return { ok: true };
 }

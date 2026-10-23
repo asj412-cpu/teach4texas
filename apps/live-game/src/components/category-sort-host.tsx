@@ -99,7 +99,7 @@ export function CategorySortHost({
                 : "Last item"}
           </p>
           {view.phase === "binning" && category?.prompt && (
-            <p className="mt-1 text-center text-base font-semibold text-white/90">
+            <p className="mt-1 text-center text-2xl font-bold text-white/90">
               {category.prompt}
             </p>
           )}

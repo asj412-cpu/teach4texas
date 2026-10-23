@@ -96,6 +96,7 @@ type RedemptionEventRecord = {
   product_code_id: string;
   kind: "demo" | "paid";
   created_at: string;
+  first_room_started_at?: string | null;
 };
 
 type StoreShape = {
@@ -561,6 +562,8 @@ export async function redeemAccessCode(rawCode: string): Promise<RedeemResult> {
   const token = generateOpaqueToken();
   const now = Date.now();
   const expires = new Date(now + ENTITLEMENT_TTL_HOURS * 3600 * 1000);
+  const kind = redemptionKindFromNormalizedCode(normalized);
+  const redemptionEventId = generateId("rde");
   const entitlement: HostEntitlement = HostEntitlementSchema.parse({
     entitlement_id: generateId("ent"),
     board_id: pc.board_id,
@@ -568,6 +571,8 @@ export async function redeemAccessCode(rawCode: string): Promise<RedeemResult> {
     token_hash: sha256Hex(token),
     expires_at: expires.toISOString(),
     created_at: new Date().toISOString(),
+    redemption_event_id: redemptionEventId,
+    is_demo: kind === "demo",
   });
 
   store.entitlements.push(entitlement);
@@ -576,11 +581,12 @@ export async function redeemAccessCode(rawCode: string): Promise<RedeemResult> {
   try {
     if (!store.redemption_events) store.redemption_events = [];
     store.redemption_events.push({
-      id: generateId("rde"),
+      id: redemptionEventId,
       board_id: pc.board_id,
       product_code_id: pc.id,
-      kind: redemptionKindFromNormalizedCode(normalized),
+      kind,
       created_at: new Date().toISOString(),
+      first_room_started_at: null,
     });
   } catch (err) {
     console.error("redeemAccessCode.telemetry:", err);
@@ -613,7 +619,32 @@ export async function resolveEntitlement(
   // Hard isolation: entitlement.board_id is the only allowed board
   if (board.id !== ent.board_id) return null;
 
-  return { board, entitlement: ent };
+  let is_demo = Boolean(ent.is_demo);
+  if (ent.is_demo === undefined && ent.redemption_event_id) {
+    const ev = (store.redemption_events ?? []).find((e) => e.id === ent.redemption_event_id);
+    is_demo = ev?.kind === "demo";
+  }
+
+  return { board, entitlement: { ...ent, is_demo } };
+}
+
+/** File-store backend for ut_record_room_start (sessions_started + first_room_started_at once). */
+export async function recordRoomStartCounters(
+  productCodeId: string | null | undefined,
+  redemptionEventId: string | null | undefined,
+): Promise<void> {
+  const store = await ensureStore();
+  if (productCodeId) {
+    const pc = store.product_codes.find((c) => c.id === productCodeId);
+    if (pc) pc.sessions_started += 1;
+  }
+  if (redemptionEventId) {
+    const ev = (store.redemption_events ?? []).find((e) => e.id === redemptionEventId);
+    if (ev && !ev.first_room_started_at) {
+      ev.first_room_started_at = new Date().toISOString();
+    }
+  }
+  await writeStore(store);
 }
 
 /**

@@ -461,7 +461,7 @@ export function EscapeVaultHost({
         </div>
 
         {view.phase === "final" ? (
-          <HostFinalActions onAction={onAction} />
+          <HostFinalActions onAction={onAction} code={view.code} />
         ) : (
           <HostSeatPanel view={view} onAction={onAction} />
         )}

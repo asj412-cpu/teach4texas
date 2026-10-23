@@ -31,6 +31,10 @@ export const HostEntitlementSchema = z.object({
   token_hash: z.string().length(64),
   expires_at: z.string(),
   created_at: z.string(),
+  /** Links this host cookie to the redeem telemetry row (nullable on old rows). */
+  redemption_event_id: z.string().min(1).nullable().optional(),
+  /** Demo vs paid, captured at redeem time for room usage identity. */
+  is_demo: z.boolean().optional(),
 });
 
 export type HostEntitlement = z.infer<typeof HostEntitlementSchema>;

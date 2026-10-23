@@ -123,9 +123,27 @@ export type HostSeatView = {
   vault: PlayerVaultView | null;
 };
 
+/** Per-room usage identity + in-game counters. Optional so older stored rooms still load. */
+export type RoomUsage = {
+  redemption_event_id?: string | null;
+  product_code_id?: string | null;
+  is_demo: boolean;
+  board_id: string;
+  room_start_counted: boolean;
+  game_id?: string;
+  game_started_at?: string;
+  max_players: number;
+  questions_answered: number;
+  action_errors: number;
+  written_final: boolean;
+  last_finished_game_id?: string;
+};
+
 export type LiveRoom = {
   code: string;
   board_id: string;
+  /** Privacy-safe usage counters; omitted on rooms created before usage tracking. */
+  usage?: RoomUsage;
   /** P2-1: errors for queued actions folded by another request (id → error). Server-only. */
   action_errors?: Record<string, string>;
   /** Full board — host only; never send raw to students. */

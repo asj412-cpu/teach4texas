@@ -1,5 +1,6 @@
 import type { LiveRoom } from "@/lib/domain/live-room";
 import { getServiceSupabase, isSupabaseConfigured } from "@/lib/supabase-admin";
+import { writeAbandoned } from "@/lib/usage";
 
 /**
  * Shared live-room persistence (LG-ROOM-STORE).
@@ -10,7 +11,13 @@ import { getServiceSupabase, isSupabaseConfigured } from "@/lib/supabase-admin";
  */
 
 /** Rooms untouched for this long are treated as ended and purged. */
-export const ROOM_IDLE_TTL_MS = 6 * 60 * 60 * 1000;
+/** Test-only override (UT-04 QA), ignored in production. */
+const TEST_IDLE_TTL_MS =
+  process.env.VERCEL_ENV !== "production" && process.env.UT_TEST_IDLE_TTL_MS
+    ? Number(process.env.UT_TEST_IDLE_TTL_MS)
+    : NaN;
+export const ROOM_IDLE_TTL_MS =
+  Number.isFinite(TEST_IDLE_TTL_MS) && TEST_IDLE_TTL_MS > 0 ? TEST_IDLE_TTL_MS : 6 * 60 * 60 * 1000;
 
 export type PendingAction = { id: number; action: unknown };
 
@@ -191,14 +198,38 @@ export async function purgeIdleRooms(): Promise<void> {
   try {
     if (!isSupabaseConfigured()) {
       for (const [code, row] of mem()) {
-        if (row.updatedAtMs < cutoff) mem().delete(code);
+        if (row.updatedAtMs < cutoff) {
+          try {
+            const room = JSON.parse(row.state) as LiveRoom;
+            await writeAbandoned(room);
+          } catch (err) {
+            console.error("purgeIdleRooms.abandon:", err);
+          }
+          mem().delete(code);
+        }
       }
       return;
+    }
+    const cutoffIso = new Date(cutoff).toISOString();
+    const sel = await getServiceSupabase()
+      .from("live_rooms")
+      .select("state")
+      .lt("updated_at", cutoffIso);
+    if (sel.error) {
+      console.error("purgeIdleRooms:", sel.error.message);
+    } else {
+      for (const row of sel.data ?? []) {
+        try {
+          await writeAbandoned((row as { state: LiveRoom }).state);
+        } catch (err) {
+          console.error("purgeIdleRooms.abandon:", err);
+        }
+      }
     }
     const res = await getServiceSupabase()
       .from("live_rooms")
       .delete()
-      .lt("updated_at", new Date(cutoff).toISOString());
+      .lt("updated_at", cutoffIso);
     if (res.error) console.error("purgeIdleRooms:", res.error.message);
   } catch (err) {
     console.error("purgeIdleRooms:", err);

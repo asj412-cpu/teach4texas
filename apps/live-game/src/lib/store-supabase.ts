@@ -143,6 +143,7 @@ type EntitlementRow = {
   token_hash: string;
   expires_at: string;
   created_at: string;
+  redemption_event_id?: string | null;
 };
 
 function iso(value: string): string {
@@ -284,6 +285,7 @@ function entitlementFromRow(row: EntitlementRow): HostEntitlement {
     token_hash: hashHex(row.token_hash),
     expires_at: iso(row.expires_at),
     created_at: iso(row.created_at),
+    redemption_event_id: row.redemption_event_id ?? null,
   });
 }
 
@@ -475,6 +477,8 @@ export async function redeemAccessCode(rawCode: string): Promise<RedeemResult> {
   const token = generateOpaqueToken();
   const now = Date.now();
   const expires = new Date(now + ENTITLEMENT_TTL_HOURS * 3600 * 1000);
+  const kind = redemptionKindFromNormalizedCode(normalized);
+  const redemptionEventId = generateId("rde");
   const entitlement = HostEntitlementSchema.parse({
     entitlement_id: generateId("ent"),
     board_id: pc.board_id,
@@ -482,6 +486,8 @@ export async function redeemAccessCode(rawCode: string): Promise<RedeemResult> {
     token_hash: sha256Hex(token),
     expires_at: expires.toISOString(),
     created_at: new Date().toISOString(),
+    redemption_event_id: redemptionEventId,
+    is_demo: kind === "demo",
   });
 
   const ins = await sb.from("entitlements").insert({
@@ -491,14 +497,14 @@ export async function redeemAccessCode(rawCode: string): Promise<RedeemResult> {
     token_hash: entitlement.token_hash,
     expires_at: entitlement.expires_at,
     created_at: entitlement.created_at,
+    redemption_event_id: redemptionEventId,
   });
   throwIfError(ins.error, "redeemAccessCode.insert");
 
   // Money-pulse telemetry: do not fail redeem if insert fails.
   try {
-    const kind = redemptionKindFromNormalizedCode(normalized);
     const tel = await sb.from("redemption_events").insert({
-      id: generateId("rde"),
+      id: redemptionEventId,
       board_id: pc.board_id,
       product_code_id: pc.id,
       kind,
@@ -543,7 +549,26 @@ export async function resolveEntitlement(
   const board = boardFromRow(boardRes.data as BoardRow);
   if (board.status !== "ready") return null;
   if (board.id !== ent.board_id) return null;
-  return { board, entitlement: ent };
+
+  let is_demo = Boolean(ent.is_demo);
+  if (ent.redemption_event_id) {
+    try {
+      const ev = await sb
+        .from("redemption_events")
+        .select("kind")
+        .eq("id", ent.redemption_event_id)
+        .maybeSingle();
+      if (ev.error) {
+        console.error("resolveEntitlement.redemption:", ev.error.message);
+      } else if (ev.data?.kind === "demo") {
+        is_demo = true;
+      }
+    } catch (err) {
+      console.error("resolveEntitlement.redemption:", err);
+    }
+  }
+
+  return { board, entitlement: { ...ent, is_demo } };
 }
 
 export async function ensureDemoAccessCode(

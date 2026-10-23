@@ -43,3 +43,6 @@ next-env.d.ts
 
 # TPT packets may contain live product access codes — do not commit
 tpt-packets/
+
+# Runtime file-store (usage tracking + local store.json)
+data/*.json

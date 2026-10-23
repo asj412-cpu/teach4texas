@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import type { HostRoomView } from "@/lib/domain/live-room";
 import { kidPlainText } from "@/lib/plain-text";
+import { HostFeedback } from "@/components/host-feedback";
 
 /**
  * Teacher playable seat on the host screen. Submits via hostAction as player "host".
@@ -413,25 +414,30 @@ export function HostSeatPanel({
 
 export function HostFinalActions({
   onAction,
+  code,
 }: {
   onAction: (body: Record<string, unknown>) => void;
+  code?: string;
 }) {
   return (
-    <div className="mx-auto mt-10 flex max-w-md flex-col gap-3 sm:flex-row sm:justify-center">
-      <button
-        type="button"
-        onClick={() => onAction({ type: "play_again" })}
-        className="rounded-xl bg-amber-300 px-5 py-3 text-base font-bold text-t4t-navy"
-      >
-        Play again
-      </button>
-      <button
-        type="button"
-        onClick={() => onAction({ type: "return_to_game" })}
-        className="rounded-xl border border-white/50 px-5 py-3 text-base font-semibold text-white"
-      >
-        Return to game
-      </button>
+    <div className="mx-auto mt-10 flex max-w-lg flex-col items-center gap-6">
+      <HostFeedback code={code} />
+      <div className="flex w-full max-w-md flex-col gap-3 sm:flex-row sm:justify-center">
+        <button
+          type="button"
+          onClick={() => onAction({ type: "play_again" })}
+          className="rounded-xl bg-amber-300 px-5 py-3 text-base font-bold text-t4t-navy"
+        >
+          Play again
+        </button>
+        <button
+          type="button"
+          onClick={() => onAction({ type: "return_to_game" })}
+          className="rounded-xl border border-white/50 px-5 py-3 text-base font-semibold text-white"
+        >
+          Return to game
+        </button>
+      </div>
     </div>
   );
 }

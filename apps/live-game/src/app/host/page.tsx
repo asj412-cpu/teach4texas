@@ -421,7 +421,12 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
   }
 
   if (view.phase === "final") {
-    return <Finale players={view.players} footer={<HostFinalActions onAction={hostAction} />} />;
+    return (
+      <Finale
+        players={view.players}
+        footer={<HostFinalActions onAction={hostAction} code={view.code} />}
+      />
+    );
   }
 
   if (view.game_type === "memory_match") {
@@ -671,7 +676,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
           {categories.map((cat) => (
             <div
               key={cat}
-              className="gs-cat rounded-lg px-1 py-3 text-center text-[10px] font-black uppercase leading-tight sm:text-xs"
+              className="gs-cat rounded-lg px-1 py-3 text-center text-xs font-black uppercase leading-tight sm:text-base"
             >
               {cat}
             </div>

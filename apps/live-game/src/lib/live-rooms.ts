@@ -1,3 +1,4 @@
+import { after } from "next/server";
 import type { GameBoard, GameType } from "@/lib/domain/board";
 import { resolvePlayableGameType } from "@/lib/domain/board";
 import type { HostEntitlement } from "@/lib/domain/access-code";
@@ -336,7 +337,12 @@ export async function createLiveRoom(opts: {
   gameType?: string | null;
   entitlement?: HostEntitlement | null;
 }): Promise<{ room: LiveRoom; hostToken: string }> {
-  void purgeIdleRooms();
+  // Serverless: run purge after the response so the lambda is not frozen mid-delete (UT-05).
+  try {
+    after(() => purgeIdleRooms());
+  } catch {
+    void purgeIdleRooms();
+  }
   const code = randomRoomCode();
 
   const hostToken = generateOpaqueToken();

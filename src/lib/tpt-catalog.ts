@@ -240,7 +240,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '17468482',
     href: `${TPT}/Cycle-Vault-Biology-STAAR-EOC-Escape-Room-TEKS-B6A-B6C-B6B-Google-Slides-17468482`,
-    image: '/images/covers/tpt-17468482-cover-d716542c.jpg',
+    image: '/images/covers/tpt-17468482-cover-05323600.jpg',
     title: 'Cycle Vault Biology STAAR EOC Escape Room | TEKS B.6A B.6C B.6B | Google Slides',
     description:
       'Biology STAAR EOC escape room. Cell cycle, mitosis, DNA replication, and how disruption of the cycle relates to cancer.',

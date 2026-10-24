@@ -491,7 +491,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '15602107',
     href: `${TPT}/The-Haunted-Grammar-House-Grammar-Escape-Room-Grades-3-5-Google-Slides-15602107`,
-    image: '/images/covers/tpt-15602107-cover-59c2a0b1.jpg',
+    image: '/images/covers/tpt-15602107-cover-c32658cb.jpg',
     title: 'The Haunted Grammar House | Grammar Escape Room | Grades 3-5 Google Slides',
     description:
       'Grammar escape room for grades 3–5 with three difficulty levels, from capitalization through advanced editing.',

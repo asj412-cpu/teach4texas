@@ -324,7 +324,7 @@ export const TPT_LISTINGS: TptListing[] = [
     image: '/images/covers/tpt-17476508-cover-e231b61b.jpg',
     title: 'History Vault Grade 8 STAAR US History Escape Room | TEKS 8.2A 8.3A 8.4A 8.4C',
     description:
-      'Grade 8 US History STAAR escape room for Colonies through Revolution. STAAR 2.0 multi-select and multipart items.',
+      'Grade 8 US History STAAR escape room for Colonies through Revolution. STAAR 2.0 style, multi-select included.',
     price: '$4.99',
     category: 'vault',
   },

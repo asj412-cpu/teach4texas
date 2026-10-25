@@ -254,7 +254,7 @@ export const TPT_LISTINGS: TptListing[] = [
     image: '/images/covers/tpt-17478715-cover-b4c7d7ac.jpg',
     title: 'Number Vault K Math Escape Room | TEKS K.2I K.3A K.2G',
     description:
-      'Kindergarten math escape room. Word problems, pictures and tables of sets, and Select TWO. Kindergarten math, not STAAR.',
+      'Kindergarten math escape room. Making numbers to 10, joining and separating stories within 10, and comparing sets to 20. Kindergarten math, not STAAR.',
     price: '$4.99',
     category: 'vault',
   },
@@ -264,7 +264,7 @@ export const TPT_LISTINGS: TptListing[] = [
     image: '/images/escape-rooms/tpt-17478343-cover.jpg',
     title: 'Number Vault G1 Math Escape Room | TEKS 1.2B 1.3B 1.5F',
     description:
-      'Grade 1 math escape room. Word problems, tables, Select TWO, number sentences with a letter, and strip diagrams.',
+      'Grade 1 math escape room. Tens and ones to 120, joining, separating and comparing stories within 20, and the unknown number in an equation or strip diagram.',
     price: '$4.99',
     category: 'vault',
   },

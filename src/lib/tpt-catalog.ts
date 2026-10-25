@@ -271,7 +271,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '17477971',
     href: `${TPT}/Number-Vault-G2-Math-Escape-Room-TEKS-22A-24C-27C-17477971`,
-    image: '/images/escape-rooms/tpt-17477971-cover.jpg',
+    image: '/images/covers/tpt-17477971-cover-322bce3d.jpg',
     title: 'Number Vault G2 Math Escape Room | TEKS 2.2A 2.4C 2.7C',
     description:
       'Grade 2 math escape room. Word problems, tables, Select TWO, number sentences with a letter, and strip diagrams.',

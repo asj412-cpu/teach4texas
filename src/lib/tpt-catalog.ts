@@ -321,7 +321,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '17476508',
     href: `${TPT}/History-Vault-Grade-8-STAAR-US-History-Escape-Room-TEKS-82A-83A-84A-84C-17476508`,
-    image: '/images/covers/tpt-17476508-cover-e231b61b.jpg',
+    image: '/images/covers/tpt-17476508-cover-4811ee70.jpg',
     title: 'History Vault Grade 8 STAAR US History Escape Room | TEKS 8.2A 8.3A 8.4A 8.4C',
     description:
       'Grade 8 US History STAAR escape room for Colonies through Revolution. STAAR 2.0 style, multi-select included.',

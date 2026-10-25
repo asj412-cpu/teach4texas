@@ -274,7 +274,7 @@ export const TPT_LISTINGS: TptListing[] = [
     image: '/images/covers/tpt-17477971-cover-322bce3d.jpg',
     title: 'Number Vault G2 Math Escape Room | TEKS 2.2A 2.4C 2.7C',
     description:
-      'Grade 2 math escape room. Word problems, tables, Select TWO, number sentences with a letter, and strip diagrams.',
+      'Grade 2 math escape room. Place value to 1,200, one- and two-step word problems within 1,000, and number sentences and strip diagrams with an unknown.',
     price: '$4.99',
     category: 'vault',
   },

@@ -107,10 +107,10 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '17812227',
     href: `${TPT}/Halloween-Escape-Room-Grade-4-STAAR-Math-TEKS-44D-44E-45A-17812227`,
-    image: '/images/seasonal/tpt-17812227-cover.jpg',
+    image: '/images/covers/tpt-17812227-cover-83320eba.jpg',
     title: 'Halloween Escape Room | Grade 4 STAAR Math | TEKS 4.4D 4.4E 4.5A',
     description:
-      'Grade 4 STAAR math Halloween escape room. Missions for TEKS 4.4D, 4.4E, 4.5A (multiply up to 4×1 and 2×2, divide up to 4-digit by 1-digit, represent multi-step problems with strip diagrams/equations). Self-checking Cadet Corps Google Slides + printable missions. Not a color-by-number worksheet pack.',
+      'Grade 4 STAAR Math Halloween escape room: 4 fall scenes + a Harvest Moon Gate boss, 20 self-checking single-answer items for TEKS 4.4D, 4.4E, 4.5A (multiply up to 4×1 and 2×2, represent quotients with arrays, area models, or equations, multi-step strip diagrams). Cadet Corps Google Slides + printable Student Missions. Kid-safe, not horror.',
     price: '$4.99',
     category: 'vault',
     featured: true,
@@ -321,7 +321,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '17476508',
     href: `${TPT}/History-Vault-Grade-8-STAAR-US-History-Escape-Room-TEKS-82A-83A-84A-84C-17476508`,
-    image: '/images/covers/tpt-17476508-cover-4811ee70.jpg',
+    image: '/images/covers/tpt-17476508-cover-e3ac8684.jpg',
     title: 'History Vault Grade 8 STAAR US History Escape Room | TEKS 8.2A 8.3A 8.4A 8.4C',
     description:
       'Grade 8 US History STAAR escape room for Colonies through Revolution. STAAR 2.0 style with public-domain document lines.',

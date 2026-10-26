@@ -63,10 +63,10 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '17493627',
     href: `${TPT}/STAAR-SCR-Reading-2-pt-Writing-1-pt-Checklists-3-EOC-17493627`,
-    image: '/images/covers/tpt-17493627-cover-a2bd0c99.jpg',
+    image: '/images/covers/tpt-17493627-cover-6a7b3a00.jpg',
     title: 'STAAR SCR Reading 2-pt & Writing 1-pt Checklists | 3-EOC',
     description:
-      'Short constructed-response checklists for Grades 3 through EOC RLA. Reading SCR 0–2 (answer + evidence). Writing SCR 0–1.',
+      'Short constructed-response checklists for Grades 3 through EOC RLA. Reading SCR 0–2 (answer + evidence). Writing SCR 0–1. Google Slides deck + 4 PDFs.',
     price: '$4.99',
     category: 'score-desk',
     featured: true,

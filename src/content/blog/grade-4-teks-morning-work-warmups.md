@@ -54,7 +54,7 @@ Four days a week, four weeks, is an honest first set: **16 days**. Enough to pro
 
 What it is *not*: an escape room, a quiz-show board, Number Vault, or a color-by-code stack with a Texas sticker. The warmup only counts if the TEKS are on the page and the work is mixed Math + RLA.
 
-If you need a September routine that survives attendance and still moves STAAR-season readiness, run one page a day, check with the key, and pull two misses into the math or RLA mini-lesson. That handoff is where morning work stops being babysitting.
+If you need a September routine that survives attendance and still moves STAAR-season readiness, run one sheet a day (Math on the front, Reading and Writing on the back), check with the key, and pull two misses into the math or RLA mini-lesson. That handoff is where morning work stops being babysitting.
 
 ## Closing
 

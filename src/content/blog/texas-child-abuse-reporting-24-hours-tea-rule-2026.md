@@ -69,7 +69,7 @@ TEA may review records, run compliance monitoring, and investigate directly even
 1. Pull up your district's updated reporting policy and note your board's exact window, which will be 24 hours or less ([Texas Register](https://www.sos.state.tx.us/texreg/archive/October232026/Adopted%20Rules/19.EDUCATION.html)).
 2. Report directly to an approved agency; don't wait on an administrator ([Texas Register](https://www.sos.state.tx.us/texreg/archive/October232026/Adopted%20Rules/19.EDUCATION.html)).
 3. Check how you text, message, and use social media with students against your district's new digital-communication safeguards ([Texas Register](https://www.sos.state.tx.us/texreg/archive/October232026/Adopted%20Rules/19.EDUCATION.html)).
-4. Know where your campus's abuse hotline poster hangs. The rule requires one in English and Spanish, with the DFPS Abuse Hotline number and directions to www.txabusehotline.org ([Texas Register](https://www.sos.state.tx.us/texreg/archive/October232026/Adopted%20Rules/19.EDUCATION.html)).
+4. Know where your campus's abuse hotline poster hangs. The rule requires one in English and Spanish, with the DFPS Abuse Hotline number and directions to [www.txabusehotline.org](https://www.txabusehotline.org) ([Texas Register](https://www.sos.state.tx.us/texreg/archive/October232026/Adopted%20Rules/19.EDUCATION.html)).
 5. In an emergency, call 911 ([Texas Register](https://www.sos.state.tx.us/texreg/archive/October232026/Adopted%20Rules/19.EDUCATION.html)).
 
 ## Frequently Asked Questions

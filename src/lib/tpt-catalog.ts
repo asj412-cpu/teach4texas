@@ -218,7 +218,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '17500215',
     href: `${TPT}/Number-Vault-G7-STAAR-Math-Escape-Room-TEKS-73B-74A-74D-711A-17500215`,
-    image: '/images/escape-rooms/tpt-17500215-cover.jpg',
+    image: '/images/covers/tpt-17500215-cover-20ed5256.jpg',
     title: 'Number Vault G7 STAAR Math Escape Room | TEKS 7.3B 7.4A 7.4D 7.11A',
     description:
       'Grade 7 STAAR math escape room. Four missions plus a boss lock: integers, rates, percent, and two-step equations.',

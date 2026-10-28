@@ -261,7 +261,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '17478343',
     href: `${TPT}/Number-Vault-G1-Math-Escape-Room-TEKS-12B-13B-15F-17478343`,
-    image: '/images/escape-rooms/tpt-17478343-cover.jpg',
+    image: '/images/covers/tpt-17478343-cover-5921945a.jpg',
     title: 'Number Vault G1 Math Escape Room | TEKS 1.2B 1.3B 1.5F',
     description:
       'Grade 1 math escape room. Tens and ones to 120, joining, separating and comparing stories within 20, and the unknown number in an equation or strip diagram.',

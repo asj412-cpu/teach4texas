@@ -229,7 +229,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '17468013',
     href: `${TPT}/Archive-Vault-English-I-STAAR-EOC-TEKS-E19C-E19D-E18A-Google-Slides-17468013`,
-    image: '/images/covers/tpt-17468013-cover-278ad978.jpg',
+    image: '/images/covers/tpt-17468013-cover-c1578afa.jpg',
     title: 'Archive Vault English I STAAR EOC | TEKS E1.9C E1.9D E1.8A | Google Slides',
     description:
       'English I STAAR EOC escape room. Revising and editing drafts plus reading items on original literary and informational selections.',

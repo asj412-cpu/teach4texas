@@ -511,7 +511,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '15601830',
     href: `${TPT}/Spring-Writing-Prompts-Grades-3-5-20-TEKS-Prompts-Graphic-Organizers-15601830`,
-    image: '/images/covers/tpt-15601830-cover-334ec37a.jpg',
+    image: '/images/covers/tpt-15601830-cover-66fa846c.jpg',
     title: 'Spring Writing Prompts Grades 3-5 | 20 TEKS Prompts + Graphic Organizers',
     description:
       '20 spring writing prompts for grades 3–5, each with a prompt page, graphic organizer, and lined writing page.',

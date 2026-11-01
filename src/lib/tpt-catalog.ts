@@ -27,6 +27,31 @@ const TPT = 'https://www.teacherspayteachers.com/Product';
  * Prices are the listed TPT prices (no sitewide promo-code markdown).
  */
 export const TPT_LISTINGS: TptListing[] = [
+  // Seasonal feature (2026-11-01 switch): Christmas G4 + Holiday bundle lead the homepage featured CTA.
+  {
+    id: '18020793',
+    href: `${TPT}/Christmas-Escape-Room-Grade-4-STAAR-Math-Compare-Fractions-Area-Data-18020793`,
+    image: '/images/covers/tpt-18020793-cover-297915ed.jpg',
+    pin: 'https://www.pinterest.com/pin/1147503180094957291/',
+    title: 'Christmas Escape Room Grade 4 STAAR Math | Compare Fractions, Area, Data',
+    description:
+      'Grade 4 STAAR math Christmas escape room. 20 STAAR 2.0-style items for TEKS 4.3D, 4.5D, 4.9A (compare fractions with different numerators and denominators, perimeter and area of rectangles, frequency tables, dot plots, and stem-and-leaf plots). 4 workshop scenes + Gift Gate boss. Self-checking Cadet Corps Google Slides + printable missions. Not a scavenger hunt.',
+    price: '$4.99',
+    category: 'vault',
+    featured: true,
+  },
+  {
+    id: '18041613',
+    href: `${TPT}/Holiday-Escape-Room-Bundle-Grade-4-STAAR-Math-Halloween-Thanksgiving-Christmas-18041613`,
+    image: '/images/covers/tpt-18041613-cover-a7d7e9b6.jpg',
+    title: 'Holiday Escape Room Bundle Grade 4 STAAR Math | Halloween Thanksgiving Christmas',
+    description:
+      'Grade 4 STAAR math bundle of three escape rooms: Halloween (TEKS 4.4D, 4.4E, 4.5A), Thanksgiving (TEKS 4.3E, 4.4H, 4.8C), and Christmas (TEKS 4.3D, 4.5D, 4.9A). 20 STAAR 2.0-style items per room, 60 in all. Self-checking Cadet Corps Google Slides + printable missions. Bought one at a time the three rooms are $14.97.',
+    price: '$11.99',
+    originalPrice: '$14.97',
+    category: 'vault',
+    featured: true,
+  },
   {
     id: '17493794',
     href: `${TPT}/FREE-Score-Desk-Companion-STAAR-Click-Score-One-Pager-17493794`,
@@ -113,7 +138,6 @@ export const TPT_LISTINGS: TptListing[] = [
       'Grade 4 STAAR Math Halloween escape room: 4 fall scenes + a Harvest Moon Gate boss, 20 self-checking single-answer items for TEKS 4.4D, 4.4E, 4.5A (multiply up to 4×1 and 2×2, represent quotients with arrays, area models, or equations, multi-step strip diagrams). Cadet Corps Google Slides + printable Student Missions. Kid-safe, not horror.',
     price: '$4.99',
     category: 'vault',
-    featured: true,
   },
   {
     id: '17850252',
@@ -123,30 +147,6 @@ export const TPT_LISTINGS: TptListing[] = [
     description:
       'Grade 4 STAAR math Thanksgiving escape room. 20 STAAR 2.0-style word problems for TEKS 4.3E, 4.4H, 4.8C (add/subtract fractions with equal denominators, divide and interpret remainders, measurement problems with time, liquid volume, mass, and money). 4 feast scenes + Gratitude Gate boss. Self-checking Cadet Corps Google Slides + printable missions. Not a bare-facts worksheet.',
     price: '$4.99',
-    category: 'vault',
-    featured: true,
-  },
-  {
-    id: '18020793',
-    href: `${TPT}/Christmas-Escape-Room-Grade-4-STAAR-Math-Compare-Fractions-Area-Data-18020793`,
-    image: '/images/covers/tpt-18020793-cover-297915ed.jpg',
-    pin: 'https://www.pinterest.com/pin/1147503180094957291/',
-    title: 'Christmas Escape Room Grade 4 STAAR Math | Compare Fractions, Area, Data',
-    description:
-      'Grade 4 STAAR math Christmas escape room. 20 STAAR 2.0-style items for TEKS 4.3D, 4.5D, 4.9A (compare fractions with different numerators and denominators, perimeter and area of rectangles, frequency tables, dot plots, and stem-and-leaf plots). 4 workshop scenes + Gift Gate boss. Self-checking Cadet Corps Google Slides + printable missions. Not a scavenger hunt.',
-    price: '$4.99',
-    category: 'vault',
-    featured: true,
-  },
-  {
-    id: '18041613',
-    href: `${TPT}/Holiday-Escape-Room-Bundle-Grade-4-STAAR-Math-Halloween-Thanksgiving-Christmas-18041613`,
-    image: '/images/covers/tpt-18041613-cover-a7d7e9b6.jpg',
-    title: 'Holiday Escape Room Bundle Grade 4 STAAR Math | Halloween Thanksgiving Christmas',
-    description:
-      'Grade 4 STAAR math bundle of three escape rooms: Halloween (TEKS 4.4D, 4.4E, 4.5A), Thanksgiving (TEKS 4.3E, 4.4H, 4.8C), and Christmas (TEKS 4.3D, 4.5D, 4.9A). 20 STAAR 2.0-style items per room, 60 in all. Self-checking Cadet Corps Google Slides + printable missions. Bought one at a time the three rooms are $14.97.',
-    price: '$11.99',
-    originalPrice: '$14.97',
     category: 'vault',
     featured: true,
   },

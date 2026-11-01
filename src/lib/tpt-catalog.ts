@@ -442,6 +442,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '15601955',
     href: `${TPT}/Summer-STAAR-Review-Game-Show-Style-Math-RLA-Grades-3-5-15601955`,
+    image: '/images/covers/tpt-15601955-cover-5a6fc25e.jpg',
     title: 'Summer STAAR Review Game Show Style: Math & RLA (Grades 3-5)',
     description:
       'Interactive game-show-style review covering Math and RLA. Three complete boards (one per grade) with 150 questions.',

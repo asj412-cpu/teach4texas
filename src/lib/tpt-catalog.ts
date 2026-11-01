@@ -372,10 +372,10 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '15602401',
     href: `${TPT}/Student-Growth-Tracker-STAAR-Readiness-Data-Dashboard-Google-Sheets-15602401`,
-    image: '/images/covers/tpt-15602401-cover-1e61f8fb.jpg',
+    image: '/images/covers/tpt-15602401-cover-f99614eb.jpg',
     title: 'Student Growth Tracker | STAAR Readiness Data Dashboard | Google Sheets',
     description:
-      'Google Sheets template that tracks student growth across assessments and flags data for PLC and TIA documentation.',
+      'Google Sheets template that tracks student growth across assessments and flags students for intervention. Useful for PLC meetings and parent conferences.',
     price: '$5.99',
     category: 'classroom',
   },

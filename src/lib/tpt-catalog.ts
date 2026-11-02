@@ -67,7 +67,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '15593331',
     href: `${TPT}/TIA-Quick-Reference-Texas-Teacher-Incentive-Allotment-FREE-2026-27-Guide-15593331`,
-    image: '/images/covers/tpt-15593331-cover-7e9d17b9.jpg',
+    image: '/images/covers/tpt-15593331-cover-361575c3.jpg',
     title: 'TIA Quick Reference | Texas Teacher Incentive Allotment | FREE 2026-27 Guide',
     description:
       'Free printable on TIA designation levels, pay ranges, and next steps — one page for Texas teachers.',
@@ -362,7 +362,7 @@ export const TPT_LISTINGS: TptListing[] = [
   {
     id: '15593390',
     href: `${TPT}/T-TESS-Observation-Prep-Kit-Plan-for-Distinguished-PrePost-Templates-15593390`,
-    image: '/images/covers/tpt-15593390-cover-394bf9fc.jpg',
+    image: '/images/covers/tpt-15593390-cover-ecce139c.jpg',
     title: 'T-TESS Observation Prep Kit | Plan for Distinguished | Pre/Post Templates',
     description:
       'Domain-by-domain Distinguished indicators, pre/post observation templates, evidence log, and self-scoring rubric.',

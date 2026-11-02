@@ -70,7 +70,7 @@ export const TPT_LISTINGS: TptListing[] = [
     image: '/images/covers/tpt-15593331-cover-361575c3.jpg',
     title: 'TIA Quick Reference | Texas Teacher Incentive Allotment | FREE 2026-27 Guide',
     description:
-      'Free printable on TIA designation levels, pay ranges, and next steps — one page for Texas teachers.',
+      'Free 6-slide Google Slides guide: TIA designation levels, 2026-27 allotments, TEA standards, and a teacher-side year plan.',
     price: 'FREE',
     category: 'free',
   },
@@ -365,7 +365,7 @@ export const TPT_LISTINGS: TptListing[] = [
     image: '/images/covers/tpt-15593390-cover-ecce139c.jpg',
     title: 'T-TESS Observation Prep Kit | Plan for Distinguished | Pre/Post Templates',
     description:
-      'Domain-by-domain Distinguished indicators, pre/post observation templates, evidence log, and self-scoring rubric.',
+      'Domain-by-domain planning guides, pre/post observation templates, evidence log, and self-scoring for all 16 dimensions.',
     price: '$6.99',
     category: 'classroom',
   },

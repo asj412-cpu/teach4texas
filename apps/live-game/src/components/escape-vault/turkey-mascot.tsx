@@ -60,7 +60,7 @@ export function TurkeyMascot({
         </svg>
       </div>
       {line && (
-        <div className="relative mb-4 max-w-xs rounded-2xl bg-white px-3 py-2 text-base font-semibold text-t4t-navy shadow">
+        <div className="ev-bubble relative mb-4 max-w-xs rounded-2xl bg-white px-3 py-2 text-base font-semibold text-t4t-navy shadow">
           <span className="absolute -left-2 bottom-3 h-0 w-0 border-y-8 border-r-8 border-y-transparent border-r-white" />
           {line}
         </div>

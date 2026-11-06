@@ -119,7 +119,11 @@ export function EscapeVaultPlay({
             {vault.prompt ?? "Get ready…"}
           </p>
         </div>
-        <VaultLock state={openedInto ? "open" : vault.lock_state} />
+        <VaultLock
+          state={openedInto ? "open" : vault.lock_state}
+          accent={view.skin === "winter" ? "#bae6fd" : "#d4a017"}
+          winter={view.skin === "winter"}
+        />
       </div>
 
       {openedInto && (
@@ -218,7 +222,7 @@ export function EscapeVaultFinal({ view }: { view: PlayerRoomView }) {
     setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   }, []);
   return (
-    <VaultScene>
+    <VaultScene skin={view.skin}>
     {escaped ? <Confetti n={44} /> : null}
     <div className="mx-auto max-w-lg px-4 py-6">
       <p className="ev-glass mx-auto mb-3 w-fit rounded-full px-4 py-1 text-center text-sm font-bold text-white">

@@ -6,10 +6,13 @@ export function VaultLock({
   state,
   accent = "#d4a017",
   reducedMotion = false,
+  winter = false,
 }: {
   state: VaultLockState;
   accent?: string;
   reducedMotion?: boolean;
+  /** Snow cap + ice metal. Classic omits these nodes. */
+  winter?: boolean;
 }) {
   const open = state === "open";
   const ready = state === "ready";
@@ -76,6 +79,19 @@ export function VaultLock({
           <circle cx="60" cy="60" r="10" fill={accent} />
           <circle cx="60" cy="60" r="4" fill="#1a1a1a" />
         </g>
+        {winter && (
+          <g>
+            <path
+              d="M16 48 C28 30 38 38 48 20 C56 34 66 24 78 16 C90 30 98 22 108 44 C92 36 80 48 64 40 C46 50 32 38 16 48 Z"
+              fill="#f8fbff"
+              stroke="#dbeafe"
+              strokeWidth="1.5"
+            />
+            <circle cx="28" cy="36" r="4.5" fill="#ffffff" />
+            <circle cx="72" cy="24" r="5.5" fill="#ffffff" />
+            <circle cx="98" cy="36" r="3.5" fill="#ffffff" />
+          </g>
+        )}
       </svg>
       </div>
       {/* Dark pill so the label reads on cream panels (WCAG AA, ~15:1). */}

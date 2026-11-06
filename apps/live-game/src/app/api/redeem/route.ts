@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { normalizeAccessCode } from "@/lib/domain/access-code";
+import { redemptionKindFromNormalizedCode } from "@/lib/redemption-kind";
 import { redeemAccessCode } from "@/lib/store";
 
 export const dynamic = "force-dynamic";
@@ -38,6 +40,8 @@ export async function POST(req: NextRequest) {
   const res = NextResponse.json({
     ok: true,
     board: result.board,
+    is_demo:
+      redemptionKindFromNormalizedCode(normalizeAccessCode(code)) === "demo",
     // Only the unlocked game — isolation contract
     isolation: {
       mode: "single_game",

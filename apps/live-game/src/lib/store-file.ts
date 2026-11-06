@@ -38,7 +38,10 @@ import {
   sha256Hex,
 } from "@/lib/crypto";
 import { redemptionKindFromNormalizedCode } from "@/lib/redemption-kind";
-import { buildSampleMathGrade3Board } from "@/lib/fixtures/sample-math-grade3";
+import {
+  buildSampleMathGrade3Board,
+  DEMO_BOARD_SAMPLE_CODE,
+} from "@/lib/fixtures/sample-math-grade3";
 import {
   buildSampleMemoryMatchBoard,
   DEMO_MEMORY_MATCH_CODE,
@@ -528,9 +531,12 @@ export type RedeemResult =
  * Teacher never receives a list of other products.
  */
 export async function redeemAccessCode(rawCode: string): Promise<RedeemResult> {
-  // Tug of War demo self-seeds on first redeem (idempotent; demo kind, never a sale).
+  // Demo samples self-seed on first redeem (idempotent; demo kind, never a sale).
   if (normalizeAccessCode(rawCode) === normalizeAccessCode(DEMO_TUG_OF_WAR_CODE)) {
     await ensureTugOfWarSample();
+  }
+  if (normalizeAccessCode(rawCode) === normalizeAccessCode(DEMO_BOARD_SAMPLE_CODE)) {
+    await ensureBoardSample();
   }
   const store = await ensureStore();
   const normalized = normalizeAccessCode(rawCode);
@@ -661,6 +667,7 @@ export {
   DEMO_TRUE_FALSE_DASH_CODE,
   DEMO_ESCAPE_VAULT_CODE,
   DEMO_TUG_OF_WAR_CODE,
+  DEMO_BOARD_SAMPLE_CODE,
 };
 
 export async function ensureDemoAccessCode(
@@ -1285,4 +1292,38 @@ export async function ensureTugOfWarSample(
   store.product_codes.push(record);
   await writeStore(store);
   return { code: DEMO_TUG_OF_WAR_CODE, boardId: board.id, created: true };
+}
+
+const BOARD_SAMPLE_BOARD_ID = "board_sample_math_g3";
+
+/** Seed the existing board-mode sample + known demo access code. Idempotent. No migration. */
+export async function ensureBoardSample(
+  plaintext = DEMO_BOARD_SAMPLE_CODE,
+): Promise<{ code: string; boardId: string; created: boolean }> {
+  const store = await ensureStore();
+  const board =
+    store.boards.find((b) => b.id === BOARD_SAMPLE_BOARD_ID) ??
+    GameBoardSchema.parse(buildSampleMathGrade3Board());
+  if (!store.boards.some((b) => b.id === board.id)) {
+    store.boards.push(board);
+  }
+  const hash = sha256Hex(normalizeAccessCode(plaintext));
+  const existing = store.product_codes.find((c) => c.code_hash === hash);
+  if (existing) {
+    await writeStore(store);
+    return { code: DEMO_BOARD_SAMPLE_CODE, boardId: board.id, created: false };
+  }
+  const record = ProductCodeRecordSchema.parse({
+    id: generateId("pc"),
+    code_hash: hash,
+    board_id: board.id,
+    label: "Local demo / board sample",
+    max_sessions: null,
+    sessions_started: 0,
+    revoked_at: null,
+    created_at: new Date().toISOString(),
+  });
+  store.product_codes.push(record);
+  await writeStore(store);
+  return { code: DEMO_BOARD_SAMPLE_CODE, boardId: board.id, created: true };
 }

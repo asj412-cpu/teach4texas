@@ -10,6 +10,11 @@ export const TOW_COLORS: Record<TowTeam, { fill: string; dark: string; light: st
 
 const ROPE_Y = 292;
 const GROUND_Y = 372;
+/** Outer mascots sit inset so a full bob stays inside the 0–1200 arena. */
+const RED_X = [248, 328, 408];
+const BLUE_X = [792, 872, 952];
+/** Clamp team travel so position ±1 cannot push a mascot through the edge. */
+const TEAM_SHIFT_MAX = 88;
 
 function Mascot({ x, team, delay, flip }: { x: number; team: TowTeam; delay: number; flip: boolean }) {
   const c = TOW_COLORS[team];
@@ -95,29 +100,61 @@ export function TowArena({
   compact?: boolean;
 }) {
   const ropeShift = position * 250;
-  const teamShift = position * 110;
+  const teamShift = Math.max(-TEAM_SHIFT_MAX, Math.min(TEAM_SHIFT_MAX, position * 110));
   const ropeH = 16;
   // Compact uses the same full frame — height follows the viewBox so neither team is cropped.
   void compact;
+  const label = `Rope position ${position > 0 ? "toward Blue Comets" : position < 0 ? "toward Red Rockets" : "at center"}`;
+  return (
+    <>
+      <ArenaSvg idPrefix="tww" tall={false} ropeShift={ropeShift} teamShift={teamShift} ropeH={ropeH} winner={winner} label={label} />
+      <ArenaSvg idPrefix="twt" tall ropeShift={ropeShift} teamShift={teamShift} ropeH={ropeH} winner={winner} label={label} />
+    </>
+  );
+}
+
+function ArenaSvg({
+  idPrefix,
+  tall,
+  ropeShift,
+  teamShift,
+  ropeH,
+  winner,
+  label,
+}: {
+  idPrefix: string;
+  tall: boolean;
+  ropeShift: number;
+  teamShift: number;
+  ropeH: number;
+  winner: TowTeam | "tie" | null;
+  label: string;
+}) {
+  const vbH = tall ? 900 : 420;
+  const vbY = tall ? -240 : 0;
+  const fieldH = tall ? 410 : 170;
+  const grassId = `${idPrefix}-grass`;
+  const glowId = `${idPrefix}-glow`;
+  const braidId = `${idPrefix}-braid`;
   return (
     <svg
-      viewBox="0 0 1200 420"
+      viewBox={`0 ${vbY} 1200 ${vbH}`}
       preserveAspectRatio="xMidYMid meet"
-      className="block w-full h-auto"
-      style={{ aspectRatio: "1200 / 420" }}
+      className={`tw-arena block h-auto w-full max-w-full ${tall ? "tw-arena-tall" : "tw-arena-wide"}`}
+      style={{ aspectRatio: `1200 / ${vbH}` }}
       role="img"
-      aria-label={`Rope position ${position > 0 ? "toward Blue Comets" : position < 0 ? "toward Red Rockets" : "at center"}`}
+      aria-label={label}
     >
       <defs>
-        <linearGradient id="tw-grass" x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id={grassId} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#3f9b4a" />
           <stop offset="1" stopColor="#1f5e2b" />
         </linearGradient>
-        <radialGradient id="tw-glow" cx="0.5" cy="0.5" r="0.5">
+        <radialGradient id={glowId} cx="0.5" cy="0.5" r="0.5">
           <stop offset="0" stopColor="#fffbe6" stopOpacity="1" />
           <stop offset="1" stopColor="#fffbe6" stopOpacity="0" />
         </radialGradient>
-        <pattern id="tw-braid" width="18" height="16" patternUnits="userSpaceOnUse" patternTransform="skewX(-35)">
+        <pattern id={braidId} width="18" height="16" patternUnits="userSpaceOnUse" patternTransform="skewX(-35)">
           <rect width="18" height="16" fill="#d9a35f" />
           <rect width="9" height="16" fill="#b07a3c" />
         </pattern>
@@ -127,7 +164,7 @@ export function TowArena({
         <g key={x}>
           <rect x={x - 4} y={20} width={8} height={120} fill="#334155" />
           <rect x={x - 30} y={8} width={60} height={22} rx={6} fill="#475569" />
-          <circle className="tw-light" style={{ animationDelay: `${i * 0.4}s` }} cx={x} cy={20} r={70} fill="url(#tw-glow)" />
+          <circle className="tw-light" style={{ animationDelay: `${i * 0.4}s` }} cx={x} cy={20} r={70} fill={`url(#${glowId})`} />
         </g>
       ))}
       {/* stands + crowd */}
@@ -136,9 +173,9 @@ export function TowArena({
       <Crowd y={210} seed={4} scale={0.95} />
       <Crowd y={252} seed={7} scale={1.05} />
       {/* field */}
-      <rect x={0} y={250} width={1200} height={170} fill="url(#tw-grass)" />
+      <rect x={0} y={250} width={1200} height={fieldH} fill={`url(#${grassId})`} />
       {[0, 1, 2, 3, 4, 5].map((i) => (
-        <rect key={i} x={i * 200} y={250} width={100} height={170} fill="rgba(255,255,255,0.05)" />
+        <rect key={i} x={i * 200} y={250} width={100} height={fieldH} fill="rgba(255,255,255,0.05)" />
       ))}
       {/* mud pit */}
       <ellipse cx={600} cy={360} rx={120} ry={30} fill="#6b4423" />
@@ -149,16 +186,16 @@ export function TowArena({
       <rect x={597} y={256} width={6} height={160} fill="rgba(255,255,255,0.8)" />
       {/* teams */}
       <g className="tw-team-move" style={{ transform: `translateX(${teamShift}px)` }}>
-        <Mascot x={180} team="red" delay={0} flip={false} />
-        <Mascot x={260} team="red" delay={0.15} flip={false} />
-        <Mascot x={340} team="red" delay={0.3} flip={false} />
-        <Mascot x={835} team="blue" delay={0.1} flip />
-        <Mascot x={915} team="blue" delay={0.25} flip />
-        <Mascot x={995} team="blue" delay={0.4} flip />
+        <Mascot x={RED_X[0]!} team="red" delay={0} flip={false} />
+        <Mascot x={RED_X[1]!} team="red" delay={0.15} flip={false} />
+        <Mascot x={RED_X[2]!} team="red" delay={0.3} flip={false} />
+        <Mascot x={BLUE_X[0]!} team="blue" delay={0.1} flip />
+        <Mascot x={BLUE_X[1]!} team="blue" delay={0.25} flip />
+        <Mascot x={BLUE_X[2]!} team="blue" delay={0.4} flip />
       </g>
       {/* rope + flag */}
       <g className="tw-rope-move" style={{ transform: `translateX(${ropeShift}px)` }}>
-        <rect x={-400} y={ROPE_Y - ropeH / 2} width={2000} height={ropeH} rx={8} fill="url(#tw-braid)" stroke="#6b4423" strokeWidth={3} />
+        <rect x={-400} y={ROPE_Y - ropeH / 2} width={2000} height={ropeH} rx={8} fill={`url(#${braidId})`} stroke="#6b4423" strokeWidth={3} />
         <line x1={600} y1={ROPE_Y} x2={600} y2={ROPE_Y - 70} stroke="#f8fafc" strokeWidth={5} />
         <path className="tw-flag" d={`M 600 ${ROPE_Y - 70} l 52 14 l -52 14 z`} fill="#fde047" stroke="#a16207" strokeWidth={3} />
         <circle cx={600} cy={ROPE_Y} r={13} fill="#fde047" stroke="#a16207" strokeWidth={4} />

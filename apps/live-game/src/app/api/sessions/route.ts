@@ -19,10 +19,12 @@ export async function POST(req: NextRequest) {
   // Optional claimed board_id must match entitlement
   let claimed: string | undefined;
   let requestedType: string | undefined;
+  let requestedSkin: string | undefined;
   try {
     const body = await req.json();
     claimed = body?.board_id;
     requestedType = body?.game_type;
+    requestedSkin = body?.skin;
   } catch {
     // empty body ok
   }
@@ -37,6 +39,7 @@ export async function POST(req: NextRequest) {
     const { room, hostToken } = await createLiveRoom({
       board: resolved.board,
       gameType: requestedType,
+      skin: requestedSkin,
       entitlement: resolved.entitlement,
     });
     return NextResponse.json({

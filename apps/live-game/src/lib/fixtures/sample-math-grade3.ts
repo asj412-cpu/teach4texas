@@ -1,5 +1,8 @@
 import type { GameBoard, QuestionCell } from "@/lib/domain/board";
 
+/** Board-mode game show demo. Resolves in code to the grade 3 sample board. */
+export const DEMO_BOARD_SAMPLE_CODE = "T4T-DEMO-BOARD-SAMPLE01";
+
 function cell(
   category: string,
   points: 100 | 200 | 300 | 400 | 500,

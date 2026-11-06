@@ -335,6 +335,8 @@ export async function createLiveRoom(opts: {
   board: GameBoard;
   answerSeconds?: number;
   gameType?: string | null;
+  /** Escape Vault only. "winter" or anything else → classic. */
+  skin?: string | null;
   entitlement?: HostEntitlement | null;
 }): Promise<{ room: LiveRoom; hostToken: string }> {
   // Serverless: run purge after the response so the lambda is not frozen mid-delete (UT-05).
@@ -352,6 +354,9 @@ export async function createLiveRoom(opts: {
     board_id: opts.board.id,
     board: opts.board,
     game_type: gameType,
+    ...(gameType === "escape_vault"
+      ? { skin: opts.skin === "winter" ? ("winter" as const) : ("classic" as const) }
+      : {}),
     host_token_hash: sha256Hex(hostToken),
     phase: "lobby",
     players: {},
@@ -838,7 +843,8 @@ export type HostAction =
   | { type: "tow_set_rounds"; rounds: number }
   | { type: "tow_next" }
   | { type: "tow_reveal" }
-  | { type: "tow_pause" };
+  | { type: "tow_pause" }
+  | { type: "set_skin"; skin: "classic" | "winter" };
 
 export function applyHostAction(
   room: LiveRoom,
@@ -847,6 +853,13 @@ export function applyHostAction(
   maybeAutoLock(room);
 
   switch (action.type) {
+    case "set_skin": {
+      if (room.game_type !== "escape_vault") {
+        return { ok: false, error: "NOT_ESCAPE_VAULT" };
+      }
+      room.skin = action.skin === "winter" ? "winter" : "classic";
+      return { ok: true };
+    }
     case "start_game": {
       if (room.phase !== "lobby") {
         return { ok: false, error: "ILLEGAL_TRANSITION" };

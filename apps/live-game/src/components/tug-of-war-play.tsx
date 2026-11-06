@@ -163,7 +163,7 @@ export function TugOfWarPlay({
                   })}
                 </div>
                 {tow.stage === "question" && tow.my_choice != null && (
-                  <p className="mt-3 rounded-xl bg-[#13294b] px-4 py-2 text-center text-lg font-bold">Answer locked ✓ — hold the rope!</p>
+                  <p className="mt-3 rounded-xl bg-[#13294b] px-4 py-2 text-center text-xl font-bold">Answer locked ✓ — hold the rope!</p>
                 )}
               </section>
             )}

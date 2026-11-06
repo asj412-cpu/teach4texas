@@ -60,6 +60,8 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
   const [roomCode, setRoomCode] = useState<string | null>(null);
   const [view, setView] = useState<HostRoomView | null>(null);
   const [starting, setStarting] = useState(false);
+  const [isDemo, setIsDemo] = useState(false);
+  const [vaultSkin, setVaultSkin] = useState<"classic" | "winter">("classic");
 
   // Load entitled board
   useEffect(() => {
@@ -75,6 +77,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
           }
           return;
         }
+        if (!cancelled) setIsDemo(Boolean(me.is_demo));
         const boardRes = await fetch(
           `/api/host/board?board_id=${encodeURIComponent(me.board.id)}`,
         );
@@ -142,7 +145,11 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
       const res = await fetch("/api/sessions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ board_id: board.id, game_type: gameType }),
+        body: JSON.stringify({
+          board_id: board.id,
+          game_type: gameType,
+          ...(gameType === "escape_vault" ? { skin: vaultSkin } : {}),
+        }),
       });
       const data = await res.json();
       if (!res.ok || !data.ok) {
@@ -199,7 +206,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
           <h1 className="dd-title dd-title-shimmer text-5xl font-black uppercase">Get ready!</h1>
           </div>
           <p className="gs-glass mt-6 rounded-2xl bg-black/55 px-6 py-4 text-xl font-bold text-white">
-            <span className="mr-2 inline-block animate-spin" aria-hidden>🎲</span>Loading your purchased game…
+            <span className="mr-2 inline-block animate-spin" aria-hidden>🎲</span>{isDemo ? "Loading your game…" : "Loading your purchased game…"}
           </p>
         </div>
       </GameShowStage>
@@ -232,7 +239,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
       <GameShowStage>
       <div className="mx-auto flex min-h-screen max-w-xl flex-col justify-center px-6 py-10">
         <p className="mx-auto w-fit rounded-full bg-[#047857] px-4 py-1 text-base font-black uppercase tracking-widest text-white">
-          ✓ Paid game unlocked
+          {isDemo ? "✓ Demo game unlocked" : "✓ Paid game unlocked"}
         </p>
         <div className="mx-auto mt-3 w-fit max-w-full rounded-3xl bg-black/45 px-6 py-2">
         <h1 className="dd-title dd-title-shimmer text-center text-4xl font-black uppercase sm:text-5xl">
@@ -380,6 +387,39 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
             </button>
           )}
           {supportsEscapeVault(board) && (
+            <div className="rounded-2xl border border-white/30 bg-black/50 p-4">
+              <p className="text-base font-black uppercase tracking-wide text-white">
+                Escape Vault skin
+              </p>
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  aria-pressed={vaultSkin === "classic"}
+                  onClick={() => setVaultSkin("classic")}
+                  className={`rounded-xl px-3 py-3 text-base font-black ${
+                    vaultSkin === "classic"
+                      ? "bg-white text-[#0b2744]"
+                      : "border border-white/70 bg-[#0b2744] text-white"
+                  }`}
+                >
+                  Classic
+                </button>
+                <button
+                  type="button"
+                  aria-pressed={vaultSkin === "winter"}
+                  onClick={() => setVaultSkin("winter")}
+                  className={`rounded-xl px-3 py-3 text-base font-black ${
+                    vaultSkin === "winter"
+                      ? "bg-white text-[#0b2744]"
+                      : "border border-white/70 bg-[#0b2744] text-white"
+                  }`}
+                >
+                  Winter
+                </button>
+              </div>
+            </div>
+          )}
+          {supportsEscapeVault(board) && (
             <button
               type="button"
               disabled={starting}
@@ -492,8 +532,8 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
     return (
       <GameShowStage className="px-4 py-6">
         <CueOn k={`${activeCell.id}-${view.phase}`} kind={view.phase === "reveal" ? "reveal" : "open"} />
-        <div className="mx-auto flex max-w-5xl flex-col gap-6 lg:flex-row">
-          <div key={`${activeCell.id}-${view.phase}`} className="gs-glass gs-rise flex-1 rounded-3xl p-5 sm:p-7">
+        <div className="mx-auto flex min-w-0 max-w-5xl flex-col gap-6 lg:flex-row">
+          <div key={`${activeCell.id}-${view.phase}`} className="gs-glass gs-rise min-w-0 flex-1 rounded-3xl p-5 sm:p-7">
             <p className="text-base font-semibold uppercase text-yellow-200">
               Room {view.code} · {activeCell.category} · {activeCell.points}
             </p>
@@ -546,7 +586,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
               </p>
             )}
           </div>
-          <aside className="gs-glass w-full rounded-3xl p-4 lg:w-72">
+          <aside className="gs-glass w-full min-w-0 max-w-full shrink-0 rounded-3xl p-4 text-base lg:w-72">
             <p className="text-base uppercase text-white">Control dock</p>
             <p className="mt-2 text-base">
               Answers: {view.answer_count} / {view.players.filter((p) => p.player_id !== "host").length}
@@ -589,8 +629,8 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
             </div>
             <ul className="mt-4 max-h-48 space-y-1 overflow-y-auto text-base">
               {view.players.map((p) => (
-                <li key={p.player_id} className="flex justify-between">
-                  <span>{p.display_name}</span>
+                <li key={p.player_id} className="flex min-w-0 justify-between gap-2">
+                  <span className="min-w-0 break-words">{p.display_name}</span>
                   <span className="text-yellow-200">
                     {view.phase === "reveal" &&
                     view.points_awarded[p.player_id] !== undefined
@@ -615,7 +655,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-4">
           <div>
             <p className="text-base font-semibold uppercase text-yellow-200">
-              Live host · paid game only
+              {isDemo ? "Live host · demo game only" : "Live host · paid game only"}
             </p>
             <h1 className="dd-title text-2xl font-black uppercase sm:text-3xl">{view.board.title}</h1>
           </div>

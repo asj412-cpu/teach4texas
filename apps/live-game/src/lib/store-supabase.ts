@@ -48,7 +48,10 @@ import {
   sha256Hex,
 } from "@/lib/crypto";
 import { redemptionKindFromNormalizedCode } from "@/lib/redemption-kind";
-import { buildSampleMathGrade3Board } from "@/lib/fixtures/sample-math-grade3";
+import {
+  buildSampleMathGrade3Board,
+  DEMO_BOARD_SAMPLE_CODE,
+} from "@/lib/fixtures/sample-math-grade3";
 import {
   buildSampleMemoryMatchBoard,
   DEMO_MEMORY_MATCH_CODE,
@@ -110,6 +113,7 @@ export {
   DEMO_TRUE_FALSE_DASH_CODE,
   DEMO_ESCAPE_VAULT_CODE,
   DEMO_TUG_OF_WAR_CODE,
+  DEMO_BOARD_SAMPLE_CODE,
 };
 
 type BoardRow = {
@@ -437,9 +441,12 @@ export type RedeemResult =
 export async function redeemAccessCode(rawCode: string): Promise<RedeemResult> {
   await ensureSampleBoard();
   const normalized = normalizeAccessCode(rawCode);
-  // Tug of War demo self-seeds on first redeem (idempotent; demo kind, never a sale).
+  // Demo samples self-seed on first redeem (idempotent; demo kind, never a sale).
   if (normalized === normalizeAccessCode(DEMO_TUG_OF_WAR_CODE)) {
     await ensureTugOfWarSample();
+  }
+  if (normalized === normalizeAccessCode(DEMO_BOARD_SAMPLE_CODE)) {
+    await ensureBoardSample();
   }
   if (normalized.length < 12) {
     return { ok: false, error: "INVALID_CODE" };
@@ -1099,6 +1106,46 @@ export async function ensureTugOfWarSample(
   });
   throwIfError(ins.error, "ensureTugOfWarSample.insert");
   return { code: DEMO_TUG_OF_WAR_CODE, boardId: board.id, created: true };
+}
+
+/** Seed the existing board-mode sample + known demo access code. Idempotent. No migration. */
+export async function ensureBoardSample(
+  plaintext = DEMO_BOARD_SAMPLE_CODE,
+): Promise<{ code: string; boardId: string; created: boolean }> {
+  const board = await ensureSampleBoard();
+  const hash = sha256Hex(normalizeAccessCode(plaintext));
+  const sb = getServiceSupabase();
+  const existing = await sb
+    .from("product_codes")
+    .select("id")
+    .eq("code_hash", hash)
+    .maybeSingle();
+  throwIfError(existing.error, "ensureBoardSample.lookup");
+  if (existing.data) {
+    return { code: DEMO_BOARD_SAMPLE_CODE, boardId: board.id, created: false };
+  }
+  const record = ProductCodeRecordSchema.parse({
+    id: generateId("pc"),
+    code_hash: hash,
+    board_id: board.id,
+    label: "Local demo / board sample",
+    max_sessions: null,
+    sessions_started: 0,
+    revoked_at: null,
+    created_at: new Date().toISOString(),
+  });
+  const ins = await sb.from("product_codes").insert({
+    id: record.id,
+    code_hash: record.code_hash,
+    board_id: record.board_id,
+    label: record.label ?? null,
+    max_sessions: record.max_sessions,
+    sessions_started: record.sessions_started,
+    revoked_at: record.revoked_at,
+    created_at: record.created_at,
+  });
+  throwIfError(ins.error, "ensureBoardSample.insert");
+  return { code: DEMO_BOARD_SAMPLE_CODE, boardId: board.id, created: true };
 }
 
 async function ensureEscapeVaultBoard(): Promise<GameBoard> {

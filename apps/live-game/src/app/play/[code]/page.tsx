@@ -278,7 +278,7 @@ function PlayPageBody({
   if (view.phase === "lobby" && view.game_type === "escape_vault") {
     // R2 P2-3: themed vault lobby (was the plain white page).
     return (
-      <VaultScene>
+      <VaultScene skin={view.skin}>
         <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6 text-center">
           <p className="mx-auto w-fit rounded-full bg-black/55 px-4 py-1 text-base font-black uppercase tracking-widest text-amber-200">
             You&apos;re in!
@@ -378,7 +378,7 @@ function PlayPageBody({
 
   if (view.game_type === "escape_vault" && view.phase !== "final") {
     return (
-      <VaultScene>
+      <VaultScene skin={view.skin}>
         <div className="mx-auto max-w-lg px-4 py-6">
           <p className="mb-3 text-center text-xs font-black uppercase tracking-wider text-amber-200">
             {kidPlainText(view.title, 60)} · {view.my_display_name} ·{" "}

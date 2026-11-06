@@ -95,6 +95,13 @@ export const RoomPhaseSchema = z.enum([
 
 export type RoomPhase = z.infer<typeof RoomPhaseSchema>;
 
+/** Escape Vault look. Optional on stored rooms; missing means Classic. */
+export type VaultSkin = "classic" | "winter";
+
+export function roomVaultSkin(room: { skin?: string | null }): VaultSkin {
+  return room.skin === "winter" ? "winter" : "classic";
+}
+
 export type LivePlayer = {
   player_id: string;
   display_name: string;
@@ -150,6 +157,11 @@ export type LiveRoom = {
   board: GameBoard;
   /** Mechanic for this live session (packet default or host pick). */
   game_type: GameType;
+  /**
+   * Escape Vault skin chosen by the host. Optional so older JSON rooms still load.
+   * Absent means Classic. Persisted in the room JSON blob (no migration).
+   */
+  skin?: VaultSkin;
   host_token_hash: string;
   phase: RoomPhase;
   players: Record<string, LivePlayer>;
@@ -208,6 +220,8 @@ export type HostRoomView = {
   code: string;
   phase: RoomPhase;
   game_type: GameType;
+  /** Escape Vault skin for this room. Classic when unset. */
+  skin: VaultSkin;
   board: GameBoard;
   players: { player_id: string; display_name: string; score: number; connected: boolean }[];
   active_cell_id: string | null;
@@ -423,6 +437,8 @@ export type PlayerRoomView = {
       active: boolean;
     }[];
   };
+  /** Escape Vault skin for this room. Classic when unset. */
+  skin: VaultSkin;
   active_question: null | {
     category: string;
     points: number;
@@ -1023,6 +1039,7 @@ export function sanitizeForHost(room: LiveRoom): HostRoomView {
     code: room.code,
     phase: room.phase,
     game_type: room.game_type,
+    skin: roomVaultSkin(room),
     board: room.board,
     players: Object.values(room.players).map((p) => ({
       player_id: p.player_id,
@@ -1127,6 +1144,7 @@ export function sanitizeForPlayer(
     },
     active_question,
     game_type: room.game_type,
+    skin: roomVaultSkin(room),
     match:
       room.game_type === "memory_match" && room.match_states[playerId]
         ? toPlayerMatchView(room.match_states[playerId]!)

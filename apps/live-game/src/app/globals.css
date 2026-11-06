@@ -365,6 +365,9 @@ body {
   box-shadow: 0 0 40px rgba(186, 230, 253, 0.75);
 }
 .ev-winter .ev-glass [class*="drop-shadow"] { filter: none; }
+.ev-winter-mascot {
+  filter: drop-shadow(0 8px 8px rgba(8, 30, 52, 0.28));
+}
 @media (prefers-reduced-motion: reduce) {
   .ev-snow { animation: none !important; display: none; }
   .ev-winter-glow { display: none; }

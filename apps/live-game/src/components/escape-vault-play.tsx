@@ -185,8 +185,15 @@ export function EscapeVaultPlay({
         </p>
       )}
 
-      <div className="flex items-end justify-between">
+      <div
+        className={
+          view.skin === "winter"
+            ? "flex w-full flex-wrap items-end justify-between gap-3"
+            : "flex items-end justify-between"
+        }
+      >
         <TurkeyMascot
+          winter={view.skin === "winter"}
           mood={mood}
           line={
             mood === "idle"
@@ -198,7 +205,13 @@ export function EscapeVaultPlay({
                   : (vault.hint ?? "Host may reveal the answer.")
           }
         />
-        <p className="ev-glass rounded-xl px-3 py-2 font-mono text-2xl font-black tracking-[0.35em] text-amber-300">
+        <p
+          className={
+            view.skin === "winter"
+              ? "ev-glass ml-auto rounded-xl px-3 py-2 font-mono text-2xl font-black tracking-[0.35em] text-amber-300"
+              : "ev-glass rounded-xl px-3 py-2 font-mono text-2xl font-black tracking-[0.35em] text-amber-300"
+          }
+        >
           {vault.chips.join(" ") || "····"}
         </p>
       </div>
@@ -242,6 +255,7 @@ export function EscapeVaultFinal({ view }: { view: PlayerRoomView }) {
           score: p.score,
         }))}
         reducedMotion={reduced}
+        winter={view.skin === "winter"}
       />
       <p className="mt-6 text-center text-sm text-white/80">
         Waiting for host to play again…

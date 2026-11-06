@@ -365,6 +365,7 @@ export function EscapeVaultHost({
                 is_host: p.player_id === HOST_PLAYER_ID,
               }))}
               reducedMotion={reduced}
+              winter={view.skin === "winter"}
             />
           ) : (
             <>
@@ -440,7 +441,12 @@ export function EscapeVaultHost({
               )}
 
               <div className="mt-4 flex flex-wrap items-end justify-between gap-3">
-                <TurkeyMascot mood={mood} line={line} reducedMotion={reduced} />
+                <TurkeyMascot
+                  mood={mood}
+                  line={line}
+                  reducedMotion={reduced}
+                  winter={view.skin === "winter"}
+                />
                 <div className="text-right text-base text-amber-100/80">
                   {vault && view.phase === "escaping"
                     ? `${vault.answer_count}/${vault.student_count} answered · ${vault.correct_count} correct`

@@ -19,6 +19,7 @@ export function EscapeFinale({
   line,
   players = [],
   reducedMotion = false,
+  winter = false,
 }: {
   title: string;
   notEscapedTitle: string;
@@ -29,6 +30,7 @@ export function EscapeFinale({
   line: string;
   players?: FinalePlayer[];
   reducedMotion?: boolean;
+  winter?: boolean;
 }) {
   const ranked = [...players].sort((a, b) => b.score - a.score);
   return (
@@ -76,6 +78,7 @@ export function EscapeFinale({
             mood={escaped ? "cheer" : "idle"}
             line={line}
             reducedMotion={reducedMotion}
+            winter={winter}
           />
         </div>
         <div className="rounded-2xl bg-black/25 p-4">

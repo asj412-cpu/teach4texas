@@ -1,15 +1,20 @@
 "use client";
 
+import { WinterTurkey } from "@/components/escape-vault/winter-turkey";
+
 export type MascotMood = "idle" | "cheer" | "hint" | "oops";
 
 export function TurkeyMascot({
   mood = "idle",
   line,
   reducedMotion = false,
+  winter = false,
 }: {
   mood?: MascotMood;
   line?: string;
   reducedMotion?: boolean;
+  /** Winter persona. Classic SVG below is unchanged when this is omitted. */
+  winter?: boolean;
 }) {
   const bob =
     reducedMotion || mood === "idle"
@@ -21,7 +26,23 @@ export function TurkeyMascot({
           : "ev-mascot-hint";
 
   return (
-    <div className="flex items-end gap-3" data-testid="turkey-mascot">
+    <div
+      className={
+        winter
+          ? "flex w-full max-w-full flex-wrap items-end gap-3 sm:w-auto"
+          : "flex items-end gap-3"
+      }
+      data-testid="turkey-mascot"
+      data-skin={winter ? "winter" : "classic"}
+    >
+      {winter ? (
+        <div
+          className={`ev-winter-mascot relative h-40 w-40 shrink-0 sm:h-48 sm:w-48 ${bob}`}
+          aria-hidden
+        >
+          <WinterTurkey mood={mood} />
+        </div>
+      ) : (
       <div className={`relative h-24 w-24 shrink-0 ${bob}`} aria-hidden>
         <svg viewBox="0 0 120 120" className="h-full w-full">
           <ellipse cx="60" cy="72" rx="34" ry="28" fill="#8B4513" />
@@ -59,8 +80,15 @@ export function TurkeyMascot({
           )}
         </svg>
       </div>
+      )}
       {line && (
-        <div className="ev-bubble relative mb-4 max-w-xs rounded-2xl bg-white px-3 py-2 text-base font-semibold text-t4t-navy shadow">
+        <div
+          className={
+            winter
+              ? "ev-bubble relative mb-4 max-w-[11rem] rounded-2xl bg-white px-3 py-2 text-base font-semibold text-t4t-navy shadow sm:max-w-[14rem]"
+              : "ev-bubble relative mb-4 max-w-xs rounded-2xl bg-white px-3 py-2 text-base font-semibold text-t4t-navy shadow"
+          }
+        >
           <span className="absolute -left-2 bottom-3 h-0 w-0 border-y-8 border-r-8 border-y-transparent border-r-white" />
           {line}
         </div>

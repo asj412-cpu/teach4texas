@@ -236,12 +236,17 @@ body {
 /* tug_of_war — CSS/SVG only ($0). All text sits on solid panels (AA); motion off under reduced-motion. */
 @keyframes tw-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 @keyframes tw-crowd { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-@keyframes tw-pull-l { 0%,100% { transform: rotate(-8deg) translateX(0); } 50% { transform: rotate(-14deg) translateX(-4px); } }
-@keyframes tw-pull-r { 0%,100% { transform: rotate(8deg) translateX(0); } 50% { transform: rotate(14deg) translateX(4px); } }
+@keyframes tw-pull-l { 0%,100% { transform: rotate(-6deg) translateX(0); } 50% { transform: rotate(-10deg) translateX(-2px); } }
+@keyframes tw-pull-r { 0%,100% { transform: rotate(6deg) translateX(0); } 50% { transform: rotate(10deg) translateX(2px); } }
 @keyframes tw-burst { 0% { transform: translate(-50%, 10px) scale(0.6); opacity: 0; } 25% { transform: translate(-50%, 0) scale(1.15); opacity: 1; } 80% { opacity: 1; } 100% { transform: translate(-50%, -30px) scale(1); opacity: 0; } }
 @keyframes tw-light { 0%,100% { opacity: 0.55; } 50% { opacity: 0.9; } }
 @keyframes tw-flag { 0%,100% { transform: skewY(0deg); } 50% { transform: skewY(-8deg); } }
 .tw-sky { background: radial-gradient(ellipse at 50% 0%, #3b5bdb 0%, #1e2a78 45%, #0b1030 100%); }
+.tw-arena-tall { display: none; }
+@media (max-width: 480px) {
+  .tw-arena-wide { display: none; }
+  .tw-arena-tall { display: block; }
+}
 .tw-rope-move { transition: transform 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.2); }
 .tw-team-move { transition: transform 0.7s ease-out; }
 .tw-crowd { animation: tw-crowd 1.4s ease-in-out infinite; }
@@ -259,4 +264,111 @@ body {
   .tw-crowd, .tw-pull-l, .tw-pull-r, .tw-light, .tw-flag, .tw-burst { animation: none !important; }
   .tw-rope-move, .tw-team-move { transition: none !important; }
   .tw-burst { transform: translate(-50%, 0); }
+}
+
+/* Escape Vault Winter skin — only under .ev-winter, so Classic stays unchanged. */
+@keyframes ev-snow-fall {
+  0% { transform: translate3d(0, -12vh, 0); opacity: 0; }
+  12% { opacity: 0.95; }
+  100% { transform: translate3d(8vw, 110vh, 0); opacity: 0.7; }
+}
+.ev-winter.ev-scene {
+  color: #f8fbff;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(186, 230, 253, 0.45) 0%, transparent 52%),
+    radial-gradient(circle at 50% 38%, #1d4e78 0%, #0c3054 40%, #071426 76%, #040c18 100%);
+}
+.ev-winter.ev-scene::after {
+  background: radial-gradient(ellipse at center, transparent 48%, rgba(4, 12, 24, 0.55) 100%);
+}
+.ev-winter-glow {
+  position: absolute; left: 50%; top: 38%; width: 70vmin; height: 70vmin;
+  transform: translate(-50%, -50%); border-radius: 9999px; pointer-events: none;
+  background: radial-gradient(circle, rgba(224, 242, 254, 0.38), transparent 68%);
+}
+.ev-snowfield { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.ev-snow {
+  position: absolute; top: 0; border-radius: 9999px; background: #ffffff;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.85);
+  animation: ev-snow-fall linear infinite;
+}
+.ev-crystal { position: absolute; width: 88px; height: 88px; pointer-events: none; opacity: 0.85; }
+.ev-crystal-a { left: 2%; top: 8%; }
+.ev-crystal-b { right: 3%; top: 18%; width: 64px; height: 64px; }
+.ev-crystal-c { left: 8%; bottom: 6%; width: 72px; height: 72px; }
+.ev-winter .ev-glass {
+  background: linear-gradient(165deg, rgba(244, 250, 255, 0.97), rgba(214, 232, 246, 0.96));
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  color: #0b2744;
+  box-shadow:
+    0 16px 40px rgba(4, 16, 36, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -8px 16px rgba(125, 180, 220, 0.25);
+}
+.ev-winter .ev-title {
+  background: none;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  color: #f4fbff;
+  filter: drop-shadow(0 2px 0 #08243f);
+}
+.ev-winter .ev-glass .ev-title {
+  color: #08243f;
+  filter: none;
+}
+.ev-winter .ev-glass [class*="text-white"],
+.ev-winter .ev-glass [class*="text-amber"] {
+  color: #0b2744;
+}
+.ev-winter .ev-glass .bg-amber-300 {
+  background-color: #e0f2fe;
+  color: #0b2744;
+}
+/* Dark chips keep light text (lock label, room pill). */
+.ev-winter .ev-glass [class*="bg-black"],
+.ev-winter .ev-glass [class*="bg-[#1a1a1a]"],
+.ev-winter .ev-glass [class*="bg-black"] [class*="text-amber"],
+.ev-winter .ev-glass [class*="bg-black"] [class*="text-white"] {
+  color: #ffffff;
+}
+.ev-winter [class*="text-white/"] {
+  color: #f8fbff;
+}
+.ev-winter .ev-glass .gs-correct,
+.ev-winter .ev-glass .gs-correct [class*="text-white"],
+.ev-winter .ev-glass .gs-wrong,
+.ev-winter .ev-glass .gs-wrong [class*="text-white"] {
+  color: #ffffff;
+}
+.ev-winter .text-xs,
+.ev-winter .text-sm {
+  font-size: 1rem;
+  line-height: 1.45;
+}
+.ev-winter .text-lg,
+.ev-winter .ev-choice,
+.ev-winter .ev-glass .text-lg,
+.ev-winter .ev-glass.text-lg,
+.ev-winter .ev-bubble {
+  font-size: 1.25rem;
+  line-height: 1.4;
+}
+.ev-winter .ev-glass .ev-host-answer {
+  font-size: 1.5rem;
+  line-height: 1.3;
+}
+.ev-winter .ev-celebrate {
+  background: radial-gradient(circle, #1e4e78, #040c18 70%);
+}
+.ev-winter .ev-ring {
+  border-color: rgba(186, 230, 253, 0.95);
+  box-shadow: 0 0 40px rgba(186, 230, 253, 0.75);
+}
+.ev-winter .ev-glass [class*="drop-shadow"] { filter: none; }
+.ev-winter-mascot {
+  filter: drop-shadow(0 8px 8px rgba(8, 30, 52, 0.28));
+}
+@media (prefers-reduced-motion: reduce) {
+  .ev-snow { animation: none !important; display: none; }
+  .ev-winter-glow { display: none; }
 }

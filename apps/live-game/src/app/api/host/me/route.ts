@@ -19,6 +19,7 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({
     ok: true,
     board: toHostBoardView(resolved.board),
+    is_demo: Boolean(resolved.entitlement.is_demo),
     isolation: {
       mode: "single_game",
       board_id: resolved.board.id,

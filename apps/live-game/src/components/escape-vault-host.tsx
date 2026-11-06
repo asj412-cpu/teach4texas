@@ -176,7 +176,7 @@ export function EscapeVaultHost({
 
   return (
     <div onPointerDown={armAudio}>
-    <VaultScene>
+    <VaultScene skin={view.skin}>
       <UnlockCelebration
         trigger={showTransition && vault ? `${vault.room_index}-${vault.room_name}` : null}
         label={vault?.room_name ? `Entering ${kidPlainText(vault.room_name, 40)}` : "Next room"}
@@ -216,6 +216,32 @@ export function EscapeVaultHost({
       </header>
 
       <main className="mx-auto max-w-6xl px-4 py-6">
+        {view.phase === "lobby" && (
+          <div className="mb-4">
+            <p className="mb-2 text-base font-bold text-white">Skin</p>
+            <div className="flex flex-wrap gap-2">
+              {(["classic", "winter"] as const).map((s) => {
+                const on = view.skin === s;
+                return (
+                  <button
+                    key={s}
+                    type="button"
+                    aria-pressed={on}
+                    onClick={() => onAction({ type: "set_skin", skin: s })}
+                    className={`rounded-xl px-4 py-3 text-base font-black ${
+                      on
+                        ? "bg-white text-[#0b2744]"
+                        : "border border-white/70 bg-[#0b2744] text-white"
+                    }`}
+                  >
+                    {s === "classic" ? "Classic" : "Winter"}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         {view.phase === "lobby" && (
           <div className="mb-6 flex flex-wrap gap-3">
             <button
@@ -339,6 +365,7 @@ export function EscapeVaultHost({
                 is_host: p.player_id === HOST_PLAYER_ID,
               }))}
               reducedMotion={reduced}
+              winter={view.skin === "winter"}
             />
           ) : (
             <>
@@ -366,8 +393,9 @@ export function EscapeVaultHost({
                 </div>
                 <VaultLock
                   state={opening ? "open" : (vault?.lock_state ?? "locked")}
-                  accent={theme.palette.lock}
+                  accent={view.skin === "winter" ? "#bae6fd" : theme.palette.lock}
                   reducedMotion={reduced}
+                  winter={view.skin === "winter"}
                 />
               </div>
 
@@ -380,7 +408,7 @@ export function EscapeVaultHost({
               {view.phase === "escaping" &&
                 vault?.revealed_answer &&
                 vault.kind !== "mc" && (
-                  <p className="mx-auto mt-3 w-fit rounded-xl border-4 border-t4t-green bg-emerald-100 px-4 py-2 text-lg font-bold">
+                  <p className="ev-host-answer mx-auto mt-3 w-fit rounded-xl border-4 border-t4t-green bg-emerald-100 px-4 py-2 text-lg font-bold">
                     ✓ Answer: {vault.revealed_answer}
                   </p>
                 )}
@@ -413,7 +441,12 @@ export function EscapeVaultHost({
               )}
 
               <div className="mt-4 flex flex-wrap items-end justify-between gap-3">
-                <TurkeyMascot mood={mood} line={line} reducedMotion={reduced} />
+                <TurkeyMascot
+                  mood={mood}
+                  line={line}
+                  reducedMotion={reduced}
+                  winter={view.skin === "winter"}
+                />
                 <div className="text-right text-base text-amber-100/80">
                   {vault && view.phase === "escaping"
                     ? `${vault.answer_count}/${vault.student_count} answered · ${vault.correct_count} correct`

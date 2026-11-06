@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { GameShowStage } from "@/components/game-show";
+import { normalizeAccessCode } from "@/lib/domain/access-code";
+import { redemptionKindFromNormalizedCode } from "@/lib/redemption-kind";
 
 type HostBoard = {
   id: string;
@@ -65,6 +67,9 @@ export default function RedeemPage() {
     }
   }
 
+  const demoRedeem =
+    redemptionKindFromNormalizedCode(normalizeAccessCode(code)) === "demo";
+
   const modes: [boolean | undefined, string, string][] = [
     [unlocked?.supports_memory_match, "memory_match", "Memory Match"],
     [unlocked?.supports_timed_race, "timed_race", "Timed Race"],
@@ -95,9 +100,19 @@ export default function RedeemPage() {
         </h1>
         </div>
         <p className="mt-5 rounded-2xl border border-white/25 bg-black/55 px-5 py-4 text-center text-base text-white">
-          Enter the <strong className="text-amber-200">access code from your TPT download</strong>. It
-          unlocks <strong className="text-amber-200">only the game you paid for</strong>. New games
-          are separate TPT products.
+          {demoRedeem ? (
+            <>
+              Enter the <strong className="text-amber-200">access code from your TPT download</strong>. It
+              unlocks <strong className="text-amber-200">only this demo game</strong>. New games
+              are separate TPT products.
+            </>
+          ) : (
+            <>
+              Enter the <strong className="text-amber-200">access code from your TPT download</strong>. It
+              unlocks <strong className="text-amber-200">only the game you paid for</strong>. New games
+              are separate TPT products.
+            </>
+          )}
         </p>
 
         {!unlocked ? (

@@ -119,7 +119,11 @@ export function EscapeVaultPlay({
             {vault.prompt ?? "Get ready…"}
           </p>
         </div>
-        <VaultLock state={openedInto ? "open" : vault.lock_state} />
+        <VaultLock
+          state={openedInto ? "open" : vault.lock_state}
+          accent={view.skin === "winter" ? "#bae6fd" : "#d4a017"}
+          winter={view.skin === "winter"}
+        />
       </div>
 
       {openedInto && (
@@ -181,8 +185,15 @@ export function EscapeVaultPlay({
         </p>
       )}
 
-      <div className="flex items-end justify-between">
+      <div
+        className={
+          view.skin === "winter"
+            ? "flex w-full flex-wrap items-end justify-between gap-3"
+            : "flex items-end justify-between"
+        }
+      >
         <TurkeyMascot
+          winter={view.skin === "winter"}
           mood={mood}
           line={
             mood === "idle"
@@ -194,7 +205,13 @@ export function EscapeVaultPlay({
                   : (vault.hint ?? "Host may reveal the answer.")
           }
         />
-        <p className="ev-glass rounded-xl px-3 py-2 font-mono text-2xl font-black tracking-[0.35em] text-amber-300">
+        <p
+          className={
+            view.skin === "winter"
+              ? "ev-glass ml-auto rounded-xl px-3 py-2 font-mono text-2xl font-black tracking-[0.35em] text-amber-300"
+              : "ev-glass rounded-xl px-3 py-2 font-mono text-2xl font-black tracking-[0.35em] text-amber-300"
+          }
+        >
           {vault.chips.join(" ") || "····"}
         </p>
       </div>
@@ -218,7 +235,7 @@ export function EscapeVaultFinal({ view }: { view: PlayerRoomView }) {
     setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   }, []);
   return (
-    <VaultScene>
+    <VaultScene skin={view.skin}>
     {escaped ? <Confetti n={44} /> : null}
     <div className="mx-auto max-w-lg px-4 py-6">
       <p className="ev-glass mx-auto mb-3 w-fit rounded-full px-4 py-1 text-center text-sm font-bold text-white">
@@ -238,6 +255,7 @@ export function EscapeVaultFinal({ view }: { view: PlayerRoomView }) {
           score: p.score,
         }))}
         reducedMotion={reduced}
+        winter={view.skin === "winter"}
       />
       <p className="mt-6 text-center text-sm text-white/80">
         Waiting for host to play again…

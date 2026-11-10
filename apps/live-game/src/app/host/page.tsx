@@ -17,6 +17,7 @@ import {
   supportsSequenceSort,
   supportsTimedRace,
   supportsTugOfWar,
+  supportsBingo,
 } from "@/lib/domain/board";
 import type { HostRoomView } from "@/lib/domain/live-room";
 import { CategorySortHost } from "@/components/category-sort-host";
@@ -28,6 +29,7 @@ import { ScavengerTapHost } from "@/components/scavenger-tap-host";
 import { SequenceSortHost } from "@/components/sequence-sort-host";
 import { TimedRaceHost } from "@/components/timed-race-host";
 import { TugOfWarHost } from "@/components/tug-of-war-host";
+import { BingoHost } from "@/components/bingo-host";
 import {
   HostFinalActions,
   HostSeatPanel,
@@ -266,7 +268,9 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
                           ? ` · ${board.dash_items?.length ?? 0} true-or-false claims`
                           : supportsTugOfWar(board)
                             ? ` · ${board.tow_items?.length ?? 0} team questions`
-                            : ""}
+                            : supportsBingo(board)
+                              ? ` · ${board.bingo_items?.length ?? 0} bingo calls`
+                              : ""}
           {supportsMemoryMatch(board) ? " · Memory Match ready" : ""}
           {supportsTimedRace(board) ? " · Timed Race ready" : ""}
           {supportsScavengerTap(board) ? " · Scavenger Hunt ready" : ""}
@@ -274,7 +278,8 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
           {supportsCategorySort(board) ? " · Sort into Bins ready" : ""}
           {supportsOddOneOut(board) ? " · Find the Odd One ready" : ""}
           {supportsTrueFalseDash(board) ? " · True or False Dash ready" : ""}
-          {supportsTugOfWar(board) ? " · Tug of War ready" : ""}. Only
+          {supportsTugOfWar(board) ? " · Tug of War ready" : ""}
+          {supportsBingo(board) ? " · Bingo ready" : ""}. Only
           this game is available on this host session.
         </p>
         <div className="gs-glass gs-rise mt-6 flex flex-col gap-3 rounded-3xl bg-black/40 p-5">
@@ -443,6 +448,27 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
               {starting ? "Starting…" : "Start tug of war"}
             </button>
           )}
+          {supportsBingo(board) && (
+            <article className="rounded-3xl border-4 border-amber-300 bg-[#052e22] p-4 text-white shadow-[0_8px_0_#14532d]">
+              <p className="text-base font-black uppercase tracking-widest text-amber-200">Game type</p>
+              <h2 className="mt-1 text-3xl font-black uppercase text-white">Bingo</h2>
+              <p className="mt-2 text-base leading-relaxed text-white">
+                Every student gets a unique card. You call the question. They stamp the answer.
+                Pick 5×5 or 4×4 after the room opens.
+              </p>
+              <p className="mt-2 text-base font-bold text-amber-200">
+                {board.bingo_items?.length ?? 0} calls · Grade {board.grade} math
+              </p>
+              <button
+                type="button"
+                disabled={starting}
+                onClick={() => startLive("bingo")}
+                className="mt-4 w-full rounded-2xl bg-amber-300 px-4 py-4 text-2xl font-black uppercase text-[#1c1917] disabled:cursor-wait disabled:grayscale-[60%]"
+              >
+                {starting ? "Starting…" : "Start Bingo"}
+              </button>
+            </article>
+          )}
         </div>
         <p className="mt-4 rounded-xl bg-black/55 px-4 py-3 text-center text-base text-white">
           Students will join with a short room code (not your TPT access code).
@@ -458,6 +484,10 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
 
   if (view.game_type === "tug_of_war") {
     return <TugOfWarHost view={view} onAction={hostAction} />;
+  }
+
+  if (view.game_type === "bingo") {
+    return <BingoHost view={view} onAction={hostAction} />;
   }
 
   if (view.phase === "final") {

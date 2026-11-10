@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { validateBingoSet } from "@/lib/domain/bingo";
 
 export const GameTypeSchema = z.enum([
   "board",
@@ -11,6 +12,7 @@ export const GameTypeSchema = z.enum([
   "true_false_dash",
   "escape_vault",
   "tug_of_war",
+  "bingo",
 ]);
 export type GameType = z.infer<typeof GameTypeSchema>;
 
@@ -45,6 +47,15 @@ export const TugOfWarItemSchema = TimedRaceItemSchema.extend({
   teks: z.string().min(1).max(32),
 });
 export type TugOfWarItem = z.infer<typeof TugOfWarItemSchema>;
+
+/** Bingo call: one question, one numeric answer. Answers must be unique across the set. */
+export const BingoItemSchema = z.object({
+  id: z.string().min(1),
+  prompt: z.string().min(1).max(280),
+  answer: z.string().min(1).max(12),
+  teks: z.string().min(1).max(32),
+});
+export type BingoItem = z.infer<typeof BingoItemSchema>;
 
 /** TEKS-agnostic labeled-hotspot item for Scavenger Tap. `teks` is optional. */
 export const ScavengerTargetSchema = z.object({
@@ -324,6 +335,8 @@ export const GameBoardSchema = z
     vault_rooms: z.array(EscapeVaultRoomSchema).max(8).optional(),
     /** Tug of War team MCQ rounds. Opt-in: only boards that ship tow_items. */
     tow_items: z.array(TugOfWarItemSchema).max(16).optional(),
+    /** Bingo calls. Opt-in: only boards that ship bingo_items. */
+    bingo_items: z.array(BingoItemSchema).max(40).optional(),
     created_at: z.string(),
     updated_at: z.string(),
   })
@@ -363,6 +376,17 @@ export const GameBoardSchema = z
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: "Tug of war needs at least 4 tow_items",
+        });
+      }
+      return;
+    }
+
+    if (type === "bingo") {
+      const check = validateBingoSet(board.bingo_items ?? [], 5);
+      if (!check.ok) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: check.error,
         });
       }
       return;
@@ -596,6 +620,8 @@ export type HostBoardView = {
   supports_escape_vault: boolean;
   tow_item_count: number;
   supports_tug_of_war: boolean;
+  bingo_item_count: number;
+  supports_bingo: boolean;
 };
 
 export function boardGameType(board: { game_type?: GameType }): GameType {
@@ -721,10 +747,18 @@ export function supportsTugOfWar(board: { tow_items?: TugOfWarItem[] }): boolean
   return (board.tow_items?.length ?? 0) >= 4;
 }
 
+/** Bingo is opt-in: the set must be able to deal a 5×5 card (24 unique numeric answers). */
+export function supportsBingo(board: { bingo_items?: { answer: string }[] | null }): boolean {
+  return validateBingoSet(board.bingo_items ?? [], 5).ok;
+}
+
 export function resolvePlayableGameType(
   board: GameBoard,
   requested?: string | null,
 ): GameType {
+  if (requested === "bingo" && supportsBingo(board)) {
+    return "bingo";
+  }
   if (requested === "tug_of_war" && supportsTugOfWar(board)) {
     return "tug_of_war";
   }
@@ -756,6 +790,9 @@ export function resolvePlayableGameType(
     return "board";
   }
   const native = boardGameType(board);
+  if (native === "bingo" && supportsBingo(board)) {
+    return "bingo";
+  }
   if (native === "tug_of_war" && supportsTugOfWar(board)) {
     return "tug_of_war";
   }
@@ -793,5 +830,6 @@ export function resolvePlayableGameType(
   if (supportsTrueFalseDash(board)) return "true_false_dash";
   if (supportsEscapeVault(board)) return "escape_vault";
   if (supportsTugOfWar(board)) return "tug_of_war";
+  if (supportsBingo(board)) return "bingo";
   return "board";
 }

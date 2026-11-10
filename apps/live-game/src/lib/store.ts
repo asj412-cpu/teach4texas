@@ -15,6 +15,7 @@ export const DEMO_ODD_ONE_OUT_CODE = fileStore.DEMO_ODD_ONE_OUT_CODE;
 export const DEMO_TRUE_FALSE_DASH_CODE = fileStore.DEMO_TRUE_FALSE_DASH_CODE;
 export const DEMO_ESCAPE_VAULT_CODE = fileStore.DEMO_ESCAPE_VAULT_CODE;
 export const DEMO_TUG_OF_WAR_CODE = fileStore.DEMO_TUG_OF_WAR_CODE;
+export const DEMO_BINGO_CODE = fileStore.DEMO_BINGO_CODE;
 export const DEMO_BOARD_SAMPLE_CODE = fileStore.DEMO_BOARD_SAMPLE_CODE;
 
 export const toHostBoardView = fileStore.toHostBoardView;
@@ -142,6 +143,10 @@ export async function ensureTugOfWarSample(
   plaintext = DEMO_TUG_OF_WAR_CODE,
 ) {
   return backend().ensureTugOfWarSample(plaintext);
+}
+
+export async function ensureBingoSample(plaintext = DEMO_BINGO_CODE) {
+  return backend().ensureBingoSample(plaintext);
 }
 
 export async function ensureBoardSample(

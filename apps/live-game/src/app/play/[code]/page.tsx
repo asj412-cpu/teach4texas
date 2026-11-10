@@ -14,6 +14,7 @@ import { ScavengerTapPlay } from "@/components/scavenger-tap-play";
 import { SequenceSortPlay } from "@/components/sequence-sort-play";
 import { TimedRacePlay } from "@/components/timed-race-play";
 import { TugOfWarPlay } from "@/components/tug-of-war-play";
+import { BingoPlay } from "@/components/bingo-play";
 import { kidPlainText } from "@/lib/plain-text";
 import { ConnectionBanner, type ConnState } from "@/components/connection-banner";
 import { postAction, type TapStatus } from "@/lib/action-post";
@@ -217,6 +218,23 @@ function PlayPageBody({
     }
   }
 
+  async function bingoTap(cell_index: number): Promise<string | null> {
+    if (!playerId || !view || view.game_type !== "bingo") return "NOT_BINGO";
+    if (view.phase !== "bingo" || !view.bingo || view.bingo.paused) return "PAUSED";
+    if (view.bingo.lockout_ms > 0 || view.bingo.stage === "ready") return "LOCKED_OUT";
+    setSubmitting(true);
+    try {
+      const r = await postAction(`/api/rooms/${code}/bingo`, { player_id: playerId, cell_index }, onTap);
+      if (r?.data?.ok && r.data.view) {
+        setView(r.data.view as PlayerRoomView);
+        return null;
+      }
+      return r?.data?.error ?? "FAILED";
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
   async function towAnswer(choice_index: number) {
     if (!playerId || !view || view.game_type !== "tug_of_war") return;
     if (view.phase !== "towing" || view.tow?.stage !== "question" || view.tow.my_choice != null) return;
@@ -273,6 +291,10 @@ function PlayPageBody({
 
   if (view.game_type === "tug_of_war") {
     return <TugOfWarPlay view={view} submitting={submitting} onAnswer={towAnswer} />;
+  }
+
+  if (view.game_type === "bingo") {
+    return <BingoPlay view={view} submitting={submitting} onTap={bingoTap} />;
   }
 
   if (view.phase === "lobby" && view.game_type === "escape_vault") {

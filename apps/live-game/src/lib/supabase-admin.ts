@@ -21,7 +21,23 @@ function serverKey(): string | undefined {
   return undefined;
 }
 
+/**
+ * Preview (and any other non-production Vercel env) must not open a Supabase
+ * client. Preview env currently points at the production project, so preview
+ * traffic would write redeems, rooms, and usage into prod.
+ * Production is unchanged. Local dev leaves VERCEL_ENV unset and is unchanged.
+ * T4T_ALLOW_NONPROD_SUPABASE=1 is an explicit opt-in for a future isolated
+ * non-prod project. Do not set it while the URL still points at prod.
+ * Removing the Preview env vars is a later, separate step.
+ */
+function nonProdSupabaseBlocked(): boolean {
+  const env = process.env.VERCEL_ENV;
+  if (!env || env === "production") return false;
+  return process.env.T4T_ALLOW_NONPROD_SUPABASE !== "1";
+}
+
 export function isSupabaseConfigured(): boolean {
+  if (nonProdSupabaseBlocked()) return false;
   return Boolean(supabaseUrl() && serverKey());
 }
 
@@ -32,6 +48,10 @@ let cached: SupabaseClient | null = null;
  * Anon/authenticated have no table grants and no RLS write policies.
  */
 export function getServiceSupabase(): SupabaseClient {
+  // Same gate as isSupabaseConfigured: never construct a client for a blocked env.
+  if (!isSupabaseConfigured()) {
+    throw new Error("SUPABASE_NOT_CONFIGURED");
+  }
   const url = supabaseUrl();
   const key = serverKey();
   if (!url || !key) {

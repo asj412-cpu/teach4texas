@@ -2,12 +2,29 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import TptProductCard from '../components/TptProductCard.astro';
 import { TPT_STORE_URL } from '../lib/site-links';
-import { SCORE_DESK_APP, listingsByCategory } from '../lib/tpt-catalog';
+import { SCORE_DESK_APP, TPT_LISTINGS, listingsByCategory } from '../lib/tpt-catalog';
 
 const freeListings = listingsByCategory('free');
 const scoreDeskPacks = listingsByCategory('score-desk');
 const vaults = listingsByCategory('vault');
-const classroom = listingsByCategory('classroom');
+const PHONICS_IDS = new Set(['18290327', '18290364']);
+const phonics = TPT_LISTINGS.filter((item) => PHONICS_IDS.has(item.id));
+const classroom = listingsByCategory('classroom').filter((item) => !PHONICS_IDS.has(item.id));
+
+const SITE = 'https://www.teach4texas.com';
+const PAGE_URL = `${SITE}/resources`;
+const phonicsCards = phonics.map((l) => {
+  if (!l.image) throw new Error(`Phonics card ${l.id} is missing a catalog cover`);
+  const image = `${SITE}${l.image}`;
+  const pinHref =
+    'https://www.pinterest.com/pin/create/button/?' +
+    new URLSearchParams({
+      url: `${PAGE_URL}#phonics-partner-games`,
+      media: image,
+      description: `${l.title} | Long-vowel-team partner games from Teach4 Texas`,
+    }).toString();
+  return { listing: l, imagePath: l.image, pinHref };
+});
 ---
 
 <BaseLayout
@@ -25,6 +42,8 @@ const classroom = listingsByCategory('classroom');
       <a href="/staar/math-escape-rooms" class="text-[#B95321] font-semibold underline">STAAR Math Escape Rooms, Grades 3–5 &rarr;</a>
       <br />
       <a href="/teks/morning-work" class="text-[#B95321] font-semibold underline">TEKS Morning Work, Grades 3–4 &rarr;</a>
+      <br />
+      <a href="#phonics-partner-games" class="text-[#B95321] font-semibold underline">Phonics partner games, Grades 1–2 &rarr;</a>
     </p>
     <p class="mb-12">
       <a
@@ -93,6 +112,28 @@ const classroom = listingsByCategory('classroom');
             originalPrice={item.originalPrice}
             image={item.image}
           />
+        ))}
+      </div>
+    </div>
+
+    <div id="phonics-partner-games" class="mb-16">
+      <h2 class="text-2xl font-bold text-[#14244B] mb-2">Phonics partner games, Grades 1–2</h2>
+      <p class="text-gray-600 mb-6">Print-and-play partner games for long-vowel teams. Grade 1 and Grade 2 editions; no prep beyond printing. There is no live play demo on these listings.</p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {phonicsCards.map((c) => (
+          <article class="border border-gray-200 rounded-lg overflow-hidden flex flex-col">
+            <a href={c.listing.href} target="_blank" rel="noopener">
+              <img src={c.imagePath} alt={`TPT cover preview: ${c.listing.title}`} width="800" height="1000" loading="lazy" class="w-full h-auto" />
+            </a>
+            <div class="p-5 flex flex-col gap-3 flex-1">
+              <h3 class="text-lg font-bold text-[#14244B]">{c.listing.title}</h3>
+              <p class="text-gray-600 text-base">{c.listing.description}</p>
+              <div class="mt-auto flex flex-wrap gap-3 text-base font-semibold">
+                <a href={c.listing.href} target="_blank" rel="noopener" class="text-[#B95321]">{c.listing.price} on TPT &rarr;</a>
+                <a href={c.pinHref} target="_blank" rel="noopener" data-pin-do="buttonPin" class="text-[#B8001C]">Pin It</a>
+              </div>
+            </div>
+          </article>
         ))}
       </div>
     </div>

@@ -529,6 +529,26 @@ export const TPT_LISTINGS: TptListing[] = [
     price: '$4.99',
     category: 'classroom',
   },
+  {
+    id: '18290327',
+    href: `${TPT}/Long-Vowel-Teams-Partner-Games-Grade-1-Edition-Lessons-8488-No-Prep-18290327`,
+    image: '/images/covers/tpt-18290327-cover-54fa7d15.jpg',
+    title: 'Long Vowel Teams Partner Games | Grade 1 Edition | Lessons 84–88 | No Prep',
+    description:
+      'Print-and-play set of five original partner games for Grade 1 long-vowel teams (ai/ay, ee/ea/ey, oa/ow/oe, ie/igh, and a mixed review). Texas TEKS 1.2.B.iii and 1.2.C.i (vowel teams). No prep beyond printing.',
+    price: '$4.99',
+    category: 'classroom',
+  },
+  {
+    id: '18290364',
+    href: `${TPT}/Long-Vowel-Teams-Partner-Games-Grade-2-Edition-Lessons-8488-No-Prep-18290364`,
+    image: '/images/covers/tpt-18290364-cover-133125ad.jpg',
+    title: 'Long Vowel Teams Partner Games | Grade 2 Edition | Lessons 84–88 | No Prep',
+    description:
+      'Print-and-play set of five original partner games for Grade 2 long-vowel teams (ai/ay, ee/ea/ey, oa/ow/oe, ie/igh, and a mixed review), with multisyllable vowel-team words and suffixes such as -ing, -ed, -er, and -est. Texas TEKS 2.2.B.iii, 2.2.C.i, and 2.2.B.vi (multisyllabic vowel teams and inflectional endings). No prep beyond printing.',
+    price: '$4.99',
+    category: 'classroom',
+  },
 ];
 
 export const SCORE_DESK_APP = {

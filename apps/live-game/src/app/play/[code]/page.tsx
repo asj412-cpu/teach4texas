@@ -33,15 +33,17 @@ type StoredPlayer = {
 export default function PlayPage() {
   const [conn, setConn] = useState<ConnState>("ok");
   const [tap, setTap] = useState<TapStatus>("idle");
+  const [gameType, setGameType] = useState<string | null>(null);
   useEffect(() => {
     if (tap !== "failed" && tap !== "rejected") return;
     const t = setTimeout(() => setTap("idle"), 4000);
     return () => clearTimeout(t);
   }, [tap]);
+  const showFloatingNotice = gameType !== "bingo" && (tap === "retrying" || tap === "failed" || tap === "rejected");
   return (
     <>
-      <PlayPageBody onConnection={setConn} onTap={setTap} />
-      {tap === "retrying" || tap === "failed" || tap === "rejected" ? (
+      <PlayPageBody onConnection={setConn} onTap={setTap} onGameType={setGameType} tapNotice={tap} />
+      {showFloatingNotice ? (
         <div
           role="status"
           aria-live="polite"
@@ -64,9 +66,13 @@ export default function PlayPage() {
 function PlayPageBody({
   onConnection,
   onTap,
+  onGameType,
+  tapNotice,
 }: {
   onConnection: (s: ConnState) => void;
   onTap: (s: TapStatus) => void;
+  onGameType: (gameType: string | null) => void;
+  tapNotice: TapStatus;
 }) {
   const params = useParams();
   const code = String(params.code ?? "").toUpperCase();
@@ -74,6 +80,10 @@ function PlayPageBody({
   const [playerId, setPlayerId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    onGameType(view?.game_type ?? null);
+  }, [view?.game_type, onGameType]);
 
   // A single 404/5xx/network error is never fatal: see lib/poll-backoff.ts.
   const poll = useCallback(async (): Promise<PollOutcome> => {
@@ -294,7 +304,7 @@ function PlayPageBody({
   }
 
   if (view.game_type === "bingo") {
-    return <BingoPlay view={view} submitting={submitting} onTap={bingoTap} />;
+    return <BingoPlay view={view} submitting={submitting} onTap={bingoTap} notice={tapNotice} />;
   }
 
   if (view.phase === "lobby" && view.game_type === "escape_vault") {

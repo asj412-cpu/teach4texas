@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { PlayerRoomView } from "@/lib/domain/live-room";
+import { bingoEndPresentation } from "@/lib/domain/bingo";
+import type { TapStatus } from "@/lib/action-post";
 import { kidPlainText } from "@/lib/plain-text";
 import { BingoCardFace, BingoConfetti } from "@/components/bingo/card";
 import {
@@ -15,10 +17,12 @@ export function BingoPlay({
   view,
   submitting,
   onTap,
+  notice = "idle",
 }: {
   view: PlayerRoomView;
   submitting: boolean;
   onTap: (cellIndex: number) => Promise<string | null>;
+  notice?: TapStatus;
 }) {
   const bingo = view.bingo;
   const [muted, setMuted] = useState(isBingoMuted());
@@ -53,28 +57,53 @@ export function BingoPlay({
 
   const locked = holdMs > 0 || bingo.paused || submitting;
   const q = bingo.question;
+  const ended = view.phase === "final";
+  const end = bingoEndPresentation(bingo.winner_names.length);
+  const noticeText =
+    notice === "retrying"
+      ? "Sending…"
+      : notice === "rejected"
+        ? "That didn’t count right now."
+        : notice === "failed"
+          ? "Didn’t send. Tap again."
+          : null;
 
   return (
     <div className="bingo-felt relative min-h-screen text-white">
-      {bingo.i_won ? <BingoConfetti /> : null}
-      <header className="mx-auto flex max-w-lg items-center justify-between gap-3 px-4 py-3">
-        <div>
+      {end.celebrate && bingo.i_won ? <BingoConfetti /> : null}
+      <header
+        data-testid="bingo-header"
+        className="relative z-20 mx-auto flex max-w-lg items-start justify-between gap-3 px-4 py-3"
+      >
+        <div className="min-w-0 flex-1">
           <p className="text-base font-black uppercase tracking-widest text-[#fde047]">Bingo</p>
           <h1 className="text-xl font-black text-white">{kidPlainText(view.title, 60)}</h1>
         </div>
         <button
           type="button"
+          data-testid="bingo-sound"
           onClick={() => {
             ensureBingoAudio();
             setBingoMuted(!muted);
             setMuted(!muted);
           }}
-          className="rounded-xl border-2 border-white bg-[#083426] px-3 py-2 text-base font-black"
+          className="shrink-0 rounded-xl border-2 border-white bg-[#083426] px-3 py-2 text-base font-black"
           aria-pressed={muted}
         >
           {muted ? "Sound off" : "Sound on"}
         </button>
       </header>
+      <div data-testid="bingo-notice-slot" className="relative z-10 mx-auto min-h-0 w-full max-w-lg px-4">
+        {noticeText ? (
+          <p
+            role="status"
+            aria-live="polite"
+            className="mb-3 rounded-full bg-t4t-burnt px-4 py-2 text-center text-base font-semibold text-white"
+          >
+            {noticeText}
+          </p>
+        ) : null}
+      </div>
       <main className="mx-auto max-w-lg px-4 pb-8">
         {view.phase === "lobby" || !bingo.card ? (
           <section className="rounded-3xl border-4 border-[#fde047] bg-[#083426] p-6 text-center">
@@ -105,7 +134,16 @@ export function BingoPlay({
                 Not this one. Hands still for {Math.ceil(holdMs / 1000)} seconds.
               </p>
             ) : null}
-            {bingo.i_won ? (
+            {ended && !end.celebrate ? (
+              <div
+                data-testid="bingo-end-banner"
+                className="mt-3 rounded-2xl border-4 border-white bg-[#083426] px-4 py-4 text-center"
+              >
+                <p className="text-base font-black uppercase tracking-widest text-[#fde68a]">{end.eyebrow}</p>
+                <p className="text-2xl font-black text-white">{end.headline}</p>
+              </div>
+            ) : null}
+            {end.celebrate && bingo.i_won ? (
               <p className="mt-3 rounded-2xl bg-[#fde047] px-4 py-3 text-center text-2xl font-black text-[#1c1917]">
                 Bingo! Your card is on the big screen.
               </p>

@@ -481,6 +481,22 @@ export function parseBingoTapBody(
   return { ok: true, player_id: record.player_id, cell_index: record.cell_index };
 }
 
+/** Host and student end screens. Zero winners is not a bingo. */
+export function bingoEndPresentation(winnerCount: number): {
+  celebrate: boolean;
+  eyebrow: string;
+  headline: string;
+} {
+  if (winnerCount <= 0) {
+    return {
+      celebrate: false,
+      eyebrow: "Game over",
+      headline: "No bingo this round",
+    };
+  }
+  return { celebrate: true, eyebrow: "Bingo", headline: "Bingo!" };
+}
+
 export function sameCallWinners(winners: BingoWinner[]): BingoWinner[] {
   if (winners.length === 0) return [];
   const call = Math.max(...winners.map((winner) => winner.call_index));

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { HostRoomView } from "@/lib/domain/live-room";
-import type { BingoEndRule, BingoGrid } from "@/lib/domain/bingo";
+import { bingoEndPresentation, type BingoEndRule, type BingoGrid } from "@/lib/domain/bingo";
 import { kidPlainText } from "@/lib/plain-text";
 import { BingoCardFace, BingoConfetti } from "@/components/bingo/card";
 import { HostFeedback } from "@/components/host-feedback";
@@ -29,6 +29,7 @@ export function BingoHost({
   const bingo = view.bingo;
   const [muted, setMuted] = useState(isBingoMuted());
   const prev = useRef<{ stage: string; call: number; winners: number } | null>(null);
+  const logRef = useRef<HTMLOListElement>(null);
 
   useEffect(() => {
     if (!bingo) return;
@@ -40,6 +41,12 @@ export function BingoHost({
     if (p && bingo.winners.length > p.winners) playBingoSfx("fanfare");
     prev.current = { stage: bingo.stage, call: bingo.call_number, winners: bingo.winners.length };
   }, [bingo]);
+
+  useEffect(() => {
+    const el = logRef.current;
+    if (!el) return;
+    el.scrollTop = el.scrollHeight;
+  }, [bingo?.called_log.length, bingo?.stage]);
 
   const act = (body: Record<string, unknown>) => {
     ensureBingoAudio();
@@ -161,12 +168,17 @@ export function BingoHost({
   }
 
   if (view.phase === "final") {
+    const end = bingoEndPresentation(bingo.winners.length);
     return (
-      <div className="bingo-felt relative min-h-screen overflow-hidden text-white">
-        <BingoConfetti />
+      <div className="bingo-felt relative min-h-screen text-white">
+        {end.celebrate ? <BingoConfetti /> : null}
         {header}
         <main className="relative mx-auto max-w-6xl px-4 py-6">
-          <WinBanner bingo={bingo} />
+          {end.celebrate ? (
+            <WinBanner bingo={bingo} />
+          ) : (
+            <EndQuiet end={end} />
+          )}
           <WinnerCards bingo={bingo} />
           <div className="mx-auto mt-6 flex max-w-lg justify-center">
             <HostFeedback code={view.code} />
@@ -194,10 +206,10 @@ export function BingoHost({
 
   const q = bingo.question;
   return (
-    <div className="bingo-felt relative min-h-screen overflow-hidden text-white">
+    <div className="bingo-felt relative min-h-screen text-white">
       {bingo.winners.length > 0 ? <BingoConfetti /> : null}
       {header}
-      <main className="relative mx-auto grid max-w-6xl gap-4 px-4 py-4 lg:grid-cols-[minmax(0,1fr)_320px]">
+      <main className="relative mx-auto grid max-w-6xl items-start gap-4 px-4 py-4 lg:grid-cols-[minmax(0,1fr)_22rem]">
         <section>
           <div className="flex flex-wrap items-center justify-between gap-3">
             <p className="rounded-full bg-[#083426] px-4 py-2 text-base font-black uppercase text-[#fde047]">
@@ -265,33 +277,57 @@ export function BingoHost({
             </button>
           </div>
         </section>
-        <aside className="rounded-3xl border-2 border-[#fde047] bg-[#083426] p-4">
-          <h3 className="text-xl font-black uppercase text-[#fde047]">Called questions</h3>
-          <ol className="mt-3 max-h-[28rem] space-y-2 overflow-auto">
+        <aside className="flex min-h-0 flex-col rounded-3xl border-2 border-[#fde047] bg-[#083426] p-4 lg:sticky lg:top-4 lg:h-[calc(100dvh-2rem)] lg:max-h-[calc(100dvh-2rem)]">
+          <h3 className="shrink-0 text-xl font-black uppercase text-[#fde047]">Called questions</h3>
+          <ol
+            ref={logRef}
+            data-testid="bingo-called-log"
+            className="mt-3 max-h-72 min-h-0 space-y-2 overflow-y-auto overscroll-contain pb-3 pr-1 lg:max-h-none lg:flex-1"
+          >
             {bingo.called_log.length === 0 && (
               <li className="text-base font-bold text-white">No calls yet.</li>
             )}
             {bingo.called_log.map((row) => (
-              <li key={row.call_number} className="rounded-xl bg-[#052e22] px-3 py-2 text-base text-white">
+              <li key={row.call_number} className="shrink-0 rounded-xl bg-[#052e22] px-3 py-2 text-base text-white">
                 <span className="font-black text-[#fde047]">{row.call_number}. </span>
                 {row.prompt}
-                {row.answer ? <span className="mt-1 block font-black text-[#fde68a]">Answer {row.answer}</span> : null}
+                {row.answer ? (
+                  <span className="mt-1 block font-black text-[#fde68a]">Answer {row.answer}</span>
+                ) : null}
               </li>
             ))}
           </ol>
-          <h3 className="mt-4 text-xl font-black uppercase text-[#fde047]">Class</h3>
-          <ul className="mt-2 space-y-1">
-            {bingo.players.map((player) => (
-              <li key={player.player_id} className="flex items-center justify-between gap-2 text-base font-bold">
-                <span>{player.display_name}</span>
-                <span className="text-[#fde68a]">
-                  {player.winner ? "Bingo" : player.one_away ? "1 away" : `${player.marked} marks`}
-                </span>
-              </li>
-            ))}
-          </ul>
+          <div data-testid="bingo-class" className="mt-4 shrink-0 border-t border-white/25 pt-3">
+            <h3 className="text-xl font-black uppercase text-[#fde047]">Class</h3>
+            <ul className="mt-2 max-h-40 space-y-1 overflow-y-auto">
+              {bingo.players.map((player) => (
+                <li key={player.player_id} className="flex items-center justify-between gap-2 text-base font-bold">
+                  <span>{player.display_name}</span>
+                  <span className="text-[#fde68a]">
+                    {player.winner ? "Bingo" : player.one_away ? "1 away" : `${player.marked} marks`}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </aside>
       </main>
+    </div>
+  );
+}
+
+function EndQuiet({
+  end,
+}: {
+  end: { eyebrow: string; headline: string };
+}) {
+  return (
+    <div
+      data-testid="bingo-end-banner"
+      className="rounded-3xl border-4 border-white bg-[#083426] px-6 py-4 text-center text-white"
+    >
+      <p className="text-base font-black uppercase tracking-widest text-[#fde68a]">{end.eyebrow}</p>
+      <p className="text-4xl font-black uppercase sm:text-5xl">{end.headline}</p>
     </div>
   );
 }
@@ -299,14 +335,17 @@ export function BingoHost({
 function WinBanner({ bingo }: { bingo: NonNullable<HostRoomView["bingo"]> }) {
   const names = bingo.winners.map((winner) => winner.display_name);
   const tie = bingo.tie_call != null;
+  const end = bingoEndPresentation(names.length);
+  if (!end.celebrate) return <EndQuiet end={end} />;
   return (
-    <div className="rounded-3xl border-4 border-white bg-[#991b1b] px-6 py-4 text-center text-white">
+    <div
+      data-testid="bingo-end-banner"
+      className="rounded-3xl border-4 border-white bg-[#991b1b] px-6 py-4 text-center text-white"
+    >
       <p className="text-base font-black uppercase tracking-widest text-[#fde68a]">
-        {bingo.end_rule === "blackout" ? "Blackout" : tie ? "Same-call tie" : "Bingo"}
+        {bingo.end_rule === "blackout" ? "Blackout" : tie ? "Same-call tie" : end.eyebrow}
       </p>
-      <p className="text-4xl font-black uppercase sm:text-5xl">
-        {names.length === 0 ? "Bingo!" : names.join(" · ")}
-      </p>
+      <p className="text-4xl font-black uppercase sm:text-5xl">{names.join(" · ")}</p>
     </div>
   );
 }

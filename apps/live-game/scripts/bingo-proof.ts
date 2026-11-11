@@ -14,6 +14,7 @@ import {
   createBingoState,
   dealBingoPlayer,
   earlierCallIds,
+  bingoEndPresentation,
   freeCellIndex,
   isBlackout,
   linePatterns,
@@ -464,6 +465,14 @@ const pairs = [
   ["close chip", "#1c1917", "#fde047", 4.5],
   ["called log", "#ffffff", "#052e22", 4.5],
 ] as const;
+const noWin = bingoEndPresentation(0);
+const oneWin = bingoEndPresentation(1);
+check(noWin.celebrate === false, "0 winners must not celebrate");
+check(noWin.eyebrow === "Game over" && noWin.headline === "No bingo this round", "0-winner copy");
+check(noWin.headline !== "Bingo!" && noWin.eyebrow !== "Bingo", "0 winners must not use the bingo celebration");
+check(oneWin.celebrate === true && oneWin.headline === "Bingo!", "1 winner keeps the bingo celebration");
+endLog.zero_winners = noWin;
+
 const contrastLog = pairs.map(([name, fg, bg, min]) => {
   const ratio = Number(contrast(fg, bg).toFixed(2));
   check(ratio >= min, `${name} contrast ${ratio} < ${min}`);

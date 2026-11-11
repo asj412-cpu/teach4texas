@@ -47,16 +47,16 @@ export default function JoinPage() {
 
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6 py-12">
-      <Link href="/" className="mb-8 text-sm font-medium text-t4t-navy">
+      <Link href="/" className="mb-8 text-base font-medium text-t4t-navy">
         ← Teach4Texas
       </Link>
       <h1 className="text-2xl font-bold text-t4t-navy">Join a game</h1>
-      <p className="mt-2 text-sm text-t4t-darkText/75">
+      <p className="mt-2 text-base text-t4t-darkText/75">
         Enter the <strong>short room code</strong> on the projector — not a TPT
         purchase code. Display name only; no account.
       </p>
       <form className="mt-8 space-y-4" onSubmit={onSubmit}>
-        <label htmlFor="join-room-code" className="block text-sm font-medium text-t4t-navy">
+        <label htmlFor="join-room-code" className="block text-base font-medium text-t4t-navy">
           Room code
           <input
             id="join-room-code"
@@ -72,7 +72,7 @@ export default function JoinPage() {
             required
           />
         </label>
-        <label htmlFor="join-display-name" className="block text-sm font-medium text-t4t-navy">
+        <label htmlFor="join-display-name" className="block text-base font-medium text-t4t-navy">
           Display name
           <input
             id="join-display-name"
@@ -89,19 +89,19 @@ export default function JoinPage() {
           />
         </label>
         {error && (
-          <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-800">
+          <p className="rounded-lg bg-red-50 px-3 py-2 text-base text-red-800">
             {error}
           </p>
         )}
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded-xl bg-t4t-green px-4 py-3 text-sm font-semibold text-white disabled:opacity-50"
+          className="w-full rounded-xl bg-t4t-green px-4 py-3 text-base font-semibold text-white disabled:opacity-50"
         >
           {loading ? "Joining…" : "Join"}
         </button>
       </form>
-      <p className="mt-6 text-xs text-t4t-darkText/50">
+      <p className="mt-6 text-base text-t4t-darkText/50">
         Teachers: redeem your TPT access code at{" "}
         <Link href="/redeem" className="underline">
           /redeem

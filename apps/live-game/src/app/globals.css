@@ -372,3 +372,74 @@ body {
   .ev-snow { animation: none !important; display: none; }
   .ev-winter-glow { display: none; }
 }
+
+/* Bingo — CSS only. Motion turns off under prefers-reduced-motion. */
+.bingo-felt {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(253, 224, 71, 0.18), transparent 42%),
+    #052e22;
+  color: #ffffff;
+}
+@keyframes bingo-spin { to { transform: rotate(360deg); } }
+@keyframes bingo-pop {
+  0% { transform: scale(0.4); opacity: 0; }
+  60% { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes bingo-stamp-in {
+  0% { transform: scale(1.4) rotate(-12deg); opacity: 0; }
+  100% { transform: scale(1) rotate(-8deg); opacity: 1; }
+}
+@keyframes bingo-fall {
+  0% { transform: translateY(-12vh) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(540deg); opacity: 0.85; }
+}
+.bingo-drum {
+  position: relative;
+  width: 9.5rem;
+  height: 9.5rem;
+  display: grid;
+  place-items: center;
+}
+.bingo-drum-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  border: 10px dashed #fde047;
+  background: #083426;
+}
+.bingo-drum-ring.is-live { animation: bingo-spin 2.8s linear infinite; }
+.bingo-ball {
+  position: relative;
+  z-index: 1;
+  width: 6.5rem;
+  height: 6.5rem;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 35% 30%, #fff7ad, #fde047 55%, #f59e0b);
+  box-shadow: inset 0 -8px 0 rgba(120, 53, 15, 0.25);
+}
+.bingo-ball.is-in { animation: bingo-pop 0.45s ease-out both; }
+.bingo-stamp::after {
+  content: "";
+  position: absolute;
+  inset: 0.35rem;
+  border-radius: 999px;
+  border: 4px solid #991b1b;
+  animation: bingo-stamp-in 0.28s ease-out both;
+}
+.bingo-confetti {
+  position: absolute;
+  top: -8%;
+  width: 0.7rem;
+  height: 1.1rem;
+  border-radius: 2px;
+  animation: bingo-fall 2.8s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bingo-drum-ring,
+  .bingo-ball,
+  .bingo-stamp::after,
+  .bingo-confetti { animation: none !important; }
+}

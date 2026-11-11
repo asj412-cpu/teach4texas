@@ -14,6 +14,7 @@ import { ScavengerTapPlay } from "@/components/scavenger-tap-play";
 import { SequenceSortPlay } from "@/components/sequence-sort-play";
 import { TimedRacePlay } from "@/components/timed-race-play";
 import { TugOfWarPlay } from "@/components/tug-of-war-play";
+import { BingoPlay } from "@/components/bingo-play";
 import { kidPlainText } from "@/lib/plain-text";
 import { ConnectionBanner, type ConnState } from "@/components/connection-banner";
 import { postAction, type TapStatus } from "@/lib/action-post";
@@ -32,15 +33,17 @@ type StoredPlayer = {
 export default function PlayPage() {
   const [conn, setConn] = useState<ConnState>("ok");
   const [tap, setTap] = useState<TapStatus>("idle");
+  const [gameType, setGameType] = useState<string | null>(null);
   useEffect(() => {
     if (tap !== "failed" && tap !== "rejected") return;
     const t = setTimeout(() => setTap("idle"), 4000);
     return () => clearTimeout(t);
   }, [tap]);
+  const showFloatingNotice = gameType !== "bingo" && (tap === "retrying" || tap === "failed" || tap === "rejected");
   return (
     <>
-      <PlayPageBody onConnection={setConn} onTap={setTap} />
-      {tap === "retrying" || tap === "failed" || tap === "rejected" ? (
+      <PlayPageBody onConnection={setConn} onTap={setTap} onGameType={setGameType} tapNotice={tap} />
+      {showFloatingNotice ? (
         <div
           role="status"
           aria-live="polite"
@@ -63,9 +66,13 @@ export default function PlayPage() {
 function PlayPageBody({
   onConnection,
   onTap,
+  onGameType,
+  tapNotice,
 }: {
   onConnection: (s: ConnState) => void;
   onTap: (s: TapStatus) => void;
+  onGameType: (gameType: string | null) => void;
+  tapNotice: TapStatus;
 }) {
   const params = useParams();
   const code = String(params.code ?? "").toUpperCase();
@@ -73,6 +80,10 @@ function PlayPageBody({
   const [playerId, setPlayerId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    onGameType(view?.game_type ?? null);
+  }, [view?.game_type, onGameType]);
 
   // A single 404/5xx/network error is never fatal: see lib/poll-backoff.ts.
   const poll = useCallback(async (): Promise<PollOutcome> => {
@@ -217,6 +228,23 @@ function PlayPageBody({
     }
   }
 
+  async function bingoTap(cell_index: number): Promise<string | null> {
+    if (!playerId || !view || view.game_type !== "bingo") return "NOT_BINGO";
+    if (view.phase !== "bingo" || !view.bingo || view.bingo.paused) return "PAUSED";
+    if (view.bingo.lockout_ms > 0 || view.bingo.stage === "ready") return "LOCKED_OUT";
+    setSubmitting(true);
+    try {
+      const r = await postAction(`/api/rooms/${code}/bingo`, { player_id: playerId, cell_index }, onTap);
+      if (r?.data?.ok && r.data.view) {
+        setView(r.data.view as PlayerRoomView);
+        return null;
+      }
+      return r?.data?.error ?? "FAILED";
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
   async function towAnswer(choice_index: number) {
     if (!playerId || !view || view.game_type !== "tug_of_war") return;
     if (view.phase !== "towing" || view.tow?.stage !== "question" || view.tow.my_choice != null) return;
@@ -273,6 +301,10 @@ function PlayPageBody({
 
   if (view.game_type === "tug_of_war") {
     return <TugOfWarPlay view={view} submitting={submitting} onAnswer={towAnswer} />;
+  }
+
+  if (view.game_type === "bingo") {
+    return <BingoPlay view={view} submitting={submitting} onTap={bingoTap} notice={tapNotice} />;
   }
 
   if (view.phase === "lobby" && view.game_type === "escape_vault") {

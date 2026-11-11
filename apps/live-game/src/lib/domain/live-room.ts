@@ -72,6 +72,14 @@ import {
   type TowState,
   type TowTeam,
 } from "@/lib/domain/tug-of-war";
+import {
+  bingoItemsFromBoard,
+  hostBingoView,
+  playerBingoView,
+  type BingoState,
+  type HostBingoView,
+  type PlayerBingoView,
+} from "@/lib/domain/bingo";
 import { kidPlainText } from "@/lib/plain-text";
 
 export const RoomPhaseSchema = z.enum([
@@ -87,6 +95,7 @@ export const RoomPhaseSchema = z.enum([
   "dd_wager",
   "escaping",
   "towing",
+  "bingo",
   "question_open",
   "question_locked",
   "reveal",
@@ -208,6 +217,8 @@ export type LiveRoom = {
   vault_started_at: string | null;
   /** Tug of War team state (optional so older stored rooms still load). */
   tow?: TowState;
+  /** Bingo cards and calls (optional so older stored rooms still load). Host has no card. */
+  bingo?: BingoState;
   open_until: string | null;
   answer_seconds: number;
   lobby_locked: boolean;
@@ -401,6 +412,7 @@ export type HostRoomView = {
     /** Host-only answer key — keep off the projector stage. */
     item_key: { prompt: string; answer: string; teks: string }[];
   };
+  bingo: HostBingoView | null;
   open_until: string | null;
   answer_seconds: number;
   lobby_locked: boolean;
@@ -481,6 +493,7 @@ export type PlayerRoomView = {
     my_correct: boolean | null;
     my_correct_count: number;
   };
+  bingo: PlayerBingoView | null;
   open_until: string | null;
   answer_seconds: number;
   server_now: string;
@@ -1064,6 +1077,16 @@ export function sanitizeForHost(room: LiveRoom): HostRoomView {
     dash: hostDashView(room),
     vault: hostVaultView(room),
     tow: hostTowView(room),
+    bingo: hostBingoView(
+      room.game_type,
+      room.bingo,
+      bingoItemsFromBoard(room.board),
+      Object.values(room.players).map((p) => ({
+        player_id: p.player_id,
+        display_name: p.display_name,
+        connected: p.connected,
+      })),
+    ),
     open_until: room.open_until,
     answer_seconds: room.answer_seconds,
     lobby_locked: room.lobby_locked,
@@ -1204,6 +1227,13 @@ export function sanitizeForPlayer(
           )
         : null,
     tow: playerTowView(room, playerId),
+    bingo: playerBingoView(
+      room.game_type,
+      room.bingo,
+      bingoItemsFromBoard(room.board),
+      playerId,
+      new Map(Object.values(room.players).map((p) => [p.player_id, p.display_name])),
+    ),
     open_until: room.open_until,
     answer_seconds: room.answer_seconds,
     server_now: new Date().toISOString(),

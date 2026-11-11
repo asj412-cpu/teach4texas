@@ -72,6 +72,20 @@ import {
   towOutcomeEnded,
 } from "@/lib/domain/tug-of-war";
 import {
+  advanceBingoCall,
+  applyBingoTap,
+  BINGO_POINTS_PER_MARK,
+  BINGO_POINTS_WIN,
+  bingoItemsFromBoard,
+  createBingoState,
+  dealBingoPlayer,
+  revealBingoCall,
+  startBingo,
+  validateBingoSet,
+  type BingoEndRule,
+  type BingoGrid,
+} from "@/lib/domain/bingo";
+import {
   generateId,
   generateOpaqueToken,
   sha256Hex,
@@ -167,6 +181,18 @@ function ensurePlayerOddState(room: LiveRoom, playerId: string) {
   room.odd_states[playerId] = createPlayerOddState();
 }
 
+
+/** Bingo: host never holds a card. After start, a student without a card is dealt one. */
+function ensureBingo(room: LiveRoom, playerId?: string) {
+  if (room.game_type !== "bingo") return;
+  if (!room.bingo) room.bingo = createBingoState();
+  delete room.bingo.cards[HOST_PLAYER_ID];
+  delete room.bingo.lockouts[HOST_PLAYER_ID];
+  if (!playerId || playerId === HOST_PLAYER_ID) return;
+  if (room.phase !== "bingo") return;
+  if (room.bingo.cards[playerId]) return;
+  dealBingoPlayer(room.bingo, bingoItemsFromBoard(room.board), playerId, Math.random);
+}
 
 /** Tug of War: make sure state exists and every student (never the host seat) is on a team. */
 function ensureTow(room: LiveRoom) {
@@ -304,6 +330,10 @@ function resetRoomToLobby(room: LiveRoom) {
     if (prev) room.tow.teams = { ...prev.teams };
     ensureTow(room);
   }
+  if (room.game_type === "bingo") {
+    const prev = room.bingo;
+    room.bingo = createBingoState(prev?.grid, prev?.end_rule);
+  }
   for (const p of Object.values(room.players)) {
     p.score = 0;
     p.connected = true;
@@ -403,6 +433,7 @@ export async function createLiveRoom(opts: {
     },
   };
   if (gameType === "tug_of_war") room.tow = createTowState();
+  if (gameType === "bingo") room.bingo = createBingoState();
   ensureHostPlayer(room);
   for (let i = 0; i < 20; i++) {
     if (await insertRoomRecord(room)) return { room, hostToken };
@@ -546,6 +577,8 @@ const PLAYER_ACTIONS = {
     submitDashTap(room, pid, a[0] as boolean),
   submitTowAnswer: (room: LiveRoom, pid: string, a: unknown[]) =>
     submitTowAnswer(room, pid, a[0] as number),
+  submitBingoTap: (room: LiveRoom, pid: string, a: unknown[]) =>
+    submitBingoTap(room, pid, a[0] as number),
 } as const;
 
 export type PlayerActionName = keyof typeof PLAYER_ACTIONS;
@@ -657,6 +690,7 @@ export function hostView(room: LiveRoom) {
     ensurePlayerVaultState(room, HOST_PLAYER_ID);
   }
   ensureTow(room);
+  ensureBingo(room);
   return sanitizeForHost(room);
 }
 
@@ -682,6 +716,7 @@ export function playerView(room: LiveRoom, playerId: string) {
     ensurePlayerVaultState(room, playerId);
   }
   ensureTow(room);
+  ensureBingo(room, playerId);
   return sanitizeForPlayer(room, playerId);
 }
 
@@ -734,6 +769,7 @@ export function joinRoom(
       if (room.game_type === "escape_vault" && room.phase === "escaping") {
         ensurePlayerVaultState(room, existing.player_id);
       }
+      ensureBingo(room, existing.player_id);
       const view = sanitizeForPlayer(room, existing.player_id);
       if (!view) return { ok: false, error: "JOIN_FAILED" };
       return {
@@ -779,6 +815,7 @@ export function joinRoom(
   room.players[player_id] = player;
   bumpMaxPlayers(room);
   ensureTow(room);
+  ensureBingo(room, player_id);
   if (room.game_type === "memory_match" && room.phase === "matching") {
     ensurePlayerMatchState(room, player_id);
   }
@@ -844,6 +881,11 @@ export type HostAction =
   | { type: "tow_next" }
   | { type: "tow_reveal" }
   | { type: "tow_pause" }
+  | { type: "bingo_set_grid"; grid: BingoGrid }
+  | { type: "bingo_set_rule"; end_rule: BingoEndRule }
+  | { type: "bingo_pause" }
+  | { type: "bingo_next" }
+  | { type: "bingo_reveal" }
   | { type: "set_skin"; skin: "classic" | "winter" };
 
 export function applyHostAction(
@@ -908,6 +950,13 @@ export function applyHostAction(
           ensurePlayerDashState(room, pid);
         }
         room.phase = "dashing";
+      } else if (room.game_type === "bingo") {
+        if (!room.bingo) room.bingo = createBingoState();
+        const items = bingoItemsFromBoard(room.board);
+        const ids = Object.keys(room.players).filter((id) => id !== HOST_PLAYER_ID);
+        const started = startBingo(room.bingo, items, ids, Math.random);
+        if (!started.ok) return { ok: false, error: started.error };
+        room.phase = "bingo";
       } else if (room.game_type === "tug_of_war") {
         ensureTow(room);
         const st = room.tow!;
@@ -1235,7 +1284,51 @@ export function applyHostAction(
         delete room.tow.teams[action.player_id];
         delete room.tow.answers[action.player_id];
       }
+      if (room.bingo) {
+        delete room.bingo.cards[action.player_id];
+        delete room.bingo.lockouts[action.player_id];
+        room.bingo.winners = room.bingo.winners.filter(
+          (winner) => winner.player_id !== action.player_id,
+        );
+        room.bingo.decided =
+          room.bingo.end_rule === "first"
+            ? room.bingo.winners.length >= 1
+            : room.bingo.end_rule === "three"
+              ? room.bingo.winners.length >= 3
+              : room.bingo.winners.some((winner) => winner.blackout);
+      }
       return { ok: true };
+    }
+    case "bingo_set_grid": {
+      if (room.game_type !== "bingo" || !room.bingo) return { ok: false, error: "NOT_BINGO" };
+      if (room.phase !== "lobby") return { ok: false, error: "ILLEGAL_TRANSITION" };
+      if (action.grid !== 4 && action.grid !== 5) return { ok: false, error: "INVALID_GRID" };
+      const check = validateBingoSet(bingoItemsFromBoard(room.board), action.grid);
+      if (!check.ok) return { ok: false, error: check.error };
+      room.bingo.grid = action.grid;
+      return { ok: true };
+    }
+    case "bingo_set_rule": {
+      if (room.game_type !== "bingo" || !room.bingo) return { ok: false, error: "NOT_BINGO" };
+      if (room.phase !== "lobby") return { ok: false, error: "ILLEGAL_TRANSITION" };
+      room.bingo.end_rule = action.end_rule;
+      return { ok: true };
+    }
+    case "bingo_pause": {
+      if (room.game_type !== "bingo" || !room.bingo) return { ok: false, error: "NOT_BINGO" };
+      if (room.phase !== "bingo") return { ok: false, error: "ILLEGAL_TRANSITION" };
+      room.bingo.paused = !room.bingo.paused;
+      return { ok: true };
+    }
+    case "bingo_next": {
+      if (room.game_type !== "bingo" || !room.bingo) return { ok: false, error: "NOT_BINGO" };
+      if (room.phase !== "bingo") return { ok: false, error: "ILLEGAL_TRANSITION" };
+      return advanceBingoCall(room.bingo, bingoItemsFromBoard(room.board));
+    }
+    case "bingo_reveal": {
+      if (room.game_type !== "bingo" || !room.bingo) return { ok: false, error: "NOT_BINGO" };
+      if (room.phase !== "bingo") return { ok: false, error: "ILLEGAL_TRANSITION" };
+      return revealBingoCall(room.bingo);
     }
     case "tow_move_player": {
       if (room.game_type !== "tug_of_war") return { ok: false, error: "NOT_TUG_OF_WAR" };
@@ -1618,7 +1711,8 @@ export function submitAnswer(
     room.game_type === "odd_one_out" ||
     room.game_type === "true_false_dash" ||
     room.game_type === "escape_vault" ||
-    room.game_type === "tug_of_war"
+    room.game_type === "tug_of_war" ||
+    room.game_type === "bingo"
   ) {
     return { ok: false, error: "NOT_ACCEPTING_ANSWERS" };
   }
@@ -1681,6 +1775,34 @@ export function submitTowAnswer(
   ensureTow(room);
   if (room.tow.answers[playerId] === undefined) {
     room.tow.answers[playerId] = choiceIndex;
+    bumpQuestionsAnswered(room, playerId);
+  }
+  return { ok: true };
+}
+
+/** Bingo: one cell tap, checked only against the open call. Host has no card. */
+export function submitBingoTap(
+  room: LiveRoom,
+  playerId: string,
+  cellIndex: number,
+): { ok: true } | { ok: false; error: string } {
+  if (room.game_type !== "bingo" || !room.bingo) return { ok: false, error: "NOT_BINGO" };
+  if (room.phase !== "bingo") return { ok: false, error: "NOT_ACCEPTING_TAPS" };
+  if (playerId === HOST_PLAYER_ID) return { ok: false, error: "HOST_HAS_NO_CARD" };
+  if (!room.players[playerId]) return { ok: false, error: "NOT_A_PLAYER" };
+  ensureBingo(room, playerId);
+  const result = applyBingoTap(
+    room.bingo,
+    bingoItemsFromBoard(room.board),
+    playerId,
+    cellIndex,
+    Date.now(),
+  );
+  if (!result.ok) return { ok: false, error: result.error };
+  const player = room.players[playerId];
+  if (player) {
+    player.score += BINGO_POINTS_PER_MARK;
+    if (result.newly_won) player.score += BINGO_POINTS_WIN;
     bumpQuestionsAnswered(room, playerId);
   }
   return { ok: true };

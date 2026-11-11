@@ -33,6 +33,8 @@ type HostBoard = {
   supports_escape_vault?: boolean;
   supports_tug_of_war?: boolean;
   tow_item_count?: number;
+  supports_bingo?: boolean;
+  bingo_item_count?: number;
   supports_board?: boolean;
 };
 
@@ -80,6 +82,7 @@ export default function RedeemPage() {
     [unlocked?.supports_true_false_dash, "true_false_dash", "True or False Dash"],
     [unlocked?.supports_escape_vault, "escape_vault", "Escape Vault"],
     [unlocked?.supports_tug_of_war, "tug_of_war", "Tug of War"],
+    [unlocked?.supports_bingo, "bingo", "Bingo"],
   ];
 
   return (
@@ -207,6 +210,7 @@ function summaryFor(b: HostBoard): string {
     case "true_false_dash": return `True or False Dash · ${b.dash_item_count ?? 0} claims`;
     case "escape_vault": return `Escape Vault · ${b.vault_room_count ?? 0} rooms`;
     case "tug_of_war": return `Tug of War · ${b.tow_item_count ?? 0} team questions`;
+    case "bingo": return `Bingo · ${b.bingo_item_count ?? 0} calls`;
     default: return `Game show board · ${b.cell_count} questions`;
   }
 }

@@ -12,6 +12,7 @@ import {
   supportsScavengerTap,
   supportsTrueFalseDash,
   supportsTugOfWar,
+  supportsBingo,
   supportsEscapeVault,
   supportsSequenceSort,
   supportsTimedRace,
@@ -88,6 +89,12 @@ import {
   TUG_OF_WAR_SAMPLE_BOARD_ID,
 } from "@/lib/fixtures/sample-tug-of-war";
 import { towItemsFromBoard } from "@/lib/domain/tug-of-war";
+import { bingoItemsFromBoard } from "@/lib/domain/bingo";
+import {
+  buildSampleBingoBoard,
+  BINGO_SAMPLE_BOARD_ID,
+  DEMO_BINGO_CODE,
+} from "@/lib/fixtures/sample-bingo";
 import {
   ACCESS_CODE_COOKIE,
   ENTITLEMENT_TTL_HOURS,
@@ -478,6 +485,8 @@ export function toHostBoardView(board: GameBoard): HostBoardView {
     supports_escape_vault: supportsEscapeVault(board),
     tow_item_count: towItemsFromBoard(board).length,
     supports_tug_of_war: supportsTugOfWar(board),
+    bingo_item_count: bingoItemsFromBoard(board).length,
+    supports_bingo: supportsBingo(board),
   };
 }
 
@@ -534,6 +543,9 @@ export async function redeemAccessCode(rawCode: string): Promise<RedeemResult> {
   // Demo samples self-seed on first redeem (idempotent; demo kind, never a sale).
   if (normalizeAccessCode(rawCode) === normalizeAccessCode(DEMO_TUG_OF_WAR_CODE)) {
     await ensureTugOfWarSample();
+  }
+  if (normalizeAccessCode(rawCode) === normalizeAccessCode(DEMO_BINGO_CODE)) {
+    await ensureBingoSample();
   }
   if (normalizeAccessCode(rawCode) === normalizeAccessCode(DEMO_BOARD_SAMPLE_CODE)) {
     await ensureBoardSample();
@@ -667,6 +679,7 @@ export {
   DEMO_TRUE_FALSE_DASH_CODE,
   DEMO_ESCAPE_VAULT_CODE,
   DEMO_TUG_OF_WAR_CODE,
+  DEMO_BINGO_CODE,
   DEMO_BOARD_SAMPLE_CODE,
 };
 
@@ -1261,6 +1274,38 @@ export async function getConversionStats(opts: {
   };
 }
 
+
+/** Seed Bingo sample packet + known demo access code. Idempotent. Demo kind, never a sale. */
+export async function ensureBingoSample(
+  plaintext = DEMO_BINGO_CODE,
+): Promise<{ code: string; boardId: string; created: boolean }> {
+  const store = await ensureStore();
+  const board =
+    store.boards.find((b) => b.id === BINGO_SAMPLE_BOARD_ID) ??
+    GameBoardSchema.parse(buildSampleBingoBoard());
+  if (!store.boards.some((b) => b.id === board.id)) {
+    store.boards.push(board);
+  }
+  const hash = sha256Hex(normalizeAccessCode(plaintext));
+  const existing = store.product_codes.find((c) => c.code_hash === hash);
+  if (existing) {
+    await writeStore(store);
+    return { code: DEMO_BINGO_CODE, boardId: board.id, created: false };
+  }
+  const record = ProductCodeRecordSchema.parse({
+    id: generateId("pc"),
+    code_hash: hash,
+    board_id: board.id,
+    label: "Local demo / bingo sample",
+    max_sessions: null,
+    sessions_started: 0,
+    revoked_at: null,
+    created_at: new Date().toISOString(),
+  });
+  store.product_codes.push(record);
+  await writeStore(store);
+  return { code: DEMO_BINGO_CODE, boardId: board.id, created: true };
+}
 
 /** Seed Tug of War sample packet + known demo access code. Idempotent. */
 export async function ensureTugOfWarSample(

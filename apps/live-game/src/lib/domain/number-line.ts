@@ -41,6 +41,8 @@ export type NlPlacement = {
   at: string;
 };
 
+export type NlPause = { start: string; end: string | null };
+
 export type NlAward = {
   player_id: string;
   value: number | null;
@@ -65,9 +67,13 @@ export type NumberLineState = {
   awards: NlAward[];
   /** Question ids whose points were already added. */
   scored_ids: string[];
+  /** Closed and open pauses for this question. Open pause has end === null. */
+  pauses: NlPause[];
+  /** Client request ids already applied. A retry with the same id is a no-op. */
+  applied_request_ids: string[];
 };
 
-const PLACE_KEYS = new Set(["player_id", "question_id", "value", "lock"]);
+const PLACE_KEYS = new Set(["player_id", "question_id", "value", "lock", "request_id"]);
 
 export function createNumberLineState(seconds: NlSeconds = 30): NumberLineState {
   return {
@@ -83,6 +89,8 @@ export function createNumberLineState(seconds: NlSeconds = 30): NumberLineState 
     placements: {},
     awards: [],
     scored_ids: [],
+    pauses: [],
+    applied_request_ids: [],
   };
 }
 
@@ -146,7 +154,16 @@ export function validateNumberLineItem(
   if (!Number.isFinite(item.min) || !Number.isFinite(item.max) || !(item.max > item.min)) {
     return { ok: false, error: "The maximum must be greater than the minimum." };
   }
-  if (!Number.isInteger(item.divisions) || item.divisions < 1) {
+  if (!Number.isFinite(item.divisions)) {
+    return {
+      ok: false,
+      error: "This question has zero ticks. Add at least one space between the ends.",
+    };
+  }
+  if (!Number.isInteger(item.divisions)) {
+    return { ok: false, error: "The number of ticks has to be a whole number." };
+  }
+  if (item.divisions < 1) {
     return {
       ok: false,
       error: "This question has zero ticks. Add at least one space between the ends.",
@@ -208,15 +225,20 @@ export const NumberLineItemSchema = z
  * `maxLabels` is how many labels the width can hold at the text floor.
  */
 export function visibleTickIndexes(divisions: number, maxLabels: number): number[] {
-  const total = divisions + 1;
-  const cap = Math.max(2, Math.floor(maxLabels));
   if (!Number.isInteger(divisions) || divisions < 1) return [0];
+  const total = divisions + 1;
+  const cap = Math.max(2, Math.min(total, Math.floor(maxLabels)));
   if (total <= cap) return Array.from({ length: total }, (_, i) => i);
-  const step = Math.ceil(divisions / (cap - 1));
-  const out: number[] = [0];
-  for (let i = step; i < divisions; i += step) {
-    if (divisions - i < step) break;
-    out.push(i);
+  let gaps = cap - 1;
+  while (gaps > 1 && divisions % gaps !== 0) gaps -= 1;
+  if (divisions % gaps === 0) {
+    const step = divisions / gaps;
+    return Array.from({ length: gaps + 1 }, (_, i) => i * step);
+  }
+  const out = [0];
+  for (let i = 1; i < gaps; i++) {
+    const idx = Math.round((i * divisions) / gaps);
+    if (idx > out[out.length - 1]! && idx < divisions) out.push(idx);
   }
   out.push(divisions);
   return out;
@@ -342,7 +364,14 @@ export function scorePlacement(
 }
 
 export type PlaceBody =
-  | { ok: true; player_id: string; question_id: string; value: number; lock: boolean }
+  | {
+      ok: true;
+      player_id: string;
+      question_id: string;
+      value: number;
+      lock: boolean;
+      request_id: string | null;
+    }
   | { ok: false; error: string };
 
 /** Reject extra keys before the value is scored. The route uses this on every POST. */
@@ -366,13 +395,39 @@ export function parseNumberLinePlaceBody(body: unknown): PlaceBody {
   if (record.lock !== undefined && typeof record.lock !== "boolean") {
     return { ok: false, error: "FORGED" };
   }
+  let request_id: string | null = null;
+  if (record.request_id !== undefined) {
+    if (typeof record.request_id !== "string" || record.request_id.trim().length < 8 || record.request_id.length > 80) {
+      return { ok: false, error: "FORGED" };
+    }
+    request_id = record.request_id.trim();
+  }
   return {
     ok: true,
     player_id: record.player_id,
     question_id: record.question_id.trim(),
     value: record.value,
     lock: record.lock === true,
+    request_id,
   };
+}
+
+/** Active milliseconds between start and a lock, with pauses removed. */
+export function activeElapsedMs(
+  pauses: NlPause[] | undefined,
+  startedAtMs: number,
+  lockedAtMs: number,
+): number {
+  let paused = 0;
+  for (const pause of pauses ?? []) {
+    const start = new Date(pause.start).getTime();
+    const end = pause.end ? new Date(pause.end).getTime() : lockedAtMs;
+    if (!Number.isFinite(start) || !Number.isFinite(end)) continue;
+    const from = Math.max(startedAtMs, start);
+    const to = Math.min(lockedAtMs, end);
+    if (to > from) paused += to - from;
+  }
+  return Math.max(0, lockedAtMs - startedAtMs - paused);
 }
 
 export function currentNumberLineItem(
@@ -408,7 +463,10 @@ export function applyNumberLinePlace(
   value: number,
   lock: boolean,
   now: number,
+  requestId: string | null = null,
 ): { ok: true } | { ok: false; error: string } {
+  if (!state.applied_request_ids) state.applied_request_ids = [];
+  if (requestId && state.applied_request_ids.includes(requestId)) return { ok: true };
   syncNumberLineClock(state, now);
   if (state.stage !== "placing") return { ok: false, error: "NOT_ACCEPTING" };
   if (state.paused) return { ok: false, error: "PAUSED" };
@@ -433,6 +491,12 @@ export function applyNumberLinePlace(
     locked: lock,
     at: new Date(now).toISOString(),
   };
+  if (requestId) {
+    state.applied_request_ids.push(requestId);
+    if (state.applied_request_ids.length > 4000) {
+      state.applied_request_ids.splice(0, state.applied_request_ids.length - 4000);
+    }
+  }
   return { ok: true };
 }
 
@@ -457,7 +521,9 @@ export function scoreNumberLineAwards(
         within: false,
       };
     }
-    const elapsed = placed.locked ? new Date(placed.at).getTime() - started : totalMs;
+    const elapsed = placed.locked
+      ? activeElapsedMs(state.pauses, started, new Date(placed.at).getTime())
+      : totalMs;
     const parts = scorePlacement(item, placed.value, {
       locked: placed.locked,
       elapsedMs: elapsed,
@@ -648,6 +714,13 @@ export function playerNumberLineView(
     leaderboard: ranksFromPlayers(players, 5),
     podium: ranksFromPlayers(players, 3),
   };
+}
+
+/** Host and player board payloads never carry number-line answers. Reveal uses room state. */
+export function stripNumberLineAnswers<T extends { number_line_items?: NumberLineItem[] | null }>(
+  board: T,
+): T {
+  return redactNumberLineItems(board, new Set());
 }
 
 /** Drop unrevealed answers so a host board payload cannot leak the key. */

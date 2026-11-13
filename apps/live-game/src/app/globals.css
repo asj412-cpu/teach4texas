@@ -450,6 +450,15 @@ body {
     radial-gradient(circle at 50% -10%, rgba(253, 224, 71, 0.16), transparent 46%),
     #07111f;
   color: #ffffff;
+  max-width: 100%;
+  overflow-x: clip;
+}
+.nl-track {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  padding-left: 4.5rem;
+  padding-right: 4.5rem;
 }
 .nl-rail {
   height: 5.5rem;
@@ -503,17 +512,18 @@ body {
 }
 .nl-truth {
   position: absolute;
-  top: 0.35rem;
+  top: 3.35rem;
   z-index: 1;
   transform: translateX(-50%);
 }
 .nl-truth-flag {
   display: block;
-  width: 1.1rem;
-  height: 2.4rem;
-  border-radius: 0.2rem;
-  background: #fde047;
-  box-shadow: 0 0 0 3px #1c1917;
+  width: 0;
+  height: 0;
+  border-left: 0.7rem solid transparent;
+  border-right: 0.7rem solid transparent;
+  border-bottom: 1.1rem solid #fde047;
+  filter: drop-shadow(0 0 0 #1c1917);
 }
 .nl-dot {
   position: absolute;
@@ -529,13 +539,19 @@ body {
 }
 .nl-dot-name {
   position: absolute;
-  left: 50%;
-  top: -1.6rem;
-  transform: translateX(-50%);
+  left: 1.35rem;
+  top: 50%;
+  transform: translateY(-50%);
   white-space: nowrap;
-  font-size: 1rem;
+  font-size: 1.5rem;
+  line-height: 1;
   font-weight: 800;
   color: #ffffff;
+  text-shadow: 0 1px 2px #07111f;
+}
+.nl-dot-name.is-left {
+  left: auto;
+  right: 1.35rem;
 }
 .nl-podium { transform-origin: bottom; animation: nl-podium 0.6s ease-out both; }
 .nl-confetti {

@@ -24,5 +24,6 @@ export async function POST(
     parsed.question_id,
     parsed.value,
     parsed.lock,
+    parsed.request_id,
   ]);
 }

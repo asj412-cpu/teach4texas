@@ -19,6 +19,7 @@ import { NumberLinePlay } from "@/components/number-line-play";
 import { kidPlainText } from "@/lib/plain-text";
 import { ConnectionBanner, type ConnState } from "@/components/connection-banner";
 import { postAction, type TapStatus } from "@/lib/action-post";
+import { postNumberLine } from "@/components/number-line/post";
 import { outcomeForStatus, startResilientPoll, type PollOutcome } from "@/lib/poll-backoff";
 import { DailyDoublePlayer } from "@/components/daily-double";
 import { CueOn, Finale, GameShowStage, playCue } from "@/components/game-show";
@@ -235,11 +236,15 @@ function PlayPageBody({
   async function numberLinePlace(question_id: string, value: number, lock: boolean) {
     if (!playerId || !view || view.game_type !== "number_line") return;
     if (!view.number_line?.accepting || view.number_line.my_locked) return;
+    const request_id =
+      typeof crypto !== "undefined" && "randomUUID" in crypto
+        ? crypto.randomUUID()
+        : `nl-${Date.now()}-${Math.random().toString(16).slice(2)}`;
     setSubmitting(true);
     try {
-      const r = await postAction(
+      const r = await postNumberLine(
         `/api/rooms/${code}/number-line`,
-        { player_id: playerId, question_id, value, lock },
+        { player_id: playerId, question_id, value, lock, request_id },
         onTap,
       );
       if (r?.data?.ok && r.data.view) setView(r.data.view as PlayerRoomView);
@@ -338,8 +343,10 @@ function PlayPageBody({
             : tapNotice === "failed"
               ? "Didn’t send. Tap again."
               : tapNotice === "retrying"
-                ? "Sending…"
-                : null
+                ? "Retrying…"
+                : tapNotice === "sending"
+                  ? "Sending…"
+                  : null
         }
         onPlace={numberLinePlace}
       />

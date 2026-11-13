@@ -194,7 +194,13 @@ export function NumberLinePlay({
                 }}
                 className="w-full rounded-2xl bg-[#fde047] px-4 py-4 text-2xl font-black uppercase text-[#1c1917] disabled:cursor-not-allowed disabled:grayscale-[60%]"
               >
-                {line.my_locked ? "Locked in" : timeUp ? "Time is up" : "Lock it in"}
+                {notice === "Retrying…"
+                  ? "Retrying…"
+                  : line.my_locked
+                    ? "Locked in"
+                    : timeUp
+                      ? "Time is up"
+                      : "Lock it in"}
               </button>
             </div>
           </>

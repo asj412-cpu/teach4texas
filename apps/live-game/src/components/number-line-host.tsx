@@ -64,7 +64,7 @@ export function NumberLineHost({
     <header className="border-b-4 border-[#fde047] bg-[#07111f] text-white">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
         <div>
-          <p className="text-base font-black uppercase tracking-widest text-[#fde047]">Live host · Number line</p>
+          <p className="text-2xl font-black uppercase tracking-widest text-[#fde047]">Live host · Number line</p>
           <h1 className="text-2xl font-black text-white sm:text-4xl">{kidPlainText(view.board.title, 80)}</h1>
         </div>
         <div className="flex flex-wrap items-center gap-3">
@@ -75,15 +75,15 @@ export function NumberLineHost({
               setNumberLineMuted(!muted);
               setMuted(!muted);
             }}
-            className="rounded-xl border-2 border-white bg-[#10233f] px-4 py-3 text-base font-black text-white"
+            className="rounded-xl border-2 border-white bg-[#10233f] px-4 py-3 text-2xl font-black text-white"
             aria-pressed={muted}
           >
             {muted ? "Sound off" : "Sound on"}
           </button>
           <div className="rounded-2xl border-2 border-[#fde047] bg-[#10233f] px-5 py-2 text-center">
-            <p className="text-base font-bold uppercase tracking-wide text-[#fde047]">Room code</p>
+            <p className="text-2xl font-bold uppercase tracking-wide text-[#fde047]">Room code</p>
             <p className="font-mono text-3xl font-black tracking-widest text-white">{view.code}</p>
-            <p className="text-base text-white">
+            <p className="text-2xl text-white">
               {line.locked_count} locked in · {line.joined_count} joined
             </p>
           </div>
@@ -99,10 +99,10 @@ export function NumberLineHost({
         <main className="mx-auto max-w-3xl px-4 py-8">
           <section className="rounded-3xl border-4 border-[#fde047] bg-[#10233f] p-6 text-center">
             <h2 className="text-3xl font-black text-[#fde047]">Place it on the line</h2>
-            <p className="mt-3 text-base text-white">
+            <p className="mt-3 text-2xl text-white">
               Students drag or tap a marker on their own screen. You reveal the true spot here.
             </p>
-            <p className="mt-4 text-base font-black uppercase tracking-wide text-[#fde047]">Timer for each question</p>
+            <p className="mt-4 text-2xl font-black uppercase tracking-wide text-[#fde047]">Timer for each question</p>
             <div className="mt-3 flex flex-wrap justify-center gap-2">
               {SECONDS.map((seconds) => (
                 <button
@@ -122,12 +122,12 @@ export function NumberLineHost({
             </div>
             <ul className="mt-5 grid gap-2 text-left sm:grid-cols-2">
               {line.joined_count === 0 ? (
-                <li className="rounded-xl bg-[#07111f] px-4 py-3 text-base font-bold">Waiting for students…</li>
+                <li className="rounded-xl bg-[#07111f] px-4 py-3 text-2xl font-bold">Waiting for students…</li>
               ) : null}
               {view.players
                 .filter((player) => player.player_id !== "host")
                 .map((player) => (
-                  <li key={player.player_id} className="rounded-xl bg-[#07111f] px-4 py-3 text-base font-bold">
+                  <li key={player.player_id} className="rounded-xl bg-[#07111f] px-4 py-3 text-2xl font-bold">
                     {kidPlainText(player.display_name, 16)}
                   </li>
                 ))}
@@ -143,7 +143,7 @@ export function NumberLineHost({
               <button
                 type="button"
                 onClick={() => act({ type: "lock_lobby", locked: !view.lobby_locked })}
-                className="rounded-2xl border-2 border-white bg-[#07111f] px-5 py-4 text-xl font-black text-white"
+                className="rounded-2xl border-2 border-white bg-[#07111f] px-5 py-4 text-2xl font-black text-white"
               >
                 {view.lobby_locked ? "Unlock lobby" : "Lock lobby"}
               </button>
@@ -160,7 +160,7 @@ export function NumberLineHost({
         <Confetti />
         {header}
         <main className="relative mx-auto max-w-4xl px-4 py-8 text-center">
-          <p className="text-base font-black uppercase tracking-widest text-[#fde047]">Podium</p>
+          <p className="text-2xl font-black uppercase tracking-widest text-[#fde047]">Podium</p>
           <h2 className="mt-2 text-4xl font-black text-white">That is the line</h2>
           <Podium ranks={line.podium} />
           <div className="mx-auto mt-6 flex max-w-lg justify-center">
@@ -195,16 +195,18 @@ export function NumberLineHost({
       {header}
       <main className="mx-auto max-w-5xl px-4 py-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className="rounded-full bg-[#10233f] px-4 py-2 text-base font-black uppercase text-[#fde047]">
+          <p className="rounded-full bg-[#10233f] px-4 py-2 text-2xl font-black uppercase text-[#fde047]">
             {line.paused
               ? "Paused"
               : question
                 ? `Question ${question.number} of ${question.total}`
                 : "Number line"}
           </p>
-          <p className="text-3xl font-black tabular-nums text-[#fde047]">
-            {remain == null ? `${line.seconds}s` : `${Math.ceil(remain / 1000)}s`}
-          </p>
+          {line.stage === "placing" || line.stage === "ready" ? (
+            <p className="text-3xl font-black tabular-nums text-[#fde047]">
+              {line.stage === "placing" ? `${Math.ceil((remain ?? 0) / 1000)}s` : `${line.seconds}s`}
+            </p>
+          ) : null}
         </div>
         {line.stage === "board" ? (
           <section className="mt-6 rounded-3xl border-4 border-[#fde047] bg-[#10233f] p-6">
@@ -217,7 +219,7 @@ export function NumberLineHost({
               {question ? question.prompt : "Get ready for the next number."}
             </h2>
             {question ? (
-              <p className="mt-2 text-center text-base font-bold text-[#fde68a]">
+              <p className="mt-2 text-center text-2xl font-bold text-[#fde68a]">
                 TEKS {question.teks} · {question.mode === "snap" ? "Snap to a tick" : "Place anywhere"}
               </p>
             ) : null}
@@ -278,28 +280,29 @@ export function NumberLineHost({
           <button
             type="button"
             onClick={() => act({ type: "nl_pause" })}
-            className="rounded-2xl border-2 border-white bg-[#10233f] px-5 py-4 text-xl font-black text-white"
+            className="rounded-2xl border-2 border-white bg-[#10233f] px-5 py-4 text-2xl font-black text-white"
           >
             {line.paused ? "Resume" : "Pause"}
           </button>
           <button
             type="button"
             onClick={() => act({ type: "nl_next" })}
-            className="rounded-2xl bg-[#fde047] px-6 py-4 text-xl font-black uppercase text-[#1c1917]"
+            className="rounded-2xl bg-[#fde047] px-6 py-4 text-2xl font-black uppercase text-[#1c1917]"
           >
             Next
           </button>
           <button
             type="button"
             onClick={() => act({ type: "nl_reveal" })}
-            className="rounded-2xl bg-white px-6 py-4 text-xl font-black uppercase text-[#1c1917]"
+            disabled={line.stage !== "placing"}
+            className="rounded-2xl bg-white px-6 py-4 text-2xl font-black uppercase text-[#1c1917] disabled:cursor-not-allowed disabled:opacity-40"
           >
             Reveal
           </button>
           <button
             type="button"
             onClick={() => act({ type: "nl_show_names" })}
-            className="rounded-2xl border-2 border-white bg-[#10233f] px-5 py-4 text-xl font-black text-white"
+            className="rounded-2xl border-2 border-white bg-[#10233f] px-5 py-4 text-2xl font-black text-white"
             aria-pressed={line.show_names}
           >
             {line.show_names ? "Hide names" : "Show names"}
@@ -307,7 +310,7 @@ export function NumberLineHost({
           <button
             type="button"
             onClick={() => act({ type: "end_game" })}
-            className="rounded-2xl border-2 border-white bg-[#07111f] px-5 py-4 text-xl font-black text-white"
+            className="rounded-2xl border-2 border-white bg-[#07111f] px-5 py-4 text-2xl font-black text-white"
           >
             End
           </button>
@@ -319,7 +322,7 @@ export function NumberLineHost({
 
 function Leaderboard({ ranks }: { ranks: { player_id: string; display_name: string; score: number }[] }) {
   if (ranks.length === 0) {
-    return <p className="mt-4 text-center text-base font-bold">No scores yet.</p>;
+    return <p className="mt-4 text-center text-2xl font-bold">No scores yet.</p>;
   }
   return (
     <ol className="mx-auto mt-4 max-w-lg space-y-2">
@@ -348,7 +351,7 @@ function Podium({ ranks }: { ranks: { player_id: string; display_name: string; s
     <div className="mx-auto mt-8 flex max-w-xl items-end justify-center gap-3">
       {slots.map((slot) => (
         <div key={slot.place} className="flex w-28 flex-col items-center">
-          <p className="text-base font-black text-white">{slot.rank?.display_name ?? "—"}</p>
+          <p className="text-2xl font-black text-white">{slot.rank?.display_name ?? "—"}</p>
           <p className="text-2xl font-black text-[#fde047]">{slot.rank?.score ?? 0}</p>
           <div
             className={`nl-podium mt-2 flex w-full items-end justify-center rounded-t-2xl bg-[#fde047] text-3xl font-black text-[#1c1917] ${slot.height}`}

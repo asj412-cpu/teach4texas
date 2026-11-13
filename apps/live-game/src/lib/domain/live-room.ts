@@ -84,8 +84,7 @@ import {
   hostNumberLineView,
   numberLineItemsFromBoard,
   playerNumberLineView,
-  redactNumberLineItems,
-  revealedNumberLineIds,
+  stripNumberLineAnswers,
   syncNumberLineClock,
   type HostNumberLineView,
   type NumberLineState,
@@ -1065,8 +1064,8 @@ function playerTowView(room: LiveRoom, playerId: string): PlayerRoomView["tow"] 
 export function sanitizeForHost(room: LiveRoom): HostRoomView {
   if (room.number_line) syncNumberLineClock(room.number_line, Date.now());
   const board =
-    room.game_type === "number_line"
-      ? redactNumberLineItems(room.board, revealedNumberLineIds(room.number_line))
+    room.game_type === "number_line" || (room.board.number_line_items?.length ?? 0) > 0
+      ? stripNumberLineAnswers(room.board)
       : room.board;
   const players = Object.values(room.players).map((p) => ({
     player_id: p.player_id,

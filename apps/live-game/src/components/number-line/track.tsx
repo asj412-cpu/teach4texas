@@ -37,6 +37,10 @@ function valueFromPointer(item: LineShape, clientX: number, rect: DOMRect): numb
   return item.min + clamped * (item.max - item.min);
 }
 
+function valueKey(value: number): number {
+  return Math.round(value * 1e6) / 1e6;
+}
+
 export function NumberLineTrack({
   item,
   value,
@@ -61,24 +65,34 @@ export function NumberLineTrack({
   onGrab?: () => void;
 }) {
   const rail = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState(375);
+  const [width, setWidth] = useState(280);
   const [held, setHeld] = useState(false);
   const dragging = useRef(false);
 
   useEffect(() => {
     const el = rail.current;
     if (!el) return;
-    const measure = () => setWidth(el.clientWidth || 375);
+    const measure = () => setWidth(el.clientWidth || 280);
     measure();
     const observer = new ResizeObserver(measure);
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
 
+  const divisions = Math.max(1, Math.round(item.divisions));
+  const marks = Array.from({ length: divisions + 1 }, (_, index) => index);
   const maxLabels = Math.max(2, Math.floor(width / 72));
-  const ticks = visibleTickIndexes(item.divisions, maxLabels);
+  const labels = visibleTickIndexes(divisions, maxLabels);
   const marker = value == null ? null : percent(item, value);
   const truth = answer == null ? null : percent(item, answer);
+  const stacks = new Map<number, number>();
+  const stacked = dots.map((dot) => {
+    const key = valueKey(dot.value);
+    const stack = stacks.get(key) ?? 0;
+    stacks.set(key, stack + 1);
+    return { ...dot, stack };
+  });
+  const maxStack = stacked.reduce((highest, dot) => Math.max(highest, dot.stack), 0);
 
   function pointAt(clientX: number, commit: boolean) {
     const rect = rail.current?.getBoundingClientRect();
@@ -89,7 +103,8 @@ export function NumberLineTrack({
   }
 
   return (
-    <div className="w-full">
+    <div className="nl-track">
+      <div style={{ height: maxStack * 28 }} aria-hidden />
       <div
         ref={rail}
         className={`nl-rail relative w-full touch-none ${disabled ? "opacity-80" : ""}`}
@@ -125,11 +140,11 @@ export function NumberLineTrack({
             aria-hidden
           />
         ) : null}
-        {ticks.map((index) => (
+        {marks.map((index) => (
           <span
             key={index}
             className="nl-tick"
-            style={{ left: `${(index / item.divisions) * 100}%` }}
+            style={{ left: `${(index / divisions) * 100}%` }}
             aria-hidden
           />
         ))}
@@ -138,18 +153,24 @@ export function NumberLineTrack({
             <span className="nl-truth-flag" />
           </span>
         ) : null}
-        {dots.map((dot, index) => (
-          <span
-            key={dot.id}
-            className="nl-dot"
-            style={{
-              left: `${percent(item, dot.value)}%`,
-              animationDelay: `${index * 0.06}s`,
-            }}
-          >
-            {dot.name ? <span className="nl-dot-name">{dot.name}</span> : null}
-          </span>
-        ))}
+        {stacked.map((dot, index) => {
+          const at = percent(item, dot.value);
+          return (
+            <span
+              key={dot.id}
+              className="nl-dot"
+              style={{
+                left: `${at}%`,
+                top: `calc(2.15rem - ${dot.stack * 1.75}rem)`,
+                animationDelay: `${index * 0.04}s`,
+              }}
+            >
+              {dot.name ? (
+                <span className={`nl-dot-name ${at > 68 ? "is-left" : ""}`}>{dot.name}</span>
+              ) : null}
+            </span>
+          );
+        })}
         {marker != null ? (
           <button
             type="button"
@@ -159,37 +180,37 @@ export function NumberLineTrack({
             aria-label="Your marker"
             onKeyDown={(event) => {
               if (!interactive || disabled || !onPlace || value == null) return;
-              const step = item.mode === "snap" ? 1 : Math.max(1, Math.round(item.divisions / 20));
+              const step = item.mode === "snap" ? 1 : Math.max(1, Math.round(divisions / 20));
               const span = item.max - item.min;
-              const index = Math.round(((value - item.min) / span) * item.divisions);
+              const index = Math.round(((value - item.min) / span) * divisions);
               if (event.key === "ArrowRight" || event.key === "ArrowUp") {
                 event.preventDefault();
-                const next = Math.min(item.divisions, index + (item.mode === "snap" ? 1 : step));
-                onPlace(item.mode === "snap" ? tickValue(item, next) : item.min + (next / item.divisions) * span);
+                const next = Math.min(divisions, index + (item.mode === "snap" ? 1 : step));
+                onPlace(item.mode === "snap" ? tickValue(item, next) : item.min + (next / divisions) * span);
               }
               if (event.key === "ArrowLeft" || event.key === "ArrowDown") {
                 event.preventDefault();
                 const next = Math.max(0, index - (item.mode === "snap" ? 1 : step));
-                onPlace(item.mode === "snap" ? tickValue(item, next) : item.min + (next / item.divisions) * span);
+                onPlace(item.mode === "snap" ? tickValue(item, next) : item.min + (next / divisions) * span);
               }
             }}
           />
         ) : null}
       </div>
-      <div className="relative mt-2 h-10 w-full">
-        {ticks.map((index) => {
+      <div className="relative mt-3 h-10 w-full">
+        {labels.map((index) => {
           const atStart = index === 0;
-          const atEnd = index === item.divisions;
+          const atEnd = index === divisions;
           return (
             <span
               key={index}
               className="absolute top-0 text-2xl font-black leading-none text-white"
               style={{
-                left: `${(index / item.divisions) * 100}%`,
+                left: `${(index / divisions) * 100}%`,
                 transform: atStart ? "none" : atEnd ? "translateX(-100%)" : "translateX(-50%)",
               }}
             >
-              {formatTickLabel(item, index)}
+              {formatTickLabel({ ...item, divisions }, index)}
             </span>
           );
         })}

@@ -221,6 +221,8 @@ function openNumberLineQuestion(room: LiveRoom, now = Date.now()): ActionResult 
   state.accepting = true;
   state.placements = {};
   state.awards = [];
+  state.pauses = [];
+  state.applied_request_ids = [];
   state.started_at = new Date(now).toISOString();
   state.ends_at = new Date(now + state.seconds * 1000).toISOString();
   state.paused_remaining_ms = null;
@@ -645,7 +647,14 @@ const PLAYER_ACTIONS = {
   submitBingoTap: (room: LiveRoom, pid: string, a: unknown[]) =>
     submitBingoTap(room, pid, a[0] as number),
   submitNumberLinePlace: (room: LiveRoom, pid: string, a: unknown[]) =>
-    submitNumberLinePlace(room, pid, a[0] as string, a[1] as number, a[2] as boolean),
+    submitNumberLinePlace(
+      room,
+      pid,
+      a[0] as string,
+      a[1] as number,
+      a[2] as boolean,
+      (a[3] as string | null) ?? null,
+    ),
 } as const;
 
 export type PlayerActionName = keyof typeof PLAYER_ACTIONS;
@@ -1438,7 +1447,11 @@ export function applyHostAction(
       }
       const state = room.number_line;
       const now = Date.now();
+      const nowIso = new Date(now).toISOString();
+      if (!state.pauses) state.pauses = [];
       if (state.paused) {
+        const open = [...state.pauses].reverse().find((pause) => pause.end == null);
+        if (open) open.end = nowIso;
         const remain = state.paused_remaining_ms ?? state.seconds * 1000;
         state.paused = false;
         state.paused_remaining_ms = null;
@@ -1449,6 +1462,7 @@ export function applyHostAction(
       const remain = state.ends_at
         ? Math.max(0, new Date(state.ends_at).getTime() - now)
         : state.seconds * 1000;
+      state.pauses.push({ start: nowIso, end: null });
       state.paused = true;
       state.paused_remaining_ms = remain;
       state.ends_at = null;
@@ -1473,6 +1487,8 @@ export function applyHostAction(
       state.stage = "ready";
       state.placements = {};
       state.awards = [];
+      state.pauses = [];
+      state.applied_request_ids = [];
       state.accepting = false;
       state.started_at = null;
       state.ends_at = null;
@@ -1953,6 +1969,7 @@ export function submitNumberLinePlace(
   questionId: string,
   value: number,
   lock: boolean,
+  requestId: string | null = null,
 ): { ok: true } | { ok: false; error: string } {
   if (room.game_type !== "number_line" || !room.number_line) {
     return { ok: false, error: "NOT_NUMBER_LINE" };
@@ -1968,6 +1985,7 @@ export function submitNumberLinePlace(
     value,
     lock,
     Date.now(),
+    requestId,
   );
 }
 

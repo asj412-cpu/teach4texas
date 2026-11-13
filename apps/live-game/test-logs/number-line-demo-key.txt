@@ -1,14 +1,14 @@
 questions 20 range 10 snap 10
-OK nl-r01 range teks 3.2(C) line 0-1000 /10 answer 600 onLine true onTick true
-OK nl-r02 range teks 3.2(C) line 0-1000 /10 answer 900 onLine true onTick true
-OK nl-r03 range teks 3.2(C) line 0-1000 /10 answer 500 onLine true onTick true
-OK nl-r04 range teks 3.2(C) line 0-1000 /10 answer 300 onLine true onTick true
-OK nl-r05 range teks 3.2(C) line 0-1000 /10 answer 200 onLine true onTick true
-OK nl-r06 range teks 3.2(C) line 0-1000 /10 answer 1000 onLine true onTick true
-OK nl-r07 range teks 3.2(C) line 0-1000 /10 answer 0 onLine true onTick true
-OK nl-r08 range teks 3.2(C) line 0-1000 /10 answer 250 onLine true onTick false
-OK nl-r09 range teks 3.2(C) line 0-1000 /10 answer 600 onLine true onTick true
-OK nl-r10 range teks 3.2(C) line 0-1000 /10 answer 700 onLine true onTick true
+OK nl-r01 range teks 3.2(C) line 0-1000 /10 answer 80 onLine true onTick false
+OK nl-r02 range teks 3.2(C) line 0-1000 /10 answer 150 onLine true onTick false
+OK nl-r03 range teks 3.2(C) line 0-1000 /10 answer 240 onLine true onTick false
+OK nl-r04 range teks 3.2(C) line 0-1000 /10 answer 375 onLine true onTick false
+OK nl-r05 range teks 3.2(C) line 0-1000 /10 answer 420 onLine true onTick false
+OK nl-r06 range teks 3.2(C) line 0-1000 /10 answer 510 onLine true onTick false
+OK nl-r07 range teks 3.2(C) line 0-1000 /10 answer 640 onLine true onTick false
+OK nl-r08 range teks 3.2(C) line 0-1000 /10 answer 705 onLine true onTick false
+OK nl-r09 range teks 3.2(C) line 0-1000 /10 answer 860 onLine true onTick false
+OK nl-r10 range teks 3.2(C) line 0-1000 /10 answer 990 onLine true onTick false
 OK nl-s01 snap teks 3.3(A) line 0-1 /2 answer 0.5 onLine true onTick true
 OK nl-s02 snap teks 3.3(B) line 0-1 /4 answer 0.75 onLine true onTick true
 OK nl-s03 snap teks 3.3(A) line 0-1 /3 answer 0.3333333333333333 onLine true onTick true

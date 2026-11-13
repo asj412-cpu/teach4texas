@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ACCESS_CODE_COOKIE } from "@/lib/domain/access-code";
+import { stripNumberLineAnswers } from "@/lib/domain/number-line";
 import { resolveEntitlement } from "@/lib/store";
 
 export const dynamic = "force-dynamic";
@@ -32,6 +33,6 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json({
     ok: true,
-    board: resolved.board,
+    board: stripNumberLineAnswers(resolved.board),
   });
 }

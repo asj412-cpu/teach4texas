@@ -7,7 +7,7 @@ import {
 
 /**
  * 20 Grade 3 number-line questions.
- * 10 Range — TEKS 3.2(C), whole numbers to 1,000.
+ * 10 Range — TEKS 3.2(C), place a whole number to 1,000. The answer is that number.
  * 10 Snap — TEKS 3.3(A), 3.3(B), and 3.7(A); denominators 2, 3, 4, 6, and 8
  * on 0–1 and 0–2 lines. Snap answers are the tick the prompt names.
  */
@@ -36,93 +36,93 @@ type RangeSeed = {
 const RANGE: RangeSeed[] = [
   {
     id: "nl-r01",
-    prompt: "Round 640 to the nearest hundred. Place that hundred.",
+    prompt: "Place 80 on the number line.",
     teks: "3.2(C)",
     min: 0,
     max: 1000,
     divisions: 10,
-    answer: 600,
+    answer: 80,
   },
   {
     id: "nl-r02",
-    prompt: "Round 860 to the nearest hundred. Place that hundred.",
+    prompt: "Place 150 on the number line.",
     teks: "3.2(C)",
     min: 0,
     max: 1000,
     divisions: 10,
-    answer: 900,
+    answer: 150,
   },
   {
     id: "nl-r03",
-    prompt: "Round 450 to the nearest hundred. Place that hundred.",
+    prompt: "Place 240 on the number line.",
     teks: "3.2(C)",
     min: 0,
     max: 1000,
     divisions: 10,
-    answer: 500,
+    answer: 240,
   },
   {
     id: "nl-r04",
-    prompt: "Round 320 to the nearest hundred. Place that hundred.",
+    prompt: "Place 375 on the number line.",
     teks: "3.2(C)",
     min: 0,
     max: 1000,
     divisions: 10,
-    answer: 300,
+    answer: 375,
   },
   {
     id: "nl-r05",
-    prompt: "Round 150 to the nearest hundred. Place that hundred.",
+    prompt: "Place 420 on the number line.",
     teks: "3.2(C)",
     min: 0,
     max: 1000,
     divisions: 10,
-    answer: 200,
+    answer: 420,
   },
   {
     id: "nl-r06",
-    prompt: "Round 980 to the nearest hundred. Place that hundred.",
+    prompt: "Place 510 on the number line.",
     teks: "3.2(C)",
     min: 0,
     max: 1000,
     divisions: 10,
-    answer: 1000,
+    answer: 510,
   },
   {
     id: "nl-r07",
-    prompt: "Round 40 to the nearest hundred. Place that hundred.",
+    prompt: "Place 640 on the number line.",
     teks: "3.2(C)",
     min: 0,
     max: 1000,
     divisions: 10,
-    answer: 0,
+    answer: 640,
   },
   {
     id: "nl-r08",
-    prompt: "Place 250 on the number line.",
+    prompt: "Place 705 on the number line.",
     teks: "3.2(C)",
     min: 0,
     max: 1000,
     divisions: 10,
-    answer: 250,
+    answer: 705,
   },
   {
     id: "nl-r09",
-    prompt: "Round 555 to the nearest hundred. Place that hundred.",
+    prompt: "Place 860 on the number line.",
     teks: "3.2(C)",
     min: 0,
     max: 1000,
     divisions: 10,
-    answer: 600,
+    answer: 860,
   },
   {
     id: "nl-r10",
-    prompt: "Place 700 on the number line.",
+    prompt: "Place 990 on the number line.",
     teks: "3.2(C)",
     min: 0,
     max: 1000,
     divisions: 10,
-    answer: 700,
+    answer: 990,
   },
 ];
 
@@ -283,7 +283,16 @@ export function checkNumberLineDemoKey(
     const raw = span > 0 ? ((item.answer - item.min) / span) * item.divisions : NaN;
     const tick = Math.round(raw);
     const onTick = Number.isInteger(item.divisions) && Math.abs(raw - tick) <= 1e-6;
-    const flag = item.mode === "snap" ? (onLine && onTick ? "OK" : "FAIL") : onLine ? "OK" : "FAIL";
+    const namesAnswer = item.mode !== "range" || item.prompt.includes(String(item.answer));
+    const flag =
+      item.mode === "snap"
+        ? onLine && onTick
+          ? "OK"
+          : "FAIL"
+        : onLine && namesAnswer
+          ? "OK"
+          : "FAIL";
+    if (!namesAnswer) lines.push(`FAIL ${item.id} range prompt must name ${item.answer}`);
     if (flag === "FAIL") ok = false;
     lines.push(
       `${flag} ${item.id} ${item.mode} teks ${item.teks} line ${item.min}-${item.max} /${item.divisions} answer ${item.answer} onLine ${onLine} onTick ${onTick}`,

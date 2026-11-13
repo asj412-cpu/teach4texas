@@ -2,75 +2,105 @@ TAP version 13
 # Subtest: NL-04 snap scores the exact tick only
 ok 1 - NL-04 snap scores the exact tick only
   ---
-  duration_ms: 0.871532
+  duration_ms: 0.882375
   type: 'test'
   ...
 # Subtest: NL-04 range falls linearly to the tolerance and is zero outside
 ok 2 - NL-04 range falls linearly to the tolerance and is zero outside
   ---
-  duration_ms: 0.21659
+  duration_ms: 0.236756
   type: 'test'
   ...
 # Subtest: NL-04 speed bonus never exceeds 200 and skips misses
 ok 3 - NL-04 speed bonus never exceeds 200 and skips misses
   ---
-  duration_ms: 0.319113
+  duration_ms: 0.32113
   type: 'test'
   ...
 # Subtest: NL-04 client payloads omit the answer before reveal
 ok 4 - NL-04 client payloads omit the answer before reveal
   ---
-  duration_ms: 2.724422
+  duration_ms: 2.885881
   type: 'test'
   ...
 # Subtest: NL-04 reveal is the first payload that carries the answer
 ok 5 - NL-04 reveal is the first payload that carries the answer
   ---
-  duration_ms: 0.491428
+  duration_ms: 0.470126
   type: 'test'
   ...
 # Subtest: NL-04 rejects forged, out-of-range, off-tick, wrong question, lock, and time
 ok 6 - NL-04 rejects forged, out-of-range, off-tick, wrong question, lock, and time
   ---
-  duration_ms: 0.256338
+  duration_ms: 0.394681
   type: 'test'
   ...
 # Subtest: validator names the four rejected question shapes
 ok 7 - validator names the four rejected question shapes
   ---
-  duration_ms: 2.66869
+  duration_ms: 3.031614
   type: 'test'
   ...
 # Subtest: demo key: 20 answers on the line, snap answers on a tick
 ok 8 - demo key: 20 answers on the line, snap answers on a tick
   ---
-  duration_ms: 0.794545
+  duration_ms: 1.05128
   type: 'test'
   ...
 # Subtest: tick labels thin out so 11 ticks fit in five slots
 ok 9 - tick labels thin out so 11 ticks fit in five slots
   ---
-  duration_ms: 0.25236
+  duration_ms: 0.386092
+  type: 'test'
+  ...
+# Subtest: every tick mark exists even when labels are thinned
+ok 10 - every tick mark exists even when labels are thinned
+  ---
+  duration_ms: 0.436254
+  type: 'test'
+  ...
+# Subtest: a fractional tick count is not reported as zero ticks
+ok 11 - a fractional tick count is not reported as zero ticks
+  ---
+  duration_ms: 0.171686
+  type: 'test'
+  ...
+# Subtest: speed bonus ignores time spent paused
+ok 12 - speed bonus ignores time spent paused
+  ---
+  duration_ms: 0.124722
+  type: 'test'
+  ...
+# Subtest: the same request id does not apply twice
+ok 13 - the same request id does not apply twice
+  ---
+  duration_ms: 0.132831
+  type: 'test'
+  ...
+# Subtest: host and player payloads hide every number line answer before reveal
+ok 14 - host and player payloads hide every number line answer before reveal
+  ---
+  duration_ms: 2.247626
   type: 'test'
   ...
 # Subtest: late join misses earlier points and a locked placement stays put
-ok 10 - late join misses earlier points and a locked placement stays put
+ok 15 - late join misses earlier points and a locked placement stays put
   ---
-  duration_ms: 0.372086
+  duration_ms: 0.262876
   type: 'test'
   ...
-1..10
-# tests 10
+1..15
+# tests 15
 # suites 0
-# pass 10
+# pass 15
 # fail 0
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 287.690451
+# duration_ms 228.965719
+
 --- speechSynthesis in .next ---
 speechSynthesis matches: 0
 --- tsc ---
 tsc exit 0
-
-next build: exit 0 (Next.js 16.2.12). Route /api/rooms/[code]/number-line is in the build.
+next build: exit 0 (Next.js 16.2.12)

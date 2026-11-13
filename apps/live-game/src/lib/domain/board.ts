@@ -1,5 +1,10 @@
 import { z } from "zod";
 import { validateBingoSet } from "@/lib/domain/bingo";
+import {
+  NumberLineItemSchema,
+  validateNumberLineSet,
+  type NumberLineItem,
+} from "@/lib/domain/number-line";
 
 export const GameTypeSchema = z.enum([
   "board",
@@ -13,6 +18,7 @@ export const GameTypeSchema = z.enum([
   "escape_vault",
   "tug_of_war",
   "bingo",
+  "number_line",
 ]);
 export type GameType = z.infer<typeof GameTypeSchema>;
 
@@ -337,6 +343,8 @@ export const GameBoardSchema = z
     tow_items: z.array(TugOfWarItemSchema).max(16).optional(),
     /** Bingo calls. Opt-in: only boards that ship bingo_items. */
     bingo_items: z.array(BingoItemSchema).max(40).optional(),
+    /** Number Line questions. Opt-in: only boards that ship number_line_items. */
+    number_line_items: z.array(NumberLineItemSchema).max(40).optional(),
     created_at: z.string(),
     updated_at: z.string(),
   })
@@ -383,6 +391,17 @@ export const GameBoardSchema = z
 
     if (type === "bingo") {
       const check = validateBingoSet(board.bingo_items ?? [], 5);
+      if (!check.ok) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: check.error,
+        });
+      }
+      return;
+    }
+
+    if (type === "number_line") {
+      const check = validateNumberLineSet(board.number_line_items ?? []);
       if (!check.ok) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
@@ -622,6 +641,8 @@ export type HostBoardView = {
   supports_tug_of_war: boolean;
   bingo_item_count: number;
   supports_bingo: boolean;
+  number_line_item_count: number;
+  supports_number_line: boolean;
 };
 
 export function boardGameType(board: { game_type?: GameType }): GameType {
@@ -752,10 +773,20 @@ export function supportsBingo(board: { bingo_items?: { answer: string }[] | null
   return validateBingoSet(board.bingo_items ?? [], 5).ok;
 }
 
+/** Number Line is opt-in: every question must sit on its own line. */
+export function supportsNumberLine(board: {
+  number_line_items?: NumberLineItem[] | null;
+}): boolean {
+  return validateNumberLineSet(board.number_line_items ?? []).ok;
+}
+
 export function resolvePlayableGameType(
   board: GameBoard,
   requested?: string | null,
 ): GameType {
+  if (requested === "number_line" && supportsNumberLine(board)) {
+    return "number_line";
+  }
   if (requested === "bingo" && supportsBingo(board)) {
     return "bingo";
   }
@@ -790,6 +821,9 @@ export function resolvePlayableGameType(
     return "board";
   }
   const native = boardGameType(board);
+  if (native === "number_line" && supportsNumberLine(board)) {
+    return "number_line";
+  }
   if (native === "bingo" && supportsBingo(board)) {
     return "bingo";
   }
@@ -831,5 +865,6 @@ export function resolvePlayableGameType(
   if (supportsEscapeVault(board)) return "escape_vault";
   if (supportsTugOfWar(board)) return "tug_of_war";
   if (supportsBingo(board)) return "bingo";
+  if (supportsNumberLine(board)) return "number_line";
   return "board";
 }

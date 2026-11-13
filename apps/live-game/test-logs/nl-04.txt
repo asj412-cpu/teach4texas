@@ -1,0 +1,76 @@
+TAP version 13
+# Subtest: NL-04 snap scores the exact tick only
+ok 1 - NL-04 snap scores the exact tick only
+  ---
+  duration_ms: 0.871532
+  type: 'test'
+  ...
+# Subtest: NL-04 range falls linearly to the tolerance and is zero outside
+ok 2 - NL-04 range falls linearly to the tolerance and is zero outside
+  ---
+  duration_ms: 0.21659
+  type: 'test'
+  ...
+# Subtest: NL-04 speed bonus never exceeds 200 and skips misses
+ok 3 - NL-04 speed bonus never exceeds 200 and skips misses
+  ---
+  duration_ms: 0.319113
+  type: 'test'
+  ...
+# Subtest: NL-04 client payloads omit the answer before reveal
+ok 4 - NL-04 client payloads omit the answer before reveal
+  ---
+  duration_ms: 2.724422
+  type: 'test'
+  ...
+# Subtest: NL-04 reveal is the first payload that carries the answer
+ok 5 - NL-04 reveal is the first payload that carries the answer
+  ---
+  duration_ms: 0.491428
+  type: 'test'
+  ...
+# Subtest: NL-04 rejects forged, out-of-range, off-tick, wrong question, lock, and time
+ok 6 - NL-04 rejects forged, out-of-range, off-tick, wrong question, lock, and time
+  ---
+  duration_ms: 0.256338
+  type: 'test'
+  ...
+# Subtest: validator names the four rejected question shapes
+ok 7 - validator names the four rejected question shapes
+  ---
+  duration_ms: 2.66869
+  type: 'test'
+  ...
+# Subtest: demo key: 20 answers on the line, snap answers on a tick
+ok 8 - demo key: 20 answers on the line, snap answers on a tick
+  ---
+  duration_ms: 0.794545
+  type: 'test'
+  ...
+# Subtest: tick labels thin out so 11 ticks fit in five slots
+ok 9 - tick labels thin out so 11 ticks fit in five slots
+  ---
+  duration_ms: 0.25236
+  type: 'test'
+  ...
+# Subtest: late join misses earlier points and a locked placement stays put
+ok 10 - late join misses earlier points and a locked placement stays put
+  ---
+  duration_ms: 0.372086
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 287.690451
+--- speechSynthesis in .next ---
+speechSynthesis matches: 0
+--- tsc ---
+tsc exit 0
+
+next build: exit 0 (Next.js 16.2.12). Route /api/rooms/[code]/number-line is in the build.

@@ -19,6 +19,7 @@ import {
   supportsTrueFalseDash,
   supportsTugOfWar,
   supportsBingo,
+  supportsNumberLine,
   type TugOfWarItem,
   type BingoItem,
   supportsEscapeVault,
@@ -106,6 +107,12 @@ import {
   BINGO_SAMPLE_BOARD_ID,
   DEMO_BINGO_CODE,
 } from "@/lib/fixtures/sample-bingo";
+import { numberLineItemsFromBoard, type NumberLineItem } from "@/lib/domain/number-line";
+import {
+  buildSampleNumberLineBoard,
+  DEMO_NUMBER_LINE_CODE,
+  NUMBER_LINE_SAMPLE_BOARD_ID,
+} from "@/lib/fixtures/sample-number-line";
 import { getServiceSupabase } from "@/lib/supabase-admin";
 
 const SAMPLE_BOARD_ID = "board_sample_math_g3";
@@ -122,6 +129,7 @@ export {
   DEMO_ESCAPE_VAULT_CODE,
   DEMO_TUG_OF_WAR_CODE,
   DEMO_BINGO_CODE,
+  DEMO_NUMBER_LINE_CODE,
   DEMO_BOARD_SAMPLE_CODE,
 };
 
@@ -185,6 +193,7 @@ type CellsPayload = {
   dash_items?: TrueFalseDashItem[];
   tow_items?: TugOfWarItem[];
   bingo_items?: BingoItem[];
+  number_line_items?: NumberLineItem[];
   vault_rooms?: EscapeVaultRoom[];
   cells: unknown;
 };
@@ -201,6 +210,7 @@ function unpackCells(raw: unknown): {
   dash_items?: TrueFalseDashItem[];
   tow_items?: TugOfWarItem[];
   bingo_items?: BingoItem[];
+  number_line_items?: NumberLineItem[];
   vault_rooms?: EscapeVaultRoom[];
 } {
   if (raw && typeof raw === "object" && !Array.isArray(raw) && "cells" in raw) {
@@ -217,6 +227,7 @@ function unpackCells(raw: unknown): {
       dash_items: p.dash_items,
       tow_items: p.tow_items,
       bingo_items: p.bingo_items,
+      number_line_items: p.number_line_items,
       vault_rooms: p.vault_rooms,
     };
   }
@@ -235,6 +246,7 @@ function packCells(board: GameBoard): unknown {
     (board.dash_items?.length ?? 0) > 0 ||
     (board.tow_items?.length ?? 0) > 0 ||
     (board.bingo_items?.length ?? 0) > 0 ||
+    (board.number_line_items?.length ?? 0) > 0 ||
     (board.vault_rooms?.length ?? 0) > 0
   ) {
     return {
@@ -249,6 +261,7 @@ function packCells(board: GameBoard): unknown {
       dash_items: board.dash_items,
       tow_items: board.tow_items,
       bingo_items: board.bingo_items,
+      number_line_items: board.number_line_items,
       vault_rooms: board.vault_rooms,
       cells: board.cells,
     };
@@ -276,6 +289,7 @@ function boardFromRow(row: BoardRow): GameBoard {
     dash_items: unpacked.dash_items,
     tow_items: unpacked.tow_items,
     bingo_items: unpacked.bingo_items,
+    number_line_items: unpacked.number_line_items,
     vault_rooms: unpacked.vault_rooms,
     cells: unpacked.cells,
     created_at: iso(row.created_at),
@@ -373,6 +387,8 @@ export function toHostBoardView(board: GameBoard): HostBoardView {
     supports_tug_of_war: supportsTugOfWar(board),
     bingo_item_count: bingoItemsFromBoard(board).length,
     supports_bingo: supportsBingo(board),
+    number_line_item_count: numberLineItemsFromBoard(board).length,
+    supports_number_line: supportsNumberLine(board),
   };
 }
 
@@ -464,6 +480,9 @@ export async function redeemAccessCode(rawCode: string): Promise<RedeemResult> {
   }
   if (normalized === normalizeAccessCode(DEMO_BINGO_CODE)) {
     await ensureBingoSample();
+  }
+  if (normalized === normalizeAccessCode(DEMO_NUMBER_LINE_CODE)) {
+    await ensureNumberLineSample();
   }
   if (normalized === normalizeAccessCode(DEMO_BOARD_SAMPLE_CODE)) {
     await ensureBoardSample();
@@ -1107,6 +1126,67 @@ async function ensureBingoBoard(): Promise<GameBoard> {
     .single();
   throwIfError(inserted.error, "ensureBingoBoard.insert");
   return boardFromRow(inserted.data as BoardRow);
+}
+
+async function ensureNumberLineBoard(): Promise<GameBoard> {
+  const sb = getServiceSupabase();
+  const existing = await sb
+    .from("boards")
+    .select("*")
+    .eq("id", NUMBER_LINE_SAMPLE_BOARD_ID)
+    .maybeSingle();
+  throwIfError(existing.error, "ensureNumberLineBoard.select");
+  if (existing.data) {
+    return boardFromRow(existing.data as BoardRow);
+  }
+  const board = GameBoardSchema.parse(buildSampleNumberLineBoard());
+  const inserted = await sb
+    .from("boards")
+    .insert(boardToRow(board))
+    .select("*")
+    .single();
+  throwIfError(inserted.error, "ensureNumberLineBoard.insert");
+  return boardFromRow(inserted.data as BoardRow);
+}
+
+/** Seed Number Line sample packet + known demo access code. Idempotent. Demo kind, never a sale. */
+export async function ensureNumberLineSample(
+  plaintext = DEMO_NUMBER_LINE_CODE,
+): Promise<{ code: string; boardId: string; created: boolean }> {
+  const board = await ensureNumberLineBoard();
+  const hash = sha256Hex(normalizeAccessCode(plaintext));
+  const sb = getServiceSupabase();
+  const existing = await sb
+    .from("product_codes")
+    .select("id")
+    .eq("code_hash", hash)
+    .maybeSingle();
+  throwIfError(existing.error, "ensureNumberLineSample.lookup");
+  if (existing.data) {
+    return { code: DEMO_NUMBER_LINE_CODE, boardId: board.id, created: false };
+  }
+  const record = ProductCodeRecordSchema.parse({
+    id: generateId("pc"),
+    code_hash: hash,
+    board_id: board.id,
+    label: "Local demo / number line sample",
+    max_sessions: null,
+    sessions_started: 0,
+    revoked_at: null,
+    created_at: new Date().toISOString(),
+  });
+  const ins = await sb.from("product_codes").insert({
+    id: record.id,
+    code_hash: record.code_hash,
+    board_id: record.board_id,
+    label: record.label ?? null,
+    max_sessions: record.max_sessions,
+    sessions_started: record.sessions_started,
+    revoked_at: record.revoked_at,
+    created_at: record.created_at,
+  });
+  throwIfError(ins.error, "ensureNumberLineSample.insert");
+  return { code: DEMO_NUMBER_LINE_CODE, boardId: board.id, created: true };
 }
 
 /** Seed Bingo sample packet + known demo access code. Idempotent. Demo kind, never a sale. */

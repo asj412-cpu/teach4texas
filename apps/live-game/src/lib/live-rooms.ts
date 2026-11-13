@@ -86,6 +86,16 @@ import {
   type BingoGrid,
 } from "@/lib/domain/bingo";
 import {
+  applyNumberLinePlace,
+  createNumberLineState,
+  currentNumberLineItem,
+  isNlSeconds,
+  numberLineItemsFromBoard,
+  scoreNumberLineAwards,
+  syncNumberLineClock,
+  type NlSeconds,
+} from "@/lib/domain/number-line";
+import {
   generateId,
   generateOpaqueToken,
   sha256Hex,
@@ -192,6 +202,58 @@ function ensureBingo(room: LiveRoom, playerId?: string) {
   if (room.phase !== "bingo") return;
   if (room.bingo.cards[playerId]) return;
   dealBingoPlayer(room.bingo, bingoItemsFromBoard(room.board), playerId, Math.random);
+}
+
+/** Number Line: one shared line. Placements live on the state, not on pixels. */
+function ensureNumberLine(room: LiveRoom) {
+  if (room.game_type !== "number_line") return;
+  if (!room.number_line) room.number_line = createNumberLineState();
+}
+
+function openNumberLineQuestion(room: LiveRoom, now = Date.now()): ActionResult {
+  ensureNumberLine(room);
+  const state = room.number_line;
+  if (!state) return { ok: false, error: "NOT_NUMBER_LINE" };
+  const items = numberLineItemsFromBoard(room.board);
+  if (!items[state.index]) return { ok: false, error: "NO_QUESTION" };
+  state.stage = "placing";
+  state.paused = false;
+  state.accepting = true;
+  state.placements = {};
+  state.awards = [];
+  state.pauses = [];
+  state.applied_request_ids = [];
+  state.started_at = new Date(now).toISOString();
+  state.ends_at = new Date(now + state.seconds * 1000).toISOString();
+  state.paused_remaining_ms = null;
+  return { ok: true };
+}
+
+function scoreOpenNumberLine(room: LiveRoom, now = Date.now()): ActionResult {
+  ensureNumberLine(room);
+  const state = room.number_line;
+  if (!state) return { ok: false, error: "NOT_NUMBER_LINE" };
+  if (state.stage !== "placing") return { ok: false, error: "NO_OPEN_QUESTION" };
+  const items = numberLineItemsFromBoard(room.board);
+  const item = currentNumberLineItem(state, items);
+  if (!item) return { ok: false, error: "NO_QUESTION" };
+  if (state.scored_ids.includes(item.id)) return { ok: false, error: "ALREADY_SCORED" };
+  syncNumberLineClock(state, now);
+  state.accepting = false;
+  const ids = Object.keys(room.players).filter((id) => id !== HOST_PLAYER_ID);
+  const awards = scoreNumberLineAwards(state, item, ids, now);
+  for (const award of awards) {
+    const player = room.players[award.player_id];
+    if (!player) continue;
+    player.score += award.total;
+    if (state.placements[award.player_id]) bumpQuestionsAnswered(room, award.player_id);
+  }
+  state.awards = awards;
+  state.scored_ids = [...state.scored_ids, item.id];
+  state.stage = "reveal";
+  state.paused = false;
+  state.ends_at = null;
+  return { ok: true };
 }
 
 /** Tug of War: make sure state exists and every student (never the host seat) is on a team. */
@@ -334,6 +396,10 @@ function resetRoomToLobby(room: LiveRoom) {
     const prev = room.bingo;
     room.bingo = createBingoState(prev?.grid, prev?.end_rule);
   }
+  if (room.game_type === "number_line") {
+    const seconds = room.number_line?.seconds ?? 30;
+    room.number_line = createNumberLineState(isNlSeconds(seconds) ? seconds : 30);
+  }
   for (const p of Object.values(room.players)) {
     p.score = 0;
     p.connected = true;
@@ -434,6 +500,7 @@ export async function createLiveRoom(opts: {
   };
   if (gameType === "tug_of_war") room.tow = createTowState();
   if (gameType === "bingo") room.bingo = createBingoState();
+  if (gameType === "number_line") room.number_line = createNumberLineState();
   ensureHostPlayer(room);
   for (let i = 0; i < 20; i++) {
     if (await insertRoomRecord(room)) return { room, hostToken };
@@ -579,6 +646,15 @@ const PLAYER_ACTIONS = {
     submitTowAnswer(room, pid, a[0] as number),
   submitBingoTap: (room: LiveRoom, pid: string, a: unknown[]) =>
     submitBingoTap(room, pid, a[0] as number),
+  submitNumberLinePlace: (room: LiveRoom, pid: string, a: unknown[]) =>
+    submitNumberLinePlace(
+      room,
+      pid,
+      a[0] as string,
+      a[1] as number,
+      a[2] as boolean,
+      (a[3] as string | null) ?? null,
+    ),
 } as const;
 
 export type PlayerActionName = keyof typeof PLAYER_ACTIONS;
@@ -691,6 +767,7 @@ export function hostView(room: LiveRoom) {
   }
   ensureTow(room);
   ensureBingo(room);
+  ensureNumberLine(room);
   return sanitizeForHost(room);
 }
 
@@ -717,6 +794,7 @@ export function playerView(room: LiveRoom, playerId: string) {
   }
   ensureTow(room);
   ensureBingo(room, playerId);
+  ensureNumberLine(room);
   return sanitizeForPlayer(room, playerId);
 }
 
@@ -886,6 +964,11 @@ export type HostAction =
   | { type: "bingo_pause" }
   | { type: "bingo_next" }
   | { type: "bingo_reveal" }
+  | { type: "nl_set_seconds"; seconds: NlSeconds }
+  | { type: "nl_pause" }
+  | { type: "nl_next" }
+  | { type: "nl_reveal" }
+  | { type: "nl_show_names" }
   | { type: "set_skin"; skin: "classic" | "winter" };
 
 export function applyHostAction(
@@ -957,6 +1040,15 @@ export function applyHostAction(
         const started = startBingo(room.bingo, items, ids, Math.random);
         if (!started.ok) return { ok: false, error: started.error };
         room.phase = "bingo";
+      } else if (room.game_type === "number_line") {
+        ensureNumberLine(room);
+        const items = numberLineItemsFromBoard(room.board);
+        if (items.length < 1) return { ok: false, error: "NO_QUESTIONS" };
+        const state = room.number_line!;
+        const seconds = state.seconds;
+        room.number_line = createNumberLineState(seconds);
+        room.number_line.index = 0;
+        room.phase = "number_line";
       } else if (room.game_type === "tug_of_war") {
         ensureTow(room);
         const st = room.tow!;
@@ -1248,6 +1340,10 @@ export function applyHostAction(
         room.tow.winner = towOutcomeEnded(room.tow.position);
         room.tow.win_kind = "ended";
       }
+      if (room.game_type === "number_line" && room.number_line?.stage === "placing") {
+        const scored = scoreOpenNumberLine(room);
+        if (!scored.ok && scored.error !== "NO_OPEN_QUESTION") return scored;
+      }
       room.phase = "final";
       room.ended_at = new Date().toISOString();
       room.open_until = null;
@@ -1284,6 +1380,7 @@ export function applyHostAction(
         delete room.tow.teams[action.player_id];
         delete room.tow.answers[action.player_id];
       }
+      if (room.number_line) delete room.number_line.placements[action.player_id];
       if (room.bingo) {
         delete room.bingo.cards[action.player_id];
         delete room.bingo.lockouts[action.player_id];
@@ -1329,6 +1426,90 @@ export function applyHostAction(
       if (room.game_type !== "bingo" || !room.bingo) return { ok: false, error: "NOT_BINGO" };
       if (room.phase !== "bingo") return { ok: false, error: "ILLEGAL_TRANSITION" };
       return revealBingoCall(room.bingo);
+    }
+    case "nl_set_seconds": {
+      if (room.game_type !== "number_line" || !room.number_line) {
+        return { ok: false, error: "NOT_NUMBER_LINE" };
+      }
+      const inLobby = room.phase === "lobby";
+      const beforeClock = room.phase === "number_line" && room.number_line.stage === "ready";
+      if (!inLobby && !beforeClock) return { ok: false, error: "ILLEGAL_TRANSITION" };
+      if (!isNlSeconds(action.seconds)) return { ok: false, error: "INVALID_SECONDS" };
+      room.number_line.seconds = action.seconds;
+      return { ok: true };
+    }
+    case "nl_pause": {
+      if (room.game_type !== "number_line" || !room.number_line) {
+        return { ok: false, error: "NOT_NUMBER_LINE" };
+      }
+      if (room.phase !== "number_line" || room.number_line.stage !== "placing") {
+        return { ok: false, error: "ILLEGAL_TRANSITION" };
+      }
+      const state = room.number_line;
+      const now = Date.now();
+      const nowIso = new Date(now).toISOString();
+      if (!state.pauses) state.pauses = [];
+      if (state.paused) {
+        const open = [...state.pauses].reverse().find((pause) => pause.end == null);
+        if (open) open.end = nowIso;
+        const remain = state.paused_remaining_ms ?? state.seconds * 1000;
+        state.paused = false;
+        state.paused_remaining_ms = null;
+        state.ends_at = new Date(now + remain).toISOString();
+        state.accepting = remain > 0;
+        return { ok: true };
+      }
+      const remain = state.ends_at
+        ? Math.max(0, new Date(state.ends_at).getTime() - now)
+        : state.seconds * 1000;
+      state.pauses.push({ start: nowIso, end: null });
+      state.paused = true;
+      state.paused_remaining_ms = remain;
+      state.ends_at = null;
+      return { ok: true };
+    }
+    case "nl_next": {
+      if (room.game_type !== "number_line" || !room.number_line) {
+        return { ok: false, error: "NOT_NUMBER_LINE" };
+      }
+      if (room.phase !== "number_line") return { ok: false, error: "ILLEGAL_TRANSITION" };
+      const state = room.number_line;
+      if (state.paused) return { ok: false, error: "PAUSED" };
+      if (state.stage === "ready") return openNumberLineQuestion(room);
+      if (state.stage === "placing") return { ok: false, error: "QUESTION_OPEN" };
+      if (state.stage === "reveal") {
+        state.stage = "board";
+        return { ok: true };
+      }
+      const items = numberLineItemsFromBoard(room.board);
+      if (state.index >= items.length - 1) return { ok: false, error: "NO_MORE_QUESTIONS" };
+      state.index += 1;
+      state.stage = "ready";
+      state.placements = {};
+      state.awards = [];
+      state.pauses = [];
+      state.applied_request_ids = [];
+      state.accepting = false;
+      state.started_at = null;
+      state.ends_at = null;
+      state.paused = false;
+      state.paused_remaining_ms = null;
+      return { ok: true };
+    }
+    case "nl_reveal": {
+      if (room.game_type !== "number_line" || !room.number_line) {
+        return { ok: false, error: "NOT_NUMBER_LINE" };
+      }
+      if (room.phase !== "number_line") return { ok: false, error: "ILLEGAL_TRANSITION" };
+      if (room.number_line.paused) return { ok: false, error: "PAUSED" };
+      return scoreOpenNumberLine(room);
+    }
+    case "nl_show_names": {
+      if (room.game_type !== "number_line" || !room.number_line) {
+        return { ok: false, error: "NOT_NUMBER_LINE" };
+      }
+      room.number_line.show_names = !room.number_line.show_names;
+      return { ok: true };
     }
     case "tow_move_player": {
       if (room.game_type !== "tug_of_war") return { ok: false, error: "NOT_TUG_OF_WAR" };
@@ -1712,7 +1893,8 @@ export function submitAnswer(
     room.game_type === "true_false_dash" ||
     room.game_type === "escape_vault" ||
     room.game_type === "tug_of_war" ||
-    room.game_type === "bingo"
+    room.game_type === "bingo" ||
+    room.game_type === "number_line"
   ) {
     return { ok: false, error: "NOT_ACCEPTING_ANSWERS" };
   }
@@ -1778,6 +1960,33 @@ export function submitTowAnswer(
     bumpQuestionsAnswered(room, playerId);
   }
   return { ok: true };
+}
+
+/** Number Line: store the placed value. Lock is final. The answer stays on the server. */
+export function submitNumberLinePlace(
+  room: LiveRoom,
+  playerId: string,
+  questionId: string,
+  value: number,
+  lock: boolean,
+  requestId: string | null = null,
+): { ok: true } | { ok: false; error: string } {
+  if (room.game_type !== "number_line" || !room.number_line) {
+    return { ok: false, error: "NOT_NUMBER_LINE" };
+  }
+  if (room.phase !== "number_line") return { ok: false, error: "NOT_ACCEPTING" };
+  if (playerId === HOST_PLAYER_ID) return { ok: false, error: "HOST_DOES_NOT_PLACE" };
+  if (!room.players[playerId]) return { ok: false, error: "NOT_A_PLAYER" };
+  return applyNumberLinePlace(
+    room.number_line,
+    numberLineItemsFromBoard(room.board),
+    playerId,
+    questionId,
+    value,
+    lock,
+    Date.now(),
+    requestId,
+  );
 }
 
 /** Bingo: one cell tap, checked only against the open call. Host has no card. */

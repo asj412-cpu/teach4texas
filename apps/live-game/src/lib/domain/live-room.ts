@@ -80,6 +80,16 @@ import {
   type HostBingoView,
   type PlayerBingoView,
 } from "@/lib/domain/bingo";
+import {
+  hostNumberLineView,
+  numberLineItemsFromBoard,
+  playerNumberLineView,
+  stripNumberLineAnswers,
+  syncNumberLineClock,
+  type HostNumberLineView,
+  type NumberLineState,
+  type PlayerNumberLineView,
+} from "@/lib/domain/number-line";
 import { kidPlainText } from "@/lib/plain-text";
 
 export const RoomPhaseSchema = z.enum([
@@ -96,6 +106,7 @@ export const RoomPhaseSchema = z.enum([
   "escaping",
   "towing",
   "bingo",
+  "number_line",
   "question_open",
   "question_locked",
   "reveal",
@@ -219,6 +230,8 @@ export type LiveRoom = {
   tow?: TowState;
   /** Bingo cards and calls (optional so older stored rooms still load). Host has no card. */
   bingo?: BingoState;
+  /** Number Line placements (optional so older stored rooms still load). Values stay server-side until reveal. */
+  number_line?: NumberLineState;
   open_until: string | null;
   answer_seconds: number;
   lobby_locked: boolean;
@@ -413,6 +426,7 @@ export type HostRoomView = {
     item_key: { prompt: string; answer: string; teks: string }[];
   };
   bingo: HostBingoView | null;
+  number_line: HostNumberLineView | null;
   open_until: string | null;
   answer_seconds: number;
   lobby_locked: boolean;
@@ -494,6 +508,7 @@ export type PlayerRoomView = {
     my_correct_count: number;
   };
   bingo: PlayerBingoView | null;
+  number_line: PlayerNumberLineView | null;
   open_until: string | null;
   answer_seconds: number;
   server_now: string;
@@ -1047,19 +1062,25 @@ function playerTowView(room: LiveRoom, playerId: string): PlayerRoomView["tow"] 
 }
 
 export function sanitizeForHost(room: LiveRoom): HostRoomView {
+  if (room.number_line) syncNumberLineClock(room.number_line, Date.now());
+  const board =
+    room.game_type === "number_line" || (room.board.number_line_items?.length ?? 0) > 0
+      ? stripNumberLineAnswers(room.board)
+      : room.board;
+  const players = Object.values(room.players).map((p) => ({
+    player_id: p.player_id,
+    display_name: p.display_name,
+    score: p.score,
+    connected: p.connected,
+  }));
   return {
     role: "host",
     code: room.code,
     phase: room.phase,
     game_type: room.game_type,
     skin: roomVaultSkin(room),
-    board: room.board,
-    players: Object.values(room.players).map((p) => ({
-      player_id: p.player_id,
-      display_name: p.display_name,
-      score: p.score,
-      connected: p.connected,
-    })),
+    board,
+    players,
     active_cell_id: room.active_cell_id,
     used_cell_ids: [...room.used_cell_ids],
     answers: { ...room.answers },
@@ -1081,11 +1102,13 @@ export function sanitizeForHost(room: LiveRoom): HostRoomView {
       room.game_type,
       room.bingo,
       bingoItemsFromBoard(room.board),
-      Object.values(room.players).map((p) => ({
-        player_id: p.player_id,
-        display_name: p.display_name,
-        connected: p.connected,
-      })),
+      players,
+    ),
+    number_line: hostNumberLineView(
+      room.game_type,
+      room.number_line,
+      numberLineItemsFromBoard(room.board),
+      players,
     ),
     open_until: room.open_until,
     answer_seconds: room.answer_seconds,
@@ -1100,6 +1123,7 @@ export function sanitizeForPlayer(
 ): PlayerRoomView | null {
   const me = room.players[playerId];
   if (!me) return null;
+  if (room.number_line) syncNumberLineClock(room.number_line, Date.now());
 
   const categories = [...new Set((room.board.cells ?? []).map((c) => c.category))];
   const used = new Set(room.used_cell_ids);
@@ -1233,6 +1257,17 @@ export function sanitizeForPlayer(
       bingoItemsFromBoard(room.board),
       playerId,
       new Map(Object.values(room.players).map((p) => [p.player_id, p.display_name])),
+    ),
+    number_line: playerNumberLineView(
+      room.game_type,
+      room.number_line,
+      numberLineItemsFromBoard(room.board),
+      playerId,
+      Object.values(room.players).map((p) => ({
+        player_id: p.player_id,
+        display_name: p.display_name,
+        score: p.score,
+      })),
     ),
     open_until: room.open_until,
     answer_seconds: room.answer_seconds,

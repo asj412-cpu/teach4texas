@@ -18,6 +18,7 @@ import {
   supportsTimedRace,
   supportsTugOfWar,
   supportsBingo,
+  supportsNumberLine,
 } from "@/lib/domain/board";
 import type { HostRoomView } from "@/lib/domain/live-room";
 import { CategorySortHost } from "@/components/category-sort-host";
@@ -30,6 +31,7 @@ import { SequenceSortHost } from "@/components/sequence-sort-host";
 import { TimedRaceHost } from "@/components/timed-race-host";
 import { TugOfWarHost } from "@/components/tug-of-war-host";
 import { BingoHost } from "@/components/bingo-host";
+import { NumberLineHost } from "@/components/number-line-host";
 import {
   HostFinalActions,
   HostSeatPanel,
@@ -270,7 +272,9 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
                             ? ` · ${board.tow_items?.length ?? 0} team questions`
                             : supportsBingo(board)
                               ? ` · ${board.bingo_items?.length ?? 0} bingo calls`
-                              : ""}
+                              : supportsNumberLine(board)
+                                ? ` · ${board.number_line_items?.length ?? 0} number line questions`
+                                : ""}
           {supportsMemoryMatch(board) ? " · Memory Match ready" : ""}
           {supportsTimedRace(board) ? " · Timed Race ready" : ""}
           {supportsScavengerTap(board) ? " · Scavenger Hunt ready" : ""}
@@ -279,7 +283,8 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
           {supportsOddOneOut(board) ? " · Find the Odd One ready" : ""}
           {supportsTrueFalseDash(board) ? " · True or False Dash ready" : ""}
           {supportsTugOfWar(board) ? " · Tug of War ready" : ""}
-          {supportsBingo(board) ? " · Bingo ready" : ""}. Only
+          {supportsBingo(board) ? " · Bingo ready" : ""}
+          {supportsNumberLine(board) ? " · Number Line ready" : ""}. Only
           this game is available on this host session.
         </p>
         <div className="gs-glass gs-rise mt-6 flex flex-col gap-3 rounded-3xl bg-black/40 p-5">
@@ -448,6 +453,27 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
               {starting ? "Starting…" : "Start tug of war"}
             </button>
           )}
+          {supportsNumberLine(board) && (
+            <article className="rounded-3xl border-4 border-amber-300 bg-[#07111f] p-4 text-white shadow-[0_8px_0_#1e3a5f]">
+              <p className="text-base font-black uppercase tracking-widest text-amber-200">Game type</p>
+              <h2 className="mt-1 text-3xl font-black uppercase text-white">Number Line</h2>
+              <p className="mt-2 text-base leading-relaxed text-white">
+                Students drag or tap a marker on their own line. Snap lands on a tick.
+                Range can sit anywhere. You reveal the true spot on the projector.
+              </p>
+              <p className="mt-2 text-base font-bold text-amber-200">
+                {board.number_line_items?.length ?? 0} questions · Grade {board.grade} math
+              </p>
+              <button
+                type="button"
+                disabled={starting}
+                onClick={() => startLive("number_line")}
+                className="mt-4 w-full rounded-2xl bg-amber-300 px-4 py-4 text-2xl font-black uppercase text-[#1c1917] disabled:cursor-wait disabled:grayscale-[60%]"
+              >
+                {starting ? "Starting…" : "Start Number Line"}
+              </button>
+            </article>
+          )}
           {supportsBingo(board) && (
             <article className="rounded-3xl border-4 border-amber-300 bg-[#052e22] p-4 text-white shadow-[0_8px_0_#14532d]">
               <p className="text-base font-black uppercase tracking-widest text-amber-200">Game type</p>
@@ -488,6 +514,10 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
 
   if (view.game_type === "bingo") {
     return <BingoHost view={view} onAction={hostAction} />;
+  }
+
+  if (view.game_type === "number_line") {
+    return <NumberLineHost view={view} onAction={hostAction} />;
   }
 
   if (view.phase === "final") {

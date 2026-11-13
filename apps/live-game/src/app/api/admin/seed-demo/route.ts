@@ -10,6 +10,7 @@ import {
   ensureEscapeVaultSample,
   ensureTugOfWarSample,
   ensureBingoSample,
+  ensureNumberLineSample,
   ensureSequenceSortSample,
   ensureTimedRaceSample,
   listBoardsForOperator,
@@ -34,6 +35,7 @@ export async function POST(req: NextRequest) {
   const vault = await ensureEscapeVaultSample();
   const tow = await ensureTugOfWarSample();
   const bingo = await ensureBingoSample();
+  const numberLine = await ensureNumberLineSample();
   const boards = await listBoardsForOperator();
 
   return NextResponse.json({
@@ -90,6 +92,11 @@ export async function POST(req: NextRequest) {
       demo_access_code: bingo.code,
       board_id: bingo.boardId,
       created: bingo.created,
+    },
+    number_line: {
+      demo_access_code: numberLine.code,
+      board_id: numberLine.boardId,
+      created: numberLine.created,
     },
     boards,
     tpt_flow: [

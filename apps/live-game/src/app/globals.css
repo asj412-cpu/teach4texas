@@ -443,3 +443,145 @@ body {
   .bingo-stamp::after,
   .bingo-confetti { animation: none !important; }
 }
+
+/* Number line — CSS motion only. Off when the viewer asks for less motion. */
+.nl-stage {
+  background:
+    radial-gradient(circle at 50% -10%, rgba(253, 224, 71, 0.16), transparent 46%),
+    #07111f;
+  color: #ffffff;
+  max-width: 100%;
+  overflow-x: clip;
+}
+.nl-track {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  padding-left: 4.5rem;
+  padding-right: 4.5rem;
+}
+.nl-rail {
+  height: 5.5rem;
+  cursor: pointer;
+}
+.nl-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 2.4rem;
+  height: 0.7rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #fff7ad, #fde047 40%, #f8fafc 50%, #fde047 60%, #fff7ad);
+  box-shadow: 0 0 18px rgba(253, 224, 71, 0.85);
+  animation: nl-glow 2.4s ease-in-out infinite;
+}
+.nl-sweep {
+  position: absolute;
+  left: 0;
+  top: 2.4rem;
+  height: 0.7rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.85));
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+.nl-sweep.is-on { animation: nl-sweep 0.7s ease-out forwards; }
+.nl-tick {
+  position: absolute;
+  top: 2.15rem;
+  width: 3px;
+  height: 1.2rem;
+  background: #ffffff;
+  transform: translateX(-50%);
+}
+.nl-marker {
+  position: absolute;
+  top: 0.85rem;
+  z-index: 2;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 999px 999px 999px 0.3rem;
+  border: 3px solid #1c1917;
+  background: radial-gradient(circle at 35% 30%, #ffe4e6, #fb7185 55%, #be123c);
+  transform: translate(-50%, 0) rotate(-18deg);
+  box-shadow: 0 10px 0 rgba(0, 0, 0, 0.25);
+  transition: transform 0.12s ease;
+}
+.nl-marker.is-held {
+  transform: translate(-50%, -14px) rotate(-8deg) scale(1.12);
+}
+.nl-truth {
+  position: absolute;
+  top: 3.35rem;
+  z-index: 1;
+  transform: translateX(-50%);
+}
+.nl-truth-flag {
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 0.7rem solid transparent;
+  border-right: 0.7rem solid transparent;
+  border-bottom: 1.1rem solid #fde047;
+  filter: drop-shadow(0 0 0 #1c1917);
+}
+.nl-dot {
+  position: absolute;
+  top: 2.15rem;
+  z-index: 3;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 999px;
+  border: 2px solid #1c1917;
+  background: #38bdf8;
+  transform: translate(-50%, 0);
+  animation: nl-rain 0.55s ease-out both;
+}
+.nl-dot-name {
+  position: absolute;
+  left: 1.35rem;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-size: 1.5rem;
+  line-height: 1;
+  font-weight: 800;
+  color: #ffffff;
+  text-shadow: 0 1px 2px #07111f;
+}
+.nl-dot-name.is-left {
+  left: auto;
+  right: 1.35rem;
+}
+.nl-podium { transform-origin: bottom; animation: nl-podium 0.6s ease-out both; }
+.nl-confetti {
+  position: absolute;
+  top: -8%;
+  width: 0.7rem;
+  height: 1.1rem;
+  border-radius: 2px;
+  animation: nl-fall 2.8s linear infinite;
+}
+@keyframes nl-glow {
+  0%, 100% { box-shadow: 0 0 10px rgba(253, 224, 71, 0.55); }
+  50% { box-shadow: 0 0 22px rgba(253, 224, 71, 0.95); }
+}
+@keyframes nl-sweep { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes nl-rain {
+  from { transform: translate(-50%, -36px); opacity: 0; }
+  to { transform: translate(-50%, 0); opacity: 1; }
+}
+@keyframes nl-podium { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes nl-fall {
+  0% { transform: translateY(-12vh) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(540deg); opacity: 0.85; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nl-line,
+  .nl-sweep,
+  .nl-dot,
+  .nl-podium,
+  .nl-confetti,
+  .nl-marker { animation: none !important; transition: none !important; }
+  .nl-sweep.is-on { transform: scaleX(1); }
+}

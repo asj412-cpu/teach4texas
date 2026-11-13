@@ -15,9 +15,11 @@ import { SequenceSortPlay } from "@/components/sequence-sort-play";
 import { TimedRacePlay } from "@/components/timed-race-play";
 import { TugOfWarPlay } from "@/components/tug-of-war-play";
 import { BingoPlay } from "@/components/bingo-play";
+import { NumberLinePlay } from "@/components/number-line-play";
 import { kidPlainText } from "@/lib/plain-text";
 import { ConnectionBanner, type ConnState } from "@/components/connection-banner";
 import { postAction, type TapStatus } from "@/lib/action-post";
+import { postNumberLine } from "@/components/number-line/post";
 import { outcomeForStatus, startResilientPoll, type PollOutcome } from "@/lib/poll-backoff";
 import { DailyDoublePlayer } from "@/components/daily-double";
 import { CueOn, Finale, GameShowStage, playCue } from "@/components/game-show";
@@ -39,7 +41,10 @@ export default function PlayPage() {
     const t = setTimeout(() => setTap("idle"), 4000);
     return () => clearTimeout(t);
   }, [tap]);
-  const showFloatingNotice = gameType !== "bingo" && (tap === "retrying" || tap === "failed" || tap === "rejected");
+  const showFloatingNotice =
+    gameType !== "bingo" &&
+    gameType !== "number_line" &&
+    (tap === "retrying" || tap === "failed" || tap === "rejected");
   return (
     <>
       <PlayPageBody onConnection={setConn} onTap={setTap} onGameType={setGameType} tapNotice={tap} />
@@ -228,6 +233,26 @@ function PlayPageBody({
     }
   }
 
+  async function numberLinePlace(question_id: string, value: number, lock: boolean) {
+    if (!playerId || !view || view.game_type !== "number_line") return;
+    if (!view.number_line?.accepting || view.number_line.my_locked) return;
+    const request_id =
+      typeof crypto !== "undefined" && "randomUUID" in crypto
+        ? crypto.randomUUID()
+        : `nl-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    setSubmitting(true);
+    try {
+      const r = await postNumberLine(
+        `/api/rooms/${code}/number-line`,
+        { player_id: playerId, question_id, value, lock, request_id },
+        onTap,
+      );
+      if (r?.data?.ok && r.data.view) setView(r.data.view as PlayerRoomView);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
   async function bingoTap(cell_index: number): Promise<string | null> {
     if (!playerId || !view || view.game_type !== "bingo") return "NOT_BINGO";
     if (view.phase !== "bingo" || !view.bingo || view.bingo.paused) return "PAUSED";
@@ -305,6 +330,27 @@ function PlayPageBody({
 
   if (view.game_type === "bingo") {
     return <BingoPlay view={view} submitting={submitting} onTap={bingoTap} notice={tapNotice} />;
+  }
+
+  if (view.game_type === "number_line") {
+    return (
+      <NumberLinePlay
+        view={view}
+        submitting={submitting}
+        notice={
+          tapNotice === "rejected"
+            ? "That spot did not lock. Try again."
+            : tapNotice === "failed"
+              ? "Didn’t send. Tap again."
+              : tapNotice === "retrying"
+                ? "Retrying…"
+                : tapNotice === "sending"
+                  ? "Sending…"
+                  : null
+        }
+        onPlace={numberLinePlace}
+      />
+    );
   }
 
   if (view.phase === "lobby" && view.game_type === "escape_vault") {

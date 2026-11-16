@@ -160,9 +160,11 @@ export function NumberLineTrack({
             key={dot.id}
             className="nl-dot"
             style={{
-              left: `${(dot.x / laid.width) * 100}%`,
-              top: `calc(2.15rem - ${dot.stack * 1.75}rem)`,
-              animationDelay: `${index * 0.04}s`,
+              left: dot.x,
+              top: dot.box.top - laid.nameSpace,
+              width: laid.dotSize,
+              height: laid.dotSize,
+              animationDelay: `${Math.min(index, 12) * 0.03}s`,
             }}
           />
         ))}
@@ -192,25 +194,20 @@ export function NumberLineTrack({
           />
         ) : null}
       </div>
+      <div className="nl-leader-layer" aria-hidden>
+        {laid.leaders.map((leader, index) => (
+          <span
+            key={`${leader.x}-${index}`}
+            className="nl-chip-leader"
+            style={{ left: leader.x, top: leader.y1, height: leader.y2 - leader.y1 }}
+          />
+        ))}
+      </div>
       <div className="nl-chip-layer">
         {laid.chips.map((chip) => {
           const open = openChip === chip.id;
-          const dot = laid.dots.find((row) => row.id === chip.id);
-          const leaderTop = chip.box.bottom;
-          const leaderBottom = dot ? dot.box.top : laid.nameSpace;
           return (
             <span key={chip.id}>
-              {leaderBottom > leaderTop ? (
-                <span
-                  className="nl-chip-leader"
-                  style={{
-                    left: chip.anchorX,
-                    top: leaderTop,
-                    height: leaderBottom - leaderTop,
-                  }}
-                  aria-hidden
-                />
-              ) : null}
               <button
                 type="button"
                 className="nl-chip"

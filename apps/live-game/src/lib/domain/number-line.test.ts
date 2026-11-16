@@ -32,6 +32,7 @@ import {
   chipLabel,
   contrastRatio,
   layoutNumberLineReveal,
+  NL_GROUP_WINDOW_PX,
   NL_HOST_CHROME_PX,
   NL_NAME_BG,
   NL_NAME_FG,
@@ -39,6 +40,8 @@ import {
   NL_REVEAL_BUDGET_PX,
   NL_VIEWPORT_H_PX,
   type NameLayoutDot,
+  type RevealLeader,
+  type Box,
 } from "@/lib/domain/number-line-layout";
 import {
   applyNumberLineDemo,
@@ -596,8 +599,15 @@ test("number line demo seed upserts a stale key and skips an identical row", () 
   assert.equal(planNumberLineDemoCode(null, NUMBER_LINE_SAMPLE_BOARD_ID), "insert");
 });
 
+function leaderCrossesChip(leader: RevealLeader, box: Box): boolean {
+  if (leader.x <= box.left || leader.x >= box.right) return false;
+  return leader.y1 < box.bottom - 0.5 && leader.y2 > box.top + 0.5;
+}
+
 function assertRevealFits(dots: NameLayoutDot[], width: number, label: string) {
   const laid = layoutNumberLineReveal(dots, width);
+  assert.equal(laid.dots.length, dots.length, `${label} @ ${width} dots ${laid.dots.length} placements ${dots.length}`);
+  assert.ok(laid.dotSize >= 8, `${label} dot shrunk below 8px`);
   assert.ok(
     laid.revealHeight <= NL_REVEAL_BUDGET_PX,
     `${label} @ ${width} reveal ${laid.revealHeight}px exceeds ${NL_REVEAL_BUDGET_PX}px`,
@@ -606,9 +616,20 @@ function assertRevealFits(dots: NameLayoutDot[], width: number, label: string) {
     NL_HOST_CHROME_PX + laid.revealHeight <= NL_VIEWPORT_H_PX,
     `${label} @ ${width} drops the line below ${NL_VIEWPORT_H_PX}px`,
   );
+  const seen = new Set<string>();
   for (const chip of laid.chips) {
     assert.ok(chip.box.left >= -0.5, `${label} chip starts off the line`);
     assert.ok(chip.box.right <= width + 0.5, `${label} chip runs off the line`);
+    for (const id of chip.memberIds) {
+      const dot = laid.dots.find((row) => row.id === id);
+      assert.ok(dot, `${label} chip names a missing dot`);
+      assert.ok(
+        Math.abs(dot!.x - chip.anchorX) <= NL_GROUP_WINDOW_PX + 0.5,
+        `${label} @ ${width} ${chip.text} reaches x ${dot!.x} from ${chip.anchorX}`,
+      );
+      assert.equal(seen.has(id), false, `${label} named ${id} twice`);
+      seen.add(id);
+    }
     for (const dot of laid.dots) {
       assert.equal(boxesOverlap(chip.box, dot.box), false, `${label} @ ${width} ${chip.text} covers a dot`);
     }
@@ -617,9 +638,13 @@ function assertRevealFits(dots: NameLayoutDot[], width: number, label: string) {
       assert.equal(boxesOverlap(chip.box, other.box), false, `${label} @ ${width} chips overlap`);
     }
   }
-  const named = dots.filter((dot) => dot.name).length;
-  const listed = laid.chips.reduce((sum, chip) => sum + chip.fullNames.length, 0);
-  assert.equal(listed, named, `${label} @ ${width} dropped a name`);
+  for (const leader of laid.leaders) {
+    for (const chip of laid.chips) {
+      assert.equal(leaderCrossesChip(leader, chip.box), false, `${label} leader crosses ${chip.text}`);
+    }
+  }
+  const named = dots.filter((dot) => dot.name);
+  assert.equal(seen.size, named.length, `${label} @ ${width} dropped a name`);
 }
 
 test("reveal name chips clear AA and stay clear of dots", () => {
@@ -633,6 +658,15 @@ test("reveal name chips clear AA and stay clear of dots", () => {
       { id: "dee", xPercent: 14, value: 140, name: "Dee" },
     ];
     assertRevealFits(close, width, "Ben Cy Dee");
+    const four = [
+      { id: "ava", xPercent: 8, value: 80, name: "Ava" },
+      { id: "ben", xPercent: 10, value: 100, name: "Ben" },
+      { id: "cy", xPercent: 12, value: 120, name: "Cy" },
+      { id: "dee", xPercent: 14, value: 140, name: "Dee" },
+    ];
+    const fourLaid = layoutNumberLineReveal(four, width);
+    assert.equal(fourLaid.dots.length, 4, `close values @ ${width}`);
+    assertRevealFits(four, width, "Ava Ben Cy Dee");
     const spread = Array.from({ length: 30 }, (_, index) => ({
       id: `s${index}`,
       xPercent: (index / 29) * 100,
@@ -659,7 +693,11 @@ test("reveal name chips clear AA and stay clear of dots", () => {
     assert.ok(pile);
     assert.ok(pile!.fullNames.includes("Ben"));
     assert.equal(pile!.fullNames.filter((name) => name === "Ava" || name === "Ben" || name.startsWith("Kid")).length >= 12, true);
-    assert.equal(chipLabel(pile!.fullNames), pile!.text);
+    const longLabel = chipLabel(pile!.fullNames);
+    assert.ok(
+      pile!.text === longLabel || pile!.text === `+${pile!.fullNames.length}`,
+      `${pile!.text} is not the group label`,
+    );
   }
   const onlyIdentical = Array.from({ length: 12 }, (_, index) => ({
     id: `same-${index}`,
@@ -668,10 +706,21 @@ test("reveal name chips clear AA and stay clear of dots", () => {
     name: index === 0 ? "Ava" : index === 1 ? "Ben" : `Kid ${index}`,
   }));
   const onePile = layoutNumberLineReveal(onlyIdentical, 1366);
-  assert.equal(onePile.dots.length, 1);
+  assert.equal(onePile.dots.length, 12);
   assert.equal(onePile.chips.length, 1);
   assert.equal(onePile.chips[0]!.text, "Ava, Ben +10");
   assert.equal(onePile.chips[0]!.fullNames.length, 12);
+  const far = layoutNumberLineReveal(
+    [
+      { id: "ann", xPercent: 18, value: 180, name: "Ann" },
+      { id: "bea", xPercent: 19, value: 190, name: "Bea" },
+      { id: "zed", xPercent: 91, value: 910, name: "Zed" },
+    ],
+    375,
+  );
+  const ann = far.chips.find((chip) => chip.memberIds.includes("ann"));
+  assert.ok(ann);
+  assert.equal(ann!.memberIds.includes("zed"), false);
   assert.deepEqual(visibleTickIndexes(3, tickLabelCap(3, 231)), [0, 1, 2, 3]);
 });
 

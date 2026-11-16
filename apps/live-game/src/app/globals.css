@@ -539,20 +539,24 @@ body {
 }
 .nl-dot {
   position: absolute;
-  top: 2.15rem;
   z-index: 3;
-  width: 1.15rem;
-  height: 1.15rem;
+  box-sizing: border-box;
   border-radius: 999px;
   border: 2px solid #1c1917;
   background: #38bdf8;
   transform: translate(-50%, 0);
   animation: nl-rain 0.55s ease-out both;
 }
+.nl-leader-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
 .nl-chip-layer {
   position: absolute;
   inset: 0;
-  z-index: 5;
+  z-index: 6;
   pointer-events: none;
 }
 .nl-chip-leader {

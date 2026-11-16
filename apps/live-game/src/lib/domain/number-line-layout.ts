@@ -4,23 +4,26 @@ export const NL_NAME_BG = "#07111f";
 export const NL_NAME_FONT_PX = 24;
 
 /** Matches the track CSS at a 16px root. */
-export const NL_DOT_PX = 22;
-export const NL_STACK_PX = 28;
+export const NL_DOT_MIN_PX = 8;
+export const NL_DOT_MAX_PX = 22;
+export const NL_STACK_PREF_PX = 28;
 export const NL_DOT_TOP_IN_RAIL = 34.4;
 export const NL_RAIL_PX = 88;
 export const NL_LABELS_PX = 52;
 export const NL_CHIP_H = 40;
 export const NL_CHIP_GAP_PX = 6;
 export const NL_MAX_LANES = 2;
-export const NL_MAX_STACK = 2;
-/** Extra-bold 24px is wider than 0.62em. This stays above the rendered chip. */
+/**
+ * A chip may name only the dots in its own stack, which stays inside this window.
+ * Far placements keep their own chip.
+ */
+export const NL_GROUP_WINDOW_PX = 56;
 const NL_CHAR_PX = 22;
 const NL_CHIP_PAD_X = 16;
-const NL_DOT_HIT_PX = NL_DOT_PX;
 
 /**
  * Host chrome above the track on a 1366-wide projector (header, question, gaps).
- * The track budget keeps the line and the true-spot flag inside a 768px screen.
+ * The track budget keeps the line, the true-spot flag, and the chips inside a 768px screen.
  */
 export const NL_HOST_CHROME_PX = 400;
 export const NL_VIEWPORT_H_PX = 768;
@@ -31,7 +34,6 @@ export type NameLayoutDot = {
   /** 0–100 along the line. */
   xPercent: number;
   name: string | null;
-  /** Identical values share one dot and one chip. Omit to keep each dot separate. */
   value?: number;
 };
 
@@ -41,7 +43,6 @@ export type RevealDot = {
   id: string;
   x: number;
   stack: number;
-  names: string[];
   box: Box;
 };
 
@@ -49,15 +50,24 @@ export type RevealChip = {
   id: string;
   text: string;
   fullNames: string[];
+  /** Every placement this chip names. Stays inside the group window of anchorX. */
+  memberIds: string[];
   box: Box;
-  /** Dot x the leader line drops to. */
   anchorX: number;
+};
+
+export type RevealLeader = {
+  x: number;
+  y1: number;
+  y2: number;
 };
 
 export type NumberLineRevealLayout = {
   width: number;
+  dotSize: number;
   dots: RevealDot[];
   chips: RevealChip[];
+  leaders: RevealLeader[];
   /** Space above the rail reserved for chips and stacked dots. */
   nameSpace: number;
   /** Names, rail, truth flag, and tick labels. */
@@ -101,197 +111,249 @@ export function boxesOverlap(a: Box, b: Box): boolean {
   return a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom;
 }
 
-type Group = {
-  id: string;
-  x: number;
-  names: string[];
-  stack: number;
-};
-
-function valueKey(value: number): number {
-  return Math.round(value * 1e6) / 1e6;
+function clampLeft(center: number, width: number, rail: number): number {
+  if (width >= rail) return 0;
+  return Math.max(0, Math.min(rail - width, center - width / 2));
 }
 
-function clampLeft(x: number, width: number, rail: number): number {
-  if (width >= rail) return 0;
-  return Math.max(0, Math.min(rail - width, x - width / 2));
+type Column = {
+  id: string;
+  anchorX: number;
+  ids: string[];
+  names: string[];
+  xs: number[];
+};
+
+type Draft = {
+  id: string;
+  names: string[];
+  memberIds: string[];
+  xs: number[];
+  anchorX: number;
+  left: number;
+  width: number;
+  lane: number;
+  text: string;
+};
+
+function fitsWindow(anchorX: number, xs: number[]): boolean {
+  return xs.every((x) => Math.abs(x - anchorX) <= NL_GROUP_WINDOW_PX + 0.01);
 }
 
 /**
- * Group identical values, cap stacks and lanes, and park every chip above the dots.
- * Chips share one coordinate space so a later dot cannot cover an earlier name.
+ * One dot per placement. Identical and near values stack, and the stack shrinks
+ * (never below an 8px dot) so thirty answers still fit a 1366×768 projector.
+ * Name chips only cover that stack. Extra names stay on the group's own +N.
  */
 export function layoutNumberLineReveal(
-  dots: NameLayoutDot[],
+  inputs: NameLayoutDot[],
   widthPx: number,
 ): NumberLineRevealLayout {
   const width = Math.max(1, widthPx);
-  const grouped = new Map<string, Group>();
-  for (const dot of dots) {
-    const x = (Math.min(100, Math.max(0, dot.xPercent)) / 100) * width;
-    const key = dot.value == null ? `id:${dot.id}` : `v:${valueKey(dot.value)}`;
-    const existing = grouped.get(key);
-    if (existing) {
-      if (dot.name) existing.names.push(dot.name);
+  const placed = inputs.map((dot) => ({
+    ...dot,
+    x: (Math.min(100, Math.max(0, dot.xPercent)) / 100) * width,
+  }));
+  const ordered = [...placed].sort((a, b) => a.x - b.x || a.id.localeCompare(b.id));
+
+  const columns: Column[] = [];
+  for (const dot of ordered) {
+    const column = columns[columns.length - 1];
+    if (column && dot.x - column.anchorX <= NL_GROUP_WINDOW_PX) {
+      column.ids.push(dot.id);
+      column.xs.push(dot.x);
+      if (dot.name) column.names.push(dot.name);
       continue;
     }
-    grouped.set(key, {
+    columns.push({
       id: dot.id,
-      x,
+      anchorX: dot.x,
+      ids: [dot.id],
       names: dot.name ? [dot.name] : [],
-      stack: 0,
+      xs: [dot.x],
     });
   }
 
-  const groups = [...grouped.values()].sort((a, b) => a.x - b.x || a.id.localeCompare(b.id));
-  const visible: Group[] = [];
-  let lastX = Number.NEGATIVE_INFINITY;
-  let stack = 0;
-  let column: Group[] = [];
-  for (const group of groups) {
-    if (group.x - lastX < NL_DOT_HIT_PX && column.length > 0) {
-      if (stack + 1 < NL_MAX_STACK) {
-        stack += 1;
-        group.stack = stack;
-        visible.push(group);
-        column.push(group);
-        lastX = group.x;
-      } else {
-        column[column.length - 1]!.names.push(...group.names);
-      }
-      continue;
-    }
-    stack = 0;
-    group.stack = 0;
-    visible.push(group);
-    column = [group];
-    lastX = group.x;
+  const stackOf = new Map<string, number>();
+  let maxStack = 0;
+  for (const column of columns) {
+    let stack = 0;
+    let previousX = Number.NEGATIVE_INFINITY;
+    column.ids.forEach((id, index) => {
+      const x = column.xs[index]!;
+      stack = x - previousX < NL_DOT_MAX_PX ? stack + (index === 0 ? 0 : 1) : 0;
+      previousX = x;
+      stackOf.set(id, stack);
+      maxStack = Math.max(maxStack, stack);
+    });
   }
 
-  const maxStack = visible.reduce((highest, group) => Math.max(highest, group.stack), 0);
-  const named = visible.filter((group) => group.names.length > 0);
-
-  type Draft = {
-    id: string;
-    names: string[];
-    anchorX: number;
-    left: number;
-    width: number;
-    lane: number;
-  };
-
-  const drafts: Draft[] = named.map((group) => {
-    const text = chipLabel(group.names);
+  const drafts: Draft[] = [];
+  for (const column of columns) {
+    if (column.names.length === 0) continue;
+    const text = chipLabel(column.names);
     const chip = chipWidthPx(text, width);
-    return {
-      id: group.id,
-      names: group.names,
-      anchorX: group.x,
+    drafts.push({
+      id: column.id,
+      names: column.names,
+      memberIds: [...column.ids],
+      xs: column.xs,
+      anchorX: column.anchorX,
       width: chip,
-      left: clampLeft(group.x, chip, width),
+      left: clampLeft(column.anchorX, chip, width),
       lane: 0,
-    };
-  });
+      text,
+    });
+  }
 
   const parked = new Set<string>();
 
-  function sameLaneHit(draft: Draft, lane: number): Draft | null {
+  function hits(draft: Draft, lane: number, ignoreId: string | null = null): boolean {
     const right = draft.left + draft.width;
     for (const other of drafts) {
-      if (other.id === draft.id || !parked.has(other.id) || other.lane !== lane) continue;
+      if (other.id === draft.id || other.id === ignoreId || !parked.has(other.id) || other.lane !== lane) continue;
       if (draft.left < other.left + other.width + NL_CHIP_GAP_PX && other.left < right + NL_CHIP_GAP_PX) {
-        return other;
-      }
-    }
-    return null;
-  }
-
-  function place(draft: Draft): boolean {
-    for (let lane = 0; lane < NL_MAX_LANES; lane++) {
-      if (!sameLaneHit(draft, lane)) {
-        draft.lane = lane;
         return true;
       }
     }
     return false;
   }
 
-  function absorb(host: Draft, extra: Draft) {
-    host.names.push(...extra.names);
-    host.width = chipWidthPx(chipLabel(host.names), width);
-    host.left = clampLeft(host.anchorX, host.width, width);
-    const index = drafts.findIndex((row) => row.id === extra.id);
-    if (index >= 0) drafts.splice(index, 1);
-    parked.delete(extra.id);
+  function shove(blocker: Draft, awayFrom: number, ignoreId: string): boolean {
+    const original = blocker.left;
+    const dir = blocker.anchorX < awayFrom ? -1 : 1;
+    for (let shift = 4; shift <= NL_GROUP_WINDOW_PX; shift += 4) {
+      const center = blocker.anchorX + dir * shift;
+      blocker.left = clampLeft(center, blocker.width, width);
+      if (Math.abs(blocker.left + blocker.width / 2 - blocker.anchorX) > NL_GROUP_WINDOW_PX) continue;
+      if (!hits(blocker, blocker.lane, ignoreId)) return true;
+    }
+    blocker.left = original;
+    return false;
   }
 
-  // Left to right. A chip that cannot take a free lane merges into its neighbor.
-  const pending = [...drafts].sort((a, b) => a.left - b.left || a.id.localeCompare(b.id));
+  function applyText(draft: Draft, text: string) {
+    draft.text = text;
+    draft.width = chipWidthPx(text, width);
+    draft.left = clampLeft(draft.anchorX, draft.width, width);
+  }
+
+  const columnsWithNames = drafts.length;
+
+  function tryPlace(draft: Draft): boolean {
+    const full = chipLabel(draft.names);
+    const plus = `+${draft.names.length}`;
+    const options =
+      columnsWithNames > 1 && chipWidthPx(full, width) > Math.min(width * 0.45, 140)
+        ? [plus]
+        : full === plus
+          ? [full]
+          : [full, plus];
+    for (const text of options) {
+      applyText(draft, text);
+      for (let lane = 0; lane < NL_MAX_LANES; lane++) {
+        if (!hits(draft, lane)) {
+          draft.lane = lane;
+          return true;
+        }
+      }
+      for (let shift = 4; shift <= NL_GROUP_WINDOW_PX; shift += 4) {
+        for (const sign of [-1, 1]) {
+          const center = draft.anchorX + sign * shift;
+          draft.left = clampLeft(center, draft.width, width);
+          if (Math.abs(draft.left + draft.width / 2 - draft.anchorX) > NL_GROUP_WINDOW_PX) continue;
+          for (let lane = 0; lane < NL_MAX_LANES; lane++) {
+            if (!hits(draft, lane)) {
+              draft.lane = lane;
+              return true;
+            }
+          }
+        }
+      }
+    }
+    applyText(draft, options[options.length - 1]!);
+    return false;
+  }
+
+  const pending = [...drafts].sort((a, b) => a.anchorX - b.anchorX || a.id.localeCompare(b.id));
   for (const draft of pending) {
     if (!drafts.includes(draft)) continue;
-    if (place(draft)) {
+    if (tryPlace(draft)) {
       parked.add(draft.id);
       continue;
     }
-    let nearest: Draft | null = null;
-    let nearestDist = Number.POSITIVE_INFINITY;
+    for (const other of drafts) {
+      if (other.id === draft.id || !parked.has(other.id)) continue;
+      if (Math.abs(other.anchorX - draft.anchorX) > NL_GROUP_WINDOW_PX * 2) continue;
+      if (shove(other, draft.anchorX, draft.id) && tryPlace(draft)) break;
+    }
+    if (parked.has(draft.id) || (drafts.includes(draft) && tryPlace(draft))) {
+      parked.add(draft.id);
+      continue;
+    }
+    let host: Draft | null = null;
+    let hostDist = Number.POSITIVE_INFINITY;
     for (const other of drafts) {
       if (other.id === draft.id || !parked.has(other.id)) continue;
       const dist = Math.abs(other.anchorX - draft.anchorX);
-      if (dist < nearestDist) {
-        nearest = other;
-        nearestDist = dist;
-      }
+      if (dist > NL_GROUP_WINDOW_PX || dist >= hostDist) continue;
+      const xs = [...other.xs, ...draft.xs];
+      if (!fitsWindow(other.anchorX, xs)) continue;
+      host = other;
+      hostDist = dist;
     }
-    if (!nearest) {
+    if (!host) {
       draft.lane = 0;
       parked.add(draft.id);
       continue;
     }
-    absorb(nearest, draft);
-    let guard = 0;
-    while (guard < 40) {
-      guard += 1;
-      if (place(nearest)) break;
-      const hit = sameLaneHit(nearest, 0) ?? sameLaneHit(nearest, nearest.lane);
-      if (!hit) {
-        nearest.lane = 0;
-        break;
-      }
-      absorb(nearest, hit);
-    }
-    parked.add(nearest.id);
+    host.names.push(...draft.names);
+    host.memberIds.push(...draft.memberIds);
+    host.xs.push(...draft.xs);
+    const index = drafts.findIndex((row) => row.id === draft.id);
+    if (index >= 0) drafts.splice(index, 1);
+    tryPlace(host);
+    parked.add(host.id);
   }
 
   const lanesUsed = drafts.length === 0 ? 0 : Math.max(...drafts.map((draft) => draft.lane)) + 1;
-  const protrusion = Math.max(0, maxStack * NL_STACK_PX - NL_DOT_TOP_IN_RAIL);
   const chipArea =
     lanesUsed === 0 ? 0 : lanesUsed * NL_CHIP_H + Math.max(0, lanesUsed - 1) * NL_CHIP_GAP_PX;
+  const nameRoom = NL_REVEAL_BUDGET_PX - NL_RAIL_PX - NL_LABELS_PX;
+  const protrusionRoom = Math.max(0, nameRoom - chipArea - (lanesUsed > 0 ? NL_CHIP_GAP_PX : 0));
+  let spacing = NL_STACK_PREF_PX;
+  let dotSize = NL_DOT_MAX_PX;
+  if (maxStack > 0) {
+    const fitted = (protrusionRoom + NL_DOT_TOP_IN_RAIL) / maxStack;
+    spacing = Math.min(NL_STACK_PREF_PX, Math.max(1, fitted));
+    dotSize = Math.min(NL_DOT_MAX_PX, Math.max(NL_DOT_MIN_PX, spacing));
+  }
+  const protrusion = Math.max(0, maxStack * spacing - NL_DOT_TOP_IN_RAIL);
   const nameSpace = chipArea + (lanesUsed > 0 ? NL_CHIP_GAP_PX : 0) + protrusion;
 
-  const dotsOut: RevealDot[] = visible.map((group) => {
-    const top = nameSpace + NL_DOT_TOP_IN_RAIL - group.stack * NL_STACK_PX;
+  const dots: RevealDot[] = placed.map((dot) => {
+    const stack = stackOf.get(dot.id) ?? 0;
+    const top = nameSpace + NL_DOT_TOP_IN_RAIL - stack * spacing;
     return {
-      id: group.id,
-      x: group.x,
-      stack: group.stack,
-      names: group.names,
+      id: dot.id,
+      x: dot.x,
+      stack,
       box: {
-        left: group.x - NL_DOT_PX / 2,
-        right: group.x + NL_DOT_PX / 2,
+        left: dot.x - dotSize / 2,
+        right: dot.x + dotSize / 2,
         top,
-        bottom: top + NL_DOT_PX,
+        bottom: top + dotSize,
       },
     };
   });
 
   const chips: RevealChip[] = drafts.map((draft) => {
-    const text = chipLabel(draft.names);
     const top = chipArea - (draft.lane + 1) * NL_CHIP_H - draft.lane * NL_CHIP_GAP_PX;
     return {
       id: draft.id,
-      text,
+      text: draft.text,
       fullNames: [...draft.names],
+      memberIds: [...draft.memberIds],
       anchorX: draft.anchorX,
       box: {
         left: draft.left,
@@ -302,10 +364,27 @@ export function layoutNumberLineReveal(
     };
   });
 
+  const leaders: RevealLeader[] = [];
+  for (const chip of chips) {
+    const members = dots.filter((dot) => chip.memberIds.includes(dot.id));
+    if (members.length === 0) continue;
+    const x = Math.min(chip.box.right - 2, Math.max(chip.box.left + 2, chip.anchorX));
+    let y1 = chip.box.bottom;
+    let y2 = Math.min(...members.map((dot) => dot.box.top));
+    for (const other of chips) {
+      if (other.id === chip.id) continue;
+      if (x <= other.box.left || x >= other.box.right) continue;
+      if (other.box.top > y1 && other.box.top < y2) y2 = other.box.top;
+    }
+    if (y2 > y1 + 1) leaders.push({ x, y1, y2 });
+  }
+
   return {
     width,
-    dots: dotsOut,
+    dotSize,
+    dots,
     chips,
+    leaders,
     nameSpace,
     revealHeight: nameSpace + NL_RAIL_PX + NL_LABELS_PX,
   };

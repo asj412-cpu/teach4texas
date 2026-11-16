@@ -34,11 +34,14 @@ import {
   layoutNumberLineReveal,
   lineFoldY,
   NL_CHROME_MOBILE_PX,
+  NL_DOT_MAX_PX,
   NL_GROUP_WINDOW_PX,
+  NL_LABELS_PX,
   NL_MOBILE_VIEWPORT_PX,
   NL_NAME_BG,
   NL_NAME_FG,
   NL_NAME_FONT_PX,
+  NL_RAIL_PX,
   NL_VIEWPORT_H_PX,
   type Box,
   type NameLayoutDot,
@@ -608,7 +611,16 @@ function leaderCrossesChip(leader: RevealLeader, box: Box): boolean {
 function assertRevealFits(dots: NameLayoutDot[], width: number, label: string) {
   const laid = layoutNumberLineReveal(dots, width);
   assert.equal(laid.dots.length, dots.length, `${label} @ ${width} dots ${laid.dots.length} placements ${dots.length}`);
-  assert.ok(laid.dotSize >= 8, `${label} dot shrunk below 8px`);
+  assert.ok(laid.dots.every((dot) => dot.size >= 6), `${label} dot shrunk below 6px`);
+  const labelTop = laid.aboveSpace + NL_RAIL_PX;
+  const labelBottom = labelTop + NL_LABELS_PX;
+  for (const input of dots) {
+    const dot = laid.dots.find((row) => row.id === input.id);
+    assert.ok(dot, `${label} missing ${input.id}`);
+    const trueX = (Math.min(100, Math.max(0, input.xPercent)) / 100) * width;
+    assert.ok(Math.abs(dot!.x - trueX) <= 1, `${label} @ ${width} ${input.id} is ${dot!.x} not ${trueX}`);
+    assert.ok(dot!.x >= -1 && dot!.x <= width + 1, `${label} @ ${width} ${input.id} left the track`);
+  }
   if (width >= 1000) {
     assert.ok(
       hostPageHeight(laid) <= NL_VIEWPORT_H_PX,
@@ -646,6 +658,8 @@ function assertRevealFits(dots: NameLayoutDot[], width: number, label: string) {
     for (const chip of laid.chips) {
       assert.equal(leaderCrossesChip(leader, chip.box), false, `${label} leader crosses ${chip.text}`);
     }
+    const throughLabels = leader.y1 < labelBottom - 0.5 && leader.y2 > labelTop + 0.5;
+    assert.equal(throughLabels, false, `${label} leader crosses the tick labels`);
   }
   const named = dots.filter((dot) => dot.name);
   assert.equal(seen.size, named.length, `${label} @ ${width} dropped a name`);
@@ -727,8 +741,15 @@ test("reveal name chips clear AA and stay clear of dots", () => {
     const atop = Math.max(...row.dots.filter((dot) => dot.id.startsWith("a")).map((dot) => dot.stack));
     assert.equal(ben.stack, 0, `Ben joined the 80 stack @ ${width}`);
     assert.ok(atop === 11, `80 stack @ ${width} is ${atop}`);
-    assert.ok(Math.abs(ben.x - row.dots.find((dot) => dot.id === "a0")!.x) >= 8);
+    const trueBen = (10 / 100) * width;
+    const trueA = (8 / 100) * width;
+    assert.ok(Math.abs(ben.x - trueBen) <= 1, `Ben x @ ${width}`);
+    assert.ok(Math.abs(row.dots.find((dot) => dot.id === "a0")!.x - trueA) <= 1, `Ava x @ ${width}`);
+    assert.equal(ben.size, NL_DOT_MAX_PX, `single dot shrunk @ ${width}`);
   }
+  assertRevealFits(onlyIdentical, 375, "twelve only");
+  assertRevealFits(onlyIdentical, 768, "twelve only");
+  assertRevealFits(onlyIdentical, 1366, "twelve only");
   const far = layoutNumberLineReveal(
     [
       { id: "ann", xPercent: 18, value: 180, name: "Ann" },

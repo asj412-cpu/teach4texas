@@ -4,7 +4,7 @@ export const NL_NAME_BG = "#07111f";
 export const NL_NAME_FONT_PX = 24;
 
 /** Matches the track CSS at a 16px root. */
-export const NL_DOT_MIN_PX = 8;
+export const NL_DOT_MIN_PX = 6;
 export const NL_DOT_MAX_PX = 22;
 export const NL_STACK_PREF_PX = 10;
 export const NL_BIN_PX = 14;
@@ -49,6 +49,8 @@ export type RevealDot = {
   id: string;
   x: number;
   stack: number;
+  /** Outer diameter. Single dots keep the base size; only a tall stack shrinks. */
+  size: number;
   box: Box;
 };
 
@@ -165,9 +167,10 @@ type Draft = {
 };
 
 /**
- * One dot per placement. Only identical values, or values in the same pixel,
- * share a vertical stack. Each stack's chip shows a name plus +N.
- * Lanes alternate above and below the line so the controls stay on a 1366×768 screen.
+ * One dot per placement, drawn at that value's true x. Identical values stack
+ * vertically. A different value keeps its own column at its own x and, when it
+ * sits inside one dot of a neighbor, a different y. Chips show a name plus +N
+ * and alternate above and below the line so a 1366×768 host still fits.
  */
 export function layoutNumberLineReveal(
   inputs: NameLayoutDot[],
@@ -190,7 +193,6 @@ export function layoutNumberLineReveal(
   const groups: Group[] = [];
   const drawX = new Map<string, number>();
   const stackOf = new Map<string, number>();
-  let maxStack = 0;
 
   for (const bin of [...bins.keys()].sort((a, b) => a - b)) {
     const dots = bins.get(bin)!;
@@ -201,15 +203,12 @@ export function layoutNumberLineReveal(
       list.push(dot);
       byValue.set(key, list);
     }
-    let shift = 0;
     for (const list of byValue.values()) {
-      const anchor = list[0]!.x + shift;
-      shift += byValue.size > 1 ? NL_BIN_PX : 0;
+      const anchor = list[0]!.x;
       const ids = list.map((dot) => dot.id);
       ids.forEach((id, index) => {
-        drawX.set(id, anchor);
+        drawX.set(id, list[index]!.x);
         stackOf.set(id, index);
-        maxStack = Math.max(maxStack, index);
       });
       groups.push({
         id: list[0]!.id,
@@ -219,18 +218,6 @@ export function layoutNumberLineReveal(
         stacks: ids.map((_, index) => index),
       });
     }
-  }
-
-  const separated = [...groups].sort((a, b) => a.anchorX - b.anchorX || a.id.localeCompare(b.id));
-  let lastAnchor = Number.NEGATIVE_INFINITY;
-  for (const group of separated) {
-    if (group.anchorX - lastAnchor < NL_BIN_PX) {
-      const next = lastAnchor + NL_BIN_PX;
-      const delta = next - group.anchorX;
-      group.anchorX = next;
-      for (const id of group.ids) drawX.set(id, (drawX.get(id) ?? next) + delta);
-    }
-    lastAnchor = group.anchorX;
   }
 
   const chipGroups: Group[] = [];
@@ -359,37 +346,71 @@ export function layoutNumberLineReveal(
   );
   const protrusionRoom = Math.min(pageRoom, mobileRoom);
 
-  let spacing = NL_STACK_PREF_PX;
-  let dotSize = NL_DOT_MAX_PX;
-  if (maxStack > 0) {
-    const fitted = (protrusionRoom + NL_DOT_TOP_IN_RAIL) / maxStack;
-    spacing = Math.min(NL_STACK_PREF_PX, Math.max(2, fitted));
-    dotSize = Math.min(NL_DOT_MAX_PX, Math.max(NL_DOT_MIN_PX, spacing));
+  const columnSlot = new Map<string, number>();
+  const byX = [...groups].sort((a, b) => a.anchorX - b.anchorX || a.id.localeCompare(b.id));
+  const columnStep = 8;
+  const columnSlots = Math.max(1, Math.floor(NL_DOT_TOP_IN_RAIL / columnStep));
+  for (const group of byX) {
+    const taken = new Set<number>();
+    for (const other of byX) {
+      if (other.id === group.id || !columnSlot.has(other.id)) continue;
+      if (Math.abs(other.anchorX - group.anchorX) < NL_DOT_MAX_PX) {
+        taken.add(columnSlot.get(other.id)!);
+      }
+    }
+    let slot = 0;
+    while (slot < columnSlots && taken.has(slot)) slot += 1;
+    columnSlot.set(group.id, taken.has(slot) ? 0 : slot);
   }
-  const protrusion = Math.max(0, maxStack * spacing - NL_DOT_TOP_IN_RAIL);
+
+  const dotMetrics = new Map<string, { size: number; spacing: number; yOffset: number }>();
+  let protrusion = 0;
+  for (const group of groups) {
+    const count = group.ids.length;
+    const index = Math.max(0, count - 1);
+    const yOffset = (columnSlot.get(group.id) ?? 0) * columnStep;
+    let size = NL_DOT_MAX_PX;
+    let gap = NL_DOT_MAX_PX;
+    if (index > 0) {
+      const preferred = Math.max(0, index * NL_STACK_PREF_PX + yOffset - NL_DOT_TOP_IN_RAIL);
+      if (preferred > protrusionRoom) {
+        const fitted = Math.max(2, (protrusionRoom + NL_DOT_TOP_IN_RAIL - yOffset) / index);
+        gap = Math.min(NL_STACK_PREF_PX, fitted);
+        size = Math.min(NL_DOT_MAX_PX, Math.max(NL_DOT_MIN_PX, gap));
+        gap = Math.min(gap, size);
+      } else {
+        gap = NL_STACK_PREF_PX;
+        size = NL_DOT_MAX_PX;
+      }
+    }
+    protrusion = Math.max(protrusion, Math.max(0, index * gap + yOffset - NL_DOT_TOP_IN_RAIL));
+    for (const id of group.ids) dotMetrics.set(id, { size, spacing: gap, yOffset });
+  }
   const aboveSpace = aboveChip + (aboveRows > 0 ? NL_CHIP_GAP_PX : 0) + protrusion;
   const belowStart = aboveSpace + NL_RAIL_PX + NL_LABELS_PX;
 
   const dots: RevealDot[] = placed.map((dot) => {
     const stack = stackOf.get(dot.id) ?? 0;
-    const x = drawXOr(dot.id, dot.x);
-    const top = aboveSpace + NL_DOT_TOP_IN_RAIL - stack * spacing;
+    const x = dot.x;
+    const metrics = dotMetrics.get(dot.id) ?? {
+      size: NL_DOT_MAX_PX,
+      spacing: NL_STACK_PREF_PX,
+      yOffset: 0,
+    };
+    const top = aboveSpace + NL_DOT_TOP_IN_RAIL - stack * metrics.spacing - metrics.yOffset;
     return {
       id: dot.id,
       x,
       stack,
+      size: metrics.size,
       box: {
-        left: x - dotSize / 2,
-        right: x + dotSize / 2,
+        left: x - metrics.size / 2,
+        right: x + metrics.size / 2,
         top,
-        bottom: top + dotSize,
+        bottom: top + metrics.size,
       },
     };
   });
-
-  function drawXOr(id: string, fallback: number) {
-    return drawX.get(id) ?? fallback;
-  }
 
   const chips: RevealChip[] = drafts.map((draft) => {
     const row = Math.floor(draft.lane / 2);
@@ -413,6 +434,22 @@ export function layoutNumberLineReveal(
   });
 
   const leaders: RevealLeader[] = [];
+  const labelTop = aboveSpace + NL_RAIL_PX;
+  const labelBottom = labelTop + NL_LABELS_PX;
+  function pushLeader(x: number, y1: number, y2: number) {
+    const lo = Math.min(y1, y2);
+    const hi = Math.max(y1, y2);
+    const pieces: [number, number][] = [];
+    if (hi <= labelTop || lo >= labelBottom) pieces.push([lo, hi]);
+    else {
+      if (lo < labelTop - 1) pieces.push([lo, Math.min(hi, labelTop)]);
+      if (hi > labelBottom + 1) pieces.push([Math.max(lo, labelBottom), hi]);
+    }
+    for (const [start, end] of pieces) {
+      if (end > start + 1) leaders.push({ x, y1: start, y2: end });
+    }
+  }
+
   for (const chip of chips) {
     const members = dots.filter((dot) => chip.memberIds.includes(dot.id));
     if (members.length === 0) continue;
@@ -427,13 +464,13 @@ export function layoutNumberLineReveal(
       if (other.box.top >= y1 && other.box.top < y2) y2 = other.box.top;
       if (other.box.bottom > y1 && other.box.bottom <= y2) y1 = other.box.bottom;
     }
-    if (y2 > y1 + 1) leaders.push({ x, y1, y2 });
+    if (y2 > y1 + 1) pushLeader(x, y1, y2);
   }
 
   const revealHeight = aboveSpace + NL_RAIL_PX + NL_LABELS_PX + belowSpace;
   return {
     width,
-    dotSize,
+    dotSize: NL_DOT_MAX_PX,
     dots,
     chips,
     leaders,

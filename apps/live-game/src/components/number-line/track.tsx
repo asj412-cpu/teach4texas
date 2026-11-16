@@ -162,8 +162,8 @@ export function NumberLineTrack({
             style={{
               left: dot.x,
               top: dot.box.top - laid.nameSpace,
-              width: laid.dotSize,
-              height: laid.dotSize,
+              width: dot.size,
+              height: dot.size,
               animationDelay: `${Math.min(index, 12) * 0.03}s`,
             }}
           />

@@ -28,12 +28,17 @@ import {
   type NumberLineState,
 } from "@/lib/domain/number-line";
 import {
-  chipSpan,
+  boxesOverlap,
+  chipLabel,
   contrastRatio,
-  layoutNumberLineNames,
+  layoutNumberLineReveal,
+  NL_HOST_CHROME_PX,
   NL_NAME_BG,
   NL_NAME_FG,
   NL_NAME_FONT_PX,
+  NL_REVEAL_BUDGET_PX,
+  NL_VIEWPORT_H_PX,
+  type NameLayoutDot,
 } from "@/lib/domain/number-line-layout";
 import {
   applyNumberLineDemo,
@@ -591,36 +596,82 @@ test("number line demo seed upserts a stale key and skips an identical row", () 
   assert.equal(planNumberLineDemoCode(null, NUMBER_LINE_SAMPLE_BOARD_ID), "insert");
 });
 
-test("reveal name chips clear AA and close values do not share a lane", () => {
-  assert.ok(contrastRatio(NL_NAME_FG, NL_NAME_BG) >= 4.5);
-  assert.ok(NL_NAME_FONT_PX >= 24);
-  const widths = [231, 327, 700, 848];
-  for (const width of widths) {
-    const dots = [
-      { id: "ava", xPercent: 60, name: "Ava" },
-      { id: "ben", xPercent: 65, name: "Ben" },
-    ];
-    const laid = layoutNumberLineNames(dots, width);
-    const ava = laid.find((row) => row.id === "ava")!;
-    const ben = laid.find((row) => row.id === "ben")!;
-    const avaBox = chipSpan(dots[0]!, ava, width)!;
-    const benBox = chipSpan(dots[1]!, ben, width)!;
-    const overlap = avaBox.left < benBox.right && benBox.left < avaBox.right;
-    if (ava.lane === ben.lane) assert.equal(overlap, false, `lanes collided at ${width}`);
-    else assert.ok(ava.leaderPx !== ben.leaderPx);
-    for (const box of [avaBox, benBox]) {
-      assert.ok(box.left >= -0.5, `chip starts off the line at ${width}`);
-      assert.ok(box.right <= width + 0.5, `chip runs off the line at ${width}`);
+function assertRevealFits(dots: NameLayoutDot[], width: number, label: string) {
+  const laid = layoutNumberLineReveal(dots, width);
+  assert.ok(
+    laid.revealHeight <= NL_REVEAL_BUDGET_PX,
+    `${label} @ ${width} reveal ${laid.revealHeight}px exceeds ${NL_REVEAL_BUDGET_PX}px`,
+  );
+  assert.ok(
+    NL_HOST_CHROME_PX + laid.revealHeight <= NL_VIEWPORT_H_PX,
+    `${label} @ ${width} drops the line below ${NL_VIEWPORT_H_PX}px`,
+  );
+  for (const chip of laid.chips) {
+    assert.ok(chip.box.left >= -0.5, `${label} chip starts off the line`);
+    assert.ok(chip.box.right <= width + 0.5, `${label} chip runs off the line`);
+    for (const dot of laid.dots) {
+      assert.equal(boxesOverlap(chip.box, dot.box), false, `${label} @ ${width} ${chip.text} covers a dot`);
+    }
+    for (const other of laid.chips) {
+      if (other.id === chip.id) continue;
+      assert.equal(boxesOverlap(chip.box, other.box), false, `${label} @ ${width} chips overlap`);
     }
   }
-  const narrow = layoutNumberLineNames(
-    [
-      { id: "ava", xPercent: 60, name: "Ava" },
-      { id: "ben", xPercent: 65, name: "Ben" },
-    ],
-    231,
-  );
-  assert.notEqual(narrow[0]!.stack, narrow[1]!.stack);
+  const named = dots.filter((dot) => dot.name).length;
+  const listed = laid.chips.reduce((sum, chip) => sum + chip.fullNames.length, 0);
+  assert.equal(listed, named, `${label} @ ${width} dropped a name`);
+}
+
+test("reveal name chips clear AA and stay clear of dots", () => {
+  assert.ok(contrastRatio(NL_NAME_FG, NL_NAME_BG) >= 4.5);
+  assert.ok(NL_NAME_FONT_PX >= 24);
+  const widths = [375, 768, 1366];
+  for (const width of widths) {
+    const close = [
+      { id: "ben", xPercent: 10, value: 100, name: "Ben" },
+      { id: "cy", xPercent: 12, value: 120, name: "Cy" },
+      { id: "dee", xPercent: 14, value: 140, name: "Dee" },
+    ];
+    assertRevealFits(close, width, "Ben Cy Dee");
+    const spread = Array.from({ length: 30 }, (_, index) => ({
+      id: `s${index}`,
+      xPercent: (index / 29) * 100,
+      value: index * 10,
+      name: `Student ${index}`,
+    }));
+    assertRevealFits(spread, width, "spread");
+    const clustered = Array.from({ length: 30 }, (_, index) => ({
+      id: `c${index}`,
+      xPercent: 40 + (index % 12) * 0.4,
+      value: 400 + (index % 12) * 2,
+      name: index < 12 ? ["Ava", "Ben", "Cy", "Dee", "Eli", "Fay", "Gia", "Hua", "Ian", "Joy", "Ken", "Lea"][index]! : `Kid ${index}`,
+    }));
+    assertRevealFits(clustered, width, "clustered");
+    const identical = Array.from({ length: 30 }, (_, index) => ({
+      id: `i${index}`,
+      xPercent: index < 12 ? 50 : (index / 29) * 100,
+      value: index < 12 ? 500 : 800 + index,
+      name: index === 0 ? "Ava" : index === 1 ? "Ben" : `Kid ${index}`,
+    }));
+    assertRevealFits(identical, width, "twelve identical");
+    const same = layoutNumberLineReveal(identical, width);
+    const pile = same.chips.find((chip) => chip.fullNames.includes("Ava"));
+    assert.ok(pile);
+    assert.ok(pile!.fullNames.includes("Ben"));
+    assert.equal(pile!.fullNames.filter((name) => name === "Ava" || name === "Ben" || name.startsWith("Kid")).length >= 12, true);
+    assert.equal(chipLabel(pile!.fullNames), pile!.text);
+  }
+  const onlyIdentical = Array.from({ length: 12 }, (_, index) => ({
+    id: `same-${index}`,
+    xPercent: 50,
+    value: 500,
+    name: index === 0 ? "Ava" : index === 1 ? "Ben" : `Kid ${index}`,
+  }));
+  const onePile = layoutNumberLineReveal(onlyIdentical, 1366);
+  assert.equal(onePile.dots.length, 1);
+  assert.equal(onePile.chips.length, 1);
+  assert.equal(onePile.chips[0]!.text, "Ava, Ben +10");
+  assert.equal(onePile.chips[0]!.fullNames.length, 12);
   assert.deepEqual(visibleTickIndexes(3, tickLabelCap(3, 231)), [0, 1, 2, 3]);
 });
 

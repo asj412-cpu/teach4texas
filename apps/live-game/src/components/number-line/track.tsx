@@ -8,7 +8,7 @@ import {
   visibleTickIndexes,
   type NlMode,
 } from "@/lib/domain/number-line";
-import { layoutNumberLineNames } from "@/lib/domain/number-line-layout";
+import { layoutNumberLineReveal } from "@/lib/domain/number-line-layout";
 
 export type LineDot = {
   id: string;
@@ -65,6 +65,7 @@ export function NumberLineTrack({
   const rail = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(280);
   const [held, setHeld] = useState(false);
+  const [openChip, setOpenChip] = useState<string | null>(null);
   const dragging = useRef(false);
 
   useEffect(() => {
@@ -83,18 +84,16 @@ export function NumberLineTrack({
   const labels = visibleTickIndexes(divisions, maxLabels);
   const marker = value == null ? null : percent(item, value);
   const truth = answer == null ? null : percent(item, answer);
-  const laid = layoutNumberLineNames(
+  const laid = layoutNumberLineReveal(
     dots.map((dot) => ({
       id: dot.id,
       xPercent: percent(item, dot.value),
       name: dot.name,
+      value: dot.value,
     })),
     width,
   );
-  const layoutById = new Map(laid.map((row) => [row.id, row]));
-  const maxStack = laid.reduce((highest, row) => Math.max(highest, row.stack), 0);
-  const maxLeader = laid.reduce((highest, row) => Math.max(highest, row.leaderPx), 0);
-  const nameSpace = maxStack * 28 + maxLeader + (maxLeader > 0 ? 36 : 0);
+  const nameSpace = laid.nameSpace;
 
   function pointAt(clientX: number, commit: boolean) {
     const rect = rail.current?.getBoundingClientRect();
@@ -106,6 +105,7 @@ export function NumberLineTrack({
 
   return (
     <div className="nl-track">
+      <div className="relative">
       <div style={{ height: nameSpace }} aria-hidden />
       <div
         ref={rail}
@@ -155,37 +155,17 @@ export function NumberLineTrack({
             <span className="nl-truth-flag" />
           </span>
         ) : null}
-        {dots.map((dot, index) => {
-          const place = layoutById.get(dot.id);
-          const at = percent(item, dot.value);
-          const stack = place?.stack ?? 0;
-          return (
-            <span
-              key={dot.id}
-              className="nl-dot"
-              style={{
-                left: `${at}%`,
-                top: `calc(2.15rem - ${stack * 1.75}rem)`,
-                animationDelay: `${index * 0.04}s`,
-              }}
-            >
-              {dot.name && place?.chip ? (
-                <>
-                  <span className="nl-dot-leader" style={{ height: place.leaderPx }} aria-hidden />
-                  <span
-                    className="nl-dot-name"
-                    style={{
-                      bottom: `calc(100% + ${place.leaderPx}px)`,
-                      transform: `translateX(calc(-50% + ${place.shiftPx}px))`,
-                    }}
-                  >
-                    {dot.name}
-                  </span>
-                </>
-              ) : null}
-            </span>
-          );
-        })}
+        {laid.dots.map((dot, index) => (
+          <span
+            key={dot.id}
+            className="nl-dot"
+            style={{
+              left: `${(dot.x / laid.width) * 100}%`,
+              top: `calc(2.15rem - ${dot.stack * 1.75}rem)`,
+              animationDelay: `${index * 0.04}s`,
+            }}
+          />
+        ))}
         {marker != null ? (
           <button
             type="button"
@@ -211,6 +191,53 @@ export function NumberLineTrack({
             }}
           />
         ) : null}
+      </div>
+      <div className="nl-chip-layer">
+        {laid.chips.map((chip) => {
+          const open = openChip === chip.id;
+          const dot = laid.dots.find((row) => row.id === chip.id);
+          const leaderTop = chip.box.bottom;
+          const leaderBottom = dot ? dot.box.top : laid.nameSpace;
+          return (
+            <span key={chip.id}>
+              {leaderBottom > leaderTop ? (
+                <span
+                  className="nl-chip-leader"
+                  style={{
+                    left: chip.anchorX,
+                    top: leaderTop,
+                    height: leaderBottom - leaderTop,
+                  }}
+                  aria-hidden
+                />
+              ) : null}
+              <button
+                type="button"
+                className="nl-chip"
+                style={{
+                  left: chip.box.left,
+                  top: chip.box.top,
+                  width: chip.box.right - chip.box.left,
+                }}
+                title={chip.fullNames.join(", ")}
+                aria-expanded={open}
+                onClick={() => setOpenChip(open ? null : chip.id)}
+              >
+                {chip.text}
+              </button>
+              {open ? (
+                <span
+                  className="nl-chip-pop"
+                  role="tooltip"
+                  style={{ left: chip.box.left, top: chip.box.bottom + 6, width: Math.max(chip.box.right - chip.box.left, 160) }}
+                >
+                  {chip.fullNames.join(", ")}
+                </span>
+              ) : null}
+            </span>
+          );
+        })}
+      </div>
       </div>
       <div className="relative mt-3 h-10 w-full">
         {labels.map((index) => {

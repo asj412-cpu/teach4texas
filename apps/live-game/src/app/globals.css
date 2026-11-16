@@ -549,29 +549,54 @@ body {
   transform: translate(-50%, 0);
   animation: nl-rain 0.55s ease-out both;
 }
-.nl-dot-leader {
+.nl-chip-layer {
   position: absolute;
-  left: 50%;
-  bottom: 100%;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+.nl-chip-leader {
+  position: absolute;
   width: 2px;
   background: #ffffff;
   transform: translateX(-50%);
   pointer-events: none;
 }
-.nl-dot-name {
+.nl-chip {
   position: absolute;
-  left: 50%;
-  z-index: 4;
-  padding: 0.05rem 0.55rem;
+  box-sizing: border-box;
+  height: 40px;
+  margin: 0;
+  padding: 6px 12px;
   border-radius: 0.55rem;
   border: 2px solid #ffffff;
   background: #07111f;
   color: #ffffff;
-  white-space: nowrap;
-  font-size: 1.5rem;
-  line-height: 1.15;
+  font-size: 24px;
+  line-height: 24px;
   font-weight: 800;
-  pointer-events: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  pointer-events: auto;
+}
+.nl-chip-pop {
+  position: absolute;
+  z-index: 6;
+  box-sizing: border-box;
+  max-width: 18rem;
+  padding: 8px 12px;
+  border-radius: 0.55rem;
+  border: 2px solid #ffffff;
+  background: #07111f;
+  color: #ffffff;
+  font-size: 24px;
+  line-height: 1.25;
+  font-weight: 800;
+  white-space: normal;
+  text-align: left;
+  pointer-events: auto;
 }
 .nl-podium { transform-origin: bottom; animation: nl-podium 0.6s ease-out both; }
 .nl-confetti {
@@ -588,7 +613,7 @@ body {
 }
 @keyframes nl-sweep { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes nl-rain {
-  from { transform: translate(-50%, -36px); opacity: 0; }
+  from { transform: translate(-50%, -8px); opacity: 0; }
   to { transform: translate(-50%, 0); opacity: 1; }
 }
 @keyframes nl-podium { from { transform: scaleY(0); } to { transform: scaleY(1); } }

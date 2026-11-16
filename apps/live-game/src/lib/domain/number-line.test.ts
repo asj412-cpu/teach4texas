@@ -34,7 +34,7 @@ import {
   layoutNumberLineReveal,
   lineFoldY,
   NL_CHROME_MOBILE_PX,
-  NL_DOT_MAX_PX,
+  NL_DOT_MIN_PX,
   NL_GROUP_WINDOW_PX,
   NL_LABELS_PX,
   NL_MOBILE_VIEWPORT_PX,
@@ -608,18 +608,45 @@ function leaderCrossesChip(leader: RevealLeader, box: Box): boolean {
   return leader.y1 < box.bottom - 0.5 && leader.y2 > box.top + 0.5;
 }
 
+function circlesIntersect(
+  a: { x: number; size: number; box: Box },
+  b: { x: number; size: number; box: Box },
+): boolean {
+  const dy = a.box.top + a.size / 2 - (b.box.top + b.size / 2);
+  return Math.hypot(a.x - b.x, dy) < Math.max(a.size, b.size) - 0.05;
+}
+
 function assertRevealFits(dots: NameLayoutDot[], width: number, label: string) {
   const laid = layoutNumberLineReveal(dots, width);
-  assert.equal(laid.dots.length, dots.length, `${label} @ ${width} dots ${laid.dots.length} placements ${dots.length}`);
-  assert.ok(laid.dots.every((dot) => dot.size >= 6), `${label} dot shrunk below 6px`);
+  const badged = laid.badges.reduce((sum, badge) => sum + badge.count, 0);
+  assert.equal(
+    laid.dots.length + badged,
+    dots.length,
+    `${label} @ ${width} drew ${laid.dots.length} and badged ${badged} of ${dots.length}`,
+  );
+  if (width >= 768) {
+    assert.equal(laid.dots.length, dots.length, `${label} @ ${width} hid a placement`);
+    assert.equal(laid.badges.length, 0, `${label} @ ${width} used a badge`);
+  }
+  assert.ok(laid.dots.every((dot) => dot.size >= NL_DOT_MIN_PX), `${label} dot shrunk below 10px`);
+  assert.ok(laid.dots.every((dot) => Math.abs(dot.size - laid.dotSize) < 0.05), `${label} mixed dot sizes`);
   const labelTop = laid.aboveSpace + NL_RAIL_PX;
   const labelBottom = labelTop + NL_LABELS_PX;
   for (const input of dots) {
     const dot = laid.dots.find((row) => row.id === input.id);
-    assert.ok(dot, `${label} missing ${input.id}`);
+    if (!dot) continue;
     const trueX = (Math.min(100, Math.max(0, input.xPercent)) / 100) * width;
-    assert.ok(Math.abs(dot!.x - trueX) <= 1, `${label} @ ${width} ${input.id} is ${dot!.x} not ${trueX}`);
-    assert.ok(dot!.x >= -1 && dot!.x <= width + 1, `${label} @ ${width} ${input.id} left the track`);
+    assert.ok(Math.abs(dot.x - trueX) <= 1, `${label} @ ${width} ${input.id} is ${dot.x} not ${trueX}`);
+    assert.ok(dot.x >= -1 && dot.x <= width + 1, `${label} @ ${width} ${input.id} left the track`);
+  }
+  for (let i = 0; i < laid.dots.length; i++) {
+    for (let j = i + 1; j < laid.dots.length; j++) {
+      assert.equal(
+        circlesIntersect(laid.dots[i]!, laid.dots[j]!),
+        false,
+        `${label} @ ${width} ${laid.dots[i]!.id} covers ${laid.dots[j]!.id}`,
+      );
+    }
   }
   if (width >= 1000) {
     assert.ok(
@@ -636,11 +663,16 @@ function assertRevealFits(dots: NameLayoutDot[], width: number, label: string) {
     assert.ok(chip.box.left >= -0.5, `${label} chip starts off the line`);
     assert.ok(chip.box.right <= width + 0.5, `${label} chip runs off the line`);
     for (const id of chip.memberIds) {
+      const input = dots.find((row) => row.id === id);
       const dot = laid.dots.find((row) => row.id === id);
-      assert.ok(dot, `${label} chip names a missing dot`);
+      const badged = laid.badges.some((badge) => badge.memberIds.includes(id));
+      assert.ok(input, `${label} chip names an unknown placement`);
+      assert.ok(dot || badged, `${label} chip names a placement that is neither drawn nor badged`);
+      const trueX = (Math.min(100, Math.max(0, input!.xPercent)) / 100) * width;
+      const x = dot ? dot.x : trueX;
       assert.ok(
-        Math.abs(dot!.x - chip.anchorX) <= NL_GROUP_WINDOW_PX + 0.5,
-        `${label} @ ${width} ${chip.text} reaches x ${dot!.x} from ${chip.anchorX}`,
+        Math.abs(x - chip.anchorX) <= NL_GROUP_WINDOW_PX + 0.5,
+        `${label} @ ${width} ${chip.text} reaches x ${x} from ${chip.anchorX}`,
       );
       assert.equal(seen.has(id), false, `${label} named ${id} twice`);
       seen.add(id);
@@ -652,6 +684,16 @@ function assertRevealFits(dots: NameLayoutDot[], width: number, label: string) {
     for (const other of laid.chips) {
       if (other.id === chip.id) continue;
       assert.equal(boxesOverlap(chip.box, other.box), false, `${label} @ ${width} chips overlap`);
+    }
+  }
+  for (const badge of laid.badges) {
+    assert.match(badge.text, /^\+\d+$/);
+    assert.equal(badge.count, badge.memberIds.length);
+    for (const dot of laid.dots) {
+      assert.equal(boxesOverlap(badge.box, dot.box), false, `${label} badge covers ${dot.id}`);
+    }
+    for (const chip of laid.chips) {
+      assert.equal(boxesOverlap(badge.box, chip.box), false, `${label} badge covers ${chip.text}`);
     }
   }
   for (const leader of laid.leaders) {
@@ -735,17 +777,14 @@ test("reveal name chips clear AA and stay clear of dots", () => {
     { id: "ben", xPercent: 10, value: 100, name: "Ben" },
   ];
   for (const width of [375, 768, 1366]) {
+    assertRevealFits(mixed, width, "twelve at 80 plus 100");
     const row = layoutNumberLineReveal(mixed, width);
-    assert.equal(row.dots.length, 13, `mixed dots @ ${width}`);
-    const ben = row.dots.find((dot) => dot.id === "ben")!;
-    const atop = Math.max(...row.dots.filter((dot) => dot.id.startsWith("a")).map((dot) => dot.stack));
-    assert.equal(ben.stack, 0, `Ben joined the 80 stack @ ${width}`);
-    assert.ok(atop === 11, `80 stack @ ${width} is ${atop}`);
-    const trueBen = (10 / 100) * width;
-    const trueA = (8 / 100) * width;
-    assert.ok(Math.abs(ben.x - trueBen) <= 1, `Ben x @ ${width}`);
-    assert.ok(Math.abs(row.dots.find((dot) => dot.id === "a0")!.x - trueA) <= 1, `Ava x @ ${width}`);
-    assert.equal(ben.size, NL_DOT_MAX_PX, `single dot shrunk @ ${width}`);
+    const ben = row.dots.find((dot) => dot.id === "ben");
+    const first = row.dots.find((dot) => dot.id === "a0");
+    if (ben && first) {
+      assert.equal(circlesIntersect(ben, first), false, `Ben covers the 80 stack @ ${width}`);
+    }
+    if (width >= 768) assert.equal(row.dots.length, 13, `mixed dots @ ${width}`);
   }
   assertRevealFits(onlyIdentical, 375, "twelve only");
   assertRevealFits(onlyIdentical, 768, "twelve only");

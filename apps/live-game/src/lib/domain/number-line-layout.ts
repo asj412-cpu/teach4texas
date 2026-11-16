@@ -4,7 +4,8 @@ export const NL_NAME_BG = "#07111f";
 export const NL_NAME_FONT_PX = 24;
 
 /** Matches the track CSS at a 16px root. */
-export const NL_DOT_MIN_PX = 6;
+export const NL_DOT_MIN_PX = 10;
+export const NL_DOT_GAP_PX = 2;
 export const NL_DOT_MAX_PX = 22;
 export const NL_STACK_PREF_PX = 10;
 export const NL_BIN_PX = 14;
@@ -49,8 +50,17 @@ export type RevealDot = {
   id: string;
   x: number;
   stack: number;
-  /** Outer diameter. Single dots keep the base size; only a tall stack shrinks. */
+  /** Outer diameter. One size for the whole reveal. */
   size: number;
+  box: Box;
+};
+
+export type RevealBadge = {
+  id: string;
+  text: string;
+  count: number;
+  memberIds: string[];
+  names: string[];
   box: Box;
 };
 
@@ -73,6 +83,8 @@ export type NumberLineRevealLayout = {
   width: number;
   dotSize: number;
   dots: RevealDot[];
+  /** Undrawn placements, only when a 10px stack still will not fit a narrow host. */
+  badges: RevealBadge[];
   chips: RevealChip[];
   leaders: RevealLeader[];
   aboveSpace: number;
@@ -167,10 +179,10 @@ type Draft = {
 };
 
 /**
- * One dot per placement, drawn at that value's true x. Identical values stack
- * vertically. A different value keeps its own column at its own x and, when it
- * sits inside one dot of a neighbor, a different y. Chips show a name plus +N
- * and alternate above and below the line so a 1366×768 host still fits.
+ * One placement per dot, drawn at that value's true x. Values closer than one
+ * dot share one vertical stack: every dot gets its own slot, lowest values at
+ * the bottom, with a 2px gap. One diameter fits the tallest stack on the fold.
+ * A 375 host that still cannot fit shows a +N badge for the dots it hides.
  */
 export function layoutNumberLineReveal(
   inputs: NameLayoutDot[],
@@ -192,7 +204,6 @@ export function layoutNumberLineReveal(
 
   const groups: Group[] = [];
   const drawX = new Map<string, number>();
-  const stackOf = new Map<string, number>();
 
   for (const bin of [...bins.keys()].sort((a, b) => a - b)) {
     const dots = bins.get(bin)!;
@@ -206,10 +217,7 @@ export function layoutNumberLineReveal(
     for (const list of byValue.values()) {
       const anchor = list[0]!.x;
       const ids = list.map((dot) => dot.id);
-      ids.forEach((id, index) => {
-        drawX.set(id, list[index]!.x);
-        stackOf.set(id, index);
-      });
+      for (const dot of list) drawX.set(dot.id, dot.x);
       groups.push({
         id: list[0]!.id,
         anchorX: anchor,
@@ -346,71 +354,218 @@ export function layoutNumberLineReveal(
   );
   const protrusionRoom = Math.min(pageRoom, mobileRoom);
 
-  const columnSlot = new Map<string, number>();
-  const byX = [...groups].sort((a, b) => a.anchorX - b.anchorX || a.id.localeCompare(b.id));
-  const columnStep = 8;
-  const columnSlots = Math.max(1, Math.floor(NL_DOT_TOP_IN_RAIL / columnStep));
-  for (const group of byX) {
-    const taken = new Set<number>();
-    for (const other of byX) {
-      if (other.id === group.id || !columnSlot.has(other.id)) continue;
-      if (Math.abs(other.anchorX - group.anchorX) < NL_DOT_MAX_PX) {
-        taken.add(columnSlot.get(other.id)!);
+  const stackRoom = protrusionRoom + NL_RAIL_PX;
+  const ranked = [...placed].sort((a, b) => {
+    const av = a.value ?? 0;
+    const bv = b.value ?? 0;
+    if (av !== bv) return av - bv;
+    if (a.x !== b.x) return a.x - b.x;
+    return a.id.localeCompare(b.id);
+  });
+
+  function slotOf(diameter: number): Map<string, number> {
+    const slots = new Map<string, number>();
+    const used: { x: number; slot: number }[] = [];
+    for (const dot of ranked) {
+      const blocked = new Set<number>();
+      for (const prev of used) {
+        if (Math.abs(prev.x - dot.x) < diameter) blocked.add(prev.slot);
       }
+      let slot = 0;
+      while (blocked.has(slot)) slot += 1;
+      slots.set(dot.id, slot);
+      used.push({ x: dot.x, slot });
     }
-    let slot = 0;
-    while (slot < columnSlots && taken.has(slot)) slot += 1;
-    columnSlot.set(group.id, taken.has(slot) ? 0 : slot);
+    return slots;
   }
 
-  const dotMetrics = new Map<string, { size: number; spacing: number; yOffset: number }>();
-  let protrusion = 0;
-  for (const group of groups) {
-    const count = group.ids.length;
-    const index = Math.max(0, count - 1);
-    const yOffset = (columnSlot.get(group.id) ?? 0) * columnStep;
-    let size = NL_DOT_MAX_PX;
-    let gap = NL_DOT_MAX_PX;
-    if (index > 0) {
-      const preferred = Math.max(0, index * NL_STACK_PREF_PX + yOffset - NL_DOT_TOP_IN_RAIL);
-      if (preferred > protrusionRoom) {
-        const fitted = Math.max(2, (protrusionRoom + NL_DOT_TOP_IN_RAIL - yOffset) / index);
-        gap = Math.min(NL_STACK_PREF_PX, fitted);
-        size = Math.min(NL_DOT_MAX_PX, Math.max(NL_DOT_MIN_PX, gap));
-        gap = Math.min(gap, size);
-      } else {
-        gap = NL_STACK_PREF_PX;
-        size = NL_DOT_MAX_PX;
+  function maxSlotOf(packed: Map<string, number>, skip?: Set<string>): number {
+    let max = 0;
+    for (const [id, slot] of packed) {
+      if (skip?.has(id)) continue;
+      max = Math.max(max, slot);
+    }
+    return max;
+  }
+
+  function stackHeight(maxSlot: number, size: number): number {
+    return maxSlot * (size + NL_DOT_GAP_PX) + size;
+  }
+
+  let diameter = NL_DOT_MIN_PX;
+  let slots = slotOf(diameter);
+  for (let candidate = NL_DOT_MAX_PX; candidate >= NL_DOT_MIN_PX; candidate -= 0.25) {
+    const packed = slotOf(candidate);
+    if (stackHeight(maxSlotOf(packed), candidate) <= stackRoom + 0.05) {
+      diameter = candidate;
+      slots = packed;
+      break;
+    }
+  }
+
+  const capped = width <= 500 && stackHeight(maxSlotOf(slots), diameter) > stackRoom + 0.05;
+  let hidden = new Set<string>();
+  if (capped) {
+    const badgeBlock = NL_CHIP_H + NL_DOT_GAP_PX;
+    const dotRoom = Math.max(NL_DOT_MIN_PX, stackRoom - badgeBlock);
+    const pitch = NL_DOT_MIN_PX + NL_DOT_GAP_PX;
+    const visibleMax = Math.max(0, Math.floor((dotRoom - NL_DOT_MIN_PX) / pitch));
+    slots = slotOf(NL_DOT_MIN_PX);
+    diameter = NL_DOT_MIN_PX;
+    hidden = new Set(
+      ranked.filter((dot) => (slots.get(dot.id) ?? 0) > visibleMax).map((dot) => dot.id),
+    );
+  }
+
+  const pitch = diameter + NL_DOT_GAP_PX;
+  const usedSlot = maxSlotOf(slots, hidden);
+  let base = NL_LINE_BOTTOM_IN_RAIL - diameter;
+  if (base - usedSlot * pitch < -protrusionRoom) base = -protrusionRoom + usedSlot * pitch;
+  if (base + diameter > NL_RAIL_PX) base = NL_RAIL_PX - diameter;
+
+  const relTop = new Map<string, number>();
+  for (const dot of ranked) {
+    if (hidden.has(dot.id)) continue;
+    relTop.set(dot.id, base - (slots.get(dot.id) ?? 0) * pitch);
+  }
+
+  type BadgeDraft = {
+    id: string;
+    text: string;
+    count: number;
+    memberIds: string[];
+    names: string[];
+    left: number;
+    top: number;
+    width: number;
+  };
+  const badgeDrafts: BadgeDraft[] = [];
+  if (hidden.size > 0) {
+    const parent = new Map<string, string>();
+    const find = (id: string): string => {
+      const next = parent.get(id) ?? id;
+      if (next === id) return id;
+      const root = find(next);
+      parent.set(id, root);
+      return root;
+    };
+    for (const dot of ranked) parent.set(dot.id, dot.id);
+    for (let i = 0; i < ranked.length; i++) {
+      for (let j = i + 1; j < ranked.length; j++) {
+        if (Math.abs(ranked[i]!.x - ranked[j]!.x) >= diameter) continue;
+        parent.set(find(ranked[i]!.id), find(ranked[j]!.id));
       }
     }
-    protrusion = Math.max(protrusion, Math.max(0, index * gap + yOffset - NL_DOT_TOP_IN_RAIL));
-    for (const id of group.ids) dotMetrics.set(id, { size, spacing: gap, yOffset });
+    const members = new Map<string, typeof ranked>();
+    for (const dot of ranked) {
+      const root = find(dot.id);
+      const list = members.get(root) ?? [];
+      list.push(dot);
+      members.set(root, list);
+    }
+    for (const [root, list] of members) {
+      const concealed = list.filter((dot) => hidden.has(dot.id));
+      if (concealed.length === 0) continue;
+      const shown = list.filter((dot) => !hidden.has(dot.id));
+      const anchor =
+        shown.length > 0
+          ? shown.reduce((sum, dot) => sum + dot.x, 0) / shown.length
+          : list.reduce((sum, dot) => sum + dot.x, 0) / list.length;
+      const text = `+${concealed.length}`;
+      const badgeWidth = chipWidthPx(text, width);
+      const highest = shown.reduce(
+        (top, dot) => Math.min(top, relTop.get(dot.id) ?? NL_DOT_TOP_IN_RAIL),
+        NL_DOT_TOP_IN_RAIL,
+      );
+      badgeDrafts.push({
+        id: `badge-${root}`,
+        text,
+        count: concealed.length,
+        memberIds: concealed.map((dot) => dot.id),
+        names: concealed.flatMap((dot) => (dot.name ? [dot.name] : [])),
+        left: clampLeft(anchor, badgeWidth, width),
+        top: highest - NL_DOT_GAP_PX - NL_CHIP_H,
+        width: badgeWidth,
+      });
+    }
+    for (let guard = 0; guard < badgeDrafts.length + ranked.length; guard++) {
+      let moved = false;
+      for (const badge of badgeDrafts) {
+        const box = {
+          left: badge.left,
+          right: badge.left + badge.width,
+          top: badge.top,
+          bottom: badge.top + NL_CHIP_H,
+        };
+        let ceiling = box.top;
+        for (const dot of ranked) {
+          if (hidden.has(dot.id)) continue;
+          const top = relTop.get(dot.id) ?? 0;
+          const dotBox = {
+            left: dot.x - diameter / 2,
+            right: dot.x + diameter / 2,
+            top,
+            bottom: top + diameter,
+          };
+          if (boxesOverlap(box, dotBox)) ceiling = Math.min(ceiling, top - NL_DOT_GAP_PX - NL_CHIP_H);
+        }
+        for (const other of badgeDrafts) {
+          if (other.id === badge.id) continue;
+          const otherBox = {
+            left: other.left,
+            right: other.left + other.width,
+            top: other.top,
+            bottom: other.top + NL_CHIP_H,
+          };
+          if (boxesOverlap(box, otherBox)) ceiling = Math.min(ceiling, other.top - NL_DOT_GAP_PX - NL_CHIP_H);
+        }
+        if (ceiling < badge.top - 0.5) {
+          badge.top = ceiling;
+          moved = true;
+        }
+      }
+      if (!moved) break;
+    }
   }
+
+  let highest = NL_DOT_TOP_IN_RAIL;
+  for (const top of relTop.values()) highest = Math.min(highest, top);
+  for (const badge of badgeDrafts) highest = Math.min(highest, badge.top);
+  const protrusion = Math.max(0, -highest);
   const aboveSpace = aboveChip + (aboveRows > 0 ? NL_CHIP_GAP_PX : 0) + protrusion;
   const belowStart = aboveSpace + NL_RAIL_PX + NL_LABELS_PX;
 
-  const dots: RevealDot[] = placed.map((dot) => {
-    const stack = stackOf.get(dot.id) ?? 0;
-    const x = dot.x;
-    const metrics = dotMetrics.get(dot.id) ?? {
-      size: NL_DOT_MAX_PX,
-      spacing: NL_STACK_PREF_PX,
-      yOffset: 0,
-    };
-    const top = aboveSpace + NL_DOT_TOP_IN_RAIL - stack * metrics.spacing - metrics.yOffset;
-    return {
-      id: dot.id,
-      x,
-      stack,
-      size: metrics.size,
-      box: {
-        left: x - metrics.size / 2,
-        right: x + metrics.size / 2,
-        top,
-        bottom: top + metrics.size,
+  const dots: RevealDot[] = ranked.flatMap((dot) => {
+    if (hidden.has(dot.id)) return [];
+    const top = aboveSpace + (relTop.get(dot.id) ?? NL_DOT_TOP_IN_RAIL);
+    return [
+      {
+        id: dot.id,
+        x: dot.x,
+        stack: slots.get(dot.id) ?? 0,
+        size: diameter,
+        box: {
+          left: dot.x - diameter / 2,
+          right: dot.x + diameter / 2,
+          top,
+          bottom: top + diameter,
+        },
       },
-    };
+    ];
   });
+  const badges: RevealBadge[] = badgeDrafts.map((badge) => ({
+    id: badge.id,
+    text: badge.text,
+    count: badge.count,
+    memberIds: badge.memberIds,
+    names: badge.names,
+    box: {
+      left: badge.left,
+      right: badge.left + badge.width,
+      top: aboveSpace + badge.top,
+      bottom: aboveSpace + badge.top + NL_CHIP_H,
+    },
+  }));
 
   const chips: RevealChip[] = drafts.map((draft) => {
     const row = Math.floor(draft.lane / 2);
@@ -458,11 +613,14 @@ export function layoutNumberLineReveal(
     let y1 = above ? chip.box.bottom : Math.min(...members.map((dot) => dot.box.bottom));
     let y2 = above ? Math.min(...members.map((dot) => dot.box.top)) : chip.box.top;
     if (y2 < y1) [y1, y2] = [y2, y1];
-    for (const other of chips) {
-      if (other.id === chip.id) continue;
-      if (x <= other.box.left || x >= other.box.right) continue;
-      if (other.box.top >= y1 && other.box.top < y2) y2 = other.box.top;
-      if (other.box.bottom > y1 && other.box.bottom <= y2) y1 = other.box.bottom;
+    const obstacles = [
+      ...chips.filter((item) => item.id !== chip.id).map((item) => item.box),
+      ...badges.map((item) => item.box),
+    ];
+    for (const other of obstacles) {
+      if (x <= other.left || x >= other.right) continue;
+      if (other.top >= y1 && other.top < y2) y2 = other.top;
+      if (other.bottom > y1 && other.bottom <= y2) y1 = other.bottom;
     }
     if (y2 > y1 + 1) pushLeader(x, y1, y2);
   }
@@ -470,8 +628,9 @@ export function layoutNumberLineReveal(
   const revealHeight = aboveSpace + NL_RAIL_PX + NL_LABELS_PX + belowSpace;
   return {
     width,
-    dotSize: NL_DOT_MAX_PX,
+    dotSize: diameter,
     dots,
+    badges,
     chips,
     leaders,
     aboveSpace,

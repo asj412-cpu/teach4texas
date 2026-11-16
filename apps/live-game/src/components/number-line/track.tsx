@@ -204,6 +204,37 @@ export function NumberLineTrack({
         ))}
       </div>
       <div className="nl-chip-layer">
+        {laid.badges.map((badge) => {
+          const open = openChip === badge.id;
+          return (
+            <span key={badge.id}>
+              <button
+                type="button"
+                className="nl-chip"
+                style={{
+                  left: badge.box.left,
+                  top: badge.box.top,
+                  width: badge.box.right - badge.box.left,
+                }}
+                title={badge.names.join(", ")}
+                aria-label={`${badge.count} more placements`}
+                aria-expanded={open}
+                onClick={() => setOpenChip(open ? null : badge.id)}
+              >
+                {badge.text}
+              </button>
+              {open ? (
+                <span
+                  className="nl-chip-pop"
+                  role="tooltip"
+                  style={{ left: badge.box.left, top: badge.box.bottom + 6, width: Math.max(badge.box.right - badge.box.left, 160) }}
+                >
+                  {badge.names.join(", ")}
+                </span>
+              ) : null}
+            </span>
+          );
+        })}
         {laid.chips.map((chip) => {
           const open = openChip === chip.id;
           return (

@@ -87,6 +87,7 @@ import {
 } from "@/lib/domain/bingo";
 import {
   applyNumberLinePlace,
+  buildNumberLineReveal,
   createNumberLineState,
   currentNumberLineItem,
   isNlSeconds,
@@ -133,6 +134,13 @@ function isRoomExpired(room: LiveRoom, now: number): boolean {
     return now - new Date(room.ended_at).getTime() > ENDED_ROOM_GRACE_MS;
   }
   return now - new Date(room.created_at).getTime() > ROOM_TTL_MS;
+}
+
+/** Number-line polls skip a full-room stringify. Only clock fields can change on a quiet poll. */
+function numberLinePollFingerprint(room: LiveRoom): string {
+  const state = room.number_line;
+  if (!state) return "missing";
+  return `${state.stage}:${state.accepting}:${state.paused}:${state.index}:${state.show_names}`;
 }
 
 function sleep(ms: number): Promise<void> {
@@ -221,6 +229,7 @@ function openNumberLineQuestion(room: LiveRoom, now = Date.now()): ActionResult 
   state.accepting = true;
   state.placements = {};
   state.awards = [];
+  state.reveal = null;
   state.pauses = [];
   state.applied_request_ids = [];
   state.started_at = new Date(now).toISOString();
@@ -253,6 +262,15 @@ function scoreOpenNumberLine(room: LiveRoom, now = Date.now()): ActionResult {
   state.stage = "reveal";
   state.paused = false;
   state.ends_at = null;
+  state.reveal = buildNumberLineReveal(
+    state,
+    item,
+    Object.values(room.players).map((player) => ({
+      player_id: player.player_id,
+      display_name: player.display_name,
+      score: player.score,
+    })),
+  );
   return { ok: true };
 }
 
@@ -581,7 +599,12 @@ export async function withRoom<T>(
         maybeClearMismatches(room);
         return { kind: "ok", value: fn(room, results) };
       }
-      const before = opts.poll && rec.pending.length === 0 ? JSON.stringify(room) : "";
+      const nlFingerprint =
+        opts.poll && rec.pending.length === 0 && room.game_type === "number_line"
+          ? numberLinePollFingerprint(room)
+          : null;
+      const before =
+        opts.poll && rec.pending.length === 0 && nlFingerprint == null ? JSON.stringify(room) : "";
       // Fold queued actions first, each at the time it was queued (deterministic replay),
       // then apply wall-clock transitions (auto-lock, mismatch flip-back).
       for (const p of rec.pending) {
@@ -596,7 +619,11 @@ export async function withRoom<T>(
         // P2-L1: polls fold in memory for an accurate view but rarely write, so they
         // don't fight tap requests for the version. Writers drain the queue.
         if (rec.pending.length === 0) {
-          if (JSON.stringify(room) !== before) await commitRoom(room, rec.version, [], prevUsage);
+          const changed =
+            nlFingerprint != null
+              ? numberLinePollFingerprint(room) !== nlFingerprint
+              : JSON.stringify(room) !== before;
+          if (changed) await commitRoom(room, rec.version, [], prevUsage);
         } else {
           // Polls drain the queue (one try; losing the version race is harmless).
           await commitRoom(room, rec.version, rec.pending.map((p) => p.id), prevUsage);
@@ -730,6 +757,60 @@ export async function runRoomAction<T>(
   });
   if (out.kind === "busy") return { kind: "queued" };
   return out;
+}
+
+/**
+ * Number-line reveal: one aggregated load of state + pending, then one commit.
+ * Skips the separate host-auth read and the enqueue/reload pair.
+ */
+export async function runNumberLineReveal(
+  rawCode: string,
+  hostToken: string | undefined,
+): Promise<
+  | { kind: "ok"; result: ActionResult; view: ReturnType<typeof hostView> }
+  | { kind: "unauthorized" }
+  | { kind: "missing" }
+  | { kind: "ended" }
+  | { kind: "busy" }
+> {
+  const code = rawCode.trim().toUpperCase();
+  if (!ROOM_CODE_RE.test(code)) return { kind: "missing" };
+  try {
+    for (let attempt = 0; attempt < MAX_WRITE_ATTEMPTS; attempt++) {
+      const rec = await loadRoomRecord(code);
+      if (!rec) return { kind: "missing" };
+      const now = Date.now();
+      if (now - rec.updatedAtMs > ROOM_IDLE_TTL_MS || isRoomExpired(rec.room, now)) {
+        await writeAbandoned(rec.room);
+        return { kind: "ended" };
+      }
+      if (!verifyHost(rec.room, hostToken)) return { kind: "unauthorized" };
+      const room = rec.room;
+      const prevUsage = {
+        roomStartCounted: Boolean(room.usage?.room_start_counted),
+        writtenFinal: Boolean(room.usage?.written_final),
+      };
+      for (const pending of rec.pending) {
+        applyQueuedAction(room, pending.action as QueuedAction);
+      }
+      maybeAutoLock(room);
+      maybeClearMismatches(room);
+      const result = applyHostAction(room, { type: "nl_reveal" });
+      markFinishedIfNeeded(room);
+      const ids = rec.pending.map((pending) => pending.id);
+      if (result.ok || ids.length > 0) {
+        const saved = await commitRoom(room, rec.version, ids, prevUsage);
+        if (!saved) continue;
+      }
+      if (!result.ok && attempt > 0 && result.error === "ALREADY_SCORED") {
+        return { kind: "ok", result: { ok: true }, view: hostView(room) };
+      }
+      return { kind: "ok", result, view: hostView(room) };
+    }
+  } catch (err) {
+    console.error("runNumberLineReveal:", err);
+  }
+  return { kind: "busy" };
 }
 
 export function verifyHost(room: LiveRoom, hostToken: string | undefined): boolean {
@@ -1487,6 +1568,7 @@ export function applyHostAction(
       state.stage = "ready";
       state.placements = {};
       state.awards = [];
+      state.reveal = null;
       state.pauses = [];
       state.applied_request_ids = [];
       state.accepting = false;

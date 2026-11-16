@@ -71,6 +71,28 @@ export type NumberLineState = {
   pauses: NlPause[];
   /** Client request ids already applied. A retry with the same id is a no-op. */
   applied_request_ids: string[];
+  /**
+   * Built once at reveal. Host and student result reads reuse it
+   * instead of scoring and sorting the class again.
+   */
+  reveal?: NlRevealPayload | null;
+};
+
+export type NlRevealDot = {
+  player_id: string;
+  value: number;
+  name: string;
+};
+
+/** Precomputed class dot plot plus the ranks every result read shares. */
+export type NlRevealPayload = {
+  question_id: string;
+  dots: NlRevealDot[];
+  exact: number;
+  within: number;
+  joined: number;
+  leaderboard: NlRankView[];
+  podium: NlRankView[];
 };
 
 const PLACE_KEYS = new Set(["player_id", "question_id", "value", "lock", "request_id"]);
@@ -242,6 +264,15 @@ export function visibleTickIndexes(divisions: number, maxLabels: number): number
   }
   out.push(divisions);
   return out;
+}
+
+/**
+ * How many tick labels fit. Thirds (and halves) use a tighter budget so 0, 1/3, 2/3, and 1
+ * still show on a phone-width line.
+ */
+export function tickLabelCap(divisions: number, widthPx: number): number {
+  const pxPerLabel = divisions <= 3 ? 52 : 72;
+  return Math.max(2, Math.floor(Math.max(0, widthPx) / pxPerLabel));
 }
 
 function gcd(a: number, b: number): number {
@@ -635,6 +666,63 @@ function revealedNow(state: NumberLineState): boolean {
   return state.stage === "reveal" || state.stage === "board";
 }
 
+const awardIndex = new WeakMap<NlAward[], Map<string, NlAward>>();
+
+function awardFor(awards: NlAward[], playerId: string): NlAward | null {
+  let map = awardIndex.get(awards);
+  if (!map) {
+    map = new Map();
+    for (const award of awards) map.set(award.player_id, award);
+    awardIndex.set(awards, map);
+  }
+  return map.get(playerId) ?? null;
+}
+
+/** One pass over the class: dots, counts, and the shared top-5 / podium. */
+export function buildNumberLineReveal(
+  state: NumberLineState,
+  item: NumberLineItem,
+  players: { player_id: string; display_name: string; score: number }[],
+): NlRevealPayload {
+  const students = players.filter((player) => player.player_id !== "host");
+  const dots: NlRevealDot[] = [];
+  let exact = 0;
+  let within = 0;
+  for (const player of students) {
+    const award = awardFor(state.awards, player.player_id);
+    if (award?.exact) exact += 1;
+    if (award?.within) within += 1;
+    const placed = state.placements[player.player_id];
+    if (!placed) continue;
+    dots.push({
+      player_id: player.player_id,
+      value: placed.value,
+      name: kidPlainText(player.display_name || "Student", 16),
+    });
+  }
+  const leaderboard = ranksFromPlayers(players, 5);
+  return {
+    question_id: item.id,
+    dots,
+    exact,
+    within,
+    joined: students.length,
+    leaderboard,
+    podium: leaderboard.slice(0, 3),
+  };
+}
+
+function cachedReveal(
+  state: NumberLineState,
+  item: NumberLineItem | null,
+  studentCount: number,
+): NlRevealPayload | null {
+  const payload = state.reveal;
+  if (!item || !payload) return null;
+  if (payload.question_id !== item.id || payload.joined !== studentCount) return null;
+  return payload;
+}
+
 export function hostNumberLineView(
   gameType: string,
   state: NumberLineState | undefined,
@@ -645,24 +733,28 @@ export function hostNumberLineView(
   const students = players.filter((player) => player.player_id !== "host");
   const item = currentNumberLineItem(state, items);
   const reveal = revealedNow(state);
-  const names = new Map(players.map((player) => [player.player_id, player.display_name]));
+  const cached = reveal ? cachedReveal(state, item, students.length) : null;
+  const dotById = cached ? new Map(cached.dots.map((dot) => [dot.player_id, dot])) : null;
   const locked = students.filter((player) => state.placements[player.player_id]?.locked).length;
   const markers: NlMarkerView[] = students.map((player) => {
     const placed = state.placements[player.player_id];
+    const dot = dotById?.get(player.player_id);
     return {
       player_id: player.player_id,
       display_name:
-        reveal && state.show_names ? kidPlainText(names.get(player.player_id) ?? "Student", 16) : null,
+        reveal && state.show_names
+          ? (dot?.name ?? kidPlainText(player.display_name || "Student", 16))
+          : null,
       placed: Boolean(placed),
       locked: Boolean(placed?.locked),
-      value: reveal && placed ? placed.value : null,
+      value: reveal ? (dot ? dot.value : placed ? placed.value : null) : null,
     };
   });
   let exactPct: number | null = null;
   let withinPct: number | null = null;
   if (reveal && students.length > 0) {
-    const exact = state.awards.filter((award) => award.exact).length;
-    const within = state.awards.filter((award) => award.within).length;
+    const exact = cached ? cached.exact : state.awards.filter((award) => award.exact).length;
+    const within = cached ? cached.within : state.awards.filter((award) => award.within).length;
     exactPct = Math.round((exact / students.length) * 100);
     withinPct = Math.round((within / students.length) * 100);
   }
@@ -682,8 +774,8 @@ export function hostNumberLineView(
     markers,
     exact_pct: exactPct,
     within_pct: withinPct,
-    leaderboard: ranksFromPlayers(players, 5),
-    podium: ranksFromPlayers(players, 3),
+    leaderboard: cached ? cached.leaderboard : ranksFromPlayers(players, 5),
+    podium: cached ? cached.podium : ranksFromPlayers(players, 3),
   };
 }
 
@@ -697,8 +789,10 @@ export function playerNumberLineView(
   if (gameType !== "number_line" || !state) return null;
   const item = currentNumberLineItem(state, items);
   const reveal = revealedNow(state);
+  const students = players.filter((player) => player.player_id !== "host");
+  const cached = reveal ? cachedReveal(state, item, students.length) : null;
   const mine = state.placements[playerId] ?? null;
-  const award = reveal ? (state.awards.find((row) => row.player_id === playerId) ?? null) : null;
+  const award = reveal ? awardFor(state.awards, playerId) : null;
   return {
     stage: state.stage,
     paused: state.paused,
@@ -711,8 +805,8 @@ export function playerNumberLineView(
     my_value: mine ? mine.value : null,
     my_locked: Boolean(mine?.locked),
     my_award: award,
-    leaderboard: ranksFromPlayers(players, 5),
-    podium: ranksFromPlayers(players, 3),
+    leaderboard: cached ? cached.leaderboard : ranksFromPlayers(players, 5),
+    podium: cached ? cached.podium : ranksFromPlayers(players, 3),
   };
 }
 

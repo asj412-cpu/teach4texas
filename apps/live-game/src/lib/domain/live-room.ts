@@ -1061,12 +1061,20 @@ function playerTowView(room: LiveRoom, playerId: string): PlayerRoomView["tow"] 
   };
 }
 
+function numberLineHostBoard(board: GameBoard): GameBoard {
+  if (!board.number_line_items) return board;
+  const { number_line_items: _items, ...rest } = board;
+  return rest;
+}
+
 export function sanitizeForHost(room: LiveRoom): HostRoomView {
   if (room.number_line) syncNumberLineClock(room.number_line, Date.now());
   const board =
-    room.game_type === "number_line" || (room.board.number_line_items?.length ?? 0) > 0
-      ? stripNumberLineAnswers(room.board)
-      : room.board;
+    room.game_type === "number_line"
+      ? numberLineHostBoard(room.board)
+      : (room.board.number_line_items?.length ?? 0) > 0
+        ? stripNumberLineAnswers(room.board)
+        : room.board;
   const players = Object.values(room.players).map((p) => ({
     player_id: p.player_id,
     display_name: p.display_name,
@@ -1125,8 +1133,11 @@ export function sanitizeForPlayer(
   if (!me) return null;
   if (room.number_line) syncNumberLineClock(room.number_line, Date.now());
 
-  const categories = [...new Set((room.board.cells ?? []).map((c) => c.category))];
-  const used = new Set(room.used_cell_ids);
+  const numberLineRoom = room.game_type === "number_line";
+  const categories = numberLineRoom
+    ? []
+    : [...new Set((room.board.cells ?? []).map((c) => c.category))];
+  const used = numberLineRoom ? new Set<string>() : new Set(room.used_cell_ids);
 
   let active_question: PlayerRoomView["active_question"] = null;
   if (room.active_cell_id) {
@@ -1169,7 +1180,7 @@ export function sanitizeForPlayer(
     title: room.board.title,
     grade: room.board.grade,
     subject: room.board.subject,
-    players: studentFacingPlayers(room),
+    players: numberLineRoom ? [] : studentFacingPlayers(room),
     my_player_id: playerId,
     my_display_name: me.display_name,
     my_score: me.score,
@@ -1179,16 +1190,18 @@ export function sanitizeForPlayer(
     max_wager: maxWagerFor(room, playerId),
     my_points_delta:
       room.phase === "reveal" ? (room.points_awarded[playerId] ?? 0) : null,
-    board_grid: {
-      categories,
-      cells: (room.board.cells ?? []).map((c) => ({
-        id: c.id,
-        category: c.category,
-        points: c.points,
-        used: used.has(c.id),
-        active: c.id === room.active_cell_id,
-      })),
-    },
+    board_grid: numberLineRoom
+      ? { categories: [], cells: [] }
+      : {
+          categories,
+          cells: (room.board.cells ?? []).map((c) => ({
+            id: c.id,
+            category: c.category,
+            points: c.points,
+            used: used.has(c.id),
+            active: c.id === room.active_cell_id,
+          })),
+        },
     active_question,
     game_type: room.game_type,
     skin: roomVaultSkin(room),
@@ -1251,13 +1264,16 @@ export function sanitizeForPlayer(
           )
         : null,
     tow: playerTowView(room, playerId),
-    bingo: playerBingoView(
-      room.game_type,
-      room.bingo,
-      bingoItemsFromBoard(room.board),
-      playerId,
-      new Map(Object.values(room.players).map((p) => [p.player_id, p.display_name])),
-    ),
+    bingo:
+      room.game_type === "number_line"
+        ? null
+        : playerBingoView(
+            room.game_type,
+            room.bingo,
+            bingoItemsFromBoard(room.board),
+            playerId,
+            new Map(Object.values(room.players).map((p) => [p.player_id, p.display_name])),
+          ),
     number_line: playerNumberLineView(
       room.game_type,
       room.number_line,

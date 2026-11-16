@@ -97,11 +97,8 @@ import {
   DEMO_BINGO_CODE,
 } from "@/lib/fixtures/sample-bingo";
 import { numberLineItemsFromBoard } from "@/lib/domain/number-line";
-import {
-  buildSampleNumberLineBoard,
-  DEMO_NUMBER_LINE_CODE,
-  NUMBER_LINE_SAMPLE_BOARD_ID,
-} from "@/lib/fixtures/sample-number-line";
+import { DEMO_NUMBER_LINE_CODE } from "@/lib/fixtures/sample-number-line";
+import { applyNumberLineDemo } from "@/lib/fixtures/number-line-demo-seed";
 import {
   ACCESS_CODE_COOKIE,
   ENTITLEMENT_TTL_HOURS,
@@ -1288,36 +1285,35 @@ export async function getConversionStats(opts: {
 }
 
 
-/** Seed Number Line sample packet + known demo access code. Idempotent. Demo kind, never a sale. */
+/** Seed Number Line sample packet + known demo access code. Upserts when the validated key changes. */
 export async function ensureNumberLineSample(
   plaintext = DEMO_NUMBER_LINE_CODE,
-): Promise<{ code: string; boardId: string; created: boolean }> {
+): Promise<{ code: string; boardId: string; created: boolean; updated: boolean }> {
   const store = await ensureStore();
-  const board =
-    store.boards.find((b) => b.id === NUMBER_LINE_SAMPLE_BOARD_ID) ??
-    GameBoardSchema.parse(buildSampleNumberLineBoard());
-  if (!store.boards.some((b) => b.id === board.id)) {
-    store.boards.push(board);
-  }
   const hash = sha256Hex(normalizeAccessCode(plaintext));
-  const existing = store.product_codes.find((c) => c.code_hash === hash);
-  if (existing) {
-    await writeStore(store);
-    return { code: DEMO_NUMBER_LINE_CODE, boardId: board.id, created: false };
-  }
-  const record = ProductCodeRecordSchema.parse({
-    id: generateId("pc"),
-    code_hash: hash,
-    board_id: board.id,
-    label: "Local demo / number line sample",
-    max_sessions: null,
-    sessions_started: 0,
-    revoked_at: null,
-    created_at: new Date().toISOString(),
+  const now = new Date().toISOString();
+  const applied = applyNumberLineDemo(store, {
+    codeHash: hash,
+    now,
+    createCode: (boardId) =>
+      ProductCodeRecordSchema.parse({
+        id: generateId("pc"),
+        code_hash: hash,
+        board_id: boardId,
+        label: "Local demo / number line sample",
+        max_sessions: null,
+        sessions_started: 0,
+        revoked_at: null,
+        created_at: now,
+      }),
   });
-  store.product_codes.push(record);
-  await writeStore(store);
-  return { code: DEMO_NUMBER_LINE_CODE, boardId: board.id, created: true };
+  if (applied.wrote) await writeStore(store);
+  return {
+    code: DEMO_NUMBER_LINE_CODE,
+    boardId: applied.boardId,
+    created: applied.created,
+    updated: applied.updated,
+  };
 }
 
 /** Seed Bingo sample packet + known demo access code. Idempotent. Demo kind, never a sale. */

@@ -9,6 +9,7 @@ import {
 import {
   activeElapsedMs,
   applyNumberLinePlace,
+  buildNumberLineReveal,
   collectAnswerFields,
   createNumberLineState,
   hostNumberLineView,
@@ -18,6 +19,7 @@ import {
   scorePlacement,
   speedBonus,
   stripNumberLineAnswers,
+  tickLabelCap,
   tickValue,
   validateNumberLineItem,
   visibleTickIndexes,
@@ -26,8 +28,23 @@ import {
   type NumberLineState,
 } from "@/lib/domain/number-line";
 import {
+  chipSpan,
+  contrastRatio,
+  layoutNumberLineNames,
+  NL_NAME_BG,
+  NL_NAME_FG,
+  NL_NAME_FONT_PX,
+} from "@/lib/domain/number-line-layout";
+import {
+  applyNumberLineDemo,
+  numberLineDemoContentHash,
+  NUMBER_LINE_DEMO_VERSION,
+  planNumberLineDemoCode,
+} from "@/lib/fixtures/number-line-demo-seed";
+import {
   buildSampleNumberLineBoard,
   checkNumberLineDemoKey,
+  NUMBER_LINE_SAMPLE_BOARD_ID,
   SAMPLE_NUMBER_LINE_ITEMS,
 } from "@/lib/fixtures/sample-number-line";
 import { toHostBoardView } from "@/lib/store-file";
@@ -257,8 +274,8 @@ test("NL-04 reveal is the first payload that carries the answer", () => {
   assert.equal(player?.number_line?.question?.answer, 600);
   assert.equal(host.number_line?.markers[0]?.value, 600);
   assert.equal(host.number_line?.exact_pct, 100);
-  const later = (host.board.number_line_items ?? []).find((item) => item.id === "later");
-  assert.equal(later && "answer" in later, false);
+  assert.equal(host.board.number_line_items, undefined);
+  assert.equal(JSON.stringify(host.board).includes("Later item"), false);
 });
 
 test("NL-04 rejects forged, out-of-range, off-tick, wrong question, lock, and time", () => {
@@ -477,4 +494,173 @@ test("late join misses earlier points and a locked placement stays put", () => {
     (applyNumberLinePlace(state, [rangeItem, snapItem], "ada", snapItem.id, tickValue(snapItem, 0), false, now) as { error: string }).error,
     "LOCKED",
   );
+});
+
+test("number line demo seed upserts a stale key and skips an identical row", () => {
+  const now = "2026-11-16T00:00:00.000Z";
+  const other = GameBoardSchema.parse(buildSampleNumberLineBoard("leave-this-board"));
+  other.title = "Not the number line demo";
+  const store = {
+    boards: [other],
+    product_codes: [] as {
+      id: string;
+      code_hash: string;
+      board_id: string;
+      sessions_started: number;
+    }[],
+  };
+  const first = applyNumberLineDemo(store, {
+    codeHash: "nl-demo-hash",
+    now,
+    createCode: (boardId) => ({
+      id: "pc-nl",
+      code_hash: "nl-demo-hash",
+      board_id: boardId,
+      sessions_started: 4,
+    }),
+  });
+  assert.equal(first.created, true);
+  assert.equal(first.updated, true);
+  assert.equal(first.wrote, true);
+  assert.equal(first.boardId, NUMBER_LINE_SAMPLE_BOARD_ID);
+  assert.equal(store.boards[0], other);
+  assert.equal(other.title, "Not the number line demo");
+  const seeded = store.boards.find((board) => board.id === NUMBER_LINE_SAMPLE_BOARD_ID);
+  assert.ok(seeded);
+  assert.equal(
+    seeded!.number_line_items?.find((item) => item.id === "nl-r07")?.prompt,
+    "Place 640 on the number line.",
+  );
+  assert.equal(NUMBER_LINE_DEMO_VERSION >= 2, true);
+  assert.equal(numberLineDemoContentHash(seeded!), numberLineDemoContentHash(buildSampleNumberLineBoard()));
+
+  const second = applyNumberLineDemo(store, {
+    codeHash: "nl-demo-hash",
+    now: "2026-11-16T01:00:00.000Z",
+    createCode: () => {
+      throw new Error("identical content must not create another code");
+    },
+  });
+  assert.equal(second.wrote, false);
+  assert.equal(second.updated, false);
+  assert.equal(second.created, false);
+  assert.equal(store.boards.find((board) => board.id === NUMBER_LINE_SAMPLE_BOARD_ID), seeded);
+
+  const stale = store.boards.find((board) => board.id === NUMBER_LINE_SAMPLE_BOARD_ID)!;
+  const createdAt = stale.created_at;
+  stale.number_line_items = stale.number_line_items!.map((item) =>
+    item.id === "nl-r07"
+      ? { ...item, prompt: "Round 640 to the nearest hundred", answer: 600 }
+      : item,
+  );
+  const refreshed = applyNumberLineDemo(store, {
+    codeHash: "nl-demo-hash",
+    now: "2026-11-16T02:00:00.000Z",
+    createCode: () => {
+      throw new Error("the demo code already exists");
+    },
+  });
+  assert.equal(refreshed.updated, true);
+  assert.equal(refreshed.created, false);
+  const current = store.boards.find((board) => board.id === NUMBER_LINE_SAMPLE_BOARD_ID)!;
+  assert.equal(current.created_at, createdAt);
+  assert.equal(current.updated_at, "2026-11-16T02:00:00.000Z");
+  assert.equal(
+    current.number_line_items?.find((item) => item.id === "nl-r07")?.prompt,
+    "Place 640 on the number line.",
+  );
+  assert.equal(current.number_line_items?.find((item) => item.id === "nl-r07")?.answer, 640);
+  assert.equal(checkNumberLineDemoKey(current.number_line_items).ok, true);
+  assert.equal(store.boards[0], other);
+
+  store.product_codes[0]!.board_id = "old-board";
+  store.product_codes[0]!.sessions_started = 4;
+  const retarget = applyNumberLineDemo(store, {
+    codeHash: "nl-demo-hash",
+    now: "2026-11-16T03:00:00.000Z",
+    createCode: () => {
+      throw new Error("retarget must not insert");
+    },
+  });
+  assert.equal(retarget.created, false);
+  assert.equal(retarget.updated, false);
+  assert.equal(retarget.wrote, true);
+  assert.equal(store.product_codes[0]!.board_id, NUMBER_LINE_SAMPLE_BOARD_ID);
+  assert.equal(store.product_codes[0]!.sessions_started, 4);
+  assert.equal(planNumberLineDemoCode(NUMBER_LINE_SAMPLE_BOARD_ID, NUMBER_LINE_SAMPLE_BOARD_ID), "keep");
+  assert.equal(planNumberLineDemoCode(null, NUMBER_LINE_SAMPLE_BOARD_ID), "insert");
+});
+
+test("reveal name chips clear AA and close values do not share a lane", () => {
+  assert.ok(contrastRatio(NL_NAME_FG, NL_NAME_BG) >= 4.5);
+  assert.ok(NL_NAME_FONT_PX >= 24);
+  const widths = [231, 327, 700, 848];
+  for (const width of widths) {
+    const dots = [
+      { id: "ava", xPercent: 60, name: "Ava" },
+      { id: "ben", xPercent: 65, name: "Ben" },
+    ];
+    const laid = layoutNumberLineNames(dots, width);
+    const ava = laid.find((row) => row.id === "ava")!;
+    const ben = laid.find((row) => row.id === "ben")!;
+    const avaBox = chipSpan(dots[0]!, ava, width)!;
+    const benBox = chipSpan(dots[1]!, ben, width)!;
+    const overlap = avaBox.left < benBox.right && benBox.left < avaBox.right;
+    if (ava.lane === ben.lane) assert.equal(overlap, false, `lanes collided at ${width}`);
+    else assert.ok(ava.leaderPx !== ben.leaderPx);
+    for (const box of [avaBox, benBox]) {
+      assert.ok(box.left >= -0.5, `chip starts off the line at ${width}`);
+      assert.ok(box.right <= width + 0.5, `chip runs off the line at ${width}`);
+    }
+  }
+  const narrow = layoutNumberLineNames(
+    [
+      { id: "ava", xPercent: 60, name: "Ava" },
+      { id: "ben", xPercent: 65, name: "Ben" },
+    ],
+    231,
+  );
+  assert.notEqual(narrow[0]!.stack, narrow[1]!.stack);
+  assert.deepEqual(visibleTickIndexes(3, tickLabelCap(3, 231)), [0, 1, 2, 3]);
+});
+
+test("NL-10 reveal reuses one dot plot for a class of 30", () => {
+  const samples: number[] = [];
+  for (let room = 0; room < 3; room++) {
+    const item = { ...rangeItem, id: `room-${room}` };
+    const state = createNumberLineState(30);
+    state.stage = "placing";
+    state.accepting = true;
+    const now = 1_700_000_000_000 + room;
+    state.started_at = new Date(now).toISOString();
+    state.ends_at = new Date(now + 30_000).toISOString();
+    const players = [{ player_id: "host", display_name: "host", score: 0 }];
+    for (let i = 0; i < 30; i++) {
+      const id = `p${i}`;
+      players.push({ player_id: id, display_name: `Student ${i}`, score: 0 });
+      applyNumberLinePlace(state, [item], id, item.id, 400 + (i % 12) * 50, true, now);
+    }
+    const ids = players.filter((player) => player.player_id !== "host").map((player) => player.player_id);
+    const t0 = performance.now();
+    const awards = scoreNumberLineAwards(state, item, ids, now);
+    for (const award of awards) {
+      const player = players.find((row) => row.player_id === award.player_id);
+      if (player) player.score += award.total;
+    }
+    state.awards = awards;
+    state.stage = "reveal";
+    state.reveal = buildNumberLineReveal(state, item, players);
+    const host = hostNumberLineView("number_line", state, [item], players);
+    for (const id of ids) playerNumberLineView("number_line", state, [item], id, players);
+    samples.push(performance.now() - t0);
+    assert.equal(host?.leaderboard, state.reveal.leaderboard);
+    assert.equal(host?.podium, state.reveal.podium);
+    assert.equal(state.reveal.dots.length, 30);
+    const ada = playerNumberLineView("number_line", state, [item], ids[0]!, players);
+    assert.equal(ada?.leaderboard, state.reveal.leaderboard);
+    assert.equal(ada?.my_award?.player_id, ids[0]);
+  }
+  samples.sort((a, b) => a - b);
+  const p95 = samples[Math.min(samples.length - 1, Math.floor(samples.length * 0.95))]!;
+  assert.ok(p95 <= 1000, `reveal p95 ${p95}ms`);
 });

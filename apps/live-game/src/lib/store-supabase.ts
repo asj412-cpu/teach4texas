@@ -109,10 +109,13 @@ import {
 } from "@/lib/fixtures/sample-bingo";
 import { numberLineItemsFromBoard, type NumberLineItem } from "@/lib/domain/number-line";
 import {
-  buildSampleNumberLineBoard,
   DEMO_NUMBER_LINE_CODE,
   NUMBER_LINE_SAMPLE_BOARD_ID,
 } from "@/lib/fixtures/sample-number-line";
+import {
+  planNumberLineDemoBoard,
+  planNumberLineDemoCode,
+} from "@/lib/fixtures/number-line-demo-seed";
 import { getServiceSupabase } from "@/lib/supabase-admin";
 
 const SAMPLE_BOARD_ID = "board_sample_math_g3";
@@ -1128,7 +1131,7 @@ async function ensureBingoBoard(): Promise<GameBoard> {
   return boardFromRow(inserted.data as BoardRow);
 }
 
-async function ensureNumberLineBoard(): Promise<GameBoard> {
+async function ensureNumberLineBoard(): Promise<{ board: GameBoard; updated: boolean }> {
   const sb = getServiceSupabase();
   const existing = await sb
     .from("boards")
@@ -1136,34 +1139,69 @@ async function ensureNumberLineBoard(): Promise<GameBoard> {
     .eq("id", NUMBER_LINE_SAMPLE_BOARD_ID)
     .maybeSingle();
   throwIfError(existing.error, "ensureNumberLineBoard.select");
+  let parsed: GameBoard | null = null;
   if (existing.data) {
-    return boardFromRow(existing.data as BoardRow);
+    try {
+      parsed = boardFromRow(existing.data as BoardRow);
+    } catch {
+      parsed = null;
+    }
   }
-  const board = GameBoardSchema.parse(buildSampleNumberLineBoard());
-  const inserted = await sb
+  const now = new Date().toISOString();
+  const plan = planNumberLineDemoBoard(parsed, now);
+  if (!existing.data) {
+    const inserted = await sb
+      .from("boards")
+      .insert(boardToRow(plan.board))
+      .select("*")
+      .single();
+    throwIfError(inserted.error, "ensureNumberLineBoard.insert");
+    return { board: boardFromRow(inserted.data as BoardRow), updated: true };
+  }
+  if (plan.write === "keep" && parsed) return { board: parsed, updated: false };
+  const next = GameBoardSchema.parse({
+    ...plan.board,
+    id: NUMBER_LINE_SAMPLE_BOARD_ID,
+    created_at: parsed?.created_at ?? iso((existing.data as BoardRow).created_at),
+    updated_at: now,
+  });
+  const updated = await sb
     .from("boards")
-    .insert(boardToRow(board))
+    .update(boardToRow(next))
+    .eq("id", NUMBER_LINE_SAMPLE_BOARD_ID)
     .select("*")
     .single();
-  throwIfError(inserted.error, "ensureNumberLineBoard.insert");
-  return boardFromRow(inserted.data as BoardRow);
+  throwIfError(updated.error, "ensureNumberLineBoard.update");
+  return { board: boardFromRow(updated.data as BoardRow), updated: true };
 }
 
-/** Seed Number Line sample packet + known demo access code. Idempotent. Demo kind, never a sale. */
+/** Seed Number Line sample packet + known demo access code. Upserts when the validated key changes. */
 export async function ensureNumberLineSample(
   plaintext = DEMO_NUMBER_LINE_CODE,
-): Promise<{ code: string; boardId: string; created: boolean }> {
-  const board = await ensureNumberLineBoard();
+): Promise<{ code: string; boardId: string; created: boolean; updated: boolean }> {
+  const { board, updated } = await ensureNumberLineBoard();
   const hash = sha256Hex(normalizeAccessCode(plaintext));
   const sb = getServiceSupabase();
   const existing = await sb
     .from("product_codes")
-    .select("id")
+    .select("id, board_id")
     .eq("code_hash", hash)
     .maybeSingle();
   throwIfError(existing.error, "ensureNumberLineSample.lookup");
-  if (existing.data) {
-    return { code: DEMO_NUMBER_LINE_CODE, boardId: board.id, created: false };
+  const codePlan = planNumberLineDemoCode(
+    existing.data ? (existing.data as { board_id: string }).board_id : null,
+    board.id,
+  );
+  if (codePlan === "keep") {
+    return { code: DEMO_NUMBER_LINE_CODE, boardId: board.id, created: false, updated };
+  }
+  if (codePlan === "retarget") {
+    const retarget = await sb
+      .from("product_codes")
+      .update({ board_id: board.id })
+      .eq("id", (existing.data as { id: string }).id);
+    throwIfError(retarget.error, "ensureNumberLineSample.retarget");
+    return { code: DEMO_NUMBER_LINE_CODE, boardId: board.id, created: false, updated };
   }
   const record = ProductCodeRecordSchema.parse({
     id: generateId("pc"),
@@ -1186,7 +1224,7 @@ export async function ensureNumberLineSample(
     created_at: record.created_at,
   });
   throwIfError(ins.error, "ensureNumberLineSample.insert");
-  return { code: DEMO_NUMBER_LINE_CODE, boardId: board.id, created: true };
+  return { code: DEMO_NUMBER_LINE_CODE, boardId: board.id, created: true, updated };
 }
 
 /** Seed Bingo sample packet + known demo access code. Idempotent. Demo kind, never a sale. */

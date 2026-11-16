@@ -97,6 +97,7 @@ export async function POST(req: NextRequest) {
       demo_access_code: numberLine.code,
       board_id: numberLine.boardId,
       created: numberLine.created,
+      updated: numberLine.updated,
     },
     boards,
     tpt_flow: [

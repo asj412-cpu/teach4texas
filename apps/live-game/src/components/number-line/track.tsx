@@ -3,10 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import {
   formatTickLabel,
+  tickLabelCap,
   tickValue,
   visibleTickIndexes,
   type NlMode,
 } from "@/lib/domain/number-line";
+import { layoutNumberLineNames } from "@/lib/domain/number-line-layout";
 
 export type LineDot = {
   id: string;
@@ -35,10 +37,6 @@ function valueFromPointer(item: LineShape, clientX: number, rect: DOMRect): numb
     return tickValue(item, index);
   }
   return item.min + clamped * (item.max - item.min);
-}
-
-function valueKey(value: number): number {
-  return Math.round(value * 1e6) / 1e6;
 }
 
 export function NumberLineTrack({
@@ -81,18 +79,22 @@ export function NumberLineTrack({
 
   const divisions = Math.max(1, Math.round(item.divisions));
   const marks = Array.from({ length: divisions + 1 }, (_, index) => index);
-  const maxLabels = Math.max(2, Math.floor(width / 72));
+  const maxLabels = tickLabelCap(divisions, width);
   const labels = visibleTickIndexes(divisions, maxLabels);
   const marker = value == null ? null : percent(item, value);
   const truth = answer == null ? null : percent(item, answer);
-  const stacks = new Map<number, number>();
-  const stacked = dots.map((dot) => {
-    const key = valueKey(dot.value);
-    const stack = stacks.get(key) ?? 0;
-    stacks.set(key, stack + 1);
-    return { ...dot, stack };
-  });
-  const maxStack = stacked.reduce((highest, dot) => Math.max(highest, dot.stack), 0);
+  const laid = layoutNumberLineNames(
+    dots.map((dot) => ({
+      id: dot.id,
+      xPercent: percent(item, dot.value),
+      name: dot.name,
+    })),
+    width,
+  );
+  const layoutById = new Map(laid.map((row) => [row.id, row]));
+  const maxStack = laid.reduce((highest, row) => Math.max(highest, row.stack), 0);
+  const maxLeader = laid.reduce((highest, row) => Math.max(highest, row.leaderPx), 0);
+  const nameSpace = maxStack * 28 + maxLeader + (maxLeader > 0 ? 36 : 0);
 
   function pointAt(clientX: number, commit: boolean) {
     const rect = rail.current?.getBoundingClientRect();
@@ -104,7 +106,7 @@ export function NumberLineTrack({
 
   return (
     <div className="nl-track">
-      <div style={{ height: maxStack * 28 }} aria-hidden />
+      <div style={{ height: nameSpace }} aria-hidden />
       <div
         ref={rail}
         className={`nl-rail relative w-full touch-none ${disabled ? "opacity-80" : ""}`}
@@ -153,20 +155,33 @@ export function NumberLineTrack({
             <span className="nl-truth-flag" />
           </span>
         ) : null}
-        {stacked.map((dot, index) => {
+        {dots.map((dot, index) => {
+          const place = layoutById.get(dot.id);
           const at = percent(item, dot.value);
+          const stack = place?.stack ?? 0;
           return (
             <span
               key={dot.id}
               className="nl-dot"
               style={{
                 left: `${at}%`,
-                top: `calc(2.15rem - ${dot.stack * 1.75}rem)`,
+                top: `calc(2.15rem - ${stack * 1.75}rem)`,
                 animationDelay: `${index * 0.04}s`,
               }}
             >
-              {dot.name ? (
-                <span className={`nl-dot-name ${at > 68 ? "is-left" : ""}`}>{dot.name}</span>
+              {dot.name && place?.chip ? (
+                <>
+                  <span className="nl-dot-leader" style={{ height: place.leaderPx }} aria-hidden />
+                  <span
+                    className="nl-dot-name"
+                    style={{
+                      bottom: `calc(100% + ${place.leaderPx}px)`,
+                      transform: `translateX(calc(-50% + ${place.shiftPx}px))`,
+                    }}
+                  >
+                    {dot.name}
+                  </span>
+                </>
               ) : null}
             </span>
           );

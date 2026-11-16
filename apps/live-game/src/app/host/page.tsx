@@ -115,9 +115,16 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
     };
   }, []);
 
+  const lightNumberLine =
+    view?.game_type === "number_line" &&
+    (view.number_line?.stage === "reveal" ||
+      view.number_line?.stage === "board" ||
+      view.phase === "final");
+
   const poll = useCallback(async (): Promise<PollOutcome> => {
     if (!hostToken || !roomCode) return "ok";
-    const res = await fetch(`/api/rooms/${roomCode}`, {
+    const qs = lightNumberLine ? "?nl=1" : "";
+    const res = await fetch(`/api/rooms/${roomCode}${qs}`, {
       headers: { Authorization: `Bearer ${hostToken}` },
       cache: "no-store",
     });
@@ -125,7 +132,7 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
     const outcome = outcomeForStatus(res.status, res.ok && Boolean(data?.ok));
     if (outcome === "ok" && res.ok && data?.ok) setView(data.view as HostRoomView);
     return outcome;
-  }, [hostToken, roomCode]);
+  }, [hostToken, roomCode, lightNumberLine]);
 
   useEffect(() => {
     if (!hostToken || !roomCode) return;

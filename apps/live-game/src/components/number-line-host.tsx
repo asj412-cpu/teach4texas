@@ -62,7 +62,7 @@ export function NumberLineHost({
 
   const header = (
     <header className="border-b-4 border-[#fde047] bg-[#07111f] text-white">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 px-4 py-2">
         <div>
           <p className="text-2xl font-black uppercase tracking-widest text-[#fde047]">Live host · Number line</p>
           <h1 className="text-2xl font-black text-white sm:text-4xl">{kidPlainText(view.board.title, 80)}</h1>
@@ -193,8 +193,8 @@ export function NumberLineHost({
   return (
     <div className="nl-stage min-h-screen text-white">
       {header}
-      <main className="mx-auto max-w-5xl px-4 py-6">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+      <main className="mx-auto w-full px-3 py-2">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <p className="rounded-full bg-[#10233f] px-4 py-2 text-2xl font-black uppercase text-[#fde047]">
             {line.paused
               ? "Paused"
@@ -214,8 +214,8 @@ export function NumberLineHost({
             <Leaderboard ranks={line.leaderboard} />
           </section>
         ) : (
-          <section className="mt-6">
-            <h2 className="text-center text-3xl font-black leading-tight text-white sm:text-5xl">
+          <section className="mt-2">
+            <h2 className="text-center text-3xl font-black leading-tight text-white sm:text-4xl">
               {question ? question.prompt : "Get ready for the next number."}
             </h2>
             {question ? (
@@ -224,7 +224,7 @@ export function NumberLineHost({
               </p>
             ) : null}
             {question ? (
-              <div className="mt-8">
+              <div className="mt-2">
                 <NumberLineTrack
                   item={question}
                   value={null}
@@ -246,7 +246,7 @@ export function NumberLineHost({
               </div>
             ) : null}
             {revealed && question?.answer != null ? (
-              <div className="mt-4 flex flex-wrap justify-center gap-3">
+              <div className="mt-2 flex flex-wrap justify-center gap-2">
                 <p className="rounded-2xl bg-[#fde047] px-5 py-3 text-2xl font-black text-[#1c1917]">
                   Exact {line.exact_pct ?? 0}%
                 </p>
@@ -276,7 +276,7 @@ export function NumberLineHost({
             ) : null}
           </section>
         )}
-        <div className="mt-6 flex flex-wrap justify-center gap-3">
+        <div className="mt-2 flex flex-wrap justify-center gap-2">
           <button
             type="button"
             onClick={() => act({ type: "nl_pause" })}

@@ -93,7 +93,7 @@ export function NumberLineTrack({
     })),
     width,
   );
-  const nameSpace = laid.nameSpace;
+  const nameSpace = laid.aboveSpace;
 
   function pointAt(clientX: number, commit: boolean) {
     const rect = rail.current?.getBoundingClientRect();
@@ -235,8 +235,7 @@ export function NumberLineTrack({
           );
         })}
       </div>
-      </div>
-      <div className="relative mt-3 h-10 w-full">
+      <div className="relative mt-2 h-8 w-full">
         {labels.map((index) => {
           const atStart = index === 0;
           const atEnd = index === divisions;
@@ -253,6 +252,8 @@ export function NumberLineTrack({
             </span>
           );
         })}
+      </div>
+      <div style={{ height: laid.belowSpace }} />
       </div>
     </div>
   );

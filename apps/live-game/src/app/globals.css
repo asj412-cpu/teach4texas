@@ -468,8 +468,8 @@ body {
 }
 @media (min-width: 1200px) {
   .nl-track {
-    padding-left: 4.5rem;
-    padding-right: 4.5rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 }
 .nl-rail {
@@ -569,9 +569,9 @@ body {
 .nl-chip {
   position: absolute;
   box-sizing: border-box;
-  height: 40px;
+  height: 32px;
   margin: 0;
-  padding: 6px 12px;
+  padding: 2px 8px;
   border-radius: 0.55rem;
   border: 2px solid #ffffff;
   background: #07111f;

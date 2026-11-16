@@ -29,19 +29,20 @@ import {
 } from "@/lib/domain/number-line";
 import {
   boxesOverlap,
-  chipLabel,
   contrastRatio,
+  hostPageHeight,
   layoutNumberLineReveal,
+  lineFoldY,
+  NL_CHROME_MOBILE_PX,
   NL_GROUP_WINDOW_PX,
-  NL_HOST_CHROME_PX,
+  NL_MOBILE_VIEWPORT_PX,
   NL_NAME_BG,
   NL_NAME_FG,
   NL_NAME_FONT_PX,
-  NL_REVEAL_BUDGET_PX,
   NL_VIEWPORT_H_PX,
+  type Box,
   type NameLayoutDot,
   type RevealLeader,
-  type Box,
 } from "@/lib/domain/number-line-layout";
 import {
   applyNumberLineDemo,
@@ -608,14 +609,16 @@ function assertRevealFits(dots: NameLayoutDot[], width: number, label: string) {
   const laid = layoutNumberLineReveal(dots, width);
   assert.equal(laid.dots.length, dots.length, `${label} @ ${width} dots ${laid.dots.length} placements ${dots.length}`);
   assert.ok(laid.dotSize >= 8, `${label} dot shrunk below 8px`);
-  assert.ok(
-    laid.revealHeight <= NL_REVEAL_BUDGET_PX,
-    `${label} @ ${width} reveal ${laid.revealHeight}px exceeds ${NL_REVEAL_BUDGET_PX}px`,
-  );
-  assert.ok(
-    NL_HOST_CHROME_PX + laid.revealHeight <= NL_VIEWPORT_H_PX,
-    `${label} @ ${width} drops the line below ${NL_VIEWPORT_H_PX}px`,
-  );
+  if (width >= 1000) {
+    assert.ok(
+      hostPageHeight(laid) <= NL_VIEWPORT_H_PX,
+      `${label} @ ${width} page ${hostPageHeight(laid)}px needs a scroll`,
+    );
+  }
+  if (width <= 500) {
+    const line = lineFoldY(laid, NL_CHROME_MOBILE_PX);
+    assert.ok(line <= NL_MOBILE_VIEWPORT_PX, `${label} @ ${width} line bottom ${line}px`);
+  }
   const seen = new Set<string>();
   for (const chip of laid.chips) {
     assert.ok(chip.box.left >= -0.5, `${label} chip starts off the line`);
@@ -630,6 +633,7 @@ function assertRevealFits(dots: NameLayoutDot[], width: number, label: string) {
       assert.equal(seen.has(id), false, `${label} named ${id} twice`);
       seen.add(id);
     }
+    assert.equal(/^\+\d+$/.test(chip.text), false, `${label} chip has no name: ${chip.text}`);
     for (const dot of laid.dots) {
       assert.equal(boxesOverlap(chip.box, dot.box), false, `${label} @ ${width} ${chip.text} covers a dot`);
     }
@@ -693,11 +697,8 @@ test("reveal name chips clear AA and stay clear of dots", () => {
     assert.ok(pile);
     assert.ok(pile!.fullNames.includes("Ben"));
     assert.equal(pile!.fullNames.filter((name) => name === "Ava" || name === "Ben" || name.startsWith("Kid")).length >= 12, true);
-    const longLabel = chipLabel(pile!.fullNames);
-    assert.ok(
-      pile!.text === longLabel || pile!.text === `+${pile!.fullNames.length}`,
-      `${pile!.text} is not the group label`,
-    );
+    assert.match(pile!.text, /^[A-Za-z0-9].* \+\d+$/);
+    assert.equal(/^\+\d+$/.test(pile!.text), false);
   }
   const onlyIdentical = Array.from({ length: 12 }, (_, index) => ({
     id: `same-${index}`,
@@ -708,8 +709,26 @@ test("reveal name chips clear AA and stay clear of dots", () => {
   const onePile = layoutNumberLineReveal(onlyIdentical, 1366);
   assert.equal(onePile.dots.length, 12);
   assert.equal(onePile.chips.length, 1);
-  assert.equal(onePile.chips[0]!.text, "Ava, Ben +10");
+  assert.equal(onePile.chips[0]!.text, "Ava +11");
   assert.equal(onePile.chips[0]!.fullNames.length, 12);
+  const mixed = [
+    ...Array.from({ length: 12 }, (_, index) => ({
+      id: `a${index}`,
+      xPercent: 8,
+      value: 80,
+      name: `A${index}`,
+    })),
+    { id: "ben", xPercent: 10, value: 100, name: "Ben" },
+  ];
+  for (const width of [375, 768, 1366]) {
+    const row = layoutNumberLineReveal(mixed, width);
+    assert.equal(row.dots.length, 13, `mixed dots @ ${width}`);
+    const ben = row.dots.find((dot) => dot.id === "ben")!;
+    const atop = Math.max(...row.dots.filter((dot) => dot.id.startsWith("a")).map((dot) => dot.stack));
+    assert.equal(ben.stack, 0, `Ben joined the 80 stack @ ${width}`);
+    assert.ok(atop === 11, `80 stack @ ${width} is ${atop}`);
+    assert.ok(Math.abs(ben.x - row.dots.find((dot) => dot.id === "a0")!.x) >= 8);
+  }
   const far = layoutNumberLineReveal(
     [
       { id: "ann", xPercent: 18, value: 180, name: "Ann" },

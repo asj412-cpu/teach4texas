@@ -2,9 +2,12 @@ import { z } from "zod";
 import { validateBingoSet } from "@/lib/domain/bingo";
 import {
   NumberLineItemSchema,
+  supportsHostNumberLine,
   validateNumberLineSet,
   type NumberLineItem,
 } from "@/lib/domain/number-line";
+
+export { supportsHostNumberLine };
 
 export const GameTypeSchema = z.enum([
   "board",

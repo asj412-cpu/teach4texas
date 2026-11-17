@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { GameBoardSchema } from "@/lib/domain/board";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import { NumberLineStartCard } from "@/components/number-line/start-card";
+import { GameBoardSchema, supportsNumberLine } from "@/lib/domain/board";
 import {
   sanitizeForHost,
   sanitizeForPlayer,
@@ -19,6 +22,7 @@ import {
   scorePlacement,
   speedBonus,
   stripNumberLineAnswers,
+  supportsHostNumberLine,
   tickLabelCap,
   tickValue,
   validateNumberLineItem,
@@ -479,6 +483,29 @@ test("host and player payloads hide every number line answer before reveal", () 
       assert.equal(blob.includes(String(item.answer)), false, `${name} leaked ${item.id}`);
     }
   }
+});
+
+test("a stripped host board still offers Start Number Line", () => {
+  const board = buildSampleNumberLineBoard();
+  const response = { ok: true, board: stripNumberLineAnswers(board) };
+  assert.deepEqual(collectAnswerFields(response), []);
+  assert.equal(JSON.stringify(response).includes('"answer"'), false);
+  assert.equal(supportsNumberLine(response.board), false);
+  assert.equal(supportsHostNumberLine(response.board), true);
+  assert.equal(response.board.number_line_items?.length, 20);
+  const html = renderToStaticMarkup(
+    createElement(NumberLineStartCard, {
+      questions: response.board.number_line_items?.length ?? 0,
+      grade: response.board.grade,
+      onStart: () => {},
+    }),
+  );
+  assert.match(html, /Number Line ready|Start Number Line/);
+  assert.match(html, />Start Number Line</);
+  assert.equal(html.includes("answer"), false);
+  const broken = stripNumberLineAnswers(board);
+  broken.number_line_items = [{ ...broken.number_line_items![0]!, prompt: "  " }];
+  assert.equal(supportsHostNumberLine(broken), false);
 });
 
 test("late join misses earlier points and a locked placement stays put", () => {

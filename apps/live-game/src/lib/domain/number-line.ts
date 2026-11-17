@@ -170,10 +170,22 @@ export function rangeTolerance(item: NumberLineItem): number {
   return Math.abs(lineSpan(item)) * 0.1;
 }
 
-export function validateNumberLineItem(
-  item: NumberLineItem,
-): { ok: true } | { ok: false; error: string } {
-  if (!Number.isFinite(item.min) || !Number.isFinite(item.max) || !(item.max > item.min)) {
+/** Line, ticks, mode, and prompt. Safe on a host board that has had its answers removed. */
+export function validateNumberLineShape(item: {
+  prompt?: string;
+  mode?: string;
+  min?: number;
+  max?: number;
+  divisions?: number;
+  tolerance?: number;
+}): { ok: true } | { ok: false; error: string } {
+  if (typeof item.prompt !== "string" || item.prompt.trim().length === 0) {
+    return { ok: false, error: "Each question needs a prompt." };
+  }
+  if (item.mode !== "snap" && item.mode !== "range") {
+    return { ok: false, error: "Choose snap or range." };
+  }
+  if (!Number.isFinite(item.min) || !Number.isFinite(item.max) || !(item.max! > item.min!)) {
     return { ok: false, error: "The maximum must be greater than the minimum." };
   }
   if (!Number.isFinite(item.divisions)) {
@@ -185,17 +197,12 @@ export function validateNumberLineItem(
   if (!Number.isInteger(item.divisions)) {
     return { ok: false, error: "The number of ticks has to be a whole number." };
   }
-  if (item.divisions < 1) {
+  const divisions = item.divisions ?? 0;
+  if (divisions < 1) {
     return {
       ok: false,
       error: "This question has zero ticks. Add at least one space between the ends.",
     };
-  }
-  if (!Number.isFinite(item.answer) || item.answer < item.min || item.answer > item.max) {
-    return { ok: false, error: "The answer is outside the number line." };
-  }
-  if (item.mode === "snap" && !isOnTick(item, item.answer)) {
-    return { ok: false, error: "Snap mode only accepts an answer that sits on a tick." };
   }
   if (item.mode === "range" && item.tolerance != null) {
     if (!Number.isFinite(item.tolerance) || item.tolerance < 0) {
@@ -203,6 +210,48 @@ export function validateNumberLineItem(
     }
   }
   return { ok: true };
+}
+
+export function validateNumberLineItem(
+  item: NumberLineItem,
+): { ok: true } | { ok: false; error: string } {
+  const shape = validateNumberLineShape(item);
+  if (!shape.ok) return shape;
+  if (!Number.isFinite(item.answer) || item.answer < item.min || item.answer > item.max) {
+    return { ok: false, error: "The answer is outside the number line." };
+  }
+  if (item.mode === "snap" && !isOnTick(item, item.answer)) {
+    return { ok: false, error: "Snap mode only accepts an answer that sits on a tick." };
+  }
+  return { ok: true };
+}
+
+/**
+ * Host picker check. The host board response omits answers on purpose, so this
+ * never reads them. Authoring and game start still use validateNumberLineSet.
+ */
+export function supportsHostNumberLine(board: {
+  number_line_items?:
+    | {
+        id?: string;
+        prompt?: string;
+        mode?: string;
+        min?: number;
+        max?: number;
+        divisions?: number;
+        tolerance?: number;
+      }[]
+    | null;
+}): boolean {
+  const items = board.number_line_items ?? [];
+  if (items.length < 1) return false;
+  const ids = new Set<string>();
+  for (const item of items) {
+    if (!item || typeof item.id !== "string" || item.id.length === 0 || ids.has(item.id)) return false;
+    ids.add(item.id);
+    if (!validateNumberLineShape(item).ok) return false;
+  }
+  return true;
 }
 
 export function validateNumberLineSet(

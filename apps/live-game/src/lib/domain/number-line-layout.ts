@@ -434,7 +434,6 @@ export function layoutNumberLineReveal(
   }
 
   const pending = [...drafts].sort((a, b) => a.anchorX - b.anchorX || a.id.localeCompare(b.id));
-  let laneCap = 1;
   const pack = (maxLanes: number) => {
     parked.clear();
     for (const draft of pending) {
@@ -443,12 +442,28 @@ export function layoutNumberLineReveal(
     }
     return true;
   };
-  while (laneCap < NL_MAX_LANES && !pack(laneCap)) laneCap += 1;
-  pack(laneCap);
+
+  function compose(
+    mergeBadges: boolean,
+    slotCap: number | null,
+    laneMax: number,
+  ): NumberLineRevealLayout {
+  let laneCap = 1;
+  const laneCeiling = Math.max(laneMax, 1);
+  while (laneCap < laneCeiling && !pack(laneCap)) laneCap += 1;
+  if (laneMax <= 0) parked.clear();
+  else pack(laneCap);
+  const foldRows = mergeBadges && laneMax < NL_MAX_LANES;
+  const chipDrafts = foldRows ? drafts.filter((draft) => parked.has(draft.id)) : drafts;
+  const foldedIds = new Set(
+    foldRows
+      ? drafts.filter((draft) => !parked.has(draft.id)).flatMap((draft) => draft.memberIds)
+      : [],
+  );
 
   let aboveRows = 0;
   let belowRows = 0;
-  for (const draft of drafts) {
+  for (const draft of chipDrafts) {
     const row = Math.floor(draft.lane / 2) + 1;
     if (draft.lane % 2 === 0) aboveRows = Math.max(aboveRows, row);
     else belowRows = Math.max(belowRows, row);
@@ -529,6 +544,14 @@ export function layoutNumberLineReveal(
       ranked.filter((dot) => (slots.get(dot.id) ?? 0) > visibleMax).map((dot) => dot.id),
     );
   }
+  if (slotCap !== null) {
+    diameter = NL_DOT_MIN_PX;
+    slots = slotOf(diameter);
+    hidden = new Set(
+      ranked.filter((dot) => (slots.get(dot.id) ?? 0) > slotCap).map((dot) => dot.id),
+    );
+  }
+  for (const id of foldedIds) hidden.add(id);
 
   const pitch = diameter + NL_DOT_GAP_PX;
   const usedSlot = maxSlotOf(slots, hidden);
@@ -554,7 +577,7 @@ export function layoutNumberLineReveal(
     top: number;
     width: number;
   };
-  const badgeDrafts: BadgeDraft[] = [];
+  let badgeDrafts: BadgeDraft[] = [];
   if (hidden.size > 0) {
     const parent = new Map<string, string>();
     const find = (id: string): string => {
@@ -642,6 +665,26 @@ export function layoutNumberLineReveal(
       if (!moved) break;
     }
   }
+  if (mergeBadges && badgeDrafts.length > 0) {
+    const memberIds = [...new Set(badgeDrafts.flatMap((badge) => badge.memberIds))];
+    const names = badgeDrafts.flatMap((badge) => badge.names);
+    const text = `+${memberIds.length}`;
+    const badgeWidth = chipWidthPx(text, width);
+    const anchor =
+      badgeDrafts.reduce((sum, badge) => sum + badge.left + badge.width / 2, 0) / badgeDrafts.length;
+    badgeDrafts = [
+      {
+        id: "badge-merged",
+        text,
+        count: memberIds.length,
+        memberIds,
+        names,
+        left: clampLeft(anchor, badgeWidth, width),
+        top: -protrusionRoom,
+        width: badgeWidth,
+      },
+    ];
+  }
 
   let highest = NL_DOT_TOP_IN_RAIL;
   for (const top of relTop.values()) highest = Math.min(highest, top);
@@ -682,7 +725,7 @@ export function layoutNumberLineReveal(
     },
   }));
 
-  const chips: RevealChip[] = drafts.map((draft) => {
+  const chips: RevealChip[] = chipDrafts.map((draft) => {
     const row = Math.floor(draft.lane / 2);
     const above = draft.lane % 2 === 0;
     const top = above
@@ -758,4 +801,25 @@ export function layoutNumberLineReveal(
     viewportPx,
     scoreRowPx,
   };
+  }
+
+  const clearLimit = viewportPx - bannerPx - barPx - NL_BAR_GAP_PX;
+  const fits = (laid: NumberLineRevealLayout) => hostStatsBottom(laid) <= clearLimit + 0.05;
+  let laid = compose(false, null, NL_MAX_LANES);
+  if (!fits(laid)) {
+    const merged = compose(true, null, NL_MAX_LANES);
+    if (fits(merged)) laid = merged;
+    else {
+      let found: NumberLineRevealLayout | null = null;
+      for (let cap = 24; cap >= -1; cap -= 1) {
+        const candidate = compose(true, cap, NL_MAX_LANES);
+        if (fits(candidate)) {
+          found = candidate;
+          break;
+        }
+      }
+      if (found) laid = found;
+    }
+  }
+  return laid;
 }

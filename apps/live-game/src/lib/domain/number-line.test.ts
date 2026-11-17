@@ -1060,6 +1060,64 @@ test("a reconnecting banner keeps 32-player reveal pills above the host bar", ()
   }
 });
 
+test("snap pills stay above the bar when a banner splits a cluster", () => {
+  function clustered(width: number) {
+    const dots = [];
+    let n = 0;
+    for (const x of [140, 154, 168, 182]) {
+      for (let copy = 0; copy < 8; copy += 1) {
+        dots.push({
+          id: `c${n}`,
+          xPercent: (x / width) * 100,
+          value: x,
+          name: n === 0 ? "cl119" : `s${n}`,
+        });
+        n += 1;
+      }
+    }
+    return dots;
+  }
+  function identical() {
+    return Array.from({ length: 32 }, (_, index) => ({
+      id: `i${index}`,
+      xPercent: 45,
+      value: 4,
+      name: index === 0 ? "cl119" : `s${index}`,
+    }));
+  }
+  const scenes = [
+    { width: 375, viewport: 812, barPx: 52, scoreRowPx: 112, clusterChrome: 400, identicalChrome: 400 },
+    { width: 1366, viewport: 768, barPx: 72, scoreRowPx: 48, clusterChrome: 400, identicalChrome: 400 },
+    { width: 1440, viewport: 900, barPx: 72, scoreRowPx: 48, clusterChrome: 560, identicalChrome: 560 },
+  ] as const;
+  for (const scene of scenes) {
+    for (const [label, dots, chromePx] of [
+      ["clustered snap", clustered(scene.width), scene.clusterChrome],
+      ["identical", identical(), scene.identicalChrome],
+    ] as const) {
+      const laid = layoutNumberLineReveal(dots, scene.width, {
+        viewportPx: scene.viewport,
+        bannerPx: 48,
+        barPx: scene.barPx,
+        chromePx,
+        scoreRowPx: scene.scoreRowPx,
+      });
+      const barTop = scene.viewport - scene.barPx;
+      const pillBottom = laid.bannerPx + hostStatsBottom(laid);
+      const flagBottom = laid.bannerPx + flagBottomY(laid);
+      assert.ok(
+        pillBottom <= barTop - 4,
+        `${label} @ ${scene.width} pills end at ${pillBottom}px, bar top ${barTop}px`,
+      );
+      assert.ok(
+        flagBottom <= barTop - 4,
+        `${label} @ ${scene.width} flag ends at ${flagBottom}px, bar top ${barTop}px`,
+      );
+      assert.ok(laid.badges.length <= 1, `${label} @ ${scene.width} stacked ${laid.badges.length} +N rows`);
+    }
+  }
+});
+
 test("host shows the locked and joined count while placing", () => {
   const placing = renderToStaticMarkup(
     createElement(HostRosterCount, { phase: "playing", locked: 12, joined: 32 }),

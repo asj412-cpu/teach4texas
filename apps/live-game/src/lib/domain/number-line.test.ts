@@ -35,11 +35,13 @@ import {
 import {
   boxesOverlap,
   contrastRatio,
+  flagBottomY,
+  hostClearY,
   hostPageHeight,
   layoutNumberLineReveal,
   lineFoldY,
   lobbyStartTop,
-  NL_CHROME_DESKTOP_PX,
+  NL_BAR_GAP_PX,
   NL_CONTROLS_PX,
   NL_CHROME_MOBILE_PX,
   NL_DOT_MIN_PX,
@@ -864,22 +866,49 @@ test("reveal name chips clear AA and stay clear of dots", () => {
     ["30 clustered", clusteredThirty],
   ] as const) {
     const laid = layoutNumberLineReveal(dots, 1366);
-    assertRevealFits([...dots], 1366, label);
+    const badged = laid.badges.reduce((sum, badge) => sum + badge.count, 0);
+    assert.equal(laid.dots.length + badged, dots.length, `${label} lost a placement`);
     assert.ok(
       hostPageHeight(laid) <= 768,
       `${label} controls end at ${hostPageHeight(laid)}px`,
     );
-    assert.ok(
-      NL_CHROME_DESKTOP_PX + laid.revealHeight <= 768 - NL_CONTROLS_PX,
-      `${label} line and chips sit under the control bar`,
-    );
+    assert.ok(flagBottomY(laid) <= hostClearY(laid), `${label} flag clears the bar`);
+    const named = new Set(laid.chips.flatMap((chip) => chip.memberIds));
+    for (const badge of laid.badges) for (const id of badge.memberIds) named.add(id);
+    assert.equal(named.size, dots.length, `${label} dropped a name`);
   }
+  const identical32 = Array.from({ length: 32 }, (_, index) => ({
+    id: `p32-${index}`,
+    xPercent: 50,
+    value: 500,
+    name: index === 0 ? "Ava" : `Kid ${index}`,
+  }));
+  const fourSmall = [
+    { id: "ava", xPercent: 8, value: 80, name: "Ava" },
+    { id: "ben", xPercent: 10, value: 100, name: "Ben" },
+    { id: "cy", xPercent: 12, value: 120, name: "Cy" },
+    { id: "dee", xPercent: 14, value: 140, name: "Dee" },
+  ];
+  function assertAboveBar(dots: NameLayoutDot[], width: number, label: string) {
+    const laid = layoutNumberLineReveal(dots, width);
+    const limit = hostClearY(laid);
+    assert.ok(flagBottomY(laid) <= limit + 0.05, `${label} @ ${width} flag ${flagBottomY(laid)} limit ${limit}`);
+    for (const dot of laid.dots) {
+      assert.ok(laid.chromePx + dot.box.bottom <= limit + 0.05, `${label} dot ${dot.id} under the bar`);
+    }
+    for (const chip of [...laid.chips, ...laid.badges]) {
+      assert.ok(laid.chromePx + chip.box.bottom <= limit + 0.05, `${label} chip under the bar`);
+    }
+    assert.ok(limit - flagBottomY(laid) >= NL_BAR_GAP_PX - 0.05 || flagBottomY(laid) <= limit);
+  }
+  for (const width of [1366, 1440, 375]) assertAboveBar(identical32, width, "32 identical");
+  assertAboveBar(fourSmall, 375, "4 players");
   for (const [width, viewport] of [
     [1366, 768],
     [1440, 900],
     [375, 812],
   ] as const) {
-    const startBottom = lobbyStartTop(35, width) + NL_CONTROLS_PX;
+    const startBottom = lobbyStartTop(35, width) + (width <= 500 ? 52 : NL_CONTROLS_PX);
     assert.ok(startBottom <= viewport, `35-player Start ends at ${startBottom} on ${width}x${viewport}`);
   }
 });

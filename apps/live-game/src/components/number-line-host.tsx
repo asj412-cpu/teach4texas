@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode, type RefObject } from "react";
 import type { HostRoomView } from "@/lib/domain/live-room";
 import type { NlSeconds } from "@/lib/domain/number-line";
 import { kidPlainText } from "@/lib/plain-text";
@@ -14,6 +14,44 @@ import {
 } from "@/components/number-line/audio";
 
 const SECONDS: NlSeconds[] = [15, 30, 45, 60];
+
+function useHostFrame(phase: string) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [bar, setBar] = useState(72);
+  const [viewport, setViewport] = useState(768);
+  useEffect(() => {
+    const measure = () => {
+      setViewport(window.innerHeight || 768);
+      const el = ref.current;
+      if (!el) return;
+      const next = Math.ceil(el.getBoundingClientRect().height);
+      setBar((prev) => (Math.abs(prev - next) < 1 ? prev : next));
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    if (ref.current) observer.observe(ref.current);
+    window.addEventListener("resize", measure);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [phase]);
+  return { ref, bar, viewport };
+}
+
+function HostBar({
+  barRef,
+  children,
+}: {
+  barRef: RefObject<HTMLDivElement | null>;
+  children: ReactNode;
+}) {
+  return (
+    <div ref={barRef} className="nl-host-bar">
+      <div className="nl-host-bar-row">{children}</div>
+    </div>
+  );
+}
 
 function useClock(): number {
   const [now, setNow] = useState(0);
@@ -36,6 +74,7 @@ export function NumberLineHost({
   const now = useClock();
   const [muted, setMuted] = useState(isNumberLineMuted());
   const [busy, setBusy] = useState(false);
+  const frame = useHostFrame(view.phase);
   const prev = useRef<string | null>(null);
 
   useEffect(() => {
@@ -65,12 +104,12 @@ export function NumberLineHost({
 
   const header = (
     <header className="border-b-4 border-[#fde047] bg-[#07111f] text-white">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 px-4 py-2">
-        <div>
-          <p className="text-2xl font-black uppercase tracking-widest text-[#fde047]">Live host · Number line</p>
-          <h1 className="text-2xl font-black text-white sm:text-4xl">{kidPlainText(view.board.title, 80)}</h1>
-        </div>
-        <div className="flex flex-wrap items-center gap-3">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-2 py-1">
+        <h1 className="min-w-0 truncate text-2xl font-black leading-8 text-white">
+          <span className="text-[#fde047] max-[500px]:sr-only">Number line · </span>
+          {kidPlainText(view.board.title, 80)}
+        </h1>
+        <div className="flex shrink-0 items-center gap-2">
           <button
             type="button"
             onClick={() => {
@@ -78,17 +117,17 @@ export function NumberLineHost({
               setNumberLineMuted(!muted);
               setMuted(!muted);
             }}
-            className="rounded-xl border-2 border-white bg-[#10233f] px-4 py-3 text-2xl font-black text-white"
+            className="rounded-xl border-2 border-white bg-[#10233f] px-2 py-0 text-2xl font-black leading-8 text-white"
             aria-pressed={muted}
+            aria-label={muted ? "Sound off" : "Sound on"}
           >
-            {muted ? "Sound off" : "Sound on"}
+            {muted ? "Off" : "On"}
           </button>
-          <div className="rounded-2xl border-2 border-[#fde047] bg-[#10233f] px-5 py-2 text-center">
-            <p className="text-2xl font-bold uppercase tracking-wide text-[#fde047]">Room code</p>
-            <p className="font-mono text-3xl font-black tracking-widest text-white">{view.code}</p>
+          <div className="text-right leading-8">
+            <p className="font-mono text-2xl font-black leading-8 tracking-widest text-white">{view.code}</p>
             {view.phase === "final" ? null : (
-              <p className="text-2xl text-white">
-                {line.locked_count} locked in · {line.joined_count} joined
+              <p className="hidden text-2xl leading-8 text-white min-[501px]:block">
+                {line.locked_count} locked · {line.joined_count} joined
               </p>
             )}
           </div>
@@ -99,7 +138,7 @@ export function NumberLineHost({
 
   if (view.phase === "lobby") {
     return (
-      <div className="nl-stage min-h-screen pb-36 text-white sm:pb-24">
+      <div className="nl-stage min-h-screen text-white" style={{ paddingBottom: frame.bar }}>
         {header}
         <main className="mx-auto max-w-3xl px-4 py-3">
           <section className="rounded-3xl border-4 border-[#fde047] bg-[#10233f] p-4 text-center">
@@ -114,6 +153,7 @@ export function NumberLineHost({
                   key={seconds}
                   type="button"
                   disabled={busy}
+                  aria-pressed={line.seconds === seconds}
                   onClick={() => act({ type: "nl_set_seconds", seconds })}
                   className={`rounded-2xl px-5 py-3 text-2xl font-black disabled:opacity-50 ${
                     line.seconds === seconds
@@ -139,26 +179,25 @@ export function NumberLineHost({
             </ul>
           </section>
         </main>
-        <div className="fixed inset-x-0 bottom-0 z-40 border-t-4 border-[#fde047] bg-[#07111f] px-3 py-2">
-          <div className="mx-auto flex max-w-3xl flex-wrap justify-center gap-2">
-            <button
-              type="button"
-              disabled={busy}
-              onClick={() => act({ type: "start_game" })}
-              className="rounded-2xl bg-[#fde047] px-8 py-3 text-2xl font-black uppercase text-[#1c1917] shadow-[0_6px_0_#a16207] disabled:opacity-50"
-            >
-              {busy ? "Starting…" : "Start"}
-            </button>
-            <button
-              type="button"
-              disabled={busy}
-              onClick={() => act({ type: "lock_lobby", locked: !view.lobby_locked })}
-              className="rounded-2xl border-2 border-white bg-[#07111f] px-5 py-3 text-2xl font-black text-white disabled:opacity-50"
-            >
-              {view.lobby_locked ? "Unlock lobby" : "Lock lobby"}
-            </button>
-          </div>
-        </div>
+        <HostBar barRef={frame.ref}>
+          <button
+            type="button"
+            disabled={busy}
+            onClick={() => act({ type: "start_game" })}
+            className="nl-host-btn bg-[#fde047] text-[#1c1917]"
+          >
+            {busy ? "Starting…" : "Start"}
+          </button>
+          <button
+            type="button"
+            disabled={busy}
+            onClick={() => act({ type: "lock_lobby", locked: !view.lobby_locked })}
+            className="nl-host-btn border-2 border-white bg-[#07111f] text-white"
+            aria-label={view.lobby_locked ? "Unlock lobby" : "Lock lobby"}
+          >
+            {view.lobby_locked ? "Unlock" : "Lock"}
+          </button>
+        </HostBar>
       </div>
     );
   }
@@ -202,11 +241,11 @@ export function NumberLineHost({
   const revealed = line.stage === "reveal" || line.stage === "board";
 
   return (
-    <div className="nl-stage min-h-screen pb-36 text-white sm:pb-24">
+    <div className="nl-stage min-h-screen text-white" style={{ paddingBottom: frame.bar }}>
       {header}
-      <main className="mx-auto w-full px-3 py-2">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <p className="rounded-full bg-[#10233f] px-4 py-2 text-2xl font-black uppercase text-[#fde047]">
+      <main className="mx-auto w-full px-2 pt-1">
+        <div className="flex items-center justify-between gap-2">
+          <p className="min-w-0 flex-1 truncate rounded-full bg-[#10233f] px-3 py-1 text-2xl font-black leading-8 text-[#fde047]">
             {line.paused
               ? "Paused"
               : question
@@ -214,7 +253,7 @@ export function NumberLineHost({
                 : "Number line"}
           </p>
           {line.stage === "placing" || line.stage === "ready" ? (
-            <p className="text-3xl font-black tabular-nums text-[#fde047]">
+            <p className="text-2xl font-black leading-8 tabular-nums text-[#fde047]">
               {line.stage === "placing" ? `${Math.ceil((remain ?? 0) / 1000)}s` : `${line.seconds}s`}
             </p>
           ) : null}
@@ -225,23 +264,25 @@ export function NumberLineHost({
             <Leaderboard ranks={line.leaderboard} />
           </section>
         ) : (
-          <section className="mt-2">
-            <h2 className="text-center text-3xl font-black leading-tight text-white">
+          <section className="mt-1">
+            <h2 className="truncate text-center text-2xl font-black leading-8 text-white">
               {question ? question.prompt : "Get ready for the next number."}
             </h2>
             {question ? (
-              <p className="mt-2 text-center text-2xl font-bold text-[#fde68a]">
+              <p className="mt-1 truncate text-center text-2xl font-bold leading-8 text-[#fde68a]">
                 TEKS {question.teks} · {question.mode === "snap" ? "Snap to a tick" : "Place anywhere"}
               </p>
             ) : null}
             {question ? (
-              <div className="mt-2">
+              <div className="mt-1">
                 <NumberLineTrack
                   item={question}
                   value={null}
                   interactive={false}
                   answer={question.answer}
                   labelsRevealed={revealed}
+                  barPx={frame.bar}
+                  viewportPx={frame.viewport}
                   sweeping={line.stage === "reveal"}
                   dots={
                     revealed
@@ -258,11 +299,11 @@ export function NumberLineHost({
               </div>
             ) : null}
             {revealed && question?.answer != null ? (
-              <div className="mt-2 flex flex-wrap justify-center gap-2">
-                <p className="rounded-2xl bg-[#fde047] px-5 py-2 text-2xl font-black text-[#1c1917]">
+              <div className="mt-1 flex flex-wrap justify-center gap-2">
+                <p className="rounded-2xl bg-[#fde047] px-4 py-1 text-2xl font-black leading-8 text-[#1c1917]">
                   Exact {line.exact_pct ?? 0}%
                 </p>
-                <p className="rounded-2xl border-2 border-[#fde047] bg-[#10233f] px-5 py-2 text-2xl font-black text-white">
+                <p className="rounded-2xl border-2 border-[#fde047] bg-[#10233f] px-4 py-1 text-2xl font-black leading-8 text-white">
                   Within tolerance {line.within_pct ?? 0}%
                 </p>
               </div>
@@ -290,51 +331,23 @@ export function NumberLineHost({
           </section>
         )}
       </main>
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t-4 border-[#fde047] bg-[#07111f] px-3 py-2">
-        <div className="mx-auto flex max-w-6xl flex-wrap justify-center gap-2">
-          <button
-            type="button"
-            disabled={busy}
-            onClick={() => act({ type: "nl_pause" })}
-            className="rounded-2xl border-2 border-white bg-[#10233f] px-5 py-3 text-2xl font-black text-white disabled:opacity-50"
-          >
-            {line.paused ? "Resume" : "Pause"}
-          </button>
-          <button
-            type="button"
-            disabled={busy}
-            onClick={() => act({ type: "nl_next" })}
-            className="rounded-2xl bg-[#fde047] px-6 py-3 text-2xl font-black uppercase text-[#1c1917] disabled:opacity-50"
-          >
-            Next
-          </button>
-          <button
-            type="button"
-            disabled={busy || line.stage !== "placing"}
-            onClick={() => act({ type: "nl_reveal" })}
-            className="rounded-2xl bg-white px-6 py-3 text-2xl font-black uppercase text-[#1c1917] disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            Reveal
-          </button>
-          <button
-            type="button"
-            disabled={busy}
-            onClick={() => act({ type: "nl_show_names" })}
-            className="rounded-2xl border-2 border-white bg-[#10233f] px-5 py-3 text-2xl font-black text-white disabled:opacity-50"
-            aria-pressed={line.show_names}
-          >
-            {line.show_names ? "Hide names" : "Show names"}
-          </button>
-          <button
-            type="button"
-            disabled={busy}
-            onClick={() => act({ type: "end_game" })}
-            className="rounded-2xl border-2 border-white bg-[#07111f] px-5 py-3 text-2xl font-black text-white disabled:opacity-50"
-          >
-            End
-          </button>
-        </div>
-      </div>
+      <HostBar barRef={frame.ref}>
+        <button type="button" disabled={busy} onClick={() => act({ type: "nl_pause" })} className="nl-host-btn border-2 border-white bg-[#10233f] text-white" aria-label={line.paused ? "Resume" : "Pause"}>
+          {line.paused ? "Resume" : "Pause"}
+        </button>
+        <button type="button" disabled={busy} onClick={() => act({ type: "nl_next" })} className="nl-host-btn bg-[#fde047] text-[#1c1917]" aria-label="Next question">
+          Next
+        </button>
+        <button type="button" disabled={busy || line.stage !== "placing"} onClick={() => act({ type: "nl_reveal" })} className="nl-host-btn bg-white text-[#1c1917] disabled:cursor-not-allowed" aria-label="Reveal answers">
+          Reveal
+        </button>
+        <button type="button" disabled={busy} onClick={() => act({ type: "nl_show_names" })} className="nl-host-btn border-2 border-white bg-[#10233f] text-white" aria-pressed={line.show_names} aria-label={line.show_names ? "Hide names" : "Show names"}>
+          {line.show_names ? "Hide" : "Names"}
+        </button>
+        <button type="button" disabled={busy} onClick={() => act({ type: "end_game" })} className="nl-host-btn border-2 border-white bg-[#07111f] text-white" aria-label="End game">
+          End
+        </button>
+      </HostBar>
     </div>
   );
 }

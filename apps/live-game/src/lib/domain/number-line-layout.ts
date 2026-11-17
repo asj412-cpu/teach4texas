@@ -11,6 +11,8 @@ export const NL_STACK_PREF_PX = 10;
 export const NL_BIN_PX = 14;
 export const NL_DOT_TOP_IN_RAIL = 34.4;
 export const NL_LINE_BOTTOM_IN_RAIL = 50;
+/** .nl-truth top 3.35rem plus the 1.1rem flag, at a 16px root. */
+export const NL_FLAG_BOTTOM_IN_RAIL = 53.6 + 17.6;
 export const NL_RAIL_PX = 88;
 export const NL_LABELS_PX = 40;
 export const NL_CHIP_H = 32;
@@ -22,15 +24,43 @@ const NL_CHAR_PX = 17;
 const NL_CHIP_PAD_X = 12;
 const NL_MAX_LANES = 8;
 
+/** Header plus question, before the track. Desktop is two header lines; a phone is one. */
+export const NL_CHROME_BEFORE_DESKTOP_PX = 196;
+export const NL_CHROME_BEFORE_MOBILE_PX = 164;
+/** Exact / Within row under the labels, including its top margin. */
+export const NL_SCORE_ROW_PX = 48;
 /** Header, question, and the exact/within row on a 1366-wide projector. */
-export const NL_CHROME_DESKTOP_PX = 220;
-/** Sticky Pause / Next / Reveal / Show names / End bar. */
-export const NL_CONTROLS_PX = 88;
+export const NL_CHROME_DESKTOP_PX = NL_CHROME_BEFORE_DESKTOP_PX + NL_SCORE_ROW_PX;
+/**
+ * One-row host bar from the button CSS.
+ * Phone: 4px border + 12px pad + 36px control = 52.
+ * Desktop: 4px border + 16px pad + 52px control = 72.
+ */
+export const NL_BAR_PHONE_PX = 52;
+export const NL_BAR_DESKTOP_PX = 72;
+/** Clearance between the flag, dots, or chips and the bar. */
+export const NL_BAR_GAP_PX = 8;
+/** @deprecated Use hostBarPx. Desktop bar plus the 8px gap. */
+export const NL_CONTROLS_PX = NL_BAR_DESKTOP_PX + NL_BAR_GAP_PX;
 /** Lobby name list scrolls inside this, so Start stays on screen. */
 export const NL_LOBBY_LIST_MAX_PX = 176;
+
+export function hostViewportPx(width: number): number {
+  if (width <= 500) return NL_MOBILE_VIEWPORT_PX;
+  if (width >= 1400) return 900;
+  return NL_DESKTOP_VIEWPORT_PX;
+}
+
+export function hostBarPx(width: number): number {
+  return width <= 500 ? NL_BAR_PHONE_PX : NL_BAR_DESKTOP_PX;
+}
+
+export function hostChromeBeforePx(width: number): number {
+  return width <= 500 ? NL_CHROME_BEFORE_MOBILE_PX : NL_CHROME_BEFORE_DESKTOP_PX;
+}
 export const NL_DESKTOP_VIEWPORT_PX = 768;
-/** Wrapped header plus the question on a phone. */
-export const NL_CHROME_MOBILE_PX = 500;
+/** Phone header plus question, before the track. */
+export const NL_CHROME_MOBILE_PX = NL_CHROME_BEFORE_MOBILE_PX;
 export const NL_MOBILE_VIEWPORT_PX = 812;
 
 export const NL_HOST_CHROME_PX = NL_CHROME_DESKTOP_PX;
@@ -94,10 +124,24 @@ export type NumberLineRevealLayout = {
   /** @deprecated Use aboveSpace. Kept so callers reading the old name still work. */
   nameSpace: number;
   revealHeight: number;
+  /** Header and question above the track. */
+  chromePx: number;
+  /** Measured or CSS bar height used to cap the stack. */
+  barPx: number;
+  viewportPx: number;
 };
 
 export function hostPageHeight(layout: NumberLineRevealLayout): number {
-  return NL_CHROME_DESKTOP_PX + layout.revealHeight + NL_CONTROLS_PX;
+  return layout.chromePx + NL_SCORE_ROW_PX + layout.revealHeight + layout.barPx + NL_BAR_GAP_PX;
+}
+
+/** Page y the flag, a dot, or a chip must stay at or above. */
+export function hostClearY(layout: NumberLineRevealLayout): number {
+  return layout.viewportPx - layout.barPx - NL_BAR_GAP_PX;
+}
+
+export function flagBottomY(layout: NumberLineRevealLayout): number {
+  return layout.chromePx + layout.aboveSpace + NL_FLAG_BOTTOM_IN_RAIL;
 }
 
 /** Top of the sticky Start / Lock bar. The list above it never grows past its cap. */
@@ -199,8 +243,12 @@ type Draft = {
 export function layoutNumberLineReveal(
   inputs: NameLayoutDot[],
   widthPx: number,
+  options?: { barPx?: number; viewportPx?: number },
 ): NumberLineRevealLayout {
   const width = Math.max(1, widthPx);
+  const viewportPx = options?.viewportPx ?? hostViewportPx(width);
+  const barPx = options?.barPx ?? hostBarPx(width);
+  const chromePx = hostChromeBeforePx(width);
   const placed = inputs.map((dot) => ({
     ...dot,
     x: (Math.min(100, Math.max(0, dot.xPercent)) / 100) * width,
@@ -347,26 +395,14 @@ export function layoutNumberLineReveal(
     belowRows === 0 ? 0 : belowRows * NL_CHIP_H + Math.max(0, belowRows - 1) * NL_CHIP_GAP_PX;
 
   const chipBlock = aboveChip + (aboveRows > 0 ? NL_CHIP_GAP_PX : 0) + belowSpace;
-  const pageRoom = Math.max(
+  const limit = viewportPx - barPx - NL_BAR_GAP_PX;
+  const trackPastFlag = NL_RAIL_PX + NL_LABELS_PX + belowSpace + NL_SCORE_ROW_PX - NL_FLAG_BOTTOM_IN_RAIL;
+  const protrusionRoom = Math.max(
     0,
-    NL_DESKTOP_VIEWPORT_PX -
-      NL_CHROME_DESKTOP_PX -
-      NL_CONTROLS_PX -
-      NL_RAIL_PX -
-      NL_LABELS_PX -
-      chipBlock,
+    limit - chromePx - aboveChip - (aboveRows > 0 ? NL_CHIP_GAP_PX : 0) - NL_FLAG_BOTTOM_IN_RAIL - Math.max(0, trackPastFlag),
   );
-  const mobileRoom = Math.max(
-    0,
-    NL_MOBILE_VIEWPORT_PX -
-      NL_CHROME_MOBILE_PX -
-      NL_LINE_BOTTOM_IN_RAIL -
-      aboveChip -
-      (aboveRows > 0 ? NL_CHIP_GAP_PX : 0),
-  );
-  const protrusionRoom = width <= 500 ? Math.min(pageRoom, mobileRoom) : pageRoom;
 
-  const stackRoom = protrusionRoom + NL_RAIL_PX;
+  const stackRoom = protrusionRoom + NL_FLAG_BOTTOM_IN_RAIL;
   const ranked = [...placed].sort((a, b) => {
     const av = a.value ?? 0;
     const bv = b.value ?? 0;
@@ -431,9 +467,11 @@ export function layoutNumberLineReveal(
 
   const pitch = diameter + NL_DOT_GAP_PX;
   const usedSlot = maxSlotOf(slots, hidden);
+  const badgeBlock = hidden.size > 0 ? NL_CHIP_H + NL_DOT_GAP_PX : 0;
   let base = NL_LINE_BOTTOM_IN_RAIL - diameter;
-  if (base - usedSlot * pitch < -protrusionRoom) base = -protrusionRoom + usedSlot * pitch;
-  if (base + diameter > NL_RAIL_PX) base = NL_RAIL_PX - diameter;
+  const topLimit = -protrusionRoom + badgeBlock;
+  if (base - usedSlot * pitch < topLimit) base = topLimit + usedSlot * pitch;
+  if (base + diameter > NL_FLAG_BOTTOM_IN_RAIL) base = NL_FLAG_BOTTOM_IN_RAIL - diameter;
 
   const relTop = new Map<string, number>();
   for (const dot of ranked) {
@@ -649,5 +687,8 @@ export function layoutNumberLineReveal(
     belowSpace,
     nameSpace: aboveSpace,
     revealHeight,
+    chromePx,
+    barPx,
+    viewportPx,
   };
 }

@@ -45,6 +45,8 @@ export function NumberLineTrack({
   disabled,
   answer,
   labelsRevealed = false,
+  barPx,
+  viewportPx,
   dots,
   sweeping,
   onPreview,
@@ -58,6 +60,9 @@ export function NumberLineTrack({
   answer: number | null;
   /** Snap shows fraction labels only after this is true. */
   labelsRevealed?: boolean;
+  /** Host control bar height. The stack budget keeps the flag above it. */
+  barPx?: number;
+  viewportPx?: number;
   dots: LineDot[];
   sweeping: boolean;
   onPreview?: (value: number) => void;
@@ -95,6 +100,7 @@ export function NumberLineTrack({
       value: dot.value,
     })),
     width,
+    { barPx, viewportPx },
   );
   const nameSpace = laid.aboveSpace;
 

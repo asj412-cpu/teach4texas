@@ -2,7 +2,7 @@
 
 export type ConnState = "ok" | "reconnecting" | "ended";
 
-/** Small fixed banner so a flaky poll never blanks the game screen. */
+/** In-flow bar. It reserves its own height and renders nothing while the connection is fine. */
 export function ConnectionBanner({
   state,
   endedText,
@@ -16,18 +16,8 @@ export function ConnectionBanner({
   if (state === "ok") return null;
   const text = state === "reconnecting" ? "Reconnecting…" : (endedText ?? "Room ended or not found.");
   return (
-    <div
-      role="status"
-      aria-live="polite"
-      className="pointer-events-none fixed inset-x-0 top-3 z-30 flex justify-center px-3"
-    >
-      <p
-        className={`max-w-[90vw] rounded-full bg-t4t-navy px-4 py-2 font-semibold text-white shadow-lg ${
-          projected ? "text-2xl" : "text-xl"
-        }`}
-      >
-        {text}
-      </p>
+    <div role="status" aria-live="polite" className="w-full bg-t4t-navy px-3 py-2 text-center">
+      <p className={`font-semibold text-white ${projected ? "text-2xl" : "text-xl"}`}>{text}</p>
     </div>
   );
 }

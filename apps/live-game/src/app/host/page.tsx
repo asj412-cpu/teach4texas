@@ -48,12 +48,12 @@ export default function HostPage() {
   const [conn, setConn] = useState<ConnState>("ok");
   return (
     <>
-      <HostPageBody onConnection={setConn} />
       <ConnectionBanner
         state={conn}
         projected
         endedText="Room ended or not found. Start a new room from your game."
       />
+      <HostPageBody onConnection={setConn} />
     </>
   );
 }

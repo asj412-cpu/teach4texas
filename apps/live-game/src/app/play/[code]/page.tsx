@@ -47,6 +47,7 @@ export default function PlayPage() {
     (tap === "retrying" || tap === "failed" || tap === "rejected");
   return (
     <>
+      <ConnectionBanner state={conn === "ended" ? "ok" : conn} />
       <PlayPageBody onConnection={setConn} onTap={setTap} onGameType={setGameType} tapNotice={tap} />
       {showFloatingNotice ? (
         <div
@@ -63,7 +64,6 @@ export default function PlayPage() {
           </p>
         </div>
       ) : null}
-      <ConnectionBanner state={conn === "ended" ? "ok" : conn} />
     </>
   );
 }

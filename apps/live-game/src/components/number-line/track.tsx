@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   formatTickLabel,
   lineLabelIndexes,
+  stepMarkerValue,
   tickValue,
   type NlMode,
 } from "@/lib/domain/number-line";
@@ -76,6 +77,9 @@ export function NumberLineTrack({
   const dragging = useRef(false);
   const valueRef = useRef(value);
   valueRef.current = value;
+  const pendingValue = useRef<number | null>(null);
+  const localBusy = useRef(false);
+  const busy = Boolean(disabled) || !interactive;
 
   useEffect(() => {
     const el = rail.current;
@@ -89,7 +93,7 @@ export function NumberLineTrack({
 
   const divisions = Math.max(1, Math.round(item.divisions));
   const marks = Array.from({ length: divisions + 1 }, (_, index) => index);
-  const labels = lineLabelIndexes(item, width, labelsRevealed);
+  const labels = lineLabelIndexes(item, width, labelsRevealed, answer);
   const marker = value == null ? null : percent(item, value);
   const truth = answer == null ? null : percent(item, answer);
   const laid = layoutNumberLineReveal(
@@ -103,6 +107,21 @@ export function NumberLineTrack({
     { barPx, viewportPx },
   );
   const nameSpace = laid.aboveSpace;
+
+  useEffect(() => {
+    if (busy) {
+      localBusy.current = true;
+      return;
+    }
+    if (pendingValue.current == null) {
+      localBusy.current = false;
+      return;
+    }
+    const next = pendingValue.current;
+    pendingValue.current = null;
+    localBusy.current = true;
+    onPlace?.(next);
+  }, [busy, onPlace]);
 
   function pointAt(clientX: number, commit: boolean) {
     const rect = rail.current?.getBoundingClientRect();
@@ -182,14 +201,11 @@ export function NumberLineTrack({
             type="button"
             className={`nl-marker ${held ? "is-held" : ""}`}
             style={{ left: `${marker}%` }}
-            disabled={!interactive || disabled}
+            aria-busy={busy}
             aria-label="Your marker"
             onKeyDown={(event) => {
               const current = valueRef.current;
-              if (!interactive || disabled || !onPlace || current == null) return;
-              const step = item.mode === "snap" ? 1 : Math.max(1, Math.round(divisions / 20));
-              const span = item.max - item.min;
-              const index = Math.round(((current - item.min) / span) * divisions);
+              if (!onPlace || current == null) return;
               const move = event.key === "ArrowRight" || event.key === "ArrowUp"
                 ? 1
                 : event.key === "ArrowLeft" || event.key === "ArrowDown"
@@ -197,9 +213,14 @@ export function NumberLineTrack({
                   : 0;
               if (move === 0) return;
               event.preventDefault();
-              const next = Math.min(divisions, Math.max(0, index + move * (item.mode === "snap" ? 1 : step)));
-              const nextValue = item.mode === "snap" ? tickValue(item, next) : item.min + (next / divisions) * span;
+              const nextValue = stepMarkerValue(current, { ...item, divisions }, move);
               valueRef.current = nextValue;
+              onPreview?.(nextValue);
+              if (localBusy.current || busy) {
+                pendingValue.current = nextValue;
+                return;
+              }
+              localBusy.current = true;
               onPlace(nextValue);
             }}
           />

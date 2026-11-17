@@ -324,27 +324,134 @@ function isWholeTick(item: { min: number; max: number; divisions: number }, inde
   return Math.abs(value - Math.round(value)) < 1e-6;
 }
 
+/** Student track padding at a phone width, 1.5rem each side. */
+export const NL_STUDENT_TRACK_PAD_PX = 24;
+
+export function studentRailWidth(viewportPx: number): number {
+  const pad = viewportPx < 768 ? NL_STUDENT_TRACK_PAD_PX : viewportPx < 1200 ? 48 : 32;
+  return Math.max(1, viewportPx - pad * 2);
+}
+
+/** text-2xl font-black label, wide enough that neighbors do not collide. */
+export function tickLabelWidthPx(text: string): number {
+  let width = 0;
+  for (const char of text) {
+    if (char === " ") width += 8;
+    else if (char === "/") width += 14;
+    else width += 16;
+  }
+  return width + 4;
+}
+
+export function tickLabelBox(
+  item: { min: number; max: number; divisions: number; mode: NlMode },
+  index: number,
+  widthPx: number,
+): { left: number; right: number } {
+  const divisions = Math.max(1, Math.round(item.divisions));
+  const text = formatTickLabel({ ...item, divisions }, index);
+  const size = tickLabelWidthPx(text);
+  const x = (index / divisions) * widthPx;
+  if (index <= 0) return { left: 0, right: size };
+  if (index >= divisions) return { left: widthPx - size, right: widthPx };
+  return { left: x - size / 2, right: x + size / 2 };
+}
+
+function boxesCollide(a: { left: number; right: number }, b: { left: number; right: number }): boolean {
+  return a.left < b.right + 4 && b.left < a.right + 4;
+}
+
 /**
  * Snap hides every non-integer fraction until reveal, so the projector does not
- * print the answer. Endpoints and whole numbers stay. Range keeps the usual set.
- * Tick marks themselves are always drawn.
+ * print the answer. Endpoints and whole numbers stay. After reveal the answer
+ * tick is always labeled, then any other tick that fits without overlap.
+ * Range keeps the usual set. Tick marks themselves are always drawn.
  */
 export function lineLabelIndexes(
   item: { min: number; max: number; divisions: number; mode: NlMode },
   widthPx: number,
   revealed: boolean,
+  answer?: number | null,
 ): number[] {
   const divisions = Math.max(1, Math.round(item.divisions));
+  const shaped = { ...item, divisions };
   if (item.mode === "snap" && !revealed) {
     const labels: number[] = [];
     for (let index = 0; index <= divisions; index++) {
-      if (index === 0 || index === divisions || isWholeTick({ ...item, divisions }, index)) {
-        labels.push(index);
-      }
+      if (index === 0 || index === divisions || isWholeTick(shaped, index)) labels.push(index);
     }
     return labels;
   }
-  return visibleTickIndexes(divisions, tickLabelCap(divisions, widthPx));
+  if (item.mode !== "snap" || !revealed) {
+    return visibleTickIndexes(divisions, tickLabelCap(divisions, widthPx));
+  }
+  const required = new Set<number>([0, divisions]);
+  if (answer != null) {
+    const answerIndex = snapTickIndex(shaped, answer);
+    if (answerIndex != null) required.add(answerIndex);
+  }
+  const wholes: number[] = [];
+  for (let index = 1; index < divisions; index++) {
+    if (!required.has(index) && isWholeTick(shaped, index)) wholes.push(index);
+  }
+  const kept: number[] = [];
+  const boxes: { left: number; right: number }[] = [];
+  const tryAdd = (index: number, force: boolean) => {
+    const box = tickLabelBox(shaped, index, widthPx);
+    const inside = box.left >= -0.5 && box.right <= widthPx + 0.5;
+    const clear = boxes.every((other) => !boxesCollide(box, other));
+    if (!force && (!inside || !clear)) return;
+    if (force && !inside) return;
+    if (force && !clear) return;
+    kept.push(index);
+    boxes.push(box);
+  };
+  for (const index of [...required].sort((a, b) => a - b)) tryAdd(index, true);
+  for (const index of wholes) tryAdd(index, false);
+  for (let index = 1; index < divisions; index++) {
+    if (!kept.includes(index)) tryAdd(index, false);
+  }
+  return kept.sort((a, b) => a - b);
+}
+
+/** One arrow step. Snap moves a tick; range moves about a twentieth of the line. */
+export function stepMarkerValue(
+  value: number,
+  item: { min: number; max: number; divisions: number; mode: NlMode },
+  direction: 1 | -1,
+): number {
+  const divisions = Math.max(1, Math.round(item.divisions));
+  const span = item.max - item.min;
+  const index = Math.round(((value - item.min) / span) * divisions);
+  const step = item.mode === "snap" ? 1 : Math.max(1, Math.round(divisions / 20));
+  const next = Math.min(divisions, Math.max(0, index + direction * step));
+  return item.mode === "snap" ? tickValue({ ...item, divisions }, next) : item.min + (next / divisions) * span;
+}
+
+export type MarkerKeyState = {
+  value: number;
+  busy: boolean;
+  pending: number | null;
+  focused: boolean;
+};
+
+/** Arrow keys move immediately. A press during send is coalesced into pending. Focus stays. */
+export function queueMarkerArrow(
+  state: MarkerKeyState,
+  item: { min: number; max: number; divisions: number; mode: NlMode },
+  direction: 1 | -1,
+): MarkerKeyState {
+  const value = stepMarkerValue(state.value, item, direction);
+  if (state.busy) return { value, busy: true, pending: value, focused: true };
+  return { value, busy: true, pending: null, focused: true };
+}
+
+/** After the in-flight send, the latest queued value goes out and focus is unchanged. */
+export function flushMarkerArrow(state: MarkerKeyState): { state: MarkerKeyState; send: number | null } {
+  if (state.pending != null) {
+    return { state: { ...state, pending: null, busy: true, focused: true }, send: state.pending };
+  }
+  return { state: { ...state, busy: false, focused: true }, send: null };
 }
 
 export function tickLabelCap(divisions: number, widthPx: number): number {

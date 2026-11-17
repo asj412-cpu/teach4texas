@@ -20,12 +20,17 @@ import {
   playerNumberLineView,
   scoreNumberLineAwards,
   scorePlacement,
+  snapTickIndex,
   speedBonus,
   stripNumberLineAnswers,
   supportsHostNumberLine,
   tickLabelCap,
   tickValue,
   lineLabelIndexes,
+  flushMarkerArrow,
+  queueMarkerArrow,
+  studentRailWidth,
+  tickLabelBox,
   validateNumberLineItem,
   visibleTickIndexes,
   NL_MAX_BONUS,
@@ -422,6 +427,48 @@ test("snap hides non-integer fractions until reveal", () => {
   assert.ok(shown.includes(3));
   const range = lineLabelIndexes({ ...eighths, mode: "range" }, 1366, false);
   assert.ok(range.includes(3));
+});
+
+test("student snap reveal labels the answer without overlap at 375", () => {
+  const rail = studentRailWidth(375);
+  const questions = [11, 15, 19].map((index) => SAMPLE_NUMBER_LINE_ITEMS[index]!);
+  assert.deepEqual(
+    questions.map((item) => item.id),
+    ["nl-s02", "nl-s06", "nl-s10"],
+  );
+  for (const item of questions) {
+    const labels = lineLabelIndexes(item, rail, true, item.answer);
+    const answerIndex = snapTickIndex(item, item.answer);
+    assert.ok(answerIndex != null);
+    assert.ok(labels.includes(answerIndex!), `${item.id} hid the answer tick`);
+    assert.ok(labels.includes(0) && labels.includes(item.divisions));
+    const boxes = labels.map((index) => tickLabelBox(item, index, rail));
+    for (const box of boxes) {
+      assert.ok(box.left >= -0.5 && box.right <= rail + 0.5, `${item.id} label overflows`);
+    }
+    for (let i = 0; i < boxes.length; i++) {
+      for (let j = i + 1; j < boxes.length; j++) {
+        const overlap = boxes[i]!.left < boxes[j]!.right && boxes[j]!.left < boxes[i]!.right;
+        assert.equal(overlap, false, `${item.id} labels overlap`);
+      }
+    }
+  }
+});
+
+test("three rapid arrow presses land three steps later and keep focus", () => {
+  const item = { min: 0, max: 1, divisions: 4, mode: "snap" as const };
+  let state = { value: 0, busy: false, pending: null as number | null, focused: true };
+  state = queueMarkerArrow(state, item, 1);
+  assert.equal(state.busy, true);
+  assert.equal(state.focused, true);
+  state = queueMarkerArrow(state, item, 1);
+  state = queueMarkerArrow(state, item, 1);
+  assert.equal(state.value, tickValue(item, 3));
+  assert.equal(state.pending, tickValue(item, 3));
+  assert.equal(state.focused, true);
+  const flushed = flushMarkerArrow(state);
+  assert.equal(flushed.send, tickValue(item, 3));
+  assert.equal(flushed.state.focused, true);
 });
 
 test("tick labels thin out so 11 ticks fit in five slots", () => {

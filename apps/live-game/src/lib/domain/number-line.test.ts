@@ -1016,6 +1016,50 @@ test("reveal stats stay above the phone bar and the prompt wraps", () => {
   assert.match(html, /ABC123/);
 });
 
+test("a reconnecting banner keeps 32-player reveal pills above the host bar", () => {
+  const identical = Array.from({ length: 32 }, (_, index) => ({
+    id: `ban-${index}`,
+    xPercent: 50,
+    value: 500,
+    name: index === 0 ? "Ava" : `Kid ${index}`,
+  }));
+  const clustered = Array.from({ length: 32 }, (_, index) => ({
+    id: `bcl-${index}`,
+    xPercent: 40 + (index % 12) * 0.4,
+    value: 400 + (index % 12) * 2,
+    name: `Kid ${index}`,
+  }));
+  const bannerPx = 48;
+  for (const [label, dots] of [
+    ["32 identical", identical],
+    ["32 clustered", clustered],
+  ] as const) {
+    for (const [width, viewport] of [
+      [1366, 768],
+      [1440, 900],
+      [375, 812],
+    ] as const) {
+      const open = layoutNumberLineReveal(dots, width, { viewportPx: viewport, bannerPx: 0 });
+      const plain = layoutNumberLineReveal(dots, width, { viewportPx: viewport });
+      const covered = layoutNumberLineReveal(dots, width, { viewportPx: viewport, bannerPx });
+      assert.equal(open.bannerPx, 0);
+      assert.equal(open.revealHeight, plain.revealHeight, `${label} @ ${width} changed with no banner`);
+      assert.equal(hostClearY(open), hostClearY(plain));
+      assert.equal(hostPageHeight(open), hostPageHeight(plain));
+      assert.equal(hostClearY(open) - hostClearY(covered), bannerPx);
+      assert.ok(
+        hostStatsBottom(covered) <= hostClearY(covered) + 0.05,
+        `${label} @ ${width} pills end at ${hostStatsBottom(covered)} above ${hostClearY(covered)}`,
+      );
+      assert.ok(flagBottomY(covered) <= hostClearY(covered) + 0.05, `${label} @ ${width} flag under the bar`);
+      assert.ok(
+        hostPageHeight(covered) <= viewport + 0.05,
+        `${label} @ ${width} page ${hostPageHeight(covered)}px exceeds ${viewport}`,
+      );
+    }
+  }
+});
+
 test("host shows the locked and joined count while placing", () => {
   const placing = renderToStaticMarkup(
     createElement(HostRosterCount, { phase: "playing", locked: 12, joined: 32 }),

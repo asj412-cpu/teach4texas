@@ -20,24 +20,30 @@ function useHostFrame(phase: string) {
   const ref = useRef<HTMLDivElement>(null);
   const [bar, setBar] = useState(72);
   const [viewport, setViewport] = useState(768);
+  const [banner, setBanner] = useState(0);
   useEffect(() => {
     const measure = () => {
       setViewport(window.innerHeight || 768);
       const el = ref.current;
-      if (!el) return;
-      const next = Math.ceil(el.getBoundingClientRect().height);
-      setBar((prev) => (Math.abs(prev - next) < 1 ? prev : next));
+      if (el) {
+        const next = Math.ceil(el.getBoundingClientRect().height);
+        setBar((prev) => (Math.abs(prev - next) < 1 ? prev : next));
+      }
+      const status = document.querySelector("[role='status']");
+      const bannerNext = status ? Math.ceil(status.getBoundingClientRect().height) : 0;
+      setBanner((prev) => (Math.abs(prev - bannerNext) < 1 ? prev : bannerNext));
     };
     measure();
     const observer = new ResizeObserver(measure);
     if (ref.current) observer.observe(ref.current);
+    observer.observe(document.body);
     window.addEventListener("resize", measure);
     return () => {
       observer.disconnect();
       window.removeEventListener("resize", measure);
     };
   }, [phase]);
-  return { ref, bar, viewport };
+  return { ref, bar, viewport, banner };
 }
 
 function HostBar({
@@ -340,6 +346,7 @@ export function NumberLineHost({
                   answer={question.answer}
                   labelsRevealed={revealed}
                   barPx={frame.bar}
+                  bannerPx={frame.banner}
                   viewportPx={frame.viewport}
                   chromePx={chromePx}
                   scoreRowPx={scorePx}

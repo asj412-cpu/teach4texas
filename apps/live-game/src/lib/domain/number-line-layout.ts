@@ -169,13 +169,22 @@ export type NumberLineRevealLayout = {
   chromePx: number;
   /** Measured or CSS bar height used to cap the stack. */
   barPx: number;
+  /** In-flow reconnecting banner. Zero when that bar is not on the page. */
+  bannerPx: number;
   viewportPx: number;
   /** Exact / Within row. A wrapped phone row is taller than one line. */
   scoreRowPx: number;
 };
 
 export function hostPageHeight(layout: NumberLineRevealLayout): number {
-  return layout.chromePx + layout.scoreRowPx + layout.revealHeight + layout.barPx + NL_BAR_GAP_PX;
+  return (
+    layout.bannerPx +
+    layout.chromePx +
+    layout.scoreRowPx +
+    layout.revealHeight +
+    layout.barPx +
+    NL_BAR_GAP_PX
+  );
 }
 
 /** Bottom of the Exact / Within pills. */
@@ -185,7 +194,7 @@ export function hostStatsBottom(layout: NumberLineRevealLayout): number {
 
 /** Page y the flag, a dot, or a chip must stay at or above. */
 export function hostClearY(layout: NumberLineRevealLayout): number {
-  return layout.viewportPx - layout.barPx - NL_BAR_GAP_PX;
+  return layout.viewportPx - layout.bannerPx - layout.barPx - NL_BAR_GAP_PX;
 }
 
 export function flagBottomY(layout: NumberLineRevealLayout): number {
@@ -291,11 +300,18 @@ type Draft = {
 export function layoutNumberLineReveal(
   inputs: NameLayoutDot[],
   widthPx: number,
-  options?: { barPx?: number; viewportPx?: number; chromePx?: number; scoreRowPx?: number },
+  options?: {
+    barPx?: number;
+    bannerPx?: number;
+    viewportPx?: number;
+    chromePx?: number;
+    scoreRowPx?: number;
+  },
 ): NumberLineRevealLayout {
   const width = Math.max(1, widthPx);
   const viewportPx = options?.viewportPx ?? hostViewportPx(width);
   const barPx = options?.barPx ?? hostBarPx(width);
+  const bannerPx = Math.max(0, options?.bannerPx ?? 0);
   const chromePx = options?.chromePx ?? hostChromeBeforePx(width);
   const scoreRowPx = options?.scoreRowPx ?? hostScoreRowPx(width);
   const placed = inputs.map((dot) => ({
@@ -444,7 +460,7 @@ export function layoutNumberLineReveal(
     belowRows === 0 ? 0 : belowRows * NL_CHIP_H + Math.max(0, belowRows - 1) * NL_CHIP_GAP_PX;
 
   const chipBlock = aboveChip + (aboveRows > 0 ? NL_CHIP_GAP_PX : 0) + belowSpace;
-  const limit = viewportPx - barPx - NL_BAR_GAP_PX;
+  const limit = viewportPx - bannerPx - barPx - NL_BAR_GAP_PX;
   const trackPastFlag = NL_RAIL_PX + NL_LABELS_PX + belowSpace + scoreRowPx - NL_FLAG_BOTTOM_IN_RAIL;
   const protrusionRoom = Math.max(
     0,
@@ -738,6 +754,7 @@ export function layoutNumberLineReveal(
     revealHeight,
     chromePx,
     barPx,
+    bannerPx,
     viewportPx,
     scoreRowPx,
   };

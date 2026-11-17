@@ -435,12 +435,18 @@ export type MarkerKeyState = {
   focused: boolean;
 };
 
-/** Arrow keys move immediately. A press during send is coalesced into pending. Focus stays. */
+/**
+ * Arrow keys move immediately while the line is open. A press during send is
+ * coalesced into pending. Locked, time-up, paused, reveal, and board ignore the key.
+ * Focus stays either way.
+ */
 export function queueMarkerArrow(
   state: MarkerKeyState,
   item: { min: number; max: number; divisions: number; mode: NlMode },
   direction: 1 | -1,
+  open = true,
 ): MarkerKeyState {
+  if (!open) return { ...state, pending: null, focused: true };
   const value = stepMarkerValue(state.value, item, direction);
   if (state.busy) return { value, busy: true, pending: value, focused: true };
   return { value, busy: true, pending: null, focused: true };

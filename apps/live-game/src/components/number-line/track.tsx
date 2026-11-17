@@ -46,6 +46,7 @@ export function NumberLineTrack({
   disabled,
   answer,
   labelsRevealed = false,
+  sending = false,
   barPx,
   viewportPx,
   dots,
@@ -61,6 +62,8 @@ export function NumberLineTrack({
   answer: number | null;
   /** Snap shows fraction labels only after this is true. */
   labelsRevealed?: boolean;
+  /** True only while a placement request is in flight. */
+  sending?: boolean;
   /** Host control bar height. The stack budget keeps the flag above it. */
   barPx?: number;
   viewportPx?: number;
@@ -79,7 +82,7 @@ export function NumberLineTrack({
   valueRef.current = value;
   const pendingValue = useRef<number | null>(null);
   const localBusy = useRef(false);
-  const busy = Boolean(disabled) || !interactive;
+  const sendingNow = Boolean(sending);
 
   useEffect(() => {
     const el = rail.current;
@@ -109,7 +112,12 @@ export function NumberLineTrack({
   const nameSpace = laid.aboveSpace;
 
   useEffect(() => {
-    if (busy) {
+    if (!interactive) {
+      pendingValue.current = null;
+      localBusy.current = false;
+      return;
+    }
+    if (sendingNow) {
       localBusy.current = true;
       return;
     }
@@ -121,7 +129,7 @@ export function NumberLineTrack({
     pendingValue.current = null;
     localBusy.current = true;
     onPlace?.(next);
-  }, [busy, onPlace]);
+  }, [interactive, sendingNow, onPlace]);
 
   function pointAt(clientX: number, commit: boolean) {
     const rect = rail.current?.getBoundingClientRect();
@@ -140,7 +148,7 @@ export function NumberLineTrack({
         className={`nl-rail relative w-full touch-none ${disabled ? "opacity-80" : ""}`}
         style={{ touchAction: "none" }}
         onPointerDown={(event) => {
-          if (!interactive || disabled) return;
+          if (!interactive || sendingNow || localBusy.current) return;
           dragging.current = true;
           setHeld(true);
           onGrab?.();
@@ -148,7 +156,7 @@ export function NumberLineTrack({
           pointAt(event.clientX, false);
         }}
         onPointerMove={(event) => {
-          if (!dragging.current || !interactive || disabled) return;
+          if (!dragging.current || !interactive || sendingNow || localBusy.current) return;
           pointAt(event.clientX, false);
         }}
         onPointerUp={(event) => {
@@ -201,11 +209,10 @@ export function NumberLineTrack({
             type="button"
             className={`nl-marker ${held ? "is-held" : ""}`}
             style={{ left: `${marker}%` }}
-            aria-busy={busy}
+            aria-disabled={interactive ? undefined : true}
+            aria-busy={interactive && (sendingNow || localBusy.current) ? true : undefined}
             aria-label="Your marker"
             onKeyDown={(event) => {
-              const current = valueRef.current;
-              if (!onPlace || current == null) return;
               const move = event.key === "ArrowRight" || event.key === "ArrowUp"
                 ? 1
                 : event.key === "ArrowLeft" || event.key === "ArrowDown"
@@ -213,10 +220,13 @@ export function NumberLineTrack({
                   : 0;
               if (move === 0) return;
               event.preventDefault();
+              if (!interactive || !onPlace) return;
+              const current = valueRef.current;
+              if (current == null) return;
               const nextValue = stepMarkerValue(current, { ...item, divisions }, move);
               valueRef.current = nextValue;
               onPreview?.(nextValue);
-              if (localBusy.current || busy) {
+              if (localBusy.current || sendingNow) {
                 pendingValue.current = nextValue;
                 return;
               }

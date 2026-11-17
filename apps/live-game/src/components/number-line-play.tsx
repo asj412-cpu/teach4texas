@@ -38,21 +38,26 @@ export function NumberLinePlay({
   const [draft, setDraft] = useState<number | null>(null);
   const questionId = line?.question?.id ?? "";
 
+  const remain = !line
+    ? null
+    : line.paused
+      ? line.paused_remaining_ms
+      : line.ends_at
+        ? Math.max(0, new Date(line.ends_at).getTime() - now)
+        : null;
+  const timeUp = remain != null && remain <= 0 && line?.stage === "placing";
+  const revealed = line?.stage === "reveal" || line?.stage === "board";
+  const markerOpen = Boolean(
+    line && line.accepting && !line.my_locked && !timeUp && !line.paused && !revealed,
+  );
+
   useEffect(() => {
     setDraft(null);
-  }, [questionId, line?.my_locked]);
+  }, [questionId, markerOpen]);
 
   if (!line) return null;
 
-  const remain = line.paused
-    ? line.paused_remaining_ms
-    : line.ends_at
-      ? Math.max(0, new Date(line.ends_at).getTime() - now)
-      : null;
-  const timeUp = remain != null && remain <= 0 && line.stage === "placing";
-  const canMove = line.accepting && !line.my_locked && !timeUp && !submitting;
-  const shown = draft ?? line.my_value;
-  const revealed = line.stage === "reveal" || line.stage === "board";
+  const shown = markerOpen ? (draft ?? line.my_value) : line.my_value;
 
   if (view.phase === "lobby") {
     return (
@@ -149,8 +154,9 @@ export function NumberLinePlay({
                 <NumberLineTrack
                   item={question}
                   value={shown}
-                  interactive={canMove}
-                  disabled={!canMove}
+                  interactive={markerOpen}
+                  sending={submitting}
+                  disabled={!markerOpen}
                   answer={question.answer}
                   labelsRevealed={revealed}
                   sweeping={line.stage === "reveal"}
@@ -191,7 +197,7 @@ export function NumberLinePlay({
             <div className="mt-6 px-4">
               <button
                 type="button"
-                disabled={!canMove || shown == null || !question}
+                disabled={!markerOpen || submitting || shown == null || !question}
                 onClick={() => {
                   if (!question || shown == null) return;
                   ensureNumberLineAudio();

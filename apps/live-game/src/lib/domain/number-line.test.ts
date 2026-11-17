@@ -455,6 +455,21 @@ test("student snap reveal labels the answer without overlap at 375", () => {
   }
 });
 
+test("arrow keys do nothing after lock or time up", () => {
+  const item = { min: 0, max: 2, divisions: 16, mode: "snap" as const };
+  const locked = tickValue(item, 1);
+  let afterLock = { value: locked, busy: false, pending: null as number | null, focused: true };
+  for (let press = 0; press < 4; press++) afterLock = queueMarkerArrow(afterLock, item, 1, false);
+  assert.equal(afterLock.value, locked);
+  assert.equal(afterLock.pending, null);
+  assert.equal(afterLock.focused, true);
+  let afterTimeUp = { value: locked, busy: false, pending: null as number | null, focused: true };
+  for (let press = 0; press < 4; press++) afterTimeUp = queueMarkerArrow(afterTimeUp, item, 1, false);
+  assert.equal(afterTimeUp.value, locked);
+  assert.equal(afterTimeUp.pending, null);
+  assert.equal(afterTimeUp.focused, true);
+});
+
 test("three rapid arrow presses land three steps later and keep focus", () => {
   const item = { min: 0, max: 1, divisions: 4, mode: "snap" as const };
   let state = { value: 0, busy: false, pending: null as number | null, focused: true };

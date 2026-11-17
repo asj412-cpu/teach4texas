@@ -319,6 +319,34 @@ export function visibleTickIndexes(divisions: number, maxLabels: number): number
  * How many tick labels fit. Thirds (and halves) use a tighter budget so 0, 1/3, 2/3, and 1
  * still show on a phone-width line.
  */
+function isWholeTick(item: { min: number; max: number; divisions: number }, index: number): boolean {
+  const value = item.min + (index / item.divisions) * (item.max - item.min);
+  return Math.abs(value - Math.round(value)) < 1e-6;
+}
+
+/**
+ * Snap hides every non-integer fraction until reveal, so the projector does not
+ * print the answer. Endpoints and whole numbers stay. Range keeps the usual set.
+ * Tick marks themselves are always drawn.
+ */
+export function lineLabelIndexes(
+  item: { min: number; max: number; divisions: number; mode: NlMode },
+  widthPx: number,
+  revealed: boolean,
+): number[] {
+  const divisions = Math.max(1, Math.round(item.divisions));
+  if (item.mode === "snap" && !revealed) {
+    const labels: number[] = [];
+    for (let index = 0; index <= divisions; index++) {
+      if (index === 0 || index === divisions || isWholeTick({ ...item, divisions }, index)) {
+        labels.push(index);
+      }
+    }
+    return labels;
+  }
+  return visibleTickIndexes(divisions, tickLabelCap(divisions, widthPx));
+}
+
 export function tickLabelCap(divisions: number, widthPx: number): number {
   const pxPerLabel = divisions <= 3 ? 52 : 72;
   return Math.max(2, Math.floor(Math.max(0, widthPx) / pxPerLabel));
@@ -433,7 +461,7 @@ export function scorePlacement(
   }
   if (base < 0) base = 0;
   if (base > NL_EXACT_POINTS) base = NL_EXACT_POINTS;
-  const within = exact || (tol > 0 && dist <= tol + 1e-9);
+  const within = exact || (tol > 0 && dist < tol - 1e-9);
   const bonus = speedBonus({
     eligible: base > 0,
     locked: opts.locked,

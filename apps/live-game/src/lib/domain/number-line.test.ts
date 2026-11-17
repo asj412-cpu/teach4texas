@@ -25,6 +25,7 @@ import {
   supportsHostNumberLine,
   tickLabelCap,
   tickValue,
+  lineLabelIndexes,
   validateNumberLineItem,
   visibleTickIndexes,
   NL_MAX_BONUS,
@@ -37,6 +38,9 @@ import {
   hostPageHeight,
   layoutNumberLineReveal,
   lineFoldY,
+  lobbyStartTop,
+  NL_CHROME_DESKTOP_PX,
+  NL_CONTROLS_PX,
   NL_CHROME_MOBILE_PX,
   NL_DOT_MIN_PX,
   NL_GROUP_WINDOW_PX,
@@ -187,7 +191,8 @@ test("NL-04 range falls linearly to the tolerance and is zero outside", () => {
   assert.equal(scorePlacement(rangeItem, 600, timing).base, 1000);
   assert.equal(scorePlacement(rangeItem, 650, timing).base, 500);
   assert.equal(scorePlacement(rangeItem, 700, timing).base, 0);
-  assert.equal(scorePlacement(rangeItem, 700, timing).within, true);
+  assert.equal(scorePlacement(rangeItem, 700, timing).within, false);
+  assert.equal(scorePlacement(rangeItem, 699, timing).within, true);
   assert.equal(scorePlacement(rangeItem, 701, timing).base, 0);
   assert.equal(scorePlacement(rangeItem, 701, timing).within, false);
   const custom = scorePlacement({ ...rangeItem, tolerance: 50 }, 625, timing);
@@ -400,6 +405,20 @@ test("demo key: 20 answers on the line, snap answers on a tick", () => {
   const board = GameBoardSchema.parse(buildSampleNumberLineBoard());
   assert.equal(board.game_type, "number_line");
   assert.equal(board.number_line_items?.length, 20);
+});
+
+test("snap hides non-integer fractions until reveal", () => {
+  const eighths = { min: 0, max: 1, divisions: 8, mode: "snap" as const };
+  const hidden = lineLabelIndexes(eighths, 1366, false);
+  assert.deepEqual(hidden, [0, 8]);
+  for (const index of hidden) {
+    const value = tickValue(eighths, index);
+    assert.ok(Number.isInteger(value), `pre-reveal label ${value} is a fraction`);
+  }
+  const shown = lineLabelIndexes(eighths, 1366, true);
+  assert.ok(shown.includes(3));
+  const range = lineLabelIndexes({ ...eighths, mode: "range" }, 1366, false);
+  assert.ok(range.includes(3));
 });
 
 test("tick labels thin out so 11 ticks fit in five slots", () => {
@@ -828,6 +847,41 @@ test("reveal name chips clear AA and stay clear of dots", () => {
   assert.ok(ann);
   assert.equal(ann!.memberIds.includes("zed"), false);
   assert.deepEqual(visibleTickIndexes(3, tickLabelCap(3, 231)), [0, 1, 2, 3]);
+  const identicalThirty = Array.from({ length: 30 }, (_, index) => ({
+    id: `all-${index}`,
+    xPercent: 40,
+    value: 400,
+    name: index === 0 ? "Ava" : `Kid ${index}`,
+  }));
+  const clusteredThirty = Array.from({ length: 30 }, (_, index) => ({
+    id: `cl-${index}`,
+    xPercent: 40 + (index % 12) * 0.4,
+    value: 400 + (index % 12) * 2,
+    name: `Kid ${index}`,
+  }));
+  for (const [label, dots] of [
+    ["30 identical", identicalThirty],
+    ["30 clustered", clusteredThirty],
+  ] as const) {
+    const laid = layoutNumberLineReveal(dots, 1366);
+    assertRevealFits([...dots], 1366, label);
+    assert.ok(
+      hostPageHeight(laid) <= 768,
+      `${label} controls end at ${hostPageHeight(laid)}px`,
+    );
+    assert.ok(
+      NL_CHROME_DESKTOP_PX + laid.revealHeight <= 768 - NL_CONTROLS_PX,
+      `${label} line and chips sit under the control bar`,
+    );
+  }
+  for (const [width, viewport] of [
+    [1366, 768],
+    [1440, 900],
+    [375, 812],
+  ] as const) {
+    const startBottom = lobbyStartTop(35, width) + NL_CONTROLS_PX;
+    assert.ok(startBottom <= viewport, `35-player Start ends at ${startBottom} on ${width}x${viewport}`);
+  }
 });
 
 test("NL-10 reveal reuses one dot plot for a class of 30", () => {

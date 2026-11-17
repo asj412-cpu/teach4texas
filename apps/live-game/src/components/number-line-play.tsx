@@ -57,9 +57,9 @@ export function NumberLinePlay({
   if (view.phase === "lobby") {
     return (
       <div className="nl-stage flex min-h-screen flex-col justify-center px-4 text-center text-white">
-        <p className="text-base font-black uppercase tracking-widest text-[#fde047]">You are in</p>
+        <p className="text-xl font-black uppercase tracking-widest text-[#fde047]">You are in</p>
         <h1 className="mt-3 text-3xl font-black">{kidPlainText(view.title, 80)}</h1>
-        <p className="mt-4 text-base">Waiting for the host to start the number line.</p>
+        <p className="mt-4 text-xl">Waiting for the host to start the number line.</p>
         <p className="mt-6 text-2xl font-black">You: {kidPlainText(view.my_display_name, 16)}</p>
       </div>
     );
@@ -68,7 +68,7 @@ export function NumberLinePlay({
   if (view.phase === "final") {
     return (
       <div className="nl-stage relative min-h-screen px-4 py-8 text-center text-white">
-        <p className="text-base font-black uppercase tracking-widest text-[#fde047]">Podium</p>
+        <p className="text-xl font-black uppercase tracking-widest text-[#fde047]">Podium</p>
         <h1 className="mt-2 text-4xl font-black">Nice work</h1>
         <p className="mt-3 text-2xl font-black text-[#fde047]">Your score {view.my_score}</p>
         <ol className="mx-auto mt-6 max-w-md space-y-2 text-left">
@@ -89,27 +89,27 @@ export function NumberLinePlay({
 
   return (
     <div className="nl-stage min-h-screen text-white">
-      <header className="flex items-center justify-between gap-3 px-4 py-3">
-        <p className="text-base font-black uppercase tracking-wide text-[#fde047]">
-          {question ? `Question ${question.number} of ${question.total}` : "Number line"}
+      <header className="flex items-center justify-between gap-2 px-3 py-2">
+        <p
+          className="whitespace-nowrap text-xl font-black uppercase tracking-wide text-[#fde047]"
+          aria-label={question ? `Question ${question.number} of ${question.total}` : "Number line"}
+        >
+          {question ? `${question.number}/${question.total}` : "Line"}
         </p>
-        <div className="flex items-center gap-2">
-          <p className="text-2xl font-black tabular-nums text-[#fde047]">
-            {view.my_score}
-          </p>
-          <button
-            type="button"
-            aria-pressed={muted}
-            onClick={() => {
-              ensureNumberLineAudio();
-              setNumberLineMuted(!muted);
-              setMuted(!muted);
-            }}
-            className="rounded-xl border-2 border-white px-3 py-2 text-base font-black"
-          >
-            {muted ? "Sound off" : "Sound on"}
-          </button>
-        </div>
+        <p className="whitespace-nowrap text-xl font-black tabular-nums text-[#fde047]">{view.my_score}</p>
+        <button
+          type="button"
+          aria-pressed={muted}
+          aria-label={muted ? "Sound off" : "Sound on"}
+          onClick={() => {
+            ensureNumberLineAudio();
+            setNumberLineMuted(!muted);
+            setMuted(!muted);
+          }}
+          className="whitespace-nowrap rounded-xl border-2 border-white px-3 py-1 text-xl font-black"
+        >
+          {muted ? "Off" : "On"}
+        </button>
       </header>
       <main className="px-0 pb-8">
         {line.stage === "board" ? (
@@ -140,7 +140,7 @@ export function NumberLinePlay({
               </p>
             ) : null}
             {question && line.stage === "placing" && !line.my_locked ? (
-              <p className="mt-3 px-4 text-center text-base font-bold text-white">
+              <p className="mt-3 px-4 text-center text-xl font-bold text-white">
                 Drag or tap the line, then lock it in.
               </p>
             ) : null}
@@ -152,6 +152,7 @@ export function NumberLinePlay({
                   interactive={canMove}
                   disabled={!canMove}
                   answer={question.answer}
+                  labelsRevealed={revealed}
                   sweeping={line.stage === "reveal"}
                   dots={[]}
                   onGrab={() => {
@@ -178,7 +179,12 @@ export function NumberLinePlay({
               </p>
             ) : null}
             {notice ? (
-              <p role="status" className="mx-4 mt-4 rounded-xl bg-[#b91c1c] px-4 py-3 text-center text-base font-bold">
+              <p
+                role="status"
+                className={`mx-4 mt-4 rounded-xl px-4 py-3 text-center text-xl font-bold ${
+                  notice.startsWith("Didn") ? "bg-[#b91c1c] text-white" : "bg-[#10233f] text-[#fde047]"
+                }`}
+              >
                 {notice}
               </p>
             ) : null}

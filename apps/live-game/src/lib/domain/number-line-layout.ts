@@ -22,10 +22,12 @@ const NL_CHAR_PX = 17;
 const NL_CHIP_PAD_X = 12;
 const NL_MAX_LANES = 8;
 
-/** Header and question on a 1366-wide projector, before the track. */
-export const NL_CHROME_DESKTOP_PX = 300;
-/** Exact/Within plus NEXT, REVEAL, and End. */
-export const NL_CONTROLS_PX = 160;
+/** Header, question, and the exact/within row on a 1366-wide projector. */
+export const NL_CHROME_DESKTOP_PX = 220;
+/** Sticky Pause / Next / Reveal / Show names / End bar. */
+export const NL_CONTROLS_PX = 88;
+/** Lobby name list scrolls inside this, so Start stays on screen. */
+export const NL_LOBBY_LIST_MAX_PX = 176;
 export const NL_DESKTOP_VIEWPORT_PX = 768;
 /** Wrapped header plus the question on a phone. */
 export const NL_CHROME_MOBILE_PX = 500;
@@ -96,6 +98,16 @@ export type NumberLineRevealLayout = {
 
 export function hostPageHeight(layout: NumberLineRevealLayout): number {
   return NL_CHROME_DESKTOP_PX + layout.revealHeight + NL_CONTROLS_PX;
+}
+
+/** Top of the sticky Start / Lock bar. The list above it never grows past its cap. */
+export function lobbyStartTop(players: number, width: number): number {
+  const cols = width >= 768 ? 4 : 2;
+  const rows = Math.ceil(Math.max(0, players) / cols);
+  const list = Math.min(NL_LOBBY_LIST_MAX_PX, rows * 48);
+  const header = width <= 500 ? 168 : 104;
+  const intro = width <= 500 ? 248 : 176;
+  return header + intro + list;
 }
 
 /** Y of the line's bottom edge, measured from the top of the host page. */
@@ -352,7 +364,7 @@ export function layoutNumberLineReveal(
       aboveChip -
       (aboveRows > 0 ? NL_CHIP_GAP_PX : 0),
   );
-  const protrusionRoom = Math.min(pageRoom, mobileRoom);
+  const protrusionRoom = width <= 500 ? Math.min(pageRoom, mobileRoom) : pageRoom;
 
   const stackRoom = protrusionRoom + NL_RAIL_PX;
   const ranked = [...placed].sort((a, b) => {
@@ -403,7 +415,7 @@ export function layoutNumberLineReveal(
     }
   }
 
-  const capped = width <= 500 && stackHeight(maxSlotOf(slots), diameter) > stackRoom + 0.05;
+  const capped = stackHeight(maxSlotOf(slots), diameter) > stackRoom + 0.05;
   let hidden = new Set<string>();
   if (capped) {
     const badgeBlock = NL_CHIP_H + NL_DOT_GAP_PX;

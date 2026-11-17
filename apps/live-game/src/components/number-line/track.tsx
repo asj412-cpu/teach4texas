@@ -3,9 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import {
   formatTickLabel,
-  tickLabelCap,
+  lineLabelIndexes,
   tickValue,
-  visibleTickIndexes,
   type NlMode,
 } from "@/lib/domain/number-line";
 import { layoutNumberLineReveal } from "@/lib/domain/number-line-layout";
@@ -45,6 +44,7 @@ export function NumberLineTrack({
   interactive,
   disabled,
   answer,
+  labelsRevealed = false,
   dots,
   sweeping,
   onPreview,
@@ -56,6 +56,8 @@ export function NumberLineTrack({
   interactive: boolean;
   disabled?: boolean;
   answer: number | null;
+  /** Snap shows fraction labels only after this is true. */
+  labelsRevealed?: boolean;
   dots: LineDot[];
   sweeping: boolean;
   onPreview?: (value: number) => void;
@@ -67,6 +69,8 @@ export function NumberLineTrack({
   const [held, setHeld] = useState(false);
   const [openChip, setOpenChip] = useState<string | null>(null);
   const dragging = useRef(false);
+  const valueRef = useRef(value);
+  valueRef.current = value;
 
   useEffect(() => {
     const el = rail.current;
@@ -80,8 +84,7 @@ export function NumberLineTrack({
 
   const divisions = Math.max(1, Math.round(item.divisions));
   const marks = Array.from({ length: divisions + 1 }, (_, index) => index);
-  const maxLabels = tickLabelCap(divisions, width);
-  const labels = visibleTickIndexes(divisions, maxLabels);
+  const labels = lineLabelIndexes(item, width, labelsRevealed);
   const marker = value == null ? null : percent(item, value);
   const truth = answer == null ? null : percent(item, answer);
   const laid = layoutNumberLineReveal(
@@ -176,20 +179,22 @@ export function NumberLineTrack({
             disabled={!interactive || disabled}
             aria-label="Your marker"
             onKeyDown={(event) => {
-              if (!interactive || disabled || !onPlace || value == null) return;
+              const current = valueRef.current;
+              if (!interactive || disabled || !onPlace || current == null) return;
               const step = item.mode === "snap" ? 1 : Math.max(1, Math.round(divisions / 20));
               const span = item.max - item.min;
-              const index = Math.round(((value - item.min) / span) * divisions);
-              if (event.key === "ArrowRight" || event.key === "ArrowUp") {
-                event.preventDefault();
-                const next = Math.min(divisions, index + (item.mode === "snap" ? 1 : step));
-                onPlace(item.mode === "snap" ? tickValue(item, next) : item.min + (next / divisions) * span);
-              }
-              if (event.key === "ArrowLeft" || event.key === "ArrowDown") {
-                event.preventDefault();
-                const next = Math.max(0, index - (item.mode === "snap" ? 1 : step));
-                onPlace(item.mode === "snap" ? tickValue(item, next) : item.min + (next / divisions) * span);
-              }
+              const index = Math.round(((current - item.min) / span) * divisions);
+              const move = event.key === "ArrowRight" || event.key === "ArrowUp"
+                ? 1
+                : event.key === "ArrowLeft" || event.key === "ArrowDown"
+                  ? -1
+                  : 0;
+              if (move === 0) return;
+              event.preventDefault();
+              const next = Math.min(divisions, Math.max(0, index + move * (item.mode === "snap" ? 1 : step)));
+              const nextValue = item.mode === "snap" ? tickValue(item, next) : item.min + (next / divisions) * span;
+              valueRef.current = nextValue;
+              onPlace(nextValue);
             }}
           />
         ) : null}

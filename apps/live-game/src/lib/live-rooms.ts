@@ -802,7 +802,11 @@ export async function runNumberLineReveal(
         const saved = await commitRoom(room, rec.version, ids, prevUsage);
         if (!saved) continue;
       }
-      if (!result.ok && attempt > 0 && result.error === "ALREADY_SCORED") {
+      if (
+        !result.ok &&
+        (result.error === "ALREADY_SCORED" || result.error === "NO_OPEN_QUESTION") &&
+        (room.number_line?.stage === "reveal" || room.number_line?.stage === "board")
+      ) {
         return { kind: "ok", result: { ok: true }, view: hostView(room) };
       }
       return { kind: "ok", result, view: hostView(room) };

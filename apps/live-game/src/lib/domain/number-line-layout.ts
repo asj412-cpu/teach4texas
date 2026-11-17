@@ -55,6 +55,31 @@ export function hostBarPx(width: number): number {
   return width <= 500 ? NL_BAR_PHONE_PX : NL_BAR_DESKTOP_PX;
 }
 
+/**
+ * Phone bar controls at 16px/800. Names and Hide share one width.
+ * Padding is 8px, gap is 4px, so the row stays inside 375 with an 8px margin.
+ */
+const NL_PHONE_BAR_PAD_X = 8;
+const NL_PHONE_BAR_GAP = 4;
+const NL_PHONE_BTN_PX: Record<string, number> = {
+  Pause: 67.140625,
+  Next: 54.6875,
+  Reveal: 71.59375,
+  Names: 72.484375,
+  End: 50.21875,
+};
+
+export function hostBarControlRights(namesOn: boolean, viewport = 375): number[] {
+  const labels = ["Pause", "Next", "Reveal", namesOn ? "Hide" : "Names", "End"];
+  let x = NL_PHONE_BAR_PAD_X;
+  return labels.map((label, index) => {
+    x += NL_PHONE_BTN_PX[label === "Hide" ? "Names" : label] ?? 0;
+    const right = x;
+    if (index < labels.length - 1) x += NL_PHONE_BAR_GAP;
+    return right;
+  });
+}
+
 export function hostChromeBeforePx(width: number): number {
   return width <= 500 ? NL_CHROME_BEFORE_MOBILE_PX : NL_CHROME_BEFORE_DESKTOP_PX;
 }

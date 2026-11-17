@@ -36,6 +36,7 @@ import {
   boxesOverlap,
   contrastRatio,
   flagBottomY,
+  hostBarControlRights,
   hostClearY,
   hostPageHeight,
   layoutNumberLineReveal,
@@ -903,6 +904,15 @@ test("reveal name chips clear AA and stay clear of dots", () => {
   }
   for (const width of [1366, 1440, 375]) assertAboveBar(identical32, width, "32 identical");
   assertAboveBar(fourSmall, 375, "4 players");
+  for (const namesOn of [false, true]) {
+    const rights = hostBarControlRights(namesOn, 375);
+    assert.equal(rights.length, 5);
+    for (const right of rights) {
+      assert.ok(right <= 375, `bar control ends at ${right} with names ${namesOn ? "on" : "off"}`);
+    }
+    assert.ok(rights[4]! <= 375 - 8, `End is flush at ${rights[4]}`);
+    assert.equal(hostBarControlRights(false)[3], hostBarControlRights(true)[3]);
+  }
   for (const [width, viewport] of [
     [1366, 768],
     [1440, 900],

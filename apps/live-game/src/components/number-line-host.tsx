@@ -185,6 +185,7 @@ export function NumberLineHost({
             disabled={busy}
             onClick={() => act({ type: "start_game" })}
             className="nl-host-btn bg-[#fde047] text-[#1c1917]"
+            aria-label="Start game"
           >
             {busy ? "Starting…" : "Start"}
           </button>
@@ -342,7 +343,10 @@ export function NumberLineHost({
           Reveal
         </button>
         <button type="button" disabled={busy} onClick={() => act({ type: "nl_show_names" })} className="nl-host-btn border-2 border-white bg-[#10233f] text-white" aria-pressed={line.show_names} aria-label={line.show_names ? "Hide names" : "Show names"}>
-          {line.show_names ? "Hide" : "Names"}
+          <span className="nl-host-names">
+            <span className={line.show_names ? undefined : "invisible"} aria-hidden={!line.show_names}>Hide</span>
+            <span className={line.show_names ? "invisible" : undefined} aria-hidden={line.show_names}>Names</span>
+          </span>
         </button>
         <button type="button" disabled={busy} onClick={() => act({ type: "end_game" })} className="nl-host-btn border-2 border-white bg-[#07111f] text-white" aria-label="End game">
           End

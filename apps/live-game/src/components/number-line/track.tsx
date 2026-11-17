@@ -1,0 +1,342 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import {
+  formatTickLabel,
+  lineLabelIndexes,
+  stepMarkerValue,
+  tickValue,
+  type NlMode,
+} from "@/lib/domain/number-line";
+import { layoutNumberLineReveal } from "@/lib/domain/number-line-layout";
+
+export type LineDot = {
+  id: string;
+  value: number;
+  name: string | null;
+};
+
+type LineShape = {
+  min: number;
+  max: number;
+  divisions: number;
+  mode: NlMode;
+};
+
+function percent(item: LineShape, value: number): number {
+  const span = item.max - item.min;
+  if (!(span > 0)) return 0;
+  return Math.min(100, Math.max(0, ((value - item.min) / span) * 100));
+}
+
+function valueFromPointer(item: LineShape, clientX: number, rect: DOMRect): number {
+  const t = rect.width <= 0 ? 0 : (clientX - rect.left) / rect.width;
+  const clamped = Math.min(1, Math.max(0, t));
+  if (item.mode === "snap") {
+    const index = Math.min(item.divisions, Math.max(0, Math.round(clamped * item.divisions)));
+    return tickValue(item, index);
+  }
+  return item.min + clamped * (item.max - item.min);
+}
+
+export function NumberLineTrack({
+  item,
+  value,
+  interactive,
+  disabled,
+  answer,
+  labelsRevealed = false,
+  sending = false,
+  barPx,
+  bannerPx,
+  viewportPx,
+  chromePx,
+  scoreRowPx,
+  dots,
+  sweeping,
+  onPreview,
+  onPlace,
+  onGrab,
+}: {
+  item: LineShape;
+  value: number | null;
+  interactive: boolean;
+  disabled?: boolean;
+  answer: number | null;
+  /** Snap shows fraction labels only after this is true. */
+  labelsRevealed?: boolean;
+  /** True only while a placement request is in flight. */
+  sending?: boolean;
+  /** Host control bar height. The stack budget keeps the flag above it. */
+  barPx?: number;
+  /** In-flow reconnecting banner. Zero when it is hidden. */
+  bannerPx?: number;
+  viewportPx?: number;
+  /** Measured header + prompt block. */
+  chromePx?: number;
+  /** Measured Exact / Within row. */
+  scoreRowPx?: number;
+  dots: LineDot[];
+  sweeping: boolean;
+  onPreview?: (value: number) => void;
+  onPlace?: (value: number) => void;
+  onGrab?: () => void;
+}) {
+  const rail = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(280);
+  const [held, setHeld] = useState(false);
+  const [openChip, setOpenChip] = useState<string | null>(null);
+  const dragging = useRef(false);
+  const valueRef = useRef(value);
+  valueRef.current = value;
+  const pendingValue = useRef<number | null>(null);
+  const localBusy = useRef(false);
+  const sendingNow = Boolean(sending);
+
+  useEffect(() => {
+    const el = rail.current;
+    if (!el) return;
+    const measure = () => setWidth(el.clientWidth || 280);
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const divisions = Math.max(1, Math.round(item.divisions));
+  const marks = Array.from({ length: divisions + 1 }, (_, index) => index);
+  const labels = lineLabelIndexes(item, width, labelsRevealed, answer);
+  const marker = value == null ? null : percent(item, value);
+  const truth = answer == null ? null : percent(item, answer);
+  const laid = layoutNumberLineReveal(
+    dots.map((dot) => ({
+      id: dot.id,
+      xPercent: percent(item, dot.value),
+      name: dot.name,
+      value: dot.value,
+    })),
+    width,
+    { barPx, bannerPx, viewportPx, chromePx, scoreRowPx },
+  );
+  const nameSpace = laid.aboveSpace;
+
+  useEffect(() => {
+    if (!interactive) {
+      pendingValue.current = null;
+      localBusy.current = false;
+      return;
+    }
+    if (sendingNow) {
+      localBusy.current = true;
+      return;
+    }
+    if (pendingValue.current == null) {
+      localBusy.current = false;
+      return;
+    }
+    const next = pendingValue.current;
+    pendingValue.current = null;
+    localBusy.current = true;
+    onPlace?.(next);
+  }, [interactive, sendingNow, onPlace]);
+
+  function pointAt(clientX: number, commit: boolean) {
+    const rect = rail.current?.getBoundingClientRect();
+    if (!rect) return;
+    const next = valueFromPointer(item, clientX, rect);
+    onPreview?.(next);
+    if (commit) onPlace?.(next);
+  }
+
+  return (
+    <div className="nl-track">
+      <div className="relative">
+      <div style={{ height: nameSpace }} aria-hidden />
+      <div
+        ref={rail}
+        className={`nl-rail relative w-full touch-none ${disabled ? "opacity-80" : ""}`}
+        style={{ touchAction: "none" }}
+        onPointerDown={(event) => {
+          if (!interactive || sendingNow || localBusy.current) return;
+          dragging.current = true;
+          setHeld(true);
+          onGrab?.();
+          event.currentTarget.setPointerCapture(event.pointerId);
+          pointAt(event.clientX, false);
+        }}
+        onPointerMove={(event) => {
+          if (!dragging.current || !interactive || sendingNow || localBusy.current) return;
+          pointAt(event.clientX, false);
+        }}
+        onPointerUp={(event) => {
+          if (!dragging.current) return;
+          dragging.current = false;
+          setHeld(false);
+          pointAt(event.clientX, true);
+        }}
+        onPointerCancel={() => {
+          dragging.current = false;
+          setHeld(false);
+        }}
+      >
+        <div className="nl-line" aria-hidden />
+        {truth != null ? (
+          <div
+            className={`nl-sweep ${sweeping ? "is-on" : ""}`}
+            style={{ width: `${truth}%` }}
+            aria-hidden
+          />
+        ) : null}
+        {marks.map((index) => (
+          <span
+            key={index}
+            className="nl-tick"
+            style={{ left: `${(index / divisions) * 100}%` }}
+            aria-hidden
+          />
+        ))}
+        {truth != null ? (
+          <span className="nl-truth" style={{ left: `${truth}%` }} aria-hidden>
+            <span className="nl-truth-flag" />
+          </span>
+        ) : null}
+        {laid.dots.map((dot, index) => (
+          <span
+            key={dot.id}
+            className="nl-dot"
+            style={{
+              left: dot.x,
+              top: dot.box.top - laid.nameSpace,
+              width: dot.size,
+              height: dot.size,
+              animationDelay: `${Math.min(index, 12) * 0.03}s`,
+            }}
+          />
+        ))}
+        {marker != null ? (
+          <button
+            type="button"
+            className={`nl-marker ${held ? "is-held" : ""}`}
+            style={{ left: `${marker}%` }}
+            aria-disabled={interactive ? undefined : true}
+            aria-busy={interactive && (sendingNow || localBusy.current) ? true : undefined}
+            aria-label="Your marker"
+            onKeyDown={(event) => {
+              const move = event.key === "ArrowRight" || event.key === "ArrowUp"
+                ? 1
+                : event.key === "ArrowLeft" || event.key === "ArrowDown"
+                  ? -1
+                  : 0;
+              if (move === 0) return;
+              event.preventDefault();
+              if (!interactive || !onPlace) return;
+              const current = valueRef.current;
+              if (current == null) return;
+              const nextValue = stepMarkerValue(current, { ...item, divisions }, move);
+              valueRef.current = nextValue;
+              onPreview?.(nextValue);
+              if (localBusy.current || sendingNow) {
+                pendingValue.current = nextValue;
+                return;
+              }
+              localBusy.current = true;
+              onPlace(nextValue);
+            }}
+          />
+        ) : null}
+      </div>
+      <div className="nl-leader-layer" aria-hidden>
+        {laid.leaders.map((leader, index) => (
+          <span
+            key={`${leader.x}-${index}`}
+            className="nl-chip-leader"
+            style={{ left: leader.x, top: leader.y1, height: leader.y2 - leader.y1 }}
+          />
+        ))}
+      </div>
+      <div className="nl-chip-layer">
+        {laid.badges.map((badge) => {
+          const open = openChip === badge.id;
+          return (
+            <span key={badge.id}>
+              <button
+                type="button"
+                className="nl-chip"
+                style={{
+                  left: badge.box.left,
+                  top: badge.box.top,
+                  width: badge.box.right - badge.box.left,
+                }}
+                title={badge.names.join(", ")}
+                aria-label={`${badge.count} more placements`}
+                aria-expanded={open}
+                onClick={() => setOpenChip(open ? null : badge.id)}
+              >
+                {badge.text}
+              </button>
+              {open ? (
+                <span
+                  className="nl-chip-pop"
+                  role="tooltip"
+                  style={{ left: badge.box.left, top: badge.box.bottom + 6, width: Math.max(badge.box.right - badge.box.left, 160) }}
+                >
+                  {badge.names.join(", ")}
+                </span>
+              ) : null}
+            </span>
+          );
+        })}
+        {laid.chips.map((chip) => {
+          const open = openChip === chip.id;
+          return (
+            <span key={chip.id}>
+              <button
+                type="button"
+                className="nl-chip"
+                style={{
+                  left: chip.box.left,
+                  top: chip.box.top,
+                  width: chip.box.right - chip.box.left,
+                }}
+                title={chip.fullNames.join(", ")}
+                aria-expanded={open}
+                onClick={() => setOpenChip(open ? null : chip.id)}
+              >
+                {chip.text}
+              </button>
+              {open ? (
+                <span
+                  className="nl-chip-pop"
+                  role="tooltip"
+                  style={{ left: chip.box.left, top: chip.box.bottom + 6, width: Math.max(chip.box.right - chip.box.left, 160) }}
+                >
+                  {chip.fullNames.join(", ")}
+                </span>
+              ) : null}
+            </span>
+          );
+        })}
+      </div>
+      <div className="relative mt-2 h-8 w-full">
+        {labels.map((index) => {
+          const atStart = index === 0;
+          const atEnd = index === divisions;
+          return (
+            <span
+              key={index}
+              className="absolute top-0 text-2xl font-black leading-none text-white"
+              style={{
+                left: `${(index / divisions) * 100}%`,
+                transform: atStart ? "none" : atEnd ? "translateX(-100%)" : "translateX(-50%)",
+              }}
+            >
+              {formatTickLabel({ ...item, divisions }, index)}
+            </span>
+          );
+        })}
+      </div>
+      <div style={{ height: laid.belowSpace }} />
+      </div>
+    </div>
+  );
+}

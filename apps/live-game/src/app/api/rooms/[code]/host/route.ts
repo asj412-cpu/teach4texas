@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import {
   hostView,
   type HostAction,
+  runNumberLineReveal,
   runRoomAction,
   verifyHost,
   withRoom,
@@ -23,6 +24,19 @@ export async function POST(
     action = (await req.json()) as HostAction;
   } catch {
     return NextResponse.json({ ok: false, error: "INVALID_BODY" }, { status: 400 });
+  }
+
+  // Number line reveal: one aggregated load + one commit. Other actions keep the auth read.
+  if (action.type === "nl_reveal") {
+    const revealed = await runNumberLineReveal(code, hostToken);
+    if (revealed.kind === "unauthorized") {
+      return NextResponse.json({ ok: false, error: "HOST_UNAUTHORIZED" }, { status: 401 });
+    }
+    if (revealed.kind !== "ok") return roomUnavailable(revealed);
+    if (!revealed.result.ok) {
+      return NextResponse.json({ ok: false, error: revealed.result.error }, { status: 400 });
+    }
+    return NextResponse.json({ ok: true, view: revealed.view });
   }
 
   // Authorize against the stored room before queueing anything.

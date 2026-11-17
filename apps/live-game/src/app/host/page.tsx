@@ -18,6 +18,7 @@ import {
   supportsTimedRace,
   supportsTugOfWar,
   supportsBingo,
+  supportsHostNumberLine,
 } from "@/lib/domain/board";
 import type { HostRoomView } from "@/lib/domain/live-room";
 import { CategorySortHost } from "@/components/category-sort-host";
@@ -30,6 +31,8 @@ import { SequenceSortHost } from "@/components/sequence-sort-host";
 import { TimedRaceHost } from "@/components/timed-race-host";
 import { TugOfWarHost } from "@/components/tug-of-war-host";
 import { BingoHost } from "@/components/bingo-host";
+import { NumberLineHost } from "@/components/number-line-host";
+import { NumberLineStartCard } from "@/components/number-line/start-card";
 import {
   HostFinalActions,
   HostSeatPanel,
@@ -45,11 +48,12 @@ export default function HostPage() {
   const [conn, setConn] = useState<ConnState>("ok");
   return (
     <>
-      <HostPageBody onConnection={setConn} />
       <ConnectionBanner
         state={conn}
+        projected
         endedText="Room ended or not found. Start a new room from your game."
       />
+      <HostPageBody onConnection={setConn} />
     </>
   );
 }
@@ -113,17 +117,25 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
     };
   }, []);
 
-  const poll = useCallback(async (): Promise<PollOutcome> => {
+  const lightNumberLine =
+    view?.game_type === "number_line" &&
+    (view.number_line?.stage === "reveal" ||
+      view.number_line?.stage === "board" ||
+      view.phase === "final");
+
+  const poll = useCallback(async (signal: AbortSignal): Promise<PollOutcome> => {
     if (!hostToken || !roomCode) return "ok";
-    const res = await fetch(`/api/rooms/${roomCode}`, {
+    const qs = lightNumberLine ? "?nl=1" : "";
+    const res = await fetch(`/api/rooms/${roomCode}${qs}`, {
       headers: { Authorization: `Bearer ${hostToken}` },
       cache: "no-store",
+      signal,
     });
     const data = await res.json().catch(() => null);
     const outcome = outcomeForStatus(res.status, res.ok && Boolean(data?.ok));
     if (outcome === "ok" && res.ok && data?.ok) setView(data.view as HostRoomView);
     return outcome;
-  }, [hostToken, roomCode]);
+  }, [hostToken, roomCode, lightNumberLine]);
 
   useEffect(() => {
     if (!hostToken || !roomCode) return;
@@ -270,7 +282,9 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
                             ? ` · ${board.tow_items?.length ?? 0} team questions`
                             : supportsBingo(board)
                               ? ` · ${board.bingo_items?.length ?? 0} bingo calls`
-                              : ""}
+                              : supportsHostNumberLine(board)
+                                ? ` · ${board.number_line_items?.length ?? 0} number line questions`
+                                : ""}
           {supportsMemoryMatch(board) ? " · Memory Match ready" : ""}
           {supportsTimedRace(board) ? " · Timed Race ready" : ""}
           {supportsScavengerTap(board) ? " · Scavenger Hunt ready" : ""}
@@ -279,7 +293,8 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
           {supportsOddOneOut(board) ? " · Find the Odd One ready" : ""}
           {supportsTrueFalseDash(board) ? " · True or False Dash ready" : ""}
           {supportsTugOfWar(board) ? " · Tug of War ready" : ""}
-          {supportsBingo(board) ? " · Bingo ready" : ""}. Only
+          {supportsBingo(board) ? " · Bingo ready" : ""}
+          {supportsHostNumberLine(board) ? " · Number Line ready" : ""}. Only
           this game is available on this host session.
         </p>
         <div className="gs-glass gs-rise mt-6 flex flex-col gap-3 rounded-3xl bg-black/40 p-5">
@@ -448,6 +463,14 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
               {starting ? "Starting…" : "Start tug of war"}
             </button>
           )}
+          {supportsHostNumberLine(board) && (
+            <NumberLineStartCard
+              questions={board.number_line_items?.length ?? 0}
+              grade={board.grade}
+              starting={starting}
+              onStart={() => startLive("number_line")}
+            />
+          )}
           {supportsBingo(board) && (
             <article className="rounded-3xl border-4 border-amber-300 bg-[#052e22] p-4 text-white shadow-[0_8px_0_#14532d]">
               <p className="text-base font-black uppercase tracking-widest text-amber-200">Game type</p>
@@ -488,6 +511,10 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
 
   if (view.game_type === "bingo") {
     return <BingoHost view={view} onAction={hostAction} />;
+  }
+
+  if (view.game_type === "number_line") {
+    return <NumberLineHost view={view} onAction={hostAction} />;
   }
 
   if (view.phase === "final") {

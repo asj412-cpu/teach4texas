@@ -235,3 +235,37 @@ export async function purgeIdleRooms(): Promise<void> {
     console.error("purgeIdleRooms:", err);
   }
 }
+
+export type NumberLineSnapshot =
+  | { kind: "ready"; rec: RoomRecord }
+  | { kind: "fallback" }
+  | { kind: "missing" };
+
+/**
+ * Number-line result read. One select of the room row, no action-queue scan.
+ * Placing rooms fall back so queued taps still drain through the aggregated load.
+ */
+export async function loadNumberLineSnapshot(code: string): Promise<NumberLineSnapshot> {
+  if (!isSupabaseConfigured()) return { kind: "fallback" };
+  const res = await getServiceSupabase()
+    .from("live_rooms")
+    .select("state, version, updated_at")
+    .eq("code", code)
+    .maybeSingle();
+  if (res.error) throw new Error(`loadNumberLineSnapshot: ${res.error.message}`);
+  if (!res.data) return { kind: "missing" };
+  const row = res.data as { state: LiveRoom; version: number; updated_at: string };
+  const room = row.state;
+  if (room.game_type !== "number_line" || room.number_line?.stage === "placing") {
+    return { kind: "fallback" };
+  }
+  return {
+    kind: "ready",
+    rec: {
+      room,
+      version: row.version,
+      updatedAtMs: new Date(row.updated_at).getTime(),
+      pending: [],
+    },
+  };
+}

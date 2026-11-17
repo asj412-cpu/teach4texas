@@ -13,6 +13,7 @@ import {
   supportsTrueFalseDash,
   supportsTugOfWar,
   supportsBingo,
+  supportsNumberLine,
   supportsEscapeVault,
   supportsSequenceSort,
   supportsTimedRace,
@@ -95,6 +96,9 @@ import {
   BINGO_SAMPLE_BOARD_ID,
   DEMO_BINGO_CODE,
 } from "@/lib/fixtures/sample-bingo";
+import { numberLineItemsFromBoard } from "@/lib/domain/number-line";
+import { DEMO_NUMBER_LINE_CODE } from "@/lib/fixtures/sample-number-line";
+import { applyNumberLineDemo } from "@/lib/fixtures/number-line-demo-seed";
 import {
   ACCESS_CODE_COOKIE,
   ENTITLEMENT_TTL_HOURS,
@@ -487,6 +491,8 @@ export function toHostBoardView(board: GameBoard): HostBoardView {
     supports_tug_of_war: supportsTugOfWar(board),
     bingo_item_count: bingoItemsFromBoard(board).length,
     supports_bingo: supportsBingo(board),
+    number_line_item_count: numberLineItemsFromBoard(board).length,
+    supports_number_line: supportsNumberLine(board),
   };
 }
 
@@ -546,6 +552,9 @@ export async function redeemAccessCode(rawCode: string): Promise<RedeemResult> {
   }
   if (normalizeAccessCode(rawCode) === normalizeAccessCode(DEMO_BINGO_CODE)) {
     await ensureBingoSample();
+  }
+  if (normalizeAccessCode(rawCode) === normalizeAccessCode(DEMO_NUMBER_LINE_CODE)) {
+    await ensureNumberLineSample();
   }
   if (normalizeAccessCode(rawCode) === normalizeAccessCode(DEMO_BOARD_SAMPLE_CODE)) {
     await ensureBoardSample();
@@ -680,6 +689,7 @@ export {
   DEMO_ESCAPE_VAULT_CODE,
   DEMO_TUG_OF_WAR_CODE,
   DEMO_BINGO_CODE,
+  DEMO_NUMBER_LINE_CODE,
   DEMO_BOARD_SAMPLE_CODE,
 };
 
@@ -1274,6 +1284,37 @@ export async function getConversionStats(opts: {
   };
 }
 
+
+/** Seed Number Line sample packet + known demo access code. Upserts when the validated key changes. */
+export async function ensureNumberLineSample(
+  plaintext = DEMO_NUMBER_LINE_CODE,
+): Promise<{ code: string; boardId: string; created: boolean; updated: boolean }> {
+  const store = await ensureStore();
+  const hash = sha256Hex(normalizeAccessCode(plaintext));
+  const now = new Date().toISOString();
+  const applied = applyNumberLineDemo(store, {
+    codeHash: hash,
+    now,
+    createCode: (boardId) =>
+      ProductCodeRecordSchema.parse({
+        id: generateId("pc"),
+        code_hash: hash,
+        board_id: boardId,
+        label: "Local demo / number line sample",
+        max_sessions: null,
+        sessions_started: 0,
+        revoked_at: null,
+        created_at: now,
+      }),
+  });
+  if (applied.wrote) await writeStore(store);
+  return {
+    code: DEMO_NUMBER_LINE_CODE,
+    boardId: applied.boardId,
+    created: applied.created,
+    updated: applied.updated,
+  };
+}
 
 /** Seed Bingo sample packet + known demo access code. Idempotent. Demo kind, never a sale. */
 export async function ensureBingoSample(

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { hostView, playerView, verifyHost, withRoom } from "@/lib/live-rooms";
 import { roomUnavailable } from "@/lib/room-route";
+import { loadNumberLineSnapshot, type RoomRecord } from "@/lib/room-store";
 
 export const dynamic = "force-dynamic";
 
@@ -13,6 +14,19 @@ export async function GET(
   const auth = req.headers.get("authorization");
   const hostToken = auth?.startsWith("Bearer ") ? auth.slice(7) : undefined;
   const playerId = req.nextUrl.searchParams.get("player_id") ?? undefined;
+
+  let preloaded: RoomRecord | undefined;
+  if (req.nextUrl.searchParams.get("nl") === "1") {
+    try {
+      const snap = await loadNumberLineSnapshot(code);
+      if (snap.kind === "missing") {
+        return NextResponse.json({ ok: false, error: "ROOM_NOT_FOUND" }, { status: 404 });
+      }
+      if (snap.kind === "ready") preloaded = snap.rec;
+    } catch (err) {
+      console.error("number line snapshot:", err);
+    }
+  }
 
   const out = await withRoom(code, (room) => {
     if (hostToken && verifyHost(room, hostToken)) {
@@ -38,7 +52,7 @@ export async function GET(
         },
       },
     };
-  }, { poll: true });
+  }, { poll: true, preloaded });
   if (out.kind !== "ok") return roomUnavailable(out);
   return NextResponse.json(out.value.body, {
     status: out.value.status,

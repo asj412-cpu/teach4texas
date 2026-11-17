@@ -51,6 +51,7 @@ export default function HostPage() {
       <HostPageBody onConnection={setConn} />
       <ConnectionBanner
         state={conn}
+        projected
         endedText="Room ended or not found. Start a new room from your game."
       />
     </>
@@ -122,12 +123,13 @@ function HostPageBody({ onConnection }: { onConnection: (s: ConnState) => void }
       view.number_line?.stage === "board" ||
       view.phase === "final");
 
-  const poll = useCallback(async (): Promise<PollOutcome> => {
+  const poll = useCallback(async (signal: AbortSignal): Promise<PollOutcome> => {
     if (!hostToken || !roomCode) return "ok";
     const qs = lightNumberLine ? "?nl=1" : "";
     const res = await fetch(`/api/rooms/${roomCode}${qs}`, {
       headers: { Authorization: `Bearer ${hostToken}` },
       cache: "no-store",
+      signal,
     });
     const data = await res.json().catch(() => null);
     const outcome = outcomeForStatus(res.status, res.ok && Boolean(data?.ok));

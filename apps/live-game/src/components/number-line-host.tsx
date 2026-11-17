@@ -227,8 +227,8 @@ export function NumberLineHost({
               {view.players
                 .filter((player) => player.player_id !== "host")
                 .map((player) => (
-                  <li key={player.player_id} className="truncate rounded-xl bg-[#07111f] px-3 py-2 text-2xl font-bold">
-                    {kidPlainText(player.display_name, 16)}
+                  <li key={player.player_id} className="break-words rounded-xl bg-[#07111f] px-3 py-2 text-2xl font-bold">
+                    {kidPlainText(player.display_name)}
                   </li>
                 ))}
             </ul>

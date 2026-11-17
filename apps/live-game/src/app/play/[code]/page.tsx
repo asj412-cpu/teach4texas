@@ -97,11 +97,11 @@ function PlayPageBody({
       view.number_line?.stage === "board" ||
       view.phase === "final");
 
-  const poll = useCallback(async (): Promise<PollOutcome> => {
+  const poll = useCallback(async (signal: AbortSignal): Promise<PollOutcome> => {
     if (!playerId) return "ok";
     const qs = new URLSearchParams({ player_id: playerId });
     if (lightNumberLine) qs.set("nl", "1");
-    const res = await fetch(`/api/rooms/${code}?${qs}`, { cache: "no-store" });
+    const res = await fetch(`/api/rooms/${code}?${qs}`, { cache: "no-store", signal });
     const data = await res.json().catch(() => null);
     const outcome = outcomeForStatus(res.status, res.ok && Boolean(data?.ok));
     if (outcome === "ok" && res.ok && data?.ok) setView(data.view);

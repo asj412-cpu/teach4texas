@@ -3,7 +3,7 @@ import { test } from "node:test";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { NumberLineStartCard } from "@/components/number-line/start-card";
-import { HOST_PROMPT_CLASS, HostRoomCode } from "@/components/number-line-host";
+import { HOST_PROMPT_CLASS, HostRoomCode, HostRosterCount } from "@/components/number-line-host";
 import { GameBoardSchema, supportsNumberLine } from "@/lib/domain/board";
 import {
   sanitizeForHost,
@@ -1014,6 +1014,23 @@ test("reveal stats stay above the phone bar and the prompt wraps", () => {
   assert.match(html, /uppercase/);
   assert.match(html, /text-3xl/);
   assert.match(html, /ABC123/);
+});
+
+test("host shows the locked and joined count while placing", () => {
+  const placing = renderToStaticMarkup(
+    createElement(HostRosterCount, { phase: "playing", locked: 12, joined: 32 }),
+  );
+  assert.match(placing, /12 locked in · 32 joined/);
+  assert.match(placing, /text-2xl/);
+  assert.match(placing, /whitespace-nowrap/);
+  const lobby = renderToStaticMarkup(
+    createElement(HostRosterCount, { phase: "lobby", locked: 0, joined: 35 }),
+  );
+  assert.match(lobby, /0 locked in · 35 joined/);
+  assert.equal(
+    renderToStaticMarkup(createElement(HostRosterCount, { phase: "final", locked: 12, joined: 32 })),
+    "",
+  );
 });
 
 test("NL-10 reveal reuses one dot plot for a class of 30", () => {

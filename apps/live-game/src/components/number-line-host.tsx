@@ -76,6 +76,24 @@ export function HostRoomCode({ code }: { code: string }) {
   );
 }
 
+/** Hidden on the podium. One line at 24px, including on a phone. */
+export function HostRosterCount({
+  phase,
+  locked,
+  joined,
+}: {
+  phase: string;
+  locked: number;
+  joined: number;
+}) {
+  if (phase === "final") return null;
+  return (
+    <p className="whitespace-nowrap text-2xl font-bold leading-8 text-white">
+      {locked} locked in · {joined} joined
+    </p>
+  );
+}
+
 export function NumberLineHost({
   view,
   onAction,
@@ -91,9 +109,10 @@ export function NumberLineHost({
   const headerRef = useRef<HTMLElement>(null);
   const beforeRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
-  const [chromePx, setChromePx] = useState(() =>
-    hostChromeBeforePx(typeof window === "undefined" ? 1366 : window.innerWidth),
-  );
+  const [chromePx, setChromePx] = useState(() => {
+    const width = typeof window === "undefined" ? 1366 : window.innerWidth;
+    return hostChromeBeforePx(width) + 32;
+  });
   const [scorePx, setScorePx] = useState(() =>
     hostScoreRowPx(typeof window === "undefined" ? 1366 : window.innerWidth),
   );
@@ -117,7 +136,7 @@ export function NumberLineHost({
       observer.disconnect();
       window.removeEventListener("resize", measure);
     };
-  }, [view.phase, line?.stage, line?.question?.prompt, line?.question?.id]);
+  }, [view.phase, line?.stage, line?.question?.prompt, line?.question?.id, line?.locked_count, line?.joined_count]);
 
   useEffect(() => {
     if (!line) return;
@@ -167,6 +186,7 @@ export function NumberLineHost({
           </button>
           <HostRoomCode code={view.code} />
         </div>
+        <HostRosterCount phase={view.phase} locked={line.locked_count} joined={line.joined_count} />
       </div>
     </header>
   );

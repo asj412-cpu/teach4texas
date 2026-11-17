@@ -1,7 +1,7 @@
 ---
 title: "Texas DAEP Rules: Special Education, Section 504 and ISS Separation"
 seoTitle: "Texas DAEP Rules 2026: Section 504, ISS and Training"
-description: "TEA lists Nov 18, 2026 as the effective date for amended DAEP rules (19 TAC §§103.1201, 103.1203, 103.1205), pending Texas Register confirmation."
+description: "The November 13, 2026 Texas Register lists November 18, 2026 as the effective date for amended DAEP rules (19 TAC §§103.1201, 103.1203, 103.1205)."
 keywords: ["Texas DAEP rules 2026", "19 TAC 103.1201", "Section 504 DAEP Texas", "DAEP ISS separation", "DAEP staff training", "DAEP academic growth assessment", "violent conduct DAEP"]
 date: 2026-11-10
 author: "Lone Star Educator"
@@ -10,7 +10,7 @@ tags: ["Texas rules", "DAEP", "special education", "Section 504", "TEA"]
 
 > **General information, not legal advice.** This post summarizes adopted commissioner rules. Discipline, special education, and Section 504 decisions are local and fact-specific. Read the official rule text linked below and ask your district if you have questions.
 
-TEA has adopted amendments to 19 TAC §§103.1201, 103.1203, and 103.1205, the commissioner rules for Disciplinary Alternative Education Programs (DAEPs). TEA lists **November 18, 2026** as the effective date, pending confirmation in the November 13, 2026 Texas Register. The amendments align those rules with House Bill 114 (88th Legislature, 2023) and House Bill 6 (89th Legislature, 2025). This post covers the adopted commissioner rules, not the bills themselves ([TEA adopted rules not yet effective](https://tea.texas.gov/laws-and-rules/commissioner-rules-tac/adopted-commissioner-education-rules-not-yet-effective)).
+TEA has adopted amendments to 19 TAC §§103.1201, 103.1203, and 103.1205, the commissioner rules for Disciplinary Alternative Education Programs (DAEPs). The November 13, 2026 Texas Register lists **November 18, 2026** as the effective date ([Texas Register](https://www.sos.state.tx.us/texreg/archive/November132026/Adopted%20Rules/19.EDUCATION.html)). The amendments align those rules with House Bill 114 (88th Legislature, 2023) and House Bill 6 (89th Legislature, 2025). This post covers the adopted commissioner rules, not the bills themselves ([TEA adopted rules not yet effective](https://tea.texas.gov/laws-and-rules/commissioner-rules-tac/adopted-commissioner-education-rules-not-yet-effective)).
 
 ## What’s changing, and what isn’t
 
@@ -46,7 +46,7 @@ Here's what's new. Adopted §103.1205(c) lets a campus behavior coordinator or a
 
 ## What to do now
 
-1. TEA lists November 18, 2026 as the effective date, pending Texas Register confirmation in the November 13, 2026 issue ([TEA adopted rules not yet effective](https://tea.texas.gov/laws-and-rules/commissioner-rules-tac/adopted-commissioner-education-rules-not-yet-effective)).
+1. The November 13, 2026 Texas Register lists November 18, 2026 as the effective date ([Texas Register](https://www.sos.state.tx.us/texreg/archive/November132026/Adopted%20Rules/19.EDUCATION.html)).
 2. If you teach in a DAEP, confirm that special education and Section 504 services are in place and that DAEP students are kept separate from ISS ([TEA adopted rule text](https://tea.texas.gov/laws-and-rules/commissioner-rules-tac/coe-adopted/26-10-103cc-rule-adopt-with-changes.pdf)).
 3. Ask when updated DAEP staff training will be offered, including Section 504, bullying, and annual suicide-prevention training ([TEA adopted rule text](https://tea.texas.gov/laws-and-rules/commissioner-rules-tac/coe-adopted/26-10-103cc-rule-adopt-with-changes.pdf)).
 4. Campus behavior coordinators and appropriate administrators should use the adopted (1)-(9) list when the DAEP is at capacity ([TEA adopted rule text](https://tea.texas.gov/laws-and-rules/commissioner-rules-tac/coe-adopted/26-10-103cc-rule-adopt-with-changes.pdf)).
@@ -54,14 +54,14 @@ Here's what's new. Adopted §103.1205(c) lets a campus behavior coordinator or a
 ## Key dates
 
 - **June 26–July 27, 2026:** proposed (51 TexReg 4070) and open for comment ([TEA adopted preamble](https://tea.texas.gov/laws-and-rules/commissioner-rules-tac/coe-adopted/26-10-103cc.pdf)).
-- **November 13, 2026:** next Texas Register after the November 6 issue, when the adopted notice can be confirmed.
-- **November 18, 2026:** effective date listed by TEA, pending that Register confirmation ([TEA adopted rules not yet effective](https://tea.texas.gov/laws-and-rules/commissioner-rules-tac/adopted-commissioner-education-rules-not-yet-effective)).
+- **November 13, 2026:** adopted notice published in the Texas Register ([Texas Register](https://www.sos.state.tx.us/texreg/archive/November132026/Adopted%20Rules/19.EDUCATION.html)).
+- **November 18, 2026:** effective date, as stated in the November 13, 2026 Texas Register ([Texas Register](https://www.sos.state.tx.us/texreg/archive/November132026/Adopted%20Rules/19.EDUCATION.html)).
 
 ## Frequently Asked Questions
 
 ### When do the new DAEP commissioner rules take effect?
 
-TEA lists November 18, 2026, pending confirmation in the November 13, 2026 Texas Register ([TEA adopted rules not yet effective](https://tea.texas.gov/laws-and-rules/commissioner-rules-tac/adopted-commissioner-education-rules-not-yet-effective)).
+The November 13, 2026 Texas Register lists November 18, 2026 as the effective date ([Texas Register](https://www.sos.state.tx.us/texreg/archive/November132026/Adopted%20Rules/19.EDUCATION.html)).
 
 ### Do DAEPs have to serve students with Section 504 plans?
 
@@ -81,7 +81,7 @@ A campus behavior coordinator or an appropriate administrator, using the adopted
 
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-{"@type":"Question","name":"When do the new DAEP commissioner rules take effect?","acceptedAnswer":{"@type":"Answer","text":"TEA lists November 18, 2026, pending confirmation in the November 13, 2026 Texas Register."}},
+{"@type":"Question","name":"When do the new DAEP commissioner rules take effect?","acceptedAnswer":{"@type":"Answer","text":"The November 13, 2026 Texas Register lists November 18, 2026 as the effective date."}},
 {"@type":"Question","name":"Do DAEPs have to serve students with Section 504 plans?","acceptedAnswer":{"@type":"Answer","text":"Yes. Adopted §103.1201(f) says the academic program includes “special education and related services and Section 504 accommodations.” TEA made that wording change at adoption after public comment."}},
 {"@type":"Question","name":"What new training do DAEP staff need?","acceptedAnswer":{"@type":"Answer","text":"The adopted training list adds Section 504 (alongside special education), bullying as a social-skills topic, annual suicide-prevention training (alongside annual abuse, neglect, or exploitation reporting-procedure training), and any other required local, state, or federal training."}},
 {"@type":"Question","name":"Can a district use its EOC exams to measure academic growth in DAEP?","acceptedAnswer":{"@type":"Answer","text":"Yes. Adopted §103.1203(a) allows released state reading and math assessments “as well as a district's end-of-course (EOC) exams” for placements of 90 school days or longer."}},
@@ -95,7 +95,8 @@ A campus behavior coordinator or an appropriate administrator, using the adopted
 
 | Topic | Source |
 |---|---|
-| Effective date listed by TEA; rule numbers and bill alignment | [TEA, Adopted Commissioner of Education Rules — Not Yet Effective](https://tea.texas.gov/laws-and-rules/commissioner-rules-tac/adopted-commissioner-education-rules-not-yet-effective) |
+| Effective date (November 18, 2026); filed October 29, 2026 (TRD-202604557) | [Texas Register, November 13, 2026, Adopted Rules, Title 19](https://www.sos.state.tx.us/texreg/archive/November132026/Adopted%20Rules/19.EDUCATION.html) |
+| Rule numbers and bill alignment | [TEA, Adopted Commissioner of Education Rules — Not Yet Effective](https://tea.texas.gov/laws-and-rules/commissioner-rules-tac/adopted-commissioner-education-rules-not-yet-effective) |
 | Adoption, public comment, what each section does, changes at adoption | [TEA adopted preamble (26-10-103cc.pdf)](https://tea.texas.gov/laws-and-rules/commissioner-rules-tac/coe-adopted/26-10-103cc.pdf) |
 | Adopted rule text | [TEA adopted rule text with changes (26-10-103cc-rule-adopt-with-changes.pdf)](https://tea.texas.gov/laws-and-rules/commissioner-rules-tac/coe-adopted/26-10-103cc-rule-adopt-with-changes.pdf) |
 | Pre-amendment baseline (what was already required) | [TEA compiled Chapter 103, Subchapter CC, September 2026 Update](https://tea.texas.gov/laws-and-rules/commissioner-rules-tac/coe-tac-currently-effect/ch103cc.pdf) |

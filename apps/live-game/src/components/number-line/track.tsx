@@ -49,6 +49,8 @@ export function NumberLineTrack({
   sending = false,
   barPx,
   viewportPx,
+  chromePx,
+  scoreRowPx,
   dots,
   sweeping,
   onPreview,
@@ -67,6 +69,10 @@ export function NumberLineTrack({
   /** Host control bar height. The stack budget keeps the flag above it. */
   barPx?: number;
   viewportPx?: number;
+  /** Measured header + prompt block. */
+  chromePx?: number;
+  /** Measured Exact / Within row. */
+  scoreRowPx?: number;
   dots: LineDot[];
   sweeping: boolean;
   onPreview?: (value: number) => void;
@@ -107,7 +113,7 @@ export function NumberLineTrack({
       value: dot.value,
     })),
     width,
-    { barPx, viewportPx },
+    { barPx, viewportPx, chromePx, scoreRowPx },
   );
   const nameSpace = laid.aboveSpace;
 

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type ReactNode, type RefObject } from "react";
 import type { HostRoomView } from "@/lib/domain/live-room";
 import type { NlSeconds } from "@/lib/domain/number-line";
+import { hostChromeBeforePx, hostScoreRowPx } from "@/lib/domain/number-line-layout";
 import { kidPlainText } from "@/lib/plain-text";
 import { HostFeedback } from "@/components/host-feedback";
 import { NumberLineTrack } from "@/components/number-line/track";
@@ -63,6 +64,18 @@ function useClock(): number {
   return now;
 }
 
+export const HOST_PROMPT_CLASS =
+  "nl-host-prompt text-center text-2xl font-black leading-8 text-white";
+
+export function HostRoomCode({ code }: { code: string }) {
+  return (
+    <div className="shrink-0 rounded-2xl border-2 border-[#fde047] bg-[#10233f] px-3 py-2 text-center">
+      <p className="text-2xl font-bold uppercase leading-8 tracking-wide text-[#fde047]">Room code</p>
+      <p className="font-mono text-3xl font-black leading-9 tracking-widest text-white">{code}</p>
+    </div>
+  );
+}
+
 export function NumberLineHost({
   view,
   onAction,
@@ -75,7 +88,36 @@ export function NumberLineHost({
   const [muted, setMuted] = useState(isNumberLineMuted());
   const [busy, setBusy] = useState(false);
   const frame = useHostFrame(view.phase);
+  const headerRef = useRef<HTMLElement>(null);
+  const beforeRef = useRef<HTMLDivElement>(null);
+  const statsRef = useRef<HTMLDivElement>(null);
+  const [chromePx, setChromePx] = useState(() =>
+    hostChromeBeforePx(typeof window === "undefined" ? 1366 : window.innerWidth),
+  );
+  const [scorePx, setScorePx] = useState(() =>
+    hostScoreRowPx(typeof window === "undefined" ? 1366 : window.innerWidth),
+  );
   const prev = useRef<string | null>(null);
+
+  useEffect(() => {
+    const measure = () => {
+      const headerH = headerRef.current?.getBoundingClientRect().height ?? 0;
+      const beforeH = beforeRef.current?.getBoundingClientRect().height ?? 0;
+      if (headerH + beforeH > 0) setChromePx(Math.ceil(headerH + beforeH));
+      const statsH = statsRef.current?.getBoundingClientRect().height ?? 0;
+      if (statsH > 0) setScorePx(Math.ceil(statsH));
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    for (const el of [headerRef.current, beforeRef.current, statsRef.current]) {
+      if (el) observer.observe(el);
+    }
+    window.addEventListener("resize", measure);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [view.phase, line?.stage, line?.question?.prompt, line?.question?.id]);
 
   useEffect(() => {
     if (!line) return;
@@ -103,10 +145,10 @@ export function NumberLineHost({
       : null;
 
   const header = (
-    <header className="border-b-4 border-[#fde047] bg-[#07111f] text-white">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-2 py-1">
-        <h1 className="min-w-0 truncate text-2xl font-black leading-8 text-white">
-          <span className="text-[#fde047] max-[500px]:sr-only">Number line · </span>
+    <header ref={headerRef} className="border-b-4 border-[#fde047] bg-[#07111f] text-white">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 px-3 py-2">
+        <h1 className="min-w-0 text-2xl font-black leading-8 text-white">
+          <span className="text-[#fde047]">Number line · </span>
           {kidPlainText(view.board.title, 80)}
         </h1>
         <div className="flex shrink-0 items-center gap-2">
@@ -117,20 +159,13 @@ export function NumberLineHost({
               setNumberLineMuted(!muted);
               setMuted(!muted);
             }}
-            className="rounded-xl border-2 border-white bg-[#10233f] px-2 py-0 text-2xl font-black leading-8 text-white"
+            className="rounded-xl border-2 border-white bg-[#10233f] px-3 py-2 text-2xl font-black leading-8 text-white"
             aria-pressed={muted}
             aria-label={muted ? "Sound off" : "Sound on"}
           >
-            {muted ? "Off" : "On"}
+            {muted ? "Sound off" : "Sound on"}
           </button>
-          <div className="text-right leading-8">
-            <p className="font-mono text-2xl font-black leading-8 tracking-widest text-white">{view.code}</p>
-            {view.phase === "final" ? null : (
-              <p className="hidden text-2xl leading-8 text-white min-[501px]:block">
-                {line.locked_count} locked · {line.joined_count} joined
-              </p>
-            )}
-          </div>
+          <HostRoomCode code={view.code} />
         </div>
       </div>
     </header>
@@ -244,36 +279,38 @@ export function NumberLineHost({
   return (
     <div className="nl-stage min-h-screen text-white" style={{ paddingBottom: frame.bar }}>
       {header}
-      <main className="mx-auto w-full px-2 pt-1">
-        <div className="flex items-center justify-between gap-2">
-          <p className="min-w-0 flex-1 truncate rounded-full bg-[#10233f] px-3 py-1 text-2xl font-black leading-8 text-[#fde047]">
-            {line.paused
-              ? "Paused"
-              : question
-                ? `Question ${question.number} of ${question.total}`
-                : "Number line"}
-          </p>
-          {line.stage === "placing" || line.stage === "ready" ? (
-            <p className="text-2xl font-black leading-8 tabular-nums text-[#fde047]">
-              {line.stage === "placing" ? `${Math.ceil((remain ?? 0) / 1000)}s` : `${line.seconds}s`}
-            </p>
-          ) : null}
-        </div>
+      <main className="mx-auto w-full px-2">
         {line.stage === "board" ? (
           <section className="mt-6 rounded-3xl border-4 border-[#fde047] bg-[#10233f] p-6">
             <h2 className="text-center text-3xl font-black text-[#fde047]">Top 5</h2>
             <Leaderboard ranks={line.leaderboard} />
           </section>
         ) : (
-          <section className="mt-1">
-            <h2 className="truncate text-center text-2xl font-black leading-8 text-white">
-              {question ? question.prompt : "Get ready for the next number."}
-            </h2>
-            {question ? (
-              <p className="mt-1 truncate text-center text-2xl font-bold leading-8 text-[#fde68a]">
-                TEKS {question.teks} · {question.mode === "snap" ? "Snap to a tick" : "Place anywhere"}
-              </p>
-            ) : null}
+          <section>
+            <div ref={beforeRef} className="pt-1">
+              <div className="flex items-center justify-between gap-2">
+                <p className="min-w-0 flex-1 truncate rounded-full bg-[#10233f] px-3 py-1 text-2xl font-black leading-8 text-[#fde047]">
+                  {line.paused
+                    ? "Paused"
+                    : question
+                      ? `Question ${question.number} of ${question.total}`
+                      : "Number line"}
+                </p>
+                {line.stage === "placing" || line.stage === "ready" ? (
+                  <p className="text-2xl font-black leading-8 tabular-nums text-[#fde047]">
+                    {line.stage === "placing" ? `${Math.ceil((remain ?? 0) / 1000)}s` : `${line.seconds}s`}
+                  </p>
+                ) : null}
+              </div>
+              <h2 className={`${HOST_PROMPT_CLASS} mt-1`}>
+                {question ? question.prompt : "Get ready for the next number."}
+              </h2>
+              {question ? (
+                <p className="mt-1 text-center text-2xl font-bold leading-8 text-[#fde68a]">
+                  TEKS {question.teks} · {question.mode === "snap" ? "Snap to a tick" : "Place anywhere"}
+                </p>
+              ) : null}
+            </div>
             {question ? (
               <div className="mt-1">
                 <NumberLineTrack
@@ -284,6 +321,8 @@ export function NumberLineHost({
                   labelsRevealed={revealed}
                   barPx={frame.bar}
                   viewportPx={frame.viewport}
+                  chromePx={chromePx}
+                  scoreRowPx={scorePx}
                   sweeping={line.stage === "reveal"}
                   dots={
                     revealed
@@ -300,11 +339,15 @@ export function NumberLineHost({
               </div>
             ) : null}
             {revealed && question?.answer != null ? (
-              <div className="mt-1 flex flex-wrap justify-center gap-2">
-                <p className="rounded-2xl bg-[#fde047] px-4 py-1 text-2xl font-black leading-8 text-[#1c1917]">
+              <div
+                ref={statsRef}
+                className="flex flex-wrap justify-center gap-2 pt-1"
+                style={{ scrollMarginBottom: frame.bar + 8 }}
+              >
+                <p className="whitespace-nowrap rounded-2xl bg-[#fde047] px-4 py-1 text-2xl font-black leading-8 text-[#1c1917]">
                   Exact {line.exact_pct ?? 0}%
                 </p>
-                <p className="rounded-2xl border-2 border-[#fde047] bg-[#10233f] px-4 py-1 text-2xl font-black leading-8 text-white">
+                <p className="whitespace-nowrap rounded-2xl border-2 border-[#fde047] bg-[#10233f] px-4 py-1 text-2xl font-black leading-8 text-white">
                   Within tolerance {line.within_pct ?? 0}%
                 </p>
               </div>

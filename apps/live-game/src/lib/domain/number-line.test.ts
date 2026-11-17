@@ -3,6 +3,7 @@ import { test } from "node:test";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { NumberLineStartCard } from "@/components/number-line/start-card";
+import { HOST_PROMPT_CLASS, HostRoomCode } from "@/components/number-line-host";
 import { GameBoardSchema, supportsNumberLine } from "@/lib/domain/board";
 import {
   sanitizeForHost,
@@ -44,6 +45,8 @@ import {
   hostBarControlRights,
   hostClearY,
   hostPageHeight,
+  hostPromptBlockPx,
+  hostStatsBottom,
   layoutNumberLineReveal,
   lineFoldY,
   lobbyStartTop,
@@ -983,6 +986,34 @@ test("reveal name chips clear AA and stay clear of dots", () => {
     const startBottom = lobbyStartTop(35, width) + (width <= 500 ? 52 : NL_CONTROLS_PX);
     assert.ok(startBottom <= viewport, `35-player Start ends at ${startBottom} on ${width}x${viewport}`);
   }
+});
+
+test("reveal stats stay above the phone bar and the prompt wraps", () => {
+  const prompt = "Place eleven eighths. Count by eighths from zero.";
+  assert.equal(/truncate|line-clamp|nowrap|ellipsis/.test(HOST_PROMPT_CLASS), false);
+  assert.ok(hostPromptBlockPx(prompt, 343) > 32);
+  const dots = Array.from({ length: 8 }, (_, index) => ({
+    id: `d${index}`,
+    xPercent: 40 + index,
+    value: 400 + index * 10,
+    name: `Kid ${index}`,
+  }));
+  for (const [width, viewport] of [
+    [375, 812],
+    [1366, 768],
+    [1440, 900],
+  ] as const) {
+    const laid = layoutNumberLineReveal(dots, width, { viewportPx: viewport });
+    assert.ok(
+      hostStatsBottom(laid) <= hostClearY(laid) + 0.05,
+      `${width} pill ends at ${hostStatsBottom(laid)} above ${hostClearY(laid)}`,
+    );
+  }
+  const html = renderToStaticMarkup(createElement(HostRoomCode, { code: "ABC123" }));
+  assert.match(html, /Room code/);
+  assert.match(html, /uppercase/);
+  assert.match(html, /text-3xl/);
+  assert.match(html, /ABC123/);
 });
 
 test("NL-10 reveal reuses one dot plot for a class of 30", () => {

@@ -24,11 +24,16 @@ const NL_CHAR_PX = 17;
 const NL_CHIP_PAD_X = 12;
 const NL_MAX_LANES = 8;
 
-/** Header plus question, before the track. Desktop is two header lines; a phone is one. */
-export const NL_CHROME_BEFORE_DESKTOP_PX = 196;
-export const NL_CHROME_BEFORE_MOBILE_PX = 164;
-/** Exact / Within row under the labels, including its top margin. */
+/**
+ * Header plus the question block before the track.
+ * The phone value includes the room-code block and a wrapped prompt.
+ * The live host replaces this with a measurement.
+ */
+export const NL_CHROME_BEFORE_DESKTOP_PX = 240;
+export const NL_CHROME_BEFORE_MOBILE_PX = 280;
+/** One Exact/Within row. A phone wraps the two pills, so the row is taller. */
 export const NL_SCORE_ROW_PX = 48;
+export const NL_SCORE_ROW_PHONE_PX = 112;
 /** Header, question, and the exact/within row on a 1366-wide projector. */
 export const NL_CHROME_DESKTOP_PX = NL_CHROME_BEFORE_DESKTOP_PX + NL_SCORE_ROW_PX;
 /**
@@ -82,6 +87,17 @@ export function hostBarControlRights(namesOn: boolean, viewport = 375): number[]
 
 export function hostChromeBeforePx(width: number): number {
   return width <= 500 ? NL_CHROME_BEFORE_MOBILE_PX : NL_CHROME_BEFORE_DESKTOP_PX;
+}
+
+export function hostScoreRowPx(width: number): number {
+  return width <= 500 ? NL_SCORE_ROW_PHONE_PX : NL_SCORE_ROW_PX;
+}
+
+/** Wrapped host prompt. 24px type, 32px line, no ellipsis. */
+export function hostPromptBlockPx(prompt: string, width: number): number {
+  const inner = Math.max(1, width - 16);
+  const lines = Math.max(1, Math.ceil((prompt.length * 14.5) / inner));
+  return lines * 32;
 }
 export const NL_DESKTOP_VIEWPORT_PX = 768;
 /** Phone header plus question, before the track. */
@@ -154,10 +170,17 @@ export type NumberLineRevealLayout = {
   /** Measured or CSS bar height used to cap the stack. */
   barPx: number;
   viewportPx: number;
+  /** Exact / Within row. A wrapped phone row is taller than one line. */
+  scoreRowPx: number;
 };
 
 export function hostPageHeight(layout: NumberLineRevealLayout): number {
-  return layout.chromePx + NL_SCORE_ROW_PX + layout.revealHeight + layout.barPx + NL_BAR_GAP_PX;
+  return layout.chromePx + layout.scoreRowPx + layout.revealHeight + layout.barPx + NL_BAR_GAP_PX;
+}
+
+/** Bottom of the Exact / Within pills. */
+export function hostStatsBottom(layout: NumberLineRevealLayout): number {
+  return layout.chromePx + layout.revealHeight + layout.scoreRowPx;
 }
 
 /** Page y the flag, a dot, or a chip must stay at or above. */
@@ -268,12 +291,13 @@ type Draft = {
 export function layoutNumberLineReveal(
   inputs: NameLayoutDot[],
   widthPx: number,
-  options?: { barPx?: number; viewportPx?: number },
+  options?: { barPx?: number; viewportPx?: number; chromePx?: number; scoreRowPx?: number },
 ): NumberLineRevealLayout {
   const width = Math.max(1, widthPx);
   const viewportPx = options?.viewportPx ?? hostViewportPx(width);
   const barPx = options?.barPx ?? hostBarPx(width);
-  const chromePx = hostChromeBeforePx(width);
+  const chromePx = options?.chromePx ?? hostChromeBeforePx(width);
+  const scoreRowPx = options?.scoreRowPx ?? hostScoreRowPx(width);
   const placed = inputs.map((dot) => ({
     ...dot,
     x: (Math.min(100, Math.max(0, dot.xPercent)) / 100) * width,
@@ -421,7 +445,7 @@ export function layoutNumberLineReveal(
 
   const chipBlock = aboveChip + (aboveRows > 0 ? NL_CHIP_GAP_PX : 0) + belowSpace;
   const limit = viewportPx - barPx - NL_BAR_GAP_PX;
-  const trackPastFlag = NL_RAIL_PX + NL_LABELS_PX + belowSpace + NL_SCORE_ROW_PX - NL_FLAG_BOTTOM_IN_RAIL;
+  const trackPastFlag = NL_RAIL_PX + NL_LABELS_PX + belowSpace + scoreRowPx - NL_FLAG_BOTTOM_IN_RAIL;
   const protrusionRoom = Math.max(
     0,
     limit - chromePx - aboveChip - (aboveRows > 0 ? NL_CHIP_GAP_PX : 0) - NL_FLAG_BOTTOM_IN_RAIL - Math.max(0, trackPastFlag),
@@ -715,5 +739,6 @@ export function layoutNumberLineReveal(
     chromePx,
     barPx,
     viewportPx,
+    scoreRowPx,
   };
 }

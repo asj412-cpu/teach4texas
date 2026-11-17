@@ -472,6 +472,12 @@ body {
     padding-right: 2rem;
   }
 }
+.nl-host-prompt {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  overflow-wrap: anywhere;
+}
 .nl-host-bar {
   position: fixed;
   left: 0;
